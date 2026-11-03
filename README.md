@@ -4,6 +4,8 @@
 
 - Glossary: [CONTEXT.md](CONTEXT.md)
 - Design brief: [docs/design-brief.md](docs/design-brief.md)
+- Research report (Gate 1 Approved): [RESEARCH.md](RESEARCH.md)
+- Architecture & Plan (Gate 2 Pending UI Design): [PLAN.md](PLAN.md)
 - ADRs: [docs/adr/](docs/adr/)
 
-สถานะ: ช่วงออกแบบ (ยังไม่มีโค้ด)
+สถานะ: ผ่าน Gate 1 (`RESEARCH.md`) และวาง `PLAN.md` เรียบร้อย — รอ UI Design จากผู้ใช้ก่อนเริ่ม `@builder`
