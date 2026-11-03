@@ -12,14 +12,19 @@
 ### 1.1 Project Objective
 Project Edu is an educational web application designed for Thai secondary school students (ม.ต้น and ม.ปลาย) who are starting a project for national/international competitions (YSC, NSC, งานศิลปหัตถกรรมนักเรียน, Regeneron ISEF), classroom grading, TCAS portfolio submission, or personal interest.
 
-The core user experience spans two tracks:
-1. **Discovery Track (ยังไม่มีไอเดีย)**: Subject selection → Subfields → Tinder-style Topic Card swiping (← Skip, → Interested, ↑ Do It Now) → 5-card Shortlist comparative matrix with Fit Score → Chosen Idea.
-2. **Idea Track (มีไอเดียแล้ว)**: Interactive AI conversational elicitation (up to 8 targeted questions) to extract problem, objective, methodology, and measurement variables.
+The core user experience centers on **Socratic Advisor-First Pedagogy ([ADR 0002](docs/adr/0002-socratic-advisor-first-ai-pedagogy.md))**: AI acts as a project advisor teacher (ครูที่ปรึกษาโครงงาน) that scaffolds the student's own thinking through guiding questions and cognitive lenses, keeping AI-generated ideas as a **last resort (ตัวเลือกสุดท้าย)**.
+
+The user journey spans two tracks:
+1. **Discovery Track (ยังไม่มีไอเดีย)**: Subject selection → Subfields → Tinder-style Topic Card swiping (← Skip, → Interested, ↑ Do It Now) on curated problem sparks/phenomena → 5-card Shortlist comparative matrix with Fit Score → **Socratic Idea Formulation** (AI advisor asks guiding questions so the student shapes the selected Topic Card into their own Idea; AI-generated idea examples are offered only as a last-resort button if the student is stuck).
+2. **Idea Track (มีไอเดียแล้ว)**: Interactive Socratic advisor chat (up to 8 targeted questions) that coaches the student to articulate and sharpen their own problem, objective, methodology, and measurement variables.
 
 Both tracks converge into:
-- **Evaluation**: 5-dimensional rubric assessment (Novelty, Feasibility, Impact, Hypothesis & Measurement, Goal Alignment) with color badges (🟢/🟡/🔴), scores (1–10), qualitative rationale, constructive next steps, Prior Work references with verifiable links, and SRC/ISEF Safety Screening flags.
-- **Pivot Suggestions**: If flagged red, suggests 2–3 concrete angles to differentiate or simplify, allowing re-evaluation without gatekeeping.
-- **Artifact Generation**: 1-page structured Project Proposal + weekly milestone Execution Plan exported to PDF, DOCX, Google Docs, and shareable read-only links.
+- **Evaluation**: 5-dimensional rubric assessment (Novelty, Feasibility, Impact, Hypothesis & Measurement, Goal Alignment) with color badges (🟢/🟡/🔴), scores (1–10), qualitative rationale, constructive coaching questions, Prior Work references with verifiable links, and SRC/ISEF Safety Screening flags.
+- **Socratic Pivot Coaching (Progressive 3-Tier Scaffolding)**: If flagged red, the AI advisor does NOT immediately hand out ready-made ideas. Instead, it follows a 3-tier progression:
+  - *Tier 1 (Socratic Prompt)*: Explains the bottleneck/Prior Work overlap and asks guiding questions so the student proposes their own adjustment.
+  - *Tier 2 (Thinking Lenses / Hints)*: Offers structured ideation lenses (from `brainstorming-research-ideas`: scale down, shift local context, swap independent variable, substitute accessible materials).
+  - *Tier 3 (AI-Generated Pivot Examples — Last Resort)*: Only when the student explicitly requests help after trying ("ยังคิดไม่ออก ขอดูตัวอย่างมุมใหม่"), AI presents 2–3 example angles, which the student must still adapt and explain in their own words before re-evaluation.
+- **Artifact Co-Creation**: 1-page structured Project Proposal + weekly milestone Execution Plan synthesized directly from the student's own answers (with AI acting as editor/coach rather than ghostwriter, complying with YSC Rule 8) and exported to PDF, DOCX, Google Docs, and shareable read-only links.
 
 ### 1.2 Recommended Tech Stack
 Based on project requirements (mobile-first PWA, secure server-side AI calls, Google OAuth, relational + vector data, document generation, fluid gesture animations):
@@ -127,6 +132,7 @@ src/
 2. **Fail-Closed AI Gate**: AI outputs must adhere to strict zod schemas. If JSON schema parsing fails, retry with bounded exponential backoff before fallback.
 3. **No Fabricated References**: All Prior Work citations must carry validated URLs from real web indexing or curated records. AI is prohibited from inventing academic papers.
 4. **Stateless Gateway Communication**: Client components never call external AI APIs directly; all AI calls route through Next.js server endpoints using server-side environment variables.
+5. **Socratic Advisor First (AI Idea Generation as Last Resort)**: Per [ADR 0002](docs/adr/0002-socratic-advisor-first-ai-pedagogy.md), every AI interaction must prioritize questioning and scaffolding student reasoning (Tier 1: Socratic questions → Tier 2: Thinking lenses/hints → Tier 3: Explicit user-triggered fallback examples). AI must never auto-generate a finished project idea or ghostwrite a proposal without the student formulating the core hypothesis, variables, and approach in their own words.
 
 ---
 
