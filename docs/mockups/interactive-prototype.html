@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project-Edu — Interactive Full-Feature Mockup (Theme A+B Hybrid)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #EEF2FF 0%, #FDF2F8 50%, #ECFDF5 100%);
+      --glass-surface: rgba(255, 255, 255, 0.85);
+      --glass-strong: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(99, 102, 241, 0.18);
+      --text-main: #0F172A;
+      --text-sub: #475569;
+      --text-muted: #94A3B8;
+      --brand-indigo: #6366F1;
+      --brand-indigo-dark: #4F46E5;
+      --brand-pink: #EC4899;
+      --brand-mint: #10B981;
+      --brand-amber: #F59E0B;
+      --brand-red: #EF4444;
+      --neo-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.14), 0 4px 10px -2px rgba(236, 72, 153, 0.08);
+      --pop-shadow: 0 4px 0 #4F46E5;
+      --radius-xl: 1.5rem;
+      --radius-lg: 1rem;
+      --radius-md: 0.75rem;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Prompt', 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Demo Control Bar */
+    .demo-bar {
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .demo-bar-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .badge-sim {
+      background: linear-gradient(90deg, var(--brand-indigo), var(--brand-pink));
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .quota-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .quota-pill {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+    }
+    .quota-pill b { color: #34D399; }
+    .viewport-toggle {
+      display: flex;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.2rem;
+      border-radius: 0.5rem;
+    }
+    .viewport-btn {
+      background: transparent;
+      color: #CBD5E1;
+      border: none;
+      padding: 0.25rem 0.6rem;
+      border-radius: 0.35rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.75rem;
+    }
+    .viewport-btn.active {
+      background: var(--brand-indigo);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Main Workspace Layout */
+    .workspace {
+      display: flex;
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.25rem;
+      gap: 1.25rem;
+    }
+
+    /* Left Navigation Rail (All 11 Interactive Modules) */
+    .nav-rail {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--glass-surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 1.1rem;
+      box-shadow: var(--neo-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      height: fit-content;
+      position: sticky;
+      top: 3.8rem;
+    }
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.4rem;
+      border-bottom: 1px dashed #CBD5E1;
+    }
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand-indigo), var(--brand-pink));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.35);
+    }
+    .brand-title h1 { font-size: 1rem; font-weight: 700; line-height: 1.2; }
+    .brand-title p { font-size: 0.72rem; color: var(--text-sub); }
+
+    .nav-group-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-top: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .nav-btn:hover {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+    .nav-btn.active {
+      background: var(--brand-indigo);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    .nav-badge {
+      font-size: 0.68rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.08);
+      color: var(--text-sub);
+    }
+    .nav-btn.active .nav-badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+    }
+
+    /* Center Stage (Mobile Frame or Full Desktop Width) */
+    .stage-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .app-container {
+      width: 100%;
+      background: var(--glass-surface);
+      backdrop-filter: blur(18px);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--neo-shadow);
+      padding: 1.5rem;
+      min-height: 760px;
+      transition: max-width 0.25s ease;
+    }
+    .app-container.mobile-frame {
+      max-width: 440px;
+      border: 6px solid #1E293B;
+      border-radius: 2.25rem;
+      padding: 1.15rem;
+    }
+
+    /* Screen Views */
+    .screen { display: none; animation: fadeIn 0.2s ease; }
+    .screen.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Typography & Common UI Components */
+    .screen-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .screen-title { font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
+    .screen-sub { font-size: 0.85rem; color: var(--text-sub); margin-top: 0.2rem; }
+
+    .card {
+      background: var(--glass-strong);
+      border: 2px solid #E2E8F0;
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: #CBD5E1; }
+    .card-highlight {
+      border-color: var(--brand-indigo);
+      background: linear-gradient(180deg, rgba(99,102,241,0.04) 0%, rgba(255,255,255,0.95) 100%);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 0.85rem;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .btn:active { transform: translateY(2px); }
+    .btn-primary {
+      background: var(--brand-indigo);
+      color: #fff;
+      box-shadow: var(--pop-shadow);
+    }
+    .btn-primary:hover { background: var(--brand-indigo-dark); }
+    .btn-pink {
+      background: var(--brand-pink);
+      color: #fff;
+      box-shadow: 0 4px 0 #BE185D;
+    }
+    .btn-mint {
+      background: var(--brand-mint);
+      color: #fff;
+      box-shadow: 0 4px 0 #047857;
+    }
+    .btn-outline {
+      background: #fff;
+      color: var(--text-main);
+      border-color: #CBD5E1;
+    }
+    .btn-outline:hover { border-color: var(--brand-indigo); color: var(--brand-indigo); }
+    .btn-sm { padding: 0.38rem 0.75rem; font-size: 0.78rem; border-radius: 0.65rem; }
+
+    /* Form Controls */
+    label.field-label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--text-main); }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid #E2E8F0;
+      border-radius: 0.75rem;
+      font-family: inherit;
+      font-size: 0.86rem;
+      background: #fff;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--brand-indigo); }
+
+    /* Chips & Tags */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .chip {
+      padding: 0.38rem 0.8rem;
+      border-radius: 999px;
+      border: 2px solid #E2E8F0;
+      background: #fff;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .chip.selected {
+      border-color: var(--brand-indigo);
+      background: #EEF2FF;
+      color: var(--brand-indigo-dark);
+      font-weight: 600;
+    }
+
+    /* Topic Swipe Card */
+    .swipe-deck {
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .topic-card {
+      background: #fff;
+      border: 3px solid #1E293B;
+      border-radius: var(--radius-xl);
+      padding: 1.35rem;
+      box-shadow: 6px 6px 0 #1E293B;
+      position: relative;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .topic-visual {
+      height: 120px;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .swipe-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+
+    /* Chat Messages */
+    .chat-box {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      height: 340px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+    .msg {
+      max-width: 85%;
+      padding: 0.7rem 0.95rem;
+      border-radius: 1rem;
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+    .msg-ai {
+      align-self: flex-start;
+      background: #fff;
+      border: 2px solid #E2E8F0;
+      border-bottom-left-radius: 0.25rem;
+    }
+    .msg-user {
+      align-self: flex-end;
+      background: var(--brand-indigo);
+      color: #fff;
+      border-bottom-right-radius: 0.25rem;
+    }
+    .tier-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Score Bar */
+    .score-row { margin-bottom: 0.75rem; }
+    .score-header { display: flex; justify-content: space-between; font-size: 0.84rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .score-track { height: 10px; background: #E2E8F0; border-radius: 999px; overflow: hidden; }
+    .score-fill { height: 100%; border-radius: 999px; transition: width 0.4s ease; }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    table.data-table th, table.data-table td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #E2E8F0;
+      text-align: left;
+    }
+    table.data-table th { background: #F1F5F9; font-weight: 700; color: var(--text-sub); }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: #0F172A;
+      color: #fff;
+      padding: 0.75rem 1.15rem;
+      border-radius: 0.85rem;
+      font-size: 0.84rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      transform: translateY(150%);
+      transition: transform 0.25s ease;
+      z-index: 200;
+      border-left: 4px solid var(--brand-mint);
+    }
+    #toast.show { transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .workspace { flex-direction: column; padding: 0.75rem; }
+      .nav-rail { width: 100%; position: static; flex-direction: row; overflow-x: auto; padding: 0.6rem; }
+      .brand-header, .nav-group-label { display: none; }
+      .nav-btn { width: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Simulation & Quota Bar -->
+  <div class="demo-bar">
+    <div class="demo-bar-left">
+      <span class="badge-sim">🧪 Interactive Mockup (Simulated Prototype)</span>
+      <span>โหมด: <strong id="authStatusText">Guest Mode (Local Storage)</strong></span>
+      <button class="viewport-btn" onclick="toggleAuthMode()" style="border:1px solid #475569;">สลับ Google Login</button>
+    </div>
+    <div class="quota-pills">
+      <span class="quota-pill">โควตาสร้างการ์ด: <b id="qCards">30</b>/30</span>
+      <span class="quota-pill">ประเมิน AI: <b id="qEval">5</b>/5</span>
+      <span class="quota-pill">สร้าง Proposal: <b id="qProp">2</b>/2</span>
+      <div class="viewport-toggle">
+        <button class="viewport-btn active" id="btnDesktop" onclick="setViewport('desktop')">💻 Desktop</button>
+        <button class="viewport-btn" id="btnMobile" onclick="setViewport('mobile')">📱 Mobile PWA</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <!-- Navigation Rail -->
+    <aside class="nav-rail">
+      <div class="brand-header">
+        <div class="brand-logo">P</div>
+        <div class="brand-title">
+          <h1>Project-Edu</h1>
+          <p>Theme A+B • Socratic Coach</p>
+        </div>
+      </div>
+
+      <div class="nav-group-label">1. เริ่มต้น & ค้นหาหัวข้อ</div>
+      <button class="nav-btn active" data-screen="screen-onboarding" onclick="goScreen('screen-onboarding')">
+        <span>1. ตั้งค่า & ข้อจำกัด (PDPA)</span>
+        <span class="nav-badge">Start</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-swipe" onclick="goScreen('screen-swipe')">
+        <span>2. ปัดการ์ด Topic Cards</span>
+        <span class="nav-badge" id="badgeShortlist">0/5</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-shortlist" onclick="goScreen('screen-shortlist')">
+        <span>3. ตารางคัดเลือก (Fit Score)</span>
+        <span class="nav-badge">Matrix</span>
+      </button>
+
+      <div class="nav-group-label">2. ปั้นไอเดีย & ตรวจระเบียบวิธี</div>
+      <button class="nav-btn" data-screen="screen-socratic" onclick="goScreen('screen-socratic')">
+        <span>4. แชทครูที่ปรึกษา Socratic</span>
+        <span class="nav-badge">3 Tiers</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-variables" onclick="goScreen('screen-variables')">
+        <span>5. ตารางแยกตัวแปร & ชุดควบคุม</span>
+        <span class="nav-badge">Rigor</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-eval" onclick="goScreen('screen-eval')">
+        <span>6. ประเมิน 5 ด้าน + Prior Work</span>
+        <span class="nav-badge">🟢🟡🔴</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-safety" onclick="goScreen('screen-safety')">
+        <span>7. เช็กลิสต์ความปลอดภัย ISEF</span>
+        <span class="nav-badge">⚠️ Flag</span>
+      </button>
+
+      <div class="nav-group-label">3. เตรียมแข่ง & ส่งออก</div>
+      <button class="nav-btn" data-screen="screen-bom" onclick="goScreen('screen-bom')">
+        <span>8. งบประมาณ & อุปกรณ์ (BOM)</span>
+        <span class="nav-badge">Budget</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-calendar" onclick="goScreen('screen-calendar')">
+        <span>9. ปฏิทินแข่ง & แผนรายสัปดาห์</span>
+        <span class="nav-badge">Plan</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-judge" onclick="goScreen('screen-judge')">
+        <span>10. ซ้อมตอบคำถามกรรมการ</span>
+        <span class="nav-badge">Q&A</span>
+      </button>
+      <button class="nav-btn" data-screen="screen-export" onclick="goScreen('screen-export')">
+        <span>11. Proposal, พอร์ต & ครูอนุมัติ</span>
+        <span class="nav-badge">Export</span>
+      </button>
+    </aside>
+
+    <!-- Main Interactive Stage -->
+    <main class="stage-wrapper">
+      <div class="app-container" id="appContainer">
+
+        <!-- SCREEN 1: ONBOARDING, ZERO-PII CONSENT & CONSTRAINTS -->
+        <section class="screen active" id="screen-onboarding">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">👋 สวัสดีนักวิจัยรุ่นเยาว์! เริ่มต้นตั้งค่าโครงงาน</div>
+              <div class="screen-sub">เลือกเส้นทางของคุณ และระบุข้อจำกัดเพื่อให้ระบบคัดกรองหัวข้อที่ทำได้จริง</div>
+            </div>
+            <span class="chip selected">🛡️ Zero-PII PDPA Mode</span>
+          </div>
+
+          <div class="card card-highlight">
+            <label class="field-label">🔒 ความยินยอมคุ้มครองข้อมูลส่วนบุคคล (Zero-PII PDPA Consent)</label>
+            <p style="font-size:0.8rem; color:var(--text-sub); margin-bottom:0.6rem;">
+              ระบบจะไม่เก็บชื่อ-นามสกุลจริง เบอร์โทร หรือชื่อโรงเรียนของคุณ ข้อมูลทั้งหมดใช้เพื่อประมวลผลคำแนะนำทางวิชาการเท่านั้น
+            </p>
+            <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; cursor:pointer; font-weight:600;">
+              <input type="checkbox" id="pdpaConsent" checked onchange="showToast('อัปเดตสถานะความยินยอม PDPA แล้ว')" />
+              ฉันและผู้ปกครองรับทราบและยินยอมให้ใช้งานแบบไม่ระบุตัวตน (Zero-PII)
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <label class="field-label">1. เลือกเส้นทางของคุณ (Track)</label>
+              <div class="chip-group" id="trackGroup">
+                <span class="chip selected" onclick="selectSingleChip('trackGroup', this, 'discovery')">🧭 ยังไม่มีไอเดีย (Discovery Track)</span>
+                <span class="chip" onclick="selectSingleChip('trackGroup', this, 'idea')">💡 มีไอเดียคร่าวๆ แล้ว (Idea Track)</span>
+              </div>
+
+              <label class="field-label" style="margin-top:0.9rem;">2. ระดับชั้น & เป้าหมายหลัก</label>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                <select id="gradeLevel" onchange="updateProfile()">
+                  <option value="ม.ปลาย (ม.4-6)">ม.ปลาย (ม.4–6)</option>
+                  <option value="ม.ต้น (ม.1-3)">ม.ต้น (ม.1–3)</option>
+                </select>
+                <select id="goalTarget" onchange="updateProfile()">
+                  <option value="YSC">แข่ง YSC (Young Scientist)</option>
+                  <option value="NSC">แข่ง NSC (พัฒนาซอฟต์แวร์)</option>
+                  <option value="OBEC">งานศิลปหัตถกรรมนักเรียน สพฐ.</option>
+                  <option value="ISEF">Regeneron ISEF</option>
+                  <option value="TCAS">ยื่นพอร์ต TCAS รอบ 1</option>
+                  <option value="CLASS">ส่งงานในชั้นเรียน</option>
+                </select>
+              </div>
+
+              <label class="field-label" style="margin-top:0.9rem;">3. หมวดวิชาหลัก & สาขาย่อย (เลือกได้หลายข้อ)</label>
+              <div class="chip-group" id="subjectChips">
+                <span class="chip selected" onclick="toggleMultiChip(this)">🔬 วิทยาศาสตร์ (ชีวเคมี/สิ่งแวดล้อม)</span>
+                <span class="chip selected" onclick="toggleMultiChip(this)">🤖 คอมพิวเตอร์ / AI / IoT</span>
+                <span class="chip" onclick="toggleMultiChip(this)">📐 คณิตศาสตร์ประยุกต์</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <label class="field-label">4. ข้อจำกัด 5 ด้าน (สำหรับคำนวณ Fit Score)</label>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.65rem;">
+                <div>
+                  <label class="field-label">⏳ เวลาที่มี (สัปดาห์)</label>
+                  <input type="number" id="constraintWeeks" value="8" min="1" max="52" onchange="updateProfile()" />
+                </div>
+                <div>
+                  <label class="field-label">💰 งบประมาณ (บาท)</label>
+                  <input type="number" id="constraintBudget" value="2500" step="500" onchange="updateProfile()" />
+                </div>
+                <div>
+                  <label class="field-label">👥 สมาชิกในทีม (คน)</label>
+                  <select id="constraintTeam" onchange="updateProfile()">
+                    <option value="1">1 คน (เดี่ยว)</option>
+                    <option value="2" selected>2 คน</option>
+                    <option value="3">3 คน</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">🛠️ อุปกรณ์ที่มี</label>
+                  <select id="constraintEquip" onchange="updateProfile()">
+                    <option value="ห้องแล็บโรงเรียน + คอมพื้นฐาน">แล็บโรงเรียน + คอมทั่วไป</option>
+                    <option value="มีเฉพาะคอมพิวเตอร์/Colab">มีเฉพาะคอมพิวเตอร์/มือถือ</option>
+                    <option value="มีบอร์ดสมองกล/เซนเซอร์">มีบอร์ด IoT / เซนเซอร์</option>
+                  </select>
+                </div>
+              </div>
+              <div style="margin-top:0.75rem;">
+                <label class="field-label">✨ ทักษะที่ถนัด</label>
+                <input type="text" id="constraintSkills" value="Python พื้นฐาน, ทดลองในห้องแล็บชีววิทยา, เก็บข้อมูลภาคสนาม" />
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+            <button class="btn btn-outline" onclick="goScreen('screen-socratic')">ข้ามไปแชท Idea Track (มีไอเดียแล้ว) →</button>
+            <button class="btn btn-primary" onclick="startDiscoveryFlow()">บันทึกข้อจำกัด & ไปปัดการ์ด Topic Cards 🚀</button>
+          </div>
+        </section>
+
+        <!-- SCREEN 2: TOPIC CARD SWIPE DECK -->
+        <section class="screen" id="screen-swipe">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">🃏 ปัดการ์ดสำรวจหัวข้อโครงงาน (Topic Card Swipe)</div>
+              <div class="screen-sub">← ข้าม | → สนใจเก็บเข้าตะกร้า | ↑ อยากทำเลย! (สะสมครบ 5 ใบเพื่อเทียบ Fit Score)</div>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <button class="btn btn-outline btn-sm" onclick="generateAICard()">✨ ให้ AI สร้างการ์ดเพิ่ม (-1 โควตา)</button>
+              <button class="btn btn-primary btn-sm" onclick="goScreen('screen-shortlist')">ดู Shortlist (<span id="shortlistCountBtn">0</span>/5)</button>
+            </div>
+          </div>
+
+          <div class="swipe-deck">
+            <div class="topic-card" id="activeTopicCard">
+              <!-- Rendered dynamically by JS -->
+            </div>
+
+            <div class="swipe-actions">
+              <button class="btn btn-outline" onclick="handleSwipe('skip')">⬅️ ข้าม (Skip)</button>
+              <button class="btn btn-mint" onclick="handleSwipe('like')">➡️ สนใจ (+Shortlist)</button>
+              <button class="btn btn-pink" onclick="handleSwipe('super')">⬆️ อยากทำเลย! (Super Like)</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 3: SHORTLIST MATRIX (FIT SCORE COMPARISON) -->
+        <section class="screen" id="screen-shortlist">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">📊 ตารางเปรียบเทียบหัวข้อที่สนใจ (Shortlist Fit Matrix)</div>
+              <div class="screen-sub">คำนวณ Fit Score เทียบกับข้อจำกัดของคุณ (งบ <span id="lblBudget">2,500</span>฿ • เวลา <span id="lblWeeks">8</span> สัปดาห์)</div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="fillSampleShortlist()">⚡ เติมการ์ดตัวอย่างให้ครบ 5 ใบทันที</button>
+          </div>
+
+          <div class="card" style="overflow-x:auto;">
+            <table class="data-table" id="shortlistTable">
+              <thead>
+                <tr>
+                  <th>หัวข้อโครงงาน (Topic Card)</th>
+                  <th>วิชา</th>
+                  <th>งบ/เวลา</th>
+                  <th>Fit Score</th>
+                  <th>ความเสี่ยง Safety</th>
+                  <th>เลือกปั้นไอเดีย</th>
+                </tr>
+              </thead>
+              <tbody id="shortlistTbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- SCREEN 4: SOCRATIC AI ADVISOR CHAT (3-TIER PEDAGOGY) -->
+        <section class="screen" id="screen-socratic">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">🧑‍🏫 ครูที่ปรึกษาโครงงาน Socratic AI (ADR-0002)</div>
+              <div class="screen-sub">AI ไม่คิดไอเดียสำเร็จรูปแทนคุณ แต่จะถามชวนคิด 3 ระดับจนคุณได้โครงงานที่เป็นเจ้าของเอง</div>
+            </div>
+            <span class="chip selected" id="currentTopicBadge">หัวข้อ: เซนเซอร์ตรวจวัดการสุกของผลไม้ด้วย AI</span>
+          </div>
+
+          <!-- 3-Tier Socratic Switcher -->
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.85rem;">
+            <button class="btn btn-outline btn-sm" onclick="triggerSocraticTier(1)">💬 ระดับ 1: ถามชวนคิด (Socratic Questioning)</button>
+            <button class="btn btn-outline btn-sm" onclick="triggerSocraticTier(2)">🧭 ระดับ 2: ขอคำใบ้ / กรอบวิเคราะห์ (Guided Hints)</button>
+            <button class="btn btn-pink btn-sm" onclick="triggerSocraticTier(3)">🆘 ระดับ 3: คิดไม่ออกจริงๆ ขอดูตัวอย่างตั้งต้น (Last Resort)</button>
+          </div>
+
+          <div class="chat-box" id="chatBox">
+            <div class="msg msg-ai">
+              <div class="tier-badge" style="background:#EEF2FF; color:#4F46E5;">Tier 1 • Socratic Question (คำถามที่ 1/8)</div>
+              <div>สวัสดีครับ! จากหัวข้อเรื่อง <b>การตรวจวัดคุณภาพผลไม้/พืชผล</b> นักเรียนสังเกตเห็นปัญหาอะไรในตลาดหรือสวนใกล้บ้านที่ทำให้เกษตรกรหรือผู้ซื้อเสียหายมากที่สุดครับ?</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:0.5rem;">
+            <input type="text" id="chatInput" placeholder="พิมพ์คำตอบของคุณ เช่น มะม่วงช้ำในลังขนส่ง ดูจากเปลือกนอกไม่รู้..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
+            <button class="btn btn-primary" onclick="sendChatMessage()">ส่งคำตอบ</button>
+            <button class="btn btn-mint" onclick="goScreen('screen-variables')">สรุปตัวแปรต่อ →</button>
+          </div>
+        </section>
+
+        <!-- SCREEN 5: VARIABLE & CONTROL ISOLATOR CANVAS -->
+        <section class="screen" id="screen-variables">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">🧪 ตารางล็อกตัวแปรและชุดควบคุม (Variable & Control Isolator Canvas)</div>
+              <div class="screen-sub">ป้องกันการเสียคะแนนหมวดระเบียบวิธีวิจัย (Rigor 30 คะแนนใน YSC / 25 คะแนนในศิลปหัตถกรรม)</div>
+            </div>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-outline btn-sm" onclick="loadVariablePreset('science')">🔬 โหมดสายวิทย์ (ตัวแปรต้น-ตาม-ควบคุม)</button>
+              <button class="btn btn-outline btn-sm" onclick="loadVariablePreset('ai')">🤖 โหมดสายคอม/AI (Input-Output-Baseline)</button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <label class="field-label" id="lblVarInd">1. ตัวแปรต้น / Input Features (สิ่งที่จัดกระทำหรือป้อนเข้า)</label>
+              <input type="text" id="inpVarInd" value="ความเข้มข้นของสารสกัดเพกตินจากเปลือกส้มโอ (1%, 3%, 5% w/v)" />
+
+              <label class="field-label" id="lblVarDep" style="margin-top:0.8rem;">2. ตัวแปรตาม / Target Metric & หน่วยวัด (สิ่งที่วัดผล)</label>
+              <input type="text" id="inpVarDep" value="อัตราการสูญเสียน้ำหนักของมะม่วง (%) และความแน่นเนื้อ (Newton) หลังเก็บ 14 วัน" />
+
+              <label class="field-label" id="lblVarCtrl" style="margin-top:0.8rem;">3. ตัวแปรควบคุม / Controlled Conditions</label>
+              <input type="text" id="inpVarCtrl" value="อุณหภูมิห้องเก็บ (25°C), ความชื้นสัมพัทธ์ (70%), สายพันธุ์มะม่วงน้ำดอกไม้สุกระยะเดียวกัน" />
+            </div>
+
+            <div class="card card-highlight">
+              <label class="field-label" id="lblVarBase">4. ชุดควบคุม (Control Group / Baseline Comparison) *สำคัญมาก</label>
+              <input type="text" id="inpVarBase" value="ชุดที่ 1: มะม่วงไม่เคลือบสาร (Negative Control) และ ชุดที่ 2: เคลือบแว็กซ์การค้าทั่วไป (Positive Control)" />
+
+              <label class="field-label" style="margin-top:0.8rem;">5. จำนวนซ้ำในการทดลอง (Replication / Sample Size n)</label>
+              <input type="text" id="inpVarRep" value="ทำซ้ำ 5 ผลต่อกลุ่มการทดลอง (n = 5 ต่อกลุ่ม, รวม 25 ผล) วิเคราะห์ ANOVA" />
+
+              <div style="margin-top:1rem; padding:0.75rem; background:#ECFDF5; border:1px solid #10B981; border-radius:0.75rem; font-size:0.82rem;" id="rigorCheckBox">
+                ✅ <b>Rigor Check ผ่านเกณฑ์:</b> ระบุหน่วยวัดชัดเจน มีทั้ง Negative & Positive Control และกำหนดจำนวนซ้ำ ($n \ge 3$) พร้อมสำหรับการประเมิน!
+              </div>
+              <div style="margin-top:0.85rem; display:flex; justify-content:flex-end;">
+                <button class="btn btn-primary" onclick="runEvaluationSim()">ส่งประเมิน 5 ด้าน & ตรวจ Prior Work →</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 6: 5-AXIS EVALUATION + VERIFIED PRIOR WORK -->
+        <section class="screen" id="screen-eval">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">🎯 ผลการประเมินไอเดีย 5 ด้าน & ฐานข้อมูลโครงงานเดิม (Prior Work)</div>
+              <div class="screen-sub">เกณฑ์จำลองอ้างอิงเวที <b id="evalTargetLabel">YSC</b> • สเกล 1–10 (🟢 7–10 แข็งแรง | 🟡 4–6 ควรปรับปรุง | 🔴 1–3 เสี่ยงสูง)</div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="recalcEval()">🔄 ประเมินใหม่ (-1 โควตา)</button>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <h3 style="font-size:0.95rem; margin-bottom:0.85rem;">คะแนนประเมิน 5 มิติ (Overall: <span id="overallScoreTxt" style="color:var(--brand-indigo);">8.0/10 🟢</span>)</h3>
+
+              <div class="score-row">
+                <div class="score-header"><span>1. ความคิดริเริ่มสร้างสรรค์ (Novelty)</span><span>🟢 8/10</span></div>
+                <div class="score-track"><div class="score-fill" style="width:80%; background:var(--brand-mint);"></div></div>
+              </div>
+              <div class="score-row">
+                <div class="score-header"><span>2. ความเป็นไปได้จริงตามงบ/เวลา (Feasibility)</span><span>🟢 9/10</span></div>
+                <div class="score-track"><div class="score-fill" style="width:90%; background:var(--brand-mint);"></div></div>
+              </div>
+              <div class="score-row">
+                <div class="score-header"><span>3. ผลกระทบและประโยชน์นำไปใช้ (Impact)</span><span>🟢 8/10</span></div>
+                <div class="score-track"><div class="score-fill" style="width:80%; background:var(--brand-mint);"></div></div>
+              </div>
+              <div class="score-row">
+                <div class="score-header"><span>4. สมมติฐานและการวัดผล (Rigor & Metrics)</span><span>🟡 6/10</span></div>
+                <div class="score-track"><div class="score-fill" style="width:60%; background:var(--brand-amber);"></div></div>
+                <p style="font-size:0.75rem; color:#B45309; margin-top:0.25rem;">💡 คำแนะนำ: ควรระบุวิธีทดสอบเชื้อราปนเปื้อนบนผิวผลไม้เพิ่มเติมเพื่อความรัดกุม</p>
+              </div>
+              <div class="score-row">
+                <div class="score-header"><span>5. ความเหมาะสมกับเวทีเป้าหมาย (Goal Alignment)</span><span>🟢 9/10</span></div>
+                <div class="score-track"><div class="score-fill" style="width:90%; background:var(--brand-mint);"></div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 style="font-size:0.95rem; margin-bottom:0.65rem;">📚 งานวิจัยและโครงงานที่ใกล้เคียง (Prior Work Grounding)</h3>
+              <p style="font-size:0.76rem; color:var(--text-sub); margin-bottom:0.75rem;">
+                *ข้อมูลจำลองใน Mockup: ในระบบจริงดึงจากคลังโครงงานไทย + ค้นเว็บพร้อมลิงก์ตรวจสอบได้จริง ห้าม AI แต่งอ้างอิงปลอม*
+              </p>
+              <div style="display:flex; flex-direction:column; gap:0.65rem; font-size:0.82rem;">
+                <div style="padding:0.65rem; background:#F8FAFC; border-radius:0.65rem; border-left:3px solid var(--brand-indigo);">
+                  <b>1. ผลของสารเคลือบเพกตินจากเปลือกส้มโอต่อการยืดอายุการเก็บรักษามะม่วงน้ำดอกไม้</b>
+                  <div style="color:var(--text-sub); font-size:0.76rem; margin-top:0.2rem;">แหล่งอ้างอิง: ฐานข้อมูลงานวิจัย ThaiJO (วารสารวิทยาศาสตร์เกษตร) • <a href="https://www.tci-thaijo.org/" target="_blank" rel="noopener">เปิดลิงก์อ้างอิง ↗</a></div>
+                  <div style="color:#047857; font-size:0.76rem; margin-top:0.2rem;">✨ จุดต่างที่เราต่อยอดได้: เพิ่มการวิเคราะห์ภาพถ่ายสีผิวด้วยสมาร์ตโฟน (RGB Colorimetric Index)</div>
+                </div>
+                <div style="padding:0.65rem; background:#F8FAFC; border-radius:0.65rem; border-left:3px solid var(--brand-pink);">
+                  <b>2. โครงงานแผ่นฟิล์มชีวภาพชะลอการสุกของผลไม้จากวัสดุเหลือใช้ทางการเกษตร (เวที YSC)</b>
+                  <div style="color:var(--text-sub); font-size:0.76rem; margin-top:0.2rem;">แหล่งอ้างอิง: คลังโครงงานวิทยาศาสตร์เยาวชน สวทช. (NSTDA YSC Archive) • <a href="https://www.nstda.or.th/ysc/" target="_blank" rel="noopener">เปิดลิงก์อ้างอิง ↗</a></div>
+                </div>
+              </div>
+              <div style="margin-top:0.9rem; display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn btn-outline btn-sm" onclick="goScreen('screen-safety')">⚠️ ตรวจ Safety Flag & เอกสาร ISEF →</button>
+                <button class="btn btn-primary btn-sm" onclick="goScreen('screen-judge')">🎤 ไปซ้อมตอบคำถามกรรมการ →</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 7: ISEF / YSC SAFETY & IRB CHECKLIST WIZARD -->
+        <section class="screen" id="screen-safety">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">⚠️ คัดกรองความปลอดภัย & เช็กลิสต์เอกสารรับรอง (Safety & IRB Wizard)</div>
+              <div class="screen-sub">ตามเกณฑ์ Regeneron ISEF / SRC 5 ด้าน — ระบบติดธงเตือนและระบุแบบฟอร์มให้ครูดูแลโดยไม่บล็อกผู้เรียน</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <label class="field-label">ลองคลิกจำลองความเสี่ยงที่เกี่ยวข้องกับโครงงานของคุณ:</label>
+            <div class="chip-group" style="margin-top:0.5rem;">
+              <span class="chip selected" onclick="toggleSafetyFlag('bio', this)">🦠 จุลินทรีย์ / เชื้อรา / ชีวภาพ (PHBAs)</span>
+              <span class="chip" onclick="toggleSafetyFlag('chem', this)">🧪 สารเคมีอันตราย / กรด-ด่างเข้มข้น</span>
+              <span class="chip" onclick="toggleSafetyFlag('human', this)">🧑 อาสาสมัครมนุษย์ / แบบสอบถาม / ทดสอบชิม</span>
+              <span class="chip" onclick="toggleSafetyFlag('animal', this)">🐟 สัตว์มีกระดูกสันหลัง</span>
+              <span class="chip" onclick="toggleSafetyFlag('voltage', this)">⚡ ไฟฟ้าแรงสูง / เลเซอร์ / รังสี</span>
+            </div>
+          </div>
+
+          <div class="card card-highlight" id="safetyChecklistCard">
+            <h3 style="font-size:0.98rem; color:#B45309; margin-bottom:0.6rem;">🚩 พบธงความปลอดภัย (Safety Flag Active): ต้องมีครูที่ปรึกษาควบคุมและใช้เอกสารดังนี้</h3>
+            <div id="safetyFormsList" style="display:flex; flex-direction:column; gap:0.55rem; font-size:0.84rem;">
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" checked /> <b>ISEF Form 1 & 1B:</b> แบบฟอร์มรับรองจากครูที่ปรึกษา (Adult Sponsor Checklist & Approval Form)</label>
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" /> <b>ISEF Form 6A (PHBAs):</b> เอกสารประเมินความเสี่ยงทางชีวภาพ (เพาะเชื้อราบนผลไม้ ต้องทำในห้องปฏิบัติการ BSL-1 ที่ปิดมิดชิด)</label>
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" /> <b>แนวทางกำจัดเชื้อ (Autoclave / Disinfection):</b> แช่สารโซเดียมไฮโปคลอไรต์ 10% ก่อนทิ้งทุกครั้ง</label>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 8: BOM & BUDGET ESTIMATOR -->
+        <section class="screen" id="screen-bom">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">🧾 ตารางวัสดุอุปกรณ์และงบประมาณ (BOM & Local Resource Estimator)</div>
+              <div class="screen-sub">ประเมินราคาในไทย พร้อมแนะนำอุปกรณ์ทดแทนที่มีในห้องแล็บโรงเรียนเพื่อลดต้นทุน</div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="addBomRow()">+ เพิ่มรายการวัสดุ</button>
+          </div>
+
+          <div class="card" style="overflow-x:auto;">
+            <table class="data-table" id="bomTable">
+              <thead>
+                <tr>
+                  <th>รายการวัสดุ / อุปกรณ์</th>
+                  <th>จำนวน</th>
+                  <th>ราคาประเมิน (บาท)</th>
+                  <th>ทางเลือกของทดแทนในโรงเรียน (ลดงบ)</th>
+                </tr>
+              </thead>
+              <tbody id="bomTbody">
+                <tr>
+                  <td>เอทานอล 95% สำหรับสกัดเพกติน (Food Grade)</td>
+                  <td>2 ลิตร</td>
+                  <td class="bom-cost">450</td>
+                  <td><span style="color:#047857;">เบิกจากห้องปฏิบัติการเคมีของโรงเรียน (0฿)</span></td>
+                </tr>
+                <tr>
+                  <td>มะม่วงน้ำดอกไม้สำหรับทดสอบ (5 กลุ่ม x 5 ผล)</td>
+                  <td>25 ผล</td>
+                  <td class="bom-cost">600</td>
+                  <td>ใช้ผลไม้ตามฤดูกาลในท้องถิ่น</td>
+                </tr>
+                <tr>
+                  <td>เครื่องวัดความแน่นเนื้อผลไม้ (Fruit Penetrometer)</td>
+                  <td>1 เครื่อง</td>
+                  <td class="bom-cost">950</td>
+                  <td><span style="color:#047857;">ประยุกต์ใช้เครื่องชั่งดิจิทัลกดผ่านหัววัดทรงกระบอกในแล็บฟิสิกส์</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top:0.9rem; display:flex; justify-content:space-between; align-items:center; font-weight:700;">
+              <span>งบประมาณที่ตั้งไว้: <span id="bomBudgetCap">2,500</span> บาท</span>
+              <span style="color:var(--brand-indigo); font-size:1rem;">รวมค่าใช้จ่ายประเมิน: <span id="bomTotalTxt">2,000</span> บาท (อยู่ในงบ ✅)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 9: COMPETITION CALENDAR & WEEKLY PLAN -->
+        <section class="screen" id="screen-calendar">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">📅 ปฏิทินนับถอยหลังเวทีแข่งขัน & แผนงานรายสัปดาห์ (Weekly Plan)</div>
+              <div class="screen-sub">ผูกตารางทำงานจริงเข้ากับช่วงเวลารับสมัครแข่งขันในไทย (ตัวอย่างไทม์ไลน์จำลอง)</div>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-bottom:1rem;">
+            <div class="card" style="margin-bottom:0; border-left:4px solid var(--brand-indigo);">
+              <div style="font-size:0.75rem; color:var(--text-sub);">เวที YSC (สวทช.)</div>
+              <div style="font-weight:700; font-size:0.95rem; margin:0.2rem 0;">ส่งโครงร่าง: ต.ค. – พ.ย.</div>
+              <span class="nav-badge" style="background:#EEF2FF; color:#4F46E5;">⏳ เหลือเวลาเตรียม ~6 สัปดาห์</span>
+            </div>
+            <div class="card" style="margin-bottom:0; border-left:4px solid var(--brand-pink);">
+              <div style="font-size:0.75rem; color:var(--text-sub);">เวที NSC (ซอฟต์แวร์)</div>
+              <div style="font-weight:700; font-size:0.95rem; margin:0.2rem 0;">ส่งข้อเสนอ: ส.ค. – ก.ย.</div>
+              <span class="nav-badge" style="background:#FDF2F8; color:#BE185D;">📌 รอบข้อเสนอโครงการ</span>
+            </div>
+            <div class="card" style="margin-bottom:0; border-left:4px solid var(--brand-mint);">
+              <div style="font-size:0.75rem; color:var(--text-sub);">งานศิลปหัตถกรรม สพฐ.</div>
+              <div style="font-weight:700; font-size:0.95rem; margin:0.2rem 0;">ระดับเขต–ภาค: ก.ย. – ธ.ค.</div>
+              <span class="nav-badge" style="background:#ECFDF5; color:#047857;">🏆 เน้นรูปเล่ม + แผงโครงงาน</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="font-size:0.95rem; margin-bottom:0.75rem;">🗓️ แผนปฏิบัติงานรายสัปดาห์ (Weekly Plan & Team Role) — คลิกติ๊กความคืบหน้าได้</h3>
+            <div style="display:flex; flex-direction:column; gap:0.55rem; font-size:0.84rem;">
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" checked onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 1 แล้ว')" /> <b>สัปดาห์ที่ 1–2:</b> ทบทวนวรรณกรรม, ยืนยันตัวแปรต้น-ตาม-ควบคุม และขออนุมัติครูที่ปรึกษา (สมาชิกคนที่ 1 & 2)</label>
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 3-4 แล้ว')" /> <b>สัปดาห์ที่ 3–4:</b> สกัดเพกตินจากเปลือกส้มโอที่ความเข้มข้น 1%, 3%, 5% และเตรียมชุดควบคุม (คนที่ 1: แล็บเคมี)</label>
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 5-6 แล้ว')" /> <b>สัปดาห์ที่ 5–6:</b> เก็บข้อมูลน้ำหนักและความแน่นเนื้อทุก 3 วัน จนครบ 14 วัน + ถ่ายภาพวัดค่าสี (คนที่ 2: บันทึกสถิติ)</label>
+              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 7-8 แล้ว')" /> <b>สัปดาห์ที่ 7–8:</b> วิเคราะห์ผลทางสถิติ ANOVA, สรุปบทคัดย่อ 250 คำ และซ้อมตอบคำถามกรรมการ 3 นาที</label>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 10: MOCK JUDGE Q&A SIMULATOR -->
+        <section class="screen" id="screen-judge">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">🎤 โหมดซ้อมตอบคำถามกรรมการปราบเซียน (Mock Judge Q&A Simulator)</div>
+              <div class="screen-sub">จำลองคำถามจี้จุดอ่อนจากผลประเมินสีเหลือง/แดง (🟡🔴) เพื่อเตรียมพร้อมก่อนขึ้นเวทีจริง</div>
+            </div>
+            <select id="judgePersona" onchange="switchJudgeQuestion()" style="width:auto;">
+              <option value="ysc">👨‍🔬 กรรมการ YSC (เน้นระเบียบวิธีวิจัย & Control)</option>
+              <option value="nsc">💻 กรรมการ NSC (เน้นอัลกอริทึม & การใช้งานจริง)</option>
+              <option value="tcas">🎓 อาจารย์สัมภาษณ์ TCAS รอบ Portfolio</option>
+            </select>
+          </div>
+
+          <div class="card card-highlight">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--brand-pink); margin-bottom:0.3rem;">คำถามจากกรรมการ (ข้อที่ <span id="judgeQIdx">1</span>/3):</div>
+            <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.85rem;" id="judgeQText">
+              "ในการทดลองเคลือบผิวมะม่วง นักเรียนทราบได้อย่างไรว่าความหนาของชั้นฟิล์มเพกตินที่เคลือบบนมะม่วงแต่ละลูกมีความสม่ำเสมอเท่ากัน? หากหนาไม่เท่ากันจะกลายเป็นตัวแปรแทรกซ้อนหรือไม่?"
+            </div>
+            <textarea id="judgeAnswerInput" rows="3" placeholder="พิมพ์คำตอบซ้อมพรีเซนต์ของคุณที่นี่...">พวกเราควบคุมโดยใช้การจุ่มเคลือบด้วยความเร็วคงที่เป็นเวลา 30 วินาทีเท่ากันทุกลูก และปล่อยให้หยดแห้งบนตะแกรงในตู้ควบคุมอุณหภูมิ 25°C พร้อมชั่งน้ำหนักก่อน-หลังเคลือบเพื่อวัดปริมาณสารเคลือบต่อพื้นที่ผิวครับ</textarea>
+            <div style="display:flex; justify-content:space-between; margin-top:0.75rem; flex-wrap:wrap; gap:0.5rem;">
+              <button class="btn btn-outline btn-sm" onclick="nextJudgeQuestion()">⏭️ เปลี่ยนคำถามถัดไป</button>
+              <button class="btn btn-primary btn-sm" onclick="evaluateJudgeAnswer()">✨ ให้โค้ช AI วิเคราะห์คำตอบ</button>
+            </div>
+          </div>
+
+          <div class="card" id="judgeFeedbackCard" style="display:none; background:#ECFDF5; border-color:#10B981;">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+
+        <!-- SCREEN 11: 1-PAGE PROPOSAL, TCAS PORTFOLIO, PITCH & ADVISOR SIGN-OFF -->
+        <section class="screen" id="screen-export">
+          <div class="screen-header">
+            <div>
+              <div class="screen-title">📄 เอกสารข้อเสนอ 1 หน้า, พอร์ต TCAS & ลิงก์ให้ครูที่ปรึกษาอนุมัติ</div>
+              <div class="screen-sub">สลับดูเทมเพลตเอกสาร และจำลองการส่งออก PDF / Word / Google Docs / ลิงก์ครูที่ปรึกษา</div>
+            </div>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="switchDocTab('proposal')">📑 Proposal 1 หน้า</button>
+              <button class="btn btn-outline btn-sm" onclick="switchDocTab('tcas')">🎓 TCAS Portfolio Card</button>
+              <button class="btn btn-outline btn-sm" onclick="switchDocTab('pitch')">🎙️ Abstract & บทพูด 3 นาที</button>
+              <button class="btn btn-outline btn-sm" onclick="switchDocTab('advisor')">✍️ โหมดครูที่ปรึกษาตรวจ</button>
+            </div>
+          </div>
+
+          <!-- Document Sub-tab 1: 1-Page Proposal -->
+          <div class="card" id="docTab-proposal">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0F172A; padding-bottom:0.6rem; margin-bottom:0.8rem;">
+              <div>
+                <h3 style="font-size:1.05rem;">ข้อเสนอโครงงานฉบับย่อ (1-Page Project Proposal)</h3>
+                <p style="font-size:0.76rem; color:var(--text-sub);">เป้าหมาย: <span id="propGoalTxt">YSC</span> • สถานะครูที่ปรึกษา: <b id="advisorStatusBadge" style="color:#D97706;">⏳ รอครูที่ปรึกษาอนุมัติ</b></p>
+              </div>
+              <span class="badge-sim">คะแนนความพร้อม 8.0/10 🟢</span>
+            </div>
+            <div style="font-size:0.84rem; line-height:1.6; display:grid; gap:0.5rem;">
+              <div><b>ชื่อโครงงาน:</b> การพัฒนาสารเคลือบชีวภาพจากเพกตินเปลือกส้มโอร่วมกับการวิเคราะห์ภาพถ่ายสีผิวเพื่อชะลอการสุกของมะม่วงน้ำดอกไม้</div>
+              <div><b>ที่มาและความสำคัญ:</b> ลดการสูญเสียหลังการเก็บเกี่ยวของมะม่วงส่งออกโดยใช้วัสดุเหลือทิ้งทางการเกษตรทดแทนแว็กซ์สังเคราะห์</div>
+              <div><b>สมมติฐาน:</b> สารเคลือบเพกตินความเข้มข้น 3% w/v สามารถลดอัตราการสูญเสียน้ำหนักและรักษาความแน่นเนื้อของมะม่วงได้ดีกว่าชุดไม่เคลือบอย่างมีนัยสำคัญทางสถิติ ($p < 0.05$)</div>
+              <div><b>ตัวแปรและการวัดผล:</b> ตัวแปรต้น = ความเข้มข้นเพกติน (1%, 3%, 5%) | ตัวแปรตาม = % น้ำหนักลดลง, ความแน่นเนื้อ (N) | ชุดควบคุม = ไม่เคลือบ & แว็กซ์การค้า ($n=5$ ต่อกลุ่ม)</div>
+            </div>
+          </div>
+
+          <!-- Document Sub-tab 2: TCAS Portfolio -->
+          <div class="card" id="docTab-tcas" style="display:none;">
+            <h3 style="font-size:1rem; color:var(--brand-indigo); margin-bottom:0.5rem;">🎓 TCAS Round 1 Portfolio Storyteller (1-Page Template)</h3>
+            <div style="font-size:0.84rem; line-height:1.6; display:grid; gap:0.5rem;">
+              <div><b>บทบาทหน้าที่ในทีม (My Role & Contribution):</b> ออกแบบการทดลองเปรียบเทียบชุดควบคุม สกัดสารเพกตินในห้องปฏิบัติการ และวิเคราะห์สถิติ ANOVA ด้วย Python</div>
+              <div><b>ทักษะที่ได้รับ (Hard & Soft Skills):</b> Experimental Design, Statistical Data Analysis, การแก้ปัญหาเมื่อความหนืดสารเคลือบไม่คงที่</div>
+              <div><b>ความเชื่อมโยงกับคณะเป้าหมาย:</b> มุ่งศึกษาต่อคณะวิทยาศาสตร์ / วิศวกรรมเคมี / เทคโนโลยีอาหาร</div>
+            </div>
+          </div>
+
+          <!-- Document Sub-tab 3: Abstract & 3-Min Pitch -->
+          <div class="card" id="docTab-pitch" style="display:none;">
+            <h3 style="font-size:1rem; color:var(--brand-pink); margin-bottom:0.5rem;">🎙️ โครงร่างบทคัดย่อ 250 คำ & สคริปต์นำเสนอ 3 นาที (Elevator Pitch)</h3>
+            <div style="font-size:0.84rem; line-height:1.6; display:grid; gap:0.5rem;">
+              <div><b>[0:00 - 0:30] Hook & Problem:</b> "ทุกๆ ปี มะม่วงไทยกว่า 20% เสียหายระหว่างขนส่ง... พวกเราจึงเปลี่ยนเปลือกส้มโอเหลือทิ้งให้กลายเป็นเกราะชีวภาพยืดอายุผลไม้ครับ"</div>
+              <div><b>[0:30 - 1:45] Methodology & Control:</b> อธิบายการสกัดเพกติน 3 ความเข้มข้น เทียบกับชุดควบคุมทั้ง 2 แบบ ($n=5$)</div>
+              <div><b>[1:45 - 3:00] Expected Impact:</b> ลดต้นทุนสารเคลือบนำเข้า และปลอดภัยต่อผู้บริโภค 100%</div>
+            </div>
+          </div>
+
+          <!-- Document Sub-tab 4: Advisor Review & Sign-off Mode -->
+          <div class="card card-highlight" id="docTab-advisor" style="display:none;">
+            <h3 style="font-size:1rem; margin-bottom:0.4rem;">✍️ โหมดครูที่ปรึกษาตรวจและอนุมัติ (Advisor Sign-off View — ไม่ต้องล็อกอิน)</h3>
+            <p style="font-size:0.78rem; color:var(--text-sub); margin-bottom:0.75rem;">จำลองหน้าจอเมื่อครูคลิกลิงก์แชร์จากนักเรียน ครูสามารถคอมเมนต์และกดอนุมัติหัวข้อได้ทันที</p>
+            <textarea id="advisorComment" rows="2" placeholder="ความเห็นครูที่ปรึกษา...">สมมติฐานและชุดควบคุมชัดเจนดีมาก อนุญาตให้ใช้ห้องปฏิบัติการเคมีวันพุธ-ศุกร์หลังเลิกเรียนได้ครับ</textarea>
+            <div style="display:flex; gap:0.5rem; margin-top:0.65rem;">
+              <button class="btn btn-mint btn-sm" onclick="setAdvisorDecision('approved')">✅ อนุมัติหัวข้อโครงงาน (Approve)</button>
+              <button class="btn btn-pink btn-sm" onclick="setAdvisorDecision('revision')">🛠️ ขอให้ปรับแก้เพิ่มเติม (Request Revision)</button>
+            </div>
+          </div>
+
+          <!-- Export Action Buttons -->
+          <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem;">
+            <button class="btn btn-primary" onclick="simulateExport('PDF (.pdf)')">📥 ส่งออก PDF 1 หน้า</button>
+            <button class="btn btn-outline" onclick="simulateExport('Word (.docx)')">📝 ส่งออก Word (.docx)</button>
+            <button class="btn btn-outline" onclick="simulateExport('Google Docs')">☁️ ส่งเข้า Google Docs</button>
+            <button class="btn btn-mint" onclick="copyShareLink()">🔗 คัดลอกลิงก์ส่งให้ครูที่ปรึกษา</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <div id="toast">แจ้งเตือนระบบ</div>
+
+  <script>
+    // --- State Management (Simulated Local-First Prototype) ---
+    const state = {
+      isLoggedIn: false,
+      quota: { cards: 30, eval: 5, prop: 2 },
+      profile: {
+        track: 'discovery',
+        grade: 'ม.ปลาย (ม.4-6)',
+        goal: 'YSC',
+        weeks: 8,
+        budget: 2500,
+        team: 2
+      },
+      cardIndex: 0,
+      shortlist: [],
+      chatStep: 1,
+      judgeIdx: 0,
+      cards: [
+        {
+          id: 1,
+          title: 'สารเคลือบชีวภาพจากเพกตินเปลือกส้มโอร่วมกับ AI วิเคราะห์สีผิวเพื่อยืดอายุมะม่วง',
+          subject: 'วิทยาศาสตร์ + AI',
+          emoji: '🥭🔬',
+          bg: 'linear-gradient(135deg, #FEF3C7, #FDE68A)',
+          budget: 1800,
+          weeks: 6,
+          difficulty: 'ปานกลาง (ม.ต้น-ม.ปลาย)',
+          fitScore: 94,
+          safety: '🦠 BSL-1 (ตรวจเชื้อรา)',
+          desc: 'สกัดเพกตินจากเปลือกส้มโอเหลือทิ้งมาเคลือบผิวมะม่วง และใช้กล้องมือถือวัดค่าสี RGB ติดตามความสุกเทียบชุดควบคุม'
+        },
+        {
+          id: 2,
+          title: 'ระบบแจ้งเตือนการนั่งผิดท่าและออฟฟิศซินโดรมด้วย MediaPipe Pose บนเว็บเบราว์เซอร์',
+          subject: 'คอมพิวเตอร์ / AI',
+          emoji: '💻🧘',
+          bg: 'linear-gradient(135deg, #E0E7FF, #C7D2FE)',
+          budget: 0,
+          weeks: 5,
+          difficulty: 'ปานกลาง (ไม่ต้องซื้อฮาร์ดแวร์)',
+          fitScore: 92,
+          safety: '🧑 ข้อมูลอาสาสมัคร (PDPA)',
+          desc: 'ประมวลผลมุมก้มคอและหลังค่อมแบบ Real-time ผ่านกล้องเว็บแคมโดยไม่ส่งภาพขึ้นเซิร์ฟเวอร์ วัดผลด้วยค่า F1-score'
+        },
+        {
+          id: 3,
+          title: 'แผ่นดูดซับคราบน้ำมันในน้ำเสียชุมชนจากเส้นใยธูปฤาษีปรับปรุงผิวด้วยขี้ผึ้งธรรมชาติ',
+          subject: 'วิทยาศาสตร์สิ่งแวดล้อม',
+          emoji: '🌿💧',
+          bg: 'linear-gradient(135deg, #D1FAE5, #A7F3D0)',
+          budget: 1200,
+          weeks: 6,
+          difficulty: 'ง่าย-ปานกลาง',
+          fitScore: 89,
+          safety: '✅ ปลอดภัย (ไร้สารอันตราย)',
+          desc: 'เปรียบเทียบความสามารถในการดูดซับน้ำมันเครื่องใช้แล้วต่อกรัมเส้นใย เทียบกับแผ่นดูดซับสังเคราะห์ทางการค้า'
+        },
+        {
+          id: 4,
+          title: 'แบบจำลองคณิตศาสตร์ทำนายจุดเสี่ยงน้ำท่วมขังในโรงเรียนจากปริมาณน้ำฝนและพื้นที่รับน้ำ',
+          subject: 'คณิตศาสตร์ประยุกต์',
+          emoji: '📐🌧️',
+          bg: 'linear-gradient(135deg, #FCE7F3, #FBCFE8)',
+          budget: 500,
+          weeks: 4,
+          difficulty: 'ปานกลาง',
+          fitScore: 87,
+          safety: '✅ ปลอดภัย',
+          desc: 'สร้างกราฟและสมการความสัมพันธ์ระหว่างอัตราการระบายน้ำของท่อในโรงเรียนกับระดับน้ำขังสะสม'
+        },
+        {
+          id: 5,
+          title: 'กล่องอบแห้งพลังงานแสงอาทิตย์ควบคุมความชื้นอัตโนมัติด้วยไมโครคอนโทรลเลอร์ ESP32',
+          subject: 'IoT / วิศวกรรม',
+          emoji: '☀️⚙️',
+          bg: 'linear-gradient(135deg, #FFEDD5, #FED7AA)',
+          budget: 2200,
+          weeks: 8,
+          difficulty: 'ค่อนข้างท้าทาย',
+          fitScore: 85,
+          safety: '⚡ วงจรไฟฟ้าแรงดันต่ำ (12V)',
+          desc: 'เปรียบเทียบอัตราการลดความชื้นและคุณภาพสีของกล้วยตากระหว่างตู้อบควบคุมพัดลมอัตโนมัติกับการตากแดดปกติ'
+        }
+      ]
+    };
+
+    const judgeQuestions = {
+      ysc: [
+        'ในการทดลองเคลือบผิวมะม่วง นักเรียนทราบได้อย่างไรว่าความหนาของชั้นฟิล์มเพกตินที่เคลือบบนมะม่วงแต่ละลูกมีความสม่ำเสมอเท่ากัน? หากหนาไม่เท่ากันจะกลายเป็นตัวแปรแทรกซ้อนหรือไม่?',
+        'ทำไมจึงเลือกใช้ความเข้มข้น 1%, 3%, และ 5% w/v มีงานวิจัยก่อนหน้าอ้างอิงช่วงความเข้มข้นนี้หรือไม่?',
+        'หากนำไปใช้จริงในระดับเกษตรกร ขั้นตอนการสกัดเพกตินด้วยเอทานอลคุ้มค่ากว่าการซื้อแว็กซ์สำเร็จรูปอย่างไร?'
+      ],
+      nsc: [
+        'หากสภาพแสงในห้องเปลี่ยนไป ค่าสี RGB จากกล้องสมาร์ตโฟนจะเพี้ยนหรือไม่? นักเรียนมีวิธี Calibrate แสงอย่างไรก่อนนำเข้าโมเดล?',
+        'เปรียบเทียบความแม่นยำ (Accuracy / F1-score) กับ Baseline วิธีดั้งเดิมแล้วดีขึ้นกี่เปอร์เซ็นต์?',
+        'แอปพลิเคชันสามารถทำงานแบบ Offline ในสวนที่ไม่มีอินเทอร์เน็ตได้หรือไม่?'
+      ],
+      tcas: [
+        'ในทีมมีสมาชิก 2 คน เล่าให้อาจารย์ฟังหน่อยว่าส่วนไหนของโครงงานนี้ที่คุณเป็นคนลงมือทำเอง 100%?',
+        'อุปสรรคหรือความล้มเหลวที่ใหญ่ที่สุดระหว่างทำการทดลองนี้คืออะไร และคุณแก้ปัญหานั้นอย่างไร?',
+        'ความรู้จากการทำโครงงานนี้เชื่อมต่อกับสาขาวิชาที่คุณสมัครในรอบ Portfolio อย่างไร?'
+      ]
+    };
+
+    // --- Navigation & Viewport ---
+    function goScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(screenId);
+      if (target) target.classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.screen === screenId);
+      });
+      if (screenId === 'screen-swipe') renderCurrentCard();
+      if (screenId === 'screen-shortlist') renderShortlist();
+    }
+
+    function setViewport(mode) {
+      const container = document.getElementById('appContainer');
+      document.getElementById('btnDesktop').classList.toggle('active', mode === 'desktop');
+      document.getElementById('btnMobile').classList.toggle('active', mode === 'mobile');
+      container.classList.toggle('mobile-frame', mode === 'mobile');
+      showToast(mode === 'mobile' ? 'สลับเป็นมุมมอง Mobile PWA (440px)' : 'สลับเป็นมุมมอง Desktop เต็มจอ');
+    }
+
+    function toggleAuthMode() {
+      state.isLoggedIn = !state.isLoggedIn;
+      document.getElementById('authStatusText').textContent = state.isLoggedIn
+        ? 'Google Logged In (ซิงค์ Supabase จำลอง)'
+        : 'Guest Mode (Local Storage)';
+      showToast(state.isLoggedIn ? 'จำลองการเข้าสู่ระบบด้วย Google สำเร็จ!' : 'สลับกลับเป็น Guest Mode');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function updateQuotaUI() {
+      document.getElementById('qCards').textContent = state.quota.cards;
+      document.getElementById('qEval').textContent = state.quota.eval;
+      document.getElementById('qProp').textContent = state.quota.prop;
+    }
+
+    // --- Screen 1: Onboarding & Constraints ---
+    function selectSingleChip(groupId, el, val) {
+      document.querySelectorAll('#' + groupId + ' .chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      state.profile.track = val;
+    }
+
+    function toggleMultiChip(el) {
+      el.classList.toggle('selected');
+    }
+
+    function updateProfile() {
+      state.profile.grade = document.getElementById('gradeLevel').value;
+      state.profile.goal = document.getElementById('goalTarget').value;
+      state.profile.weeks = parseInt(document.getElementById('constraintWeeks').value || '8', 10);
+      state.profile.budget = parseInt(document.getElementById('constraintBudget').value || '2500', 10);
+      document.getElementById('lblBudget').textContent = state.profile.budget.toLocaleString();
+      document.getElementById('lblWeeks').textContent = state.profile.weeks;
+      document.getElementById('bomBudgetCap').textContent = state.profile.budget.toLocaleString();
+      document.getElementById('evalTargetLabel').textContent = state.profile.goal;
+      document.getElementById('propGoalTxt').textContent = state.profile.goal;
+    }
+
+    function startDiscoveryFlow() {
+      updateProfile();
+      if (state.profile.track === 'idea') {
+        showToast('เข้าสู่เส้นทาง Idea Track: สัมภาษณ์กับครู Socratic AI');
+        goScreen('screen-socratic');
+      } else {
+        showToast('บันทึกข้อจำกัดสำเร็จ! เริ่มปัดการ์ดสำรวจหัวข้อ');
+        goScreen('screen-swipe');
+      }
+    }
+
+    // --- Screen 2: Swipe Cards ---
+    function renderCurrentCard() {
+      const box = document.getElementById('activeTopicCard');
+      const card = state.cards[state.cardIndex % state.cards.length];
+      box.innerHTML = `
+        <div class="topic-visual" style="background:${card.bg};">
+          <span>${card.emoji}</span>
+          <span style="position:absolute; top:10px; right:12px; background:#0F172A; color:#fff; font-size:0.74rem; padding:0.2rem 0.6rem; border-radius:999px; font-weight:700;">
+            Fit Score ${card.fitScore}%
+          </span>
+        </div>
+        <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.5rem;">
+          <span class="nav-badge" style="background:#EEF2FF; color:#4F46E5; font-weight:600;">${card.subject}</span>
+          <span class="nav-badge">💰 งบ ~${card.budget.toLocaleString()}฿</span>
+          <span class="nav-badge">⏳ ${card.weeks} สัปดาห์</span>
+          <span class="nav-badge">${card.safety}</span>
+        </div>
+        <h3 style="font-size:1.05rem; margin-bottom:0.45rem; line-height:1.4;">${card.title}</h3>
+        <p style="font-size:0.84rem; color:var(--text-sub); line-height:1.5;">${card.desc}</p>
+        <div style="margin-top:0.85rem; padding-top:0.65rem; border-top:1px dashed #E2E8F0; display:flex; justify-content:space-between; font-size:0.76rem; color:var(--text-sub);">
+          <span>ระดับความยาก: ${card.difficulty}</span>
+          <span>การ์ดใบที่ ${(state.cardIndex % state.cards.length) + 1}/${state.cards.length}</span>
+        </div>
+      `;
+    }
+
+    function handleSwipe(action) {
+      const card = state.cards[state.cardIndex % state.cards.length];
+      if (action === 'like' || action === 'super') {
+        if (!state.shortlist.some(c => c.id === card.id)) {
+          state.shortlist.push({ ...card, superLiked: action === 'super' });
+        }
+        document.getElementById('badgeShortlist').textContent = `${state.shortlist.length}/5`;
+        document.getElementById('shortlistCountBtn').textContent = state.shortlist.length;
+        showToast(action === 'super' ? `🌟 อยากทำเลย! เพิ่ม "${card.title.slice(0, 24)}..." เข้าตาราง` : `👍 เพิ่มเข้า Shortlist แล้ว (${state.shortlist.length}/5)`);
+      } else {
+        showToast('⏭️ ข้ามการ์ดใบนี้');
+      }
+      state.cardIndex++;
+      renderCurrentCard();
+      if (state.shortlist.length >= 5) {
+        setTimeout(() => {
+          showToast('🎉 สะสมครบ 5 ใบแล้ว! เปิดตารางเปรียบเทียบ Fit Score');
+          goScreen('screen-shortlist');
+        }, 400);
+      }
+    }
+
+    function generateAICard() {
+      if (state.quota.cards <= 0) return showToast('โควตาสร้างการ์ดวันนี้หมดแล้ว');
+      state.quota.cards--;
+      updateQuotaUI();
+      const newId = state.cards.length + 1;
+      state.cards.push({
+        id: newId,
+        title: `โครงงาน AI จำลองใหม่ #${newId}: ระบบคัดแยกขยะรีไซเคิลในโรงเรียนด้วยเสียงกระทบและภาพถ่าย`,
+        subject: 'คอมพิวเตอร์ / AI + สิ่งแวดล้อม',
+        emoji: '♻️🤖',
+        bg: 'linear-gradient(135deg, #E0F2FE, #BAE6FD)',
+        budget: 1500,
+        weeks: 6,
+        difficulty: 'ปานกลาง (ตรวจ Safety เบื้องหลังแล้ว)',
+        fitScore: 91,
+        safety: '✅ ปลอดภัย',
+        desc: 'การ์ดที่สร้างใหม่ตามข้อจำกัดของคุณ (ผ่านการตรวจคัดกรอง Safety เบื้องหลังจำลองเรียบร้อย)'
+      });
+      state.cardIndex = state.cards.length - 1;
+      renderCurrentCard();
+      showToast('✨ สร้างการ์ดใหม่ด้วย AI สำเร็จ (-1 โควตา)');
+    }
+
+    // --- Screen 3: Shortlist Matrix ---
+    function fillSampleShortlist() {
+      state.shortlist = state.cards.slice(0, 5).map((c, idx) => ({ ...c, superLiked: idx === 0 }));
+      document.getElementById('badgeShortlist').textContent = `${state.shortlist.length}/5`;
+      document.getElementById('shortlistCountBtn').textContent = state.shortlist.length;
+      renderShortlist();
+      showToast('⚡ เติมการ์ดตัวอย่างครบ 5 ใบใน Shortlist Matrix แล้ว');
+    }
+
+    function renderShortlist() {
+      const tbody = document.getElementById('shortlistTbody');
+      if (state.shortlist.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-sub);">ยังไม่มีการ์ดในตะกร้า กดปุ่ม <b>"⚡ เติมการ์ดตัวอย่างให้ครบ 5 ใบทันที"</b> ด้านบน หรือกลับไปปัดการ์ดได้เลย!</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = state.shortlist.map(c => `
+        <tr>
+          <td><b>${c.superLiked ? '🌟 ' : ''}${c.title}</b></td>
+          <td>${c.subject}</td>
+          <td>${c.budget.toLocaleString()}฿ / ${c.weeks} สัปดาห์</td>
+          <td><span style="color:#047857; font-weight:700;">🟢 ${c.fitScore}%</span></td>
+          <td>${c.safety}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="selectTopicForSocratic('${c.title.replace(/'/g, '')}')">
+              เลือกปั้นไอเดีย →
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function selectTopicForSocratic(title) {
+      document.getElementById('currentTopicBadge').textContent = 'หัวข้อ: ' + title.slice(0, 42) + '...';
+      showToast('เลือกหัวข้อสำเร็จ! เข้าสู่ห้องแชทครูที่ปรึกษา Socratic AI');
+      goScreen('screen-socratic');
+    }
+
+    // --- Screen 4: Socratic Advisor Chat ---
+    function sendChatMessage() {
+      const inp = document.getElementById('chatInput');
+      const text = inp.value.trim();
+      if (!text) return;
+      const box = document.getElementById('chatBox');
+      box.innerHTML += `<div class="msg msg-user">${text}</div>`;
+      inp.value = '';
+      state.chatStep = Math.min(8, state.chatStep + 1);
+
+      setTimeout(() => {
+        box.innerHTML += `
+          <div class="msg msg-ai">
+            <div class="tier-badge" style="background:#EEF2FF; color:#4F46E5;">Tier 1 • Socratic Question (คำถามที่ ${state.chatStep}/8)</div>
+            <div>น่าสนใจมากครับ! ถ้าเราต้องการพิสูจน์ว่าวิธีของนักเรียนแก้ปัญหานี้ได้จริง นักเรียนจะวัดผลเปรียบเทียบกับอะไร (Control Group) และใช้หน่วยวัดใดเป็นตัวตัดสินครับ?</div>
+          </div>
+        `;
+        box.scrollTop = box.scrollHeight;
+      }, 300);
+    }
+
+    function triggerSocraticTier(tier) {
+      const box = document.getElementById('chatBox');
+      if (tier === 1) {
+        box.innerHTML += `
+          <div class="msg msg-ai">
+            <div class="tier-badge" style="background:#EEF2FF; color:#4F46E5;">Tier 1 • Socratic Question</div>
+            <div>ลองคิดดูว่า หากเราเปลี่ยนความเข้มข้นของสารสกัดเป็น 3 ระดับ ผลลัพธ์ที่คาดว่าจะเปลี่ยนตามอย่างเป็นรูปธรรมคือค่าใดครับ?</div>
+          </div>`;
+      } else if (tier === 2) {
+        box.innerHTML += `
+          <div class="msg msg-ai">
+            <div class="tier-badge" style="background:#FEF3C7; color:#B45309;">Tier 2 • กรอบวิเคราะห์ & คำใบ้ (Guided Hint)</div>
+            <div>💡 <b>คำใบ้จากครู:</b> ในโครงงานสายชีวเคมีผลไม้ เรามักวัดผล 2 มิติคู่กัน คือ 1) <b>การสูญเสียน้ำหนักสด (%)</b> จากการคายน้ำ และ 2) <b>ความแน่นเนื้อ (Newton)</b> หรือ <b>ค่าสีผิว RGB</b> นักเรียนอยากเลือกใช้อุปกรณ์ชิ้นไหนที่มีในแล็บโรงเรียนครับ?</div>
+          </div>`;
+      } else {
+        box.innerHTML += `
+          <div class="msg msg-ai">
+            <div class="tier-badge" style="background:#FCE7F3; color:#BE185D;">Tier 3 • ตัวอย่างไอเดียตั้งต้น (Last Resort — ปรับแก้เป็นของตนเอง)</div>
+            <div>🆘 <b>ตัวอย่างโครงร่างตั้งต้น (ให้นักเรียนเลือกปรับตัวแปรเอง):</b> ทดสอบสกัดเพกตินจากเปลือกส้มโอที่ 1%, 3%, 5% เคลือบผิวมะม่วงน้ำดอกไม้ เทียบกับไม่เคลือบ แล้ววัด % น้ำหนักที่ลดลงทุก 3 วัน — นักเรียนอยากเปลี่ยนชนิดผลไม้หรือตัวแปรต้นเป็นวัสดุท้องถิ่นอะไรดีครับ?</div>
+          </div>`;
+      }
+      box.scrollTop = box.scrollHeight;
+    }
+
+    // --- Screen 5: Variable & Control Isolator ---
+    function loadVariablePreset(mode) {
+      if (mode === 'ai') {
+        document.getElementById('lblVarInd').textContent = '1. Input Data / Features (ข้อมูลนำเข้าโมเดล)';
+        document.getElementById('inpVarInd').value = 'ภาพถ่ายผิวมะม่วงระยะห่าง 20 ซม. ภายใต้แสงขาว LED (RGB + HSV Histogram)';
+        document.getElementById('lblVarDep').textContent = '2. Output & Evaluation Metrics (ตัวชี้วัดความแม่นยำ)';
+        document.getElementById('inpVarDep').value = 'F1-score (%), Macro Accuracy (%), และเวลาประมวลผลบนมือถือ (Latency ms)';
+        document.getElementById('lblVarCtrl').textContent = '3. Controlled Dataset & Environment';
+        document.getElementById('inpVarCtrl').value = 'แบ่ง Train/Validation/Test = 70/15/15, ความละเอียดภาพ 224x224 px เท่ากัน';
+        document.getElementById('inpVarBase').value = 'เปรียบเทียบโมเดล MobileNetV3 (ของเรา) กับ Baseline Thresholding สีแบบดั้งเดิม';
+        document.getElementById('inpVarRep').value = 'ทดสอบ 5-Fold Cross Validation บนชุดข้อมูลผลไม้ 300 ภาพ';
+        showToast('สลับเป็นตารางตัวแปรสายคอมพิวเตอร์ / AI (Input-Output-Baseline)');
+      } else {
+        document.getElementById('lblVarInd').textContent = '1. ตัวแปรต้น / Independent Variable';
+        document.getElementById('inpVarInd').value = 'ความเข้มข้นของสารสกัดเพกตินจากเปลือกส้มโอ (1%, 3%, 5% w/v)';
+        document.getElementById('lblVarDep').textContent = '2. ตัวแปรตาม / Dependent Variable & หน่วยวัด';
+        document.getElementById('inpVarDep').value = 'อัตราการสูญเสียน้ำหนักของมะม่วง (%) และความแน่นเนื้อ (Newton) หลังเก็บ 14 วัน';
+        document.getElementById('lblVarCtrl').textContent = '3. ตัวแปรควบคุม / Controlled Variables';
+        document.getElementById('inpVarCtrl').value = 'อุณหภูมิห้องเก็บ (25°C), ความชื้นสัมพัทธ์ (70%), สายพันธุ์มะม่วงน้ำดอกไม้สุกระยะเดียวกัน';
+        document.getElementById('inpVarBase').value = 'ชุดที่ 1: มะม่วงไม่เคลือบสาร (Negative Control) และ ชุดที่ 2: เคลือบแว็กซ์การค้า (Positive Control)';
+        document.getElementById('inpVarRep').value = 'ทำซ้ำ 5 ผลต่อกลุ่มการทดลอง (n = 5 ต่อกลุ่ม, รวม 25 ผล) วิเคราะห์ ANOVA';
+        showToast('สลับเป็นตารางตัวแปรสายวิทยาศาสตร์ (ตัวแปรต้น-ตาม-ควบคุม)');
+      }
+    }
+
+    function runEvaluationSim() {
+      goScreen('screen-eval');
+      showToast('🎯 ประมวลผลคะแนน 5 ด้านและค้นหา Prior Work จำลองสำเร็จ');
+    }
+
+    // --- Screen 6: Evaluation ---
+    function recalcEval() {
+      if (state.quota.eval <= 0) return showToast('โควตาประเมินวันนี้หมดแล้ว');
+      state.quota.eval--;
+      updateQuotaUI();
+      document.getElementById('overallScoreTxt').textContent = '8.4/10 🟢 (อัปเดตหลังเพิ่ม Control Group)';
+      showToast('🔄 ประเมินผลใหม่สำเร็จ! คะแนน Rigor เพิ่มขึ้น (-1 โควตา)');
+    }
+
+    // --- Screen 7: Safety Flag Checklist ---
+    function toggleSafetyFlag(type, el) {
+      el.classList.toggle('selected');
+      const list = document.getElementById('safetyFormsList');
+      const items = [
+        `<label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" checked /> <b>ISEF Form 1 & 1B:</b> แบบฟอร์มรับรองจากครูที่ปรึกษา (Adult Sponsor Approval)</label>`
+      ];
+      if (type === 'human' || el.textContent.includes('อาสาสมัคร')) {
+        items.push(`<label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" /> <b>ISEF Form 4 (Human Participants):</b> แบบฟอร์มขอความยินยอมอาสาสมัคร (Informed Consent) และปกปิดข้อมูลส่วนบุคคล</label>`);
+      }
+      if (type === 'chem') {
+        items.push(`<label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" /> <b>ISEF Form 3 (Risk Assessment):</b> เอกสารความปลอดภัยสารเคมี (SDS) และการสวมอุปกรณ์ป้องกัน PPE ในตู้ดูดควัน</label>`);
+      }
+      items.push(`<label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" /> <b>ISEF Form 6A (PHBAs):</b> เอกสารควบคุมความปลอดภัยทางชีวภาพระดับ BSL-1 และการกำจัดเชื้อก่อนทิ้ง</label>`);
+      list.innerHTML = items.join('');
+      showToast('อัปเดตรายการเอกสาร Safety & IRB Checklist ตามความเสี่ยงที่เลือก');
+    }
+
+    // --- Screen 8: BOM Estimator ---
+    function addBomRow() {
+      const tbody = document.getElementById('bomTbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>กระดาษวัดค่า pH / บีกเกอร์แก้วขนาด 250 ml</td>
+        <td>1 ชุด</td>
+        <td class="bom-cost">150</td>
+        <td><span style="color:#047857;">ยืมจากห้องแล็บวิทยาศาสตร์โรงเรียน (0฿)</span></td>
+      `;
+      tbody.appendChild(tr);
+      let total = 0;
+      document.querySelectorAll('.bom-cost').forEach(td => { total += parseInt(td.textContent || '0', 10); });
+      document.getElementById('bomTotalTxt').textContent = total.toLocaleString();
+      showToast('+ เพิ่มรายการวัสดุและคำนวณงบประมาณรวมใหม่แล้ว');
+    }
+
+    // --- Screen 10: Mock Judge Q&A ---
+    function switchJudgeQuestion() {
+      state.judgeIdx = 0;
+      updateJudgeQuestionText();
+    }
+
+    function nextJudgeQuestion() {
+      const persona = document.getElementById('judgePersona').value;
+      state.judgeIdx = (state.judgeIdx + 1) % judgeQuestions[persona].length;
+      updateJudgeQuestionText();
+    }
+
+    function updateJudgeQuestionText() {
+      const persona = document.getElementById('judgePersona').value;
+      const list = judgeQuestions[persona];
+      document.getElementById('judgeQIdx').textContent = state.judgeIdx + 1;
+      document.getElementById('judgeQText').textContent = `"${list[state.judgeIdx]}"`;
+      document.getElementById('judgeFeedbackCard').style.display = 'none';
+    }
+
+    function evaluateJudgeAnswer() {
+      const ans = document.getElementById('judgeAnswerInput').value.trim();
+      const fb = document.getElementById('judgeFeedbackCard');
+      fb.style.display = 'block';
+      fb.innerHTML = `
+        <div style="font-weight:700; color:#047857; margin-bottom:0.35rem;">✅ ผลวิเคราะห์คำตอบจากโค้ช AI (คะแนนการตอบ: 8.5/10)</div>
+        <div style="font-size:0.83rem; line-height:1.5;">
+          <b>จุดเด่น:</b> คุณระบุวิธีควบคุมตัวแปรแทรกซ้อนเป็นตัวเลขชัดเจน (จุ่มนาน 30 วินาที, อุณหภูมิ 25°C, ชั่งน้ำหนักก่อน-หลัง)<br/>
+          <b>คำแนะนำเสริม:</b> หากกรรมการถามต่อ ให้เสริมว่ามีการวัดค่าส่วนเบี่ยงเบนมาตรฐาน (SD) ของน้ำหนักสารเคลือบในแต่ละกลุ่มเพื่อยืนยันความสม่ำเสมอด้วยครับ
+        </div>
+      `;
+      showToast('✨ วิเคราะห์คำตอบซ้อมสัมภาษณ์กรรมการเรียบร้อย');
+    }
+
+    // --- Screen 11: Export, Templates & Advisor Sign-off ---
+    function switchDocTab(tab) {
+      ['proposal', 'tcas', 'pitch', 'advisor'].forEach(t => {
+        document.getElementById('docTab-' + t).style.display = (t === tab) ? 'block' : 'none';
+      });
+    }
+
+    function setAdvisorDecision(status) {
+      const comment = document.getElementById('advisorComment').value;
+      const badge = document.getElementById('advisorStatusBadge');
+      if (status === 'approved') {
+        badge.style.color = '#047857';
+        badge.textContent = '✅ ครูที่ปรึกษาอนุมัติแล้ว (' + comment.slice(0, 28) + '...)';
+        showToast('✅ บันทึกผลการอนุมัติจากครูที่ปรึกษา (จำลอง) สำเร็จ!');
+      } else {
+        badge.style.color = '#BE185D';
+        badge.textContent = '🛠️ ครูที่ปรึกษาขอให้ปรับแก้เพิ่มเติม';
+        showToast('🛠️ ส่งความเห็นครูที่ปรึกษากลับให้นักเรียนปรับแก้');
+      }
+      switchDocTab('proposal');
+    }
+
+    function simulateExport(format) {
+      if (state.quota.prop <= 0) return showToast('โควตาส่งออก Proposal วันนี้หมดแล้ว');
+      state.quota.prop--;
+      updateQuotaUI();
+      showToast(`📥 จำลองการสร้างและดาวน์โหลดไฟล์ ${format} สำเร็จ! (-1 โควตา)`);
+    }
+
+    function copyShareLink() {
+      const dummyLink = 'https://project-edu.example.app/share/p-8942-mango-pectin?mode=advisor';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(dummyLink).catch(() => {});
+      }
+      showToast('🔗 คัดลอกลิงก์ Read-only / Advisor Review แล้ว: ' + dummyLink);
+    }
+
+    // Initialize first view
+    renderCurrentCard();
+    fillSampleShortlist();
+  </script>
+</body>
+</html>
