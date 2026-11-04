@@ -2,7 +2,7 @@
 
 **Author**: `@architect`  
 **Date**: 2026-11-03  
-**Status**: Ready for Gate 2 Review (`@user`)  
+**Status**: Gate 2 Approved (2026-11-04) — UI mockups pending; build order M1 → M4 with review stop after each milestone  
 **Target Repository**: `D:/millmaker/EdTech` (`marknatdev/project-edu`)  
 **References**: [CONTEXT.md](CONTEXT.md), [RESEARCH.md](RESEARCH.md), [docs/design-brief.md](docs/design-brief.md), [ADR 0001](docs/adr/0001-ai-provider-via-openai-compatible-gateway.md), [ADR 0002](docs/adr/0002-socratic-advisor-first-ai-pedagogy.md)
 

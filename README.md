@@ -8,4 +8,4 @@
 - Architecture & Plan (Gate 2 Pending UI Design): [PLAN.md](PLAN.md)
 - ADRs: [docs/adr/](docs/adr/)
 
-สถานะ: ผ่าน Gate 1 (`RESEARCH.md`) และวาง `PLAN.md` เรียบร้อย — รอ UI Design จากผู้ใช้ก่อนเริ่ม `@builder`
+สถานะ: ผ่าน Gate 1 + Gate 2 — กำลังทำ HTML mockup 2–3 แบบ (โทนสดใส วัยรุ่น) ให้ผู้ใช้เลือก จากนั้น `@builder` ทำ M1 → M4 และหยุดให้ review ทุก milestone
