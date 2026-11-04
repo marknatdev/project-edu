@@ -219,7 +219,62 @@ Automated detection of regulated project domains:
 
 ---
 
+## 10. Feature Gap Analysis & High-Value Expansion Opportunities (ส่วนที่ควรเพิ่มเติมลงในแอป)
+
+จากการสำรวจแพลตฟอร์มโครงงานระดับโลก (เช่น **Science Buddies**, ** Regeneron ISEF Rules Wizard**, **ProjectBoard**) และจุดเจ็บปวดจริง (Pain Points) ของนักเรียนไทยในการส่งประกวด **YSC, NSC, ศิลปหัตถกรรม สพฐ.** รวมถึงการยื่น **TCAS รอบ 1 (Portfolio)** พบว่านอกเหนือจากฟีเจอร์หลักใน MVP (ปัดการ์ด → โค้ช Socratic → ประเมิน 5 ด้าน → Export Proposal 1 หน้า) มี **8 ฟีเจอร์สำคัญที่ช่วยเติมเต็มช่องว่าง** และเพิ่มคุณค่าให้แอปอย่างก้าวกระโดด:
+
+### หมวด A: ฟีเจอร์เสริมที่ทำได้ง่ายและคุ้มค่าสูง (Quick Wins — แนะนำให้รวมใน MVP หรือ M3/M4)
+
+1. **Variable & Control Isolator Canvas (ตารางแยกตัวแปรและชุดควบคุมอัตโนมัติ)**
+   - **ปัญหาที่พบ**: นักเรียน ม.ต้น/ม.ปลาย มักสับสนระหว่าง *ตัวแปรต้น (Independent)*, *ตัวแปรตาม (Dependent)*, *ตัวแปรควบคุม (Controlled)* และมักลืมกำหนด *ชุดควบคุม (Control Group / Baseline)* ทำให้เสียคะแนนหมวดระเบียบวิธีวิจัย (Rigor 20–30 คะแนน) ใน YSC และศิลปหัตถกรรม
+   - **สิ่งที่ควรเพิ่ม**: บล็อกตาราง Interactive ให้ผู้เรียนลากหรือกรอกตัวแปรทั้ง 3 ชนิด + หน่วยวัด (เช่น ซม., วินาที, % ความแม่นยำ F1-score) พร้อมตัวตรวจเช็กว่ามี Baseline เปรียบเทียบหรือยัง
+
+2. **ISEF / YSC Safety & Forms Checklist Wizard (ตัวช่วยเช็กเอกสารรับรองความปลอดภัย)**
+   - **ปัญหาที่พบ**: ปัจจุบันเรามี `Safety Flag` เตือน 5 ด้านแล้ว แต่นักเรียนและครูที่ปรึกษาไม่ทราบว่าเมื่อติดธงแล้ว **ต้องเตรียมเอกสารหรือแบบฟอร์มใด** (เช่น แบบฟอร์มขออนุญาตใช้สัตว์ทดลอง, ใบยินยอมอาสาสมัคร Informed Consent, หรือการรับรองห้องปฏิบัติการ BSL-1/BSL-2)
+   - **สิ่งที่ควรเพิ่ม**: เมื่อติด `Safety Flag` ให้แสดง **Checklist เอกสารและขั้นตอนที่ต้องทำ** (อ้างอิง ISEF Rules Wizard / เกณฑ์ YSC) แนบไปกับใบ Proposal เพื่อให้ครูเซ็นรับรองได้ทันที
+
+3. **Abstract & Competition Pitch Generator (โครงสร้างบทคัดย่อ 250 คำ & บทพูดนำเสนอ 3 นาที)**
+   - **ปัญหาที่พบ**: ในการส่งรอบคัดเลือก YSC/NSC และรอบชิงชนะเลิศ นักเรียนเขียนบทคัดย่อ (Abstract) ไม่ตรงประเด็น และไม่รู้จะเริ่มพรีเซนต์อย่างไรในเวลา 3–5 นาที
+   - **สิ่งที่ควรเพิ่ม**: ปุ่มสร้าง **โครงร่างบทคัดย่อมาตรฐาน (Background → Objective → Methodology → Expected Result)** และ **สคริปต์ Elevator Pitch 3 นาที** จากข้อมูลที่นักเรียนตอบไว้ในระบบ (โดยให้ผู้เรียนเติมคำสำคัญเองตามหลัก Socratic)
+
+4. **TCAS Portfolio Storyteller Card (สรุปโครงงาน 1 หน้าสำหรับแฟ้มสะสมผลงาน TCAS รอบ 1)**
+   - **ปัญหาที่พบ**: นักเรียน ม.ปลาย ที่เลือกเป้าหมาย `Portfolio TCAS` ไม่ได้ต้องการแค่ Proposal ทางวิชาการ แต่ต้องการหน้าสรุปที่โชว์ **Role & Contribution (บทบาทหน้าที่ในทีม), ทักษะที่ได้ (Hard/Soft Skills), และเชื่อมโยงกับคณะที่อยากเข้า** (เช่น วิศวะ, แพทย์, วิทยาการคอมฯ)
+   - **สิ่งที่ควรเพิ่ม**: เทมเพลต Export พิเศษสำหรับ **TCAS Portfolio 1-Page Summary** ที่จัดวางหัวข้อให้ตรงกับสิ่งที่กรรมการสัมภาษณ์มหาวิทยาลัยมองหา
+
+---
+
+### หมวด B: ฟีเจอร์ต่อยอดหลังตั้งต้นโครงงาน (Phase 1.5 / Phase 2 Roadmap)
+
+5. **Mock Judge Q&A Simulator (ซ้อมตอบคำถามกรรมการปราบเซียน)**
+   - **แนวคิด**: โหมดจำลองกรรมการตามเวทีที่เลือก (เช่น กรรมการ YSC สายระเบียบวิธีวิจัย, กรรมการ NSC สายเทคนิคซอฟต์แวร์, หรืออาจารย์สัมภาษณ์ TCAS) ยิงคำถามจี้จุดอ่อน 3–5 ข้อจากผลประเมินสีเหลือง/แดง (🟡🔴) เพื่อให้นักเรียนฝึกซ้อมตอบก่อนวันแข่งจริง
+
+6. **Advisor Review & Sign-off Mode (โหมดครูที่ปรึกษาตรวจและคอมเมนต์ผ่านลิงก์แชร์)**
+   - **แนวคิด**: ต่อยอดจากฟีเจอร์ *ลิงก์แชร์ Read-only* ให้ครูที่ปรึกษาสามารถกดปุ่ม **"อนุมัติหัวข้อ (Approve)"**, **"ขอให้ปรับแก้ (Request Revision)"** หรือฝากคอมเมนต์สั้นๆ บนหน้าเว็บได้โดยที่ครูไม่ต้องสมัครสมาชิก (เหมือนระบบ Teacher Approval ของ Science Buddies)
+
+7. **Bill of Materials (BOM) & Local Resource Estimator (ตารางรายการอุปกรณ์และแหล่งซื้อในไทย)**
+   - **แนวคิด**: แปลงงบประมาณคร่าวๆ ให้เป็นตารางรายการอุปกรณ์ (เช่น บอร์ด ESP32, เซนเซอร์วัดความชื้น, สารเคมีพื้นฐาน, หรือ Cloud GPU ฟรีอย่าง Google Colab) พร้อมประเมินราคาในไทยและชี้เป้าอุปกรณ์ทดแทนที่หาได้ในห้องแล็บโรงเรียนเพื่อลดต้นทุน
+
+8. **Team Role & Skill Matrix (ระบบแบ่งหน้าที่สมาชิกในกลุ่ม 1–3 คน)**
+   - **แนวคิด**: โครงงานส่วนใหญ่ทำเป็นทีม 2–3 คน ระบบช่วยจับคู่ทักษะของสมาชิกแต่ละคนเข้ากับงานใน Weekly Plan (เช่น คนที่ 1: ฮาร์ดแวร์/เก็บผลการทดลอง, คนที่ 2: โค้ดดิ้ง/วิเคราะห์สถิติ, คนที่ 3: เอกสารรูปเล่ม/กราฟิกนำเสนอ)
+
+---
+
+### ตารางสรุปการจัดลำดับความสำคัญ (Prioritization Matrix)
+
+| ฟีเจอร์ที่แนะนำเพิ่มเติม | ผลกระทบต่อผู้เรียน | ความยากในการพัฒนา | แนะนำบรรจุในเฟส |
+|---|:---:|:---:|:---:|
+| **1. Variable & Control Isolator** (ตารางตัวแปรต้น-ตาม-ควบคุม) | สูงมาก (ตรงเกณฑ์ 30%) | ต่ำ (UI + Schema) | **MVP (M3/M4)** |
+| **2. Safety & IRB Checklist** (รายการเอกสารตามธงความปลอดภัย) | สูง (ลดเสี่ยงถูกตัดสิทธิ์) | ต่ำ (Rule-based) | **MVP (M1/M3)** |
+| **3. TCAS Portfolio & Pitch Template** (เทมเพลตพอร์ต & บทพูด) | สูงมาก (สำหรับ ม.ปลาย) | ต่ำ–กลาง (Template) | **MVP (M4)** |
+| **4. Abstract Structure Guide** (โครงร่างบทคัดย่อ) | สูง | ต่ำ | **MVP (M4)** |
+| **5. Mock Judge Q&A Simulator** (ซ้อมตอบคำถามกรรมการ) | สูงมาก (Wow Factor) | กลาง (Prompt โหมดใหม่) | **Phase 1.5 / M4 เสริม** |
+| **6. Advisor Sign-off Link** (ลิงก์ให้ครูคอมเมนต์/อนุมัติ) | สูง (ช่วยงานในชั้นเรียน) | กลาง (DB Table เพิ่ม) | **Phase 2** |
+| **7. BOM & Equipment Estimator** (ตารางอุปกรณ์และงบ) | กลาง–สูง | กลาง | **Phase 2** |
+| **8. Team Role Matrix** (แบ่งงานสมาชิก 2–3 คน) | กลาง | ต่ำ–กลาง | **Phase 2** |
+
+---
+
 ## Deliberation & Mention Protocol
-- **Researcher Assessment**: All exploratory requirements, tech evaluation, competition rubric alignment, legal constraints, and architectural risks have been fully addressed and grounded in the repository context and official benchmarks.
-- **Next Step**: Awaiting human checkpoint approval (Gate 1).
+- **Researcher Assessment**: Completed deep-dive gap analysis comparing global science fair platforms (Science Buddies, ProjectBoard, ISEF Wizard) and Thai student needs (YSC, NSC, OBEC, TCAS Portfolio). Added Section 10 with 8 actionable feature expansions.
+- **Next Step**: Ask `@user` which expansion features to include in the current MVP scope (`PLAN.md`) vs deferring to Phase 2.
 - **Mention**: `@user`
