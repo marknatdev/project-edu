@@ -458,11 +458,11 @@
     /* ===== Shortlist (mobile-first ranked cards) ===== */
     #screen-shortlist { container-type: inline-size; }
     .sl-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .sl-seg { flex: 1 1 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem; padding: 0.25rem; background: #F1F5F9; border-radius: 999px; max-width: 420px; }
-    .sl-seg-btn { min-height: 36px; padding: 0 0.4rem; border: 0; border-radius: 999px; background: transparent; font: inherit; font-size: 0.78rem; font-weight: 600; color: var(--text-sub); cursor: pointer; white-space: nowrap; }
+    .sl-seg { flex: 1 1 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem; padding: 0.25rem; background: #F1F5F9; border-radius: 999px; max-width: 420px; width: 100%; }
+    .sl-seg-btn { min-height: 40px; padding: 0 0.4rem; border: 0; border-radius: 999px; background: transparent; font: inherit; font-size: 0.78rem; font-weight: 600; color: var(--text-sub); cursor: pointer; white-space: nowrap; }
     .sl-seg-btn.active { background: #fff; color: var(--brand-indigo-dark); box-shadow: 0 1px 3px rgba(15,23,42,0.12); }
     .sl-count { flex: 0 0 auto; font-size: 0.75rem; font-weight: 700; color: var(--brand-indigo-dark); background: #EEF2FF; padding: 0.25rem 0.6rem; border-radius: 999px; }
-    .sl-hint { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem; }
+    .sl-hint { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem; }
     .sl-list { list-style: none; display: grid; grid-template-columns: 1fr; gap: 0.75rem; padding-bottom: 4.5rem; }
     @container (min-width: 720px) { .sl-list { grid-template-columns: 1fr 1fr; } }
     .sl-item { background: #fff; border: 2px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.875rem; display: flex; flex-direction: column; gap: 0.75rem; transition: border-color 0.15s, box-shadow 0.15s; }
@@ -488,7 +488,7 @@
     .sl-meter.over .val { color: #B91C1C; }
     .sl-safety { align-self: flex-start; font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 8px; background: #ECFDF5; color: #047857; }
     .sl-safety.flag { background: #FEF3C7; color: #92400E; }
-    .sl-more summary { font-size: 0.76rem; font-weight: 600; color: var(--brand-indigo-dark); cursor: pointer; min-height: 32px; display: flex; align-items: center; list-style: none; }
+    .sl-more summary { font-size: 0.76rem; font-weight: 600; color: var(--brand-indigo-dark); cursor: pointer; min-height: 40px; display: flex; align-items: center; list-style: none; }
     .sl-more summary::-webkit-details-marker { display: none; }
     .sl-more summary::before { content: '▸'; margin-right: 0.35rem; transition: transform 0.15s; }
     .sl-more[open] summary::before { transform: rotate(90deg); }
@@ -525,6 +525,115 @@
     @media (max-width: 600px) { .demo-bar { position: static !important; } }
     body:has(#screen-shortlist.active #slCompareBar:not([hidden])) #toast { bottom: 5.5rem; }
     body:has(#slSheet:not([hidden])) #toast { display: none; }
+
+    /* ===== Mobile-first pass: shared ===== */
+    .app-container { container-type: inline-size; container-name: app; }
+    .btn-sm { min-height: 40px; }
+    .chip { min-height: 40px; display: inline-flex; align-items: center; }
+    input[type="checkbox"] { width: 20px; height: 20px; flex: 0 0 auto; accent-color: var(--brand-indigo); }
+    #toast { opacity: 0; visibility: hidden; transition: transform 0.25s ease, opacity 0.2s, visibility 0.2s; }
+    #toast.show { opacity: 1; visibility: visible; }
+    @media (max-width: 600px) { #toast { left: 0.75rem; right: 0.75rem; top: 0.75rem; bottom: auto !important; text-align: center; transform: translateY(-150%); } #toast.show { transform: translateY(0); } }
+    .export-grid .btn, .two-btn .btn { white-space: nowrap; }
+    #judgeAnswerInput { min-height: 7.5rem; }
+    .two-btn { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem; }
+    @container app (max-width: 520px) {
+      .t-en { display: none; }
+      .screen-title { font-size: 1.1rem; }
+      .screen-header { margin-bottom: 1rem; }
+      .screen-header > div:not(:first-child) { width: 100%; }
+      .judge-select { width: 100%; }
+    }
+
+    /* ===== Swipe ===== */
+    #screen-swipe .screen-header > div:last-child { display: grid !important; grid-template-columns: 1fr 1fr; }
+    html, body { overflow-x: clip; }
+    #screen-swipe { overflow-x: clip; overflow-y: visible; }
+    #activeTopicCard { touch-action: none; user-select: none; cursor: grab; transition: transform 0.2s ease; will-change: transform; }
+    #activeTopicCard.sw-dragging { transition: none; cursor: grabbing; }
+    #activeTopicCard.sw-flying { transition: transform 0.22s ease-in; }
+    .sw-stamp { position: absolute; top: 1.25rem; left: 50%; transform: translateX(-50%) rotate(-8deg); padding: 0.25rem 0.9rem; border: 3px solid currentColor; border-radius: 0.6rem; font-weight: 800; font-size: 1.15rem; background: rgba(255,255,255,0.9); opacity: 0; transition: opacity 0.1s; pointer-events: none; }
+    .sw-stamp.on { opacity: 1; } .sw-stamp.like { color: var(--brand-mint); } .sw-stamp.skip { color: var(--brand-red); } .sw-stamp.super { color: var(--brand-pink); }
+    .swipe-actions { display: flex; justify-content: center; align-items: flex-end; gap: 1.25rem; margin-top: 1.25rem; }
+    .sw-btn { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; color: var(--text-sub); }
+    .sw-ic { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem; background: #fff; border: 2px solid #E2E8F0; box-shadow: 0 4px 0 #CBD5E1; transition: transform 0.12s; }
+    .sw-btn:active .sw-ic { transform: translateY(3px) scale(0.96); box-shadow: 0 1px 0 #CBD5E1; }
+    .sw-super .sw-ic { width: 52px; height: 52px; font-size: 1.3rem; color: #fff; background: var(--brand-pink); border-color: var(--brand-pink); box-shadow: 0 4px 0 #BE185D; }
+    .sw-like .sw-ic { color: #fff; background: var(--brand-mint); border-color: var(--brand-mint); box-shadow: 0 4px 0 #047857; }
+    .sw-skip .sw-ic { color: var(--brand-red); }
+    .sw-lbl { font-size: 0.76rem; font-weight: 600; }
+    .sw-hint { text-align: center; font-size: 0.74rem; color: var(--text-muted); margin-top: 0.75rem; }
+
+    /* ===== BOM ===== */
+    .bom-summary { position: sticky; top: 0.5rem; z-index: 4; background: #0F172A; color: #fff; border-radius: var(--radius-lg); padding: 0.875rem 1rem; margin-bottom: 0.875rem; box-shadow: 0 8px 20px rgba(15,23,42,0.18); }
+    .bom-sum-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 0.75rem; }
+    .bom-sum-lbl { font-size: 0.7rem; color: #94A3B8; }
+    .bom-sum-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+    .bom-sum-cap { font-weight: 600; color: #CBD5E1; }
+    .bom-bar { height: 8px; border-radius: 999px; background: rgba(148,163,184,0.25); overflow: hidden; margin: 0.6rem 0 0.4rem; }
+    .bom-bar i { display: block; height: 100%; border-radius: 999px; background: var(--brand-mint); transition: width 0.25s; }
+    .bom-bar i.warn { background: var(--brand-amber); } .bom-bar i.over { background: var(--brand-red); }
+    .bom-sum-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 0.75rem; font-size: 0.76rem; font-weight: 600; }
+    .bom-summary.is-over #bomStatus { color: #FCA5A5; }
+    #bomSaved { color: #6EE7B7; }
+    .bom-list { list-style: none; display: grid; gap: 0.625rem; }
+    @container app (min-width: 760px) { .bom-list { grid-template-columns: 1fr 1fr; } }
+    .bom-item { position: relative; background: #fff; border: 2px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.875rem; display: grid; gap: 0.6rem; }
+    .bom-item.is-sub { border-color: #A7F3D0; }
+    .bom-row1 { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; padding-right: 2.75rem; }
+    .bom-name { font-size: 0.86rem; font-weight: 600; line-height: 1.4; }
+    .bom-qty { display: block; font-size: 0.72rem; font-weight: 500; color: var(--text-sub); margin-top: 0.15rem; }
+    .bom-price { text-align: right; white-space: nowrap; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .bom-price s { display: block; font-size: 0.7rem; color: var(--text-muted); }
+    .bom-price b { font-size: 0.95rem; }
+    .bom-item.is-sub .bom-price b { color: #047857; }
+    .bom-sub { display: flex; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0.5rem 0.6rem; border-radius: 0.6rem; background: #F8FAFC; cursor: pointer; }
+    .bom-sub input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .bom-switch { flex: 0 0 auto; width: 38px; height: 22px; border-radius: 999px; background: #CBD5E1; position: relative; transition: background 0.15s; }
+    .bom-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform 0.15s; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+    .bom-sub input:checked + .bom-switch { background: var(--brand-mint); }
+    .bom-sub input:checked + .bom-switch::after { transform: translateX(16px); }
+    .bom-sub input:focus-visible + .bom-switch { outline: 2px solid var(--brand-indigo); outline-offset: 2px; }
+    .bom-sub-txt { font-size: 0.76rem; color: var(--text-sub); line-height: 1.4; }
+    .bom-sub-txt em { display: block; font-style: normal; font-weight: 700; color: #047857; }
+    .bom-del { position: absolute; top: 0.4rem; right: 0.4rem; min-width: 40px; min-height: 40px; border: 0; background: none; color: var(--text-muted); font: inherit; font-size: 0.9rem; cursor: pointer; border-radius: 0.5rem; }
+    .bom-del:hover { color: var(--brand-red); background: #FEF2F2; }
+    .bom-add { width: 100%; min-height: 48px; margin-top: 0.75rem; border: 2px dashed #A5B4FC; border-radius: var(--radius-lg); background: rgba(238,242,255,0.6); color: var(--brand-indigo-dark); font: inherit; font-weight: 600; font-size: 0.86rem; cursor: pointer; }
+
+    /* ===== Calendar ===== */
+    .cal-strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 1fr); gap: 0.625rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; margin-bottom: 0.75rem; scrollbar-width: thin; }
+    @container app (max-width: 520px) { .cal-strip { grid-auto-columns: 78%; } }
+    .cal-card { scroll-snap-align: start; background: #fff; border: 2px solid #E2E8F0; border-top: 5px solid var(--c); border-radius: var(--radius-lg); padding: 0.75rem 0.875rem; display: grid; gap: 0.2rem; }
+    .cal-org { font-size: 0.72rem; font-weight: 600; color: var(--text-sub); }
+    .cal-count { font-size: 0.85rem; color: var(--text-sub); }
+    .cal-count b { font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--c); }
+    .cal-what { font-size: 0.82rem; font-weight: 600; }
+    .cal-tag { justify-self: start; margin-top: 0.3rem; font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 999px; background: #F1F5F9; color: var(--text-sub); }
+    .wk-card .bom-bar { background: #F1F5F9; }
+    .wk-head { display: flex; justify-content: space-between; align-items: center; }
+    .wk-head h3 { font-size: 0.95rem; }
+    .wk-pct { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; color: var(--brand-mint); }
+    .wk-list { list-style: none; display: grid; gap: 0.5rem; }
+    .wk-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem; border: 2px solid #E2E8F0; border-radius: 0.8rem; background: #fff; cursor: pointer; min-height: 48px; }
+    .wk-item input { width: 24px; height: 24px; margin-top: 0.1rem; accent-color: var(--brand-mint); }
+    .wk-item:has(input:checked) { background: #F0FDF4; border-color: #A7F3D0; }
+    .wk-item:has(input:checked) .wk-text { text-decoration: line-through; color: var(--text-muted); }
+    .wk-body { display: grid; gap: 0.15rem; }
+    .wk-week { font-size: 0.72rem; font-weight: 700; color: var(--brand-indigo-dark); }
+    .wk-text { font-size: 0.84rem; line-height: 1.45; }
+    .wk-owner { font-size: 0.72rem; color: var(--text-sub); }
+
+    /* ===== Export ===== */
+    .doc-tabs { display: flex; gap: 0.25rem; padding: 0.25rem; margin-bottom: 0.875rem; background: #F1F5F9; border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
+    .doc-tab { flex: 1 0 auto; min-height: 40px; padding: 0 0.875rem; border: 0; border-radius: 999px; background: transparent; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text-sub); cursor: pointer; white-space: nowrap; }
+    .doc-tab.active { background: #fff; color: var(--brand-indigo-dark); box-shadow: 0 1px 3px rgba(15,23,42,0.12); }
+    .doc-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.5rem; border-bottom: 2px solid #0F172A; padding-bottom: 0.6rem; margin-bottom: 0.8rem; }
+    .doc-score { flex: 0 0 auto; font-size: 0.76rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 999px; background: #ECFDF5; color: #047857; }
+    .doc-score b { font-size: 0.95rem; }
+    .export-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1rem; }
+    .export-grid .btn { min-height: 44px; padding-left: 0.5rem; padding-right: 0.5rem; }
+    .export-share { grid-column: 1 / -1; }
+    @container app (min-width: 760px) { .export-grid { grid-template-columns: repeat(4, auto); justify-content: start; } .export-share { grid-column: auto; } }
   </style>
 </head>
 <body>
@@ -712,11 +821,11 @@
           <div class="screen-header">
             <div>
               <div class="screen-title">🃏 ปัดการ์ดสำรวจหัวข้อโครงงาน (Topic Card Swipe)</div>
-              <div class="screen-sub">← ข้าม | → สนใจเก็บเข้าตะกร้า | ↑ อยากทำเลย! (สะสมครบ 5 ใบเพื่อเทียบ Fit Score)</div>
+              <div class="screen-sub">ลากการ์ด ← ข้าม • → สนใจ • ↑ อยากทำเลย — เก็บครบ 5 ใบเพื่อเทียบ Fit Score</div>
             </div>
             <div style="display:flex; gap:0.5rem; align-items:center;">
-              <button class="btn btn-outline btn-sm" onclick="generateAICard()">✨ ให้ AI สร้างการ์ดเพิ่ม (-1 โควตา)</button>
-              <button class="btn btn-primary btn-sm" onclick="goScreen('screen-shortlist')">ดู Shortlist (<span id="shortlistCountBtn">0</span>/5)</button>
+              <button class="btn btn-outline btn-sm" onclick="generateAICard()" aria-label="ให้ AI สร้างการ์ดเพิ่ม ใช้โควตา 1">✨ การ์ด AI</button>
+              <button class="btn btn-primary btn-sm" onclick="goScreen('screen-shortlist')"><span>📊 Shortlist <b id="shortlistCountBtn">0</b>/5</span></button>
             </div>
           </div>
 
@@ -726,10 +835,11 @@
             </div>
 
             <div class="swipe-actions">
-              <button class="btn btn-outline" onclick="handleSwipe('skip')">⬅️ ข้าม (Skip)</button>
-              <button class="btn btn-mint" onclick="handleSwipe('like')">➡️ สนใจ (+Shortlist)</button>
-              <button class="btn btn-pink" onclick="handleSwipe('super')">⬆️ อยากทำเลย! (Super Like)</button>
+              <button class="sw-btn sw-skip" onclick="handleSwipe('skip')" aria-label="ข้ามการ์ดนี้"><span class="sw-ic" aria-hidden="true">✕</span><span class="sw-lbl">ข้าม</span></button>
+              <button class="sw-btn sw-super" onclick="handleSwipe('super')" aria-label="อยากทำเลย"><span class="sw-ic" aria-hidden="true">★</span><span class="sw-lbl">อยากทำเลย</span></button>
+              <button class="sw-btn sw-like" onclick="handleSwipe('like')" aria-label="สนใจ เก็บเข้า Shortlist"><span class="sw-ic" aria-hidden="true">♥</span><span class="sw-lbl">สนใจ</span></button>
             </div>
+            <p class="sw-hint">👆 ใช้นิ้วลากการ์ด หรือกดปุ่มด้านบน</p>
           </div>
         </section>
 
@@ -749,9 +859,8 @@
               <button class="sl-seg-btn" data-sort="budget" onclick="setShortlistSort('budget')" aria-pressed="false">💰 ประหยัด</button>
               <button class="sl-seg-btn" data-sort="weeks" onclick="setShortlistSort('weeks')" aria-pressed="false">⏳ เร็วสุด</button>
             </div>
-            <span class="sl-count" id="slCount" aria-live="polite">0/5</span>
           </div>
-          <p class="sl-hint">แตะ <b>☐ เทียบ</b> 2 หัวข้อเพื่อดูเคียงข้างกัน</p>
+          <p class="sl-hint"><span>แตะ <b>☐ เทียบ</b> 2 หัวข้อเพื่อดูเคียงข้างกัน</span><span class="sl-count" id="slCount" aria-live="polite">0/5</span></p>
 
           <ol class="sl-list" id="shortlistList" aria-label="หัวข้อที่สนใจ"></ol>
 
@@ -943,85 +1052,65 @@
         <section class="screen" id="screen-bom">
           <div class="screen-header">
             <div>
-              <div class="screen-title">🧾 ตารางวัสดุอุปกรณ์และงบประมาณ (BOM & Local Resource Estimator)</div>
-              <div class="screen-sub">ประเมินราคาในไทย พร้อมแนะนำอุปกรณ์ทดแทนที่มีในห้องแล็บโรงเรียนเพื่อลดต้นทุน</div>
+              <div class="screen-title">🧾 วัสดุอุปกรณ์ & งบประมาณ (BOM)</div>
+              <div class="screen-sub">ราคาประเมินในไทย • เปิดสวิตช์ ♻️ เพื่อใช้ของในโรงเรียนแทนและลดงบ</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="addBomRow()">+ เพิ่มรายการวัสดุ</button>
-          </div>
+                      </div>
 
-          <div class="card" style="overflow-x:auto;">
-            <table class="data-table" id="bomTable">
-              <thead>
-                <tr>
-                  <th>รายการวัสดุ / อุปกรณ์</th>
-                  <th>จำนวน</th>
-                  <th>ราคาประเมิน (บาท)</th>
-                  <th>ทางเลือกของทดแทนในโรงเรียน (ลดงบ)</th>
-                </tr>
-              </thead>
-              <tbody id="bomTbody">
-                <tr>
-                  <td>เอทานอล 95% สำหรับสกัดเพกติน (Food Grade)</td>
-                  <td>2 ลิตร</td>
-                  <td class="bom-cost">450</td>
-                  <td><span style="color:#047857;">เบิกจากห้องปฏิบัติการเคมีของโรงเรียน (0฿)</span></td>
-                </tr>
-                <tr>
-                  <td>มะม่วงน้ำดอกไม้สำหรับทดสอบ (5 กลุ่ม x 5 ผล)</td>
-                  <td>25 ผล</td>
-                  <td class="bom-cost">600</td>
-                  <td>ใช้ผลไม้ตามฤดูกาลในท้องถิ่น</td>
-                </tr>
-                <tr>
-                  <td>เครื่องวัดความแน่นเนื้อผลไม้ (Fruit Penetrometer)</td>
-                  <td>1 เครื่อง</td>
-                  <td class="bom-cost">950</td>
-                  <td><span style="color:#047857;">ประยุกต์ใช้เครื่องชั่งดิจิทัลกดผ่านหัววัดทรงกระบอกในแล็บฟิสิกส์</span></td>
-                </tr>
-              </tbody>
-            </table>
-            <div style="margin-top:0.9rem; display:flex; justify-content:space-between; align-items:center; font-weight:700;">
-              <span>งบประมาณที่ตั้งไว้: <span id="bomBudgetCap">2,500</span> บาท</span>
-              <span style="color:var(--brand-indigo); font-size:1rem;">รวมค่าใช้จ่ายประเมิน: <span id="bomTotalTxt">2,000</span> บาท (อยู่ในงบ ✅)</span>
+          <div class="bom-summary" id="bomSummary" aria-live="polite">
+            <div class="bom-sum-top">
+              <div><div class="bom-sum-lbl">รวมค่าใช้จ่ายประเมิน</div><div class="bom-sum-val"><span id="bomTotalTxt">0</span>฿</div></div>
+              <div style="text-align:right;"><div class="bom-sum-lbl">งบที่ตั้งไว้</div><div class="bom-sum-cap"><span id="bomBudgetCap">2,500</span>฿</div></div>
             </div>
+            <div class="bom-bar"><i id="bomBar"></i></div>
+            <div class="bom-sum-foot"><span id="bomStatus">—</span><span id="bomSaved"></span></div>
           </div>
+          <ul class="bom-list" id="bomList" aria-label="รายการวัสดุอุปกรณ์"></ul>
+          <button class="bom-add" onclick="addBomRow()">+ เพิ่มรายการวัสดุ</button>
         </section>
 
         <!-- SCREEN 9: COMPETITION CALENDAR & WEEKLY PLAN -->
         <section class="screen" id="screen-calendar">
           <div class="screen-header">
             <div>
-              <div class="screen-title">📅 ปฏิทินนับถอยหลังเวทีแข่งขัน & แผนงานรายสัปดาห์ (Weekly Plan)</div>
-              <div class="screen-sub">ผูกตารางทำงานจริงเข้ากับช่วงเวลารับสมัครแข่งขันในไทย (ตัวอย่างไทม์ไลน์จำลอง)</div>
+              <div class="screen-title">📅 ปฏิทินแข่ง & แผนรายสัปดาห์</div>
+              <div class="screen-sub">ช่วงรับสมัครเวทีในไทย (ไทม์ไลน์จำลอง) + เช็กลิสต์งานของทีม</div>
             </div>
           </div>
 
-          <div class="grid-3" style="margin-bottom:1rem;">
-            <div class="card" style="margin-bottom:0; border-left:4px solid var(--brand-indigo);">
-              <div style="font-size:0.75rem; color:var(--text-sub);">เวที YSC (สวทช.)</div>
-              <div style="font-weight:700; font-size:0.95rem; margin:0.2rem 0;">ส่งโครงร่าง: ต.ค. – พ.ย.</div>
-              <span class="nav-badge" style="background:#EEF2FF; color:#4F46E5;">⏳ เหลือเวลาเตรียม ~6 สัปดาห์</span>
+          <div class="cal-strip" role="list" aria-label="กำหนดการเวทีแข่งขัน">
+            <div class="cal-card" role="listitem" style="--c: var(--brand-indigo);">
+              <div class="cal-org">YSC • สวทช.</div>
+              <div class="cal-count"><b>~6</b> สัปดาห์</div>
+              <div class="cal-what">ส่งโครงร่าง ต.ค. – พ.ย.</div>
+              <span class="cal-tag">⏳ ใกล้สุด</span>
             </div>
-            <div class="card" style="margin-bottom:0; border-left:4px solid var(--brand-pink);">
-              <div style="font-size:0.75rem; color:var(--text-sub);">เวที NSC (ซอฟต์แวร์)</div>
-              <div style="font-weight:700; font-size:0.95rem; margin:0.2rem 0;">ส่งข้อเสนอ: ส.ค. – ก.ย.</div>
-              <span class="nav-badge" style="background:#FDF2F8; color:#BE185D;">📌 รอบข้อเสนอโครงการ</span>
+            <div class="cal-card" role="listitem" style="--c: var(--brand-pink);">
+              <div class="cal-org">NSC • ซอฟต์แวร์</div>
+              <div class="cal-count"><b>ส.ค.</b> – ก.ย.</div>
+              <div class="cal-what">ส่งข้อเสนอโครงการ</div>
+              <span class="cal-tag">📌 รอบข้อเสนอ</span>
             </div>
-            <div class="card" style="margin-bottom:0; border-left:4px solid var(--brand-mint);">
-              <div style="font-size:0.75rem; color:var(--text-sub);">งานศิลปหัตถกรรม สพฐ.</div>
-              <div style="font-weight:700; font-size:0.95rem; margin:0.2rem 0;">ระดับเขต–ภาค: ก.ย. – ธ.ค.</div>
-              <span class="nav-badge" style="background:#ECFDF5; color:#047857;">🏆 เน้นรูปเล่ม + แผงโครงงาน</span>
+            <div class="cal-card" role="listitem" style="--c: var(--brand-mint);">
+              <div class="cal-org">ศิลปหัตถกรรม สพฐ.</div>
+              <div class="cal-count"><b>ก.ย.</b> – ธ.ค.</div>
+              <div class="cal-what">ระดับเขต → ภาค</div>
+              <span class="cal-tag">🏆 รูปเล่ม + แผง</span>
             </div>
           </div>
 
-          <div class="card">
-            <h3 style="font-size:0.95rem; margin-bottom:0.75rem;">🗓️ แผนปฏิบัติงานรายสัปดาห์ (Weekly Plan & Team Role) — คลิกติ๊กความคืบหน้าได้</h3>
-            <div style="display:flex; flex-direction:column; gap:0.55rem; font-size:0.84rem;">
-              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" checked onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 1 แล้ว')" /> <b>สัปดาห์ที่ 1–2:</b> ทบทวนวรรณกรรม, ยืนยันตัวแปรต้น-ตาม-ควบคุม และขออนุมัติครูที่ปรึกษา (สมาชิกคนที่ 1 & 2)</label>
-              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 3-4 แล้ว')" /> <b>สัปดาห์ที่ 3–4:</b> สกัดเพกตินจากเปลือกส้มโอที่ความเข้มข้น 1%, 3%, 5% และเตรียมชุดควบคุม (คนที่ 1: แล็บเคมี)</label>
-              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 5-6 แล้ว')" /> <b>สัปดาห์ที่ 5–6:</b> เก็บข้อมูลน้ำหนักและความแน่นเนื้อทุก 3 วัน จนครบ 14 วัน + ถ่ายภาพวัดค่าสี (คนที่ 2: บันทึกสถิติ)</label>
-              <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" onchange="showToast('อัปเดตความคืบหน้าสัปดาห์ที่ 7-8 แล้ว')" /> <b>สัปดาห์ที่ 7–8:</b> วิเคราะห์ผลทางสถิติ ANOVA, สรุปบทคัดย่อ 250 คำ และซ้อมตอบคำถามกรรมการ 3 นาที</label>
+          <div class="card wk-card">
+            <div class="wk-head">
+              <h3>🗓️ แผนงาน 8 สัปดาห์</h3>
+              <span class="wk-pct" id="wkPct">1/4</span>
             </div>
+            <div class="bom-bar" style="margin-bottom:0.75rem;"><i id="wkBar" style="width:25%"></i></div>
+            <ol class="wk-list">
+              <li><label class="wk-item"><input type="checkbox" checked onchange="updatePlanProgress('1–2', this.checked)"><span class="wk-body"><span class="wk-week">สัปดาห์ 1–2</span><span class="wk-text">ทบทวนวรรณกรรม ยืนยันตัวแปรต้น-ตาม-ควบคุม และขออนุมัติครูที่ปรึกษา</span><span class="wk-owner">👥 คนที่ 1 & 2</span></span></label></li>
+              <li><label class="wk-item"><input type="checkbox" onchange="updatePlanProgress('3–4', this.checked)"><span class="wk-body"><span class="wk-week">สัปดาห์ 3–4</span><span class="wk-text">สกัดเพกตินจากเปลือกส้มโอ 1%, 3%, 5% และเตรียมชุดควบคุม</span><span class="wk-owner">👥 คนที่ 1 • แล็บเคมี</span></span></label></li>
+              <li><label class="wk-item"><input type="checkbox" onchange="updatePlanProgress('5–6', this.checked)"><span class="wk-body"><span class="wk-week">สัปดาห์ 5–6</span><span class="wk-text">ชั่งน้ำหนัก วัดความแน่นเนื้อทุก 3 วันจนครบ 14 วัน + ถ่ายภาพวัดค่าสี</span><span class="wk-owner">👥 คนที่ 2 • บันทึกสถิติ</span></span></label></li>
+              <li><label class="wk-item"><input type="checkbox" onchange="updatePlanProgress('7–8', this.checked)"><span class="wk-body"><span class="wk-week">สัปดาห์ 7–8</span><span class="wk-text">วิเคราะห์ ANOVA สรุปบทคัดย่อ 250 คำ และซ้อมตอบกรรมการ 3 นาที</span><span class="wk-owner">👥 ทั้งทีม</span></span></label></li>
+            </ol>
           </div>
         </section>
 
@@ -1029,10 +1118,10 @@
         <section class="screen" id="screen-judge">
           <div class="screen-header">
             <div>
-              <div class="screen-title">🎤 โหมดซ้อมตอบคำถามกรรมการปราบเซียน (Mock Judge Q&A Simulator)</div>
+              <div class="screen-title">🎤 ซ้อมตอบคำถามกรรมการ</div>
               <div class="screen-sub">จำลองคำถามจี้จุดอ่อนจากผลประเมินสีเหลือง/แดง (🟡🔴) เพื่อเตรียมพร้อมก่อนขึ้นเวทีจริง</div>
             </div>
-            <select id="judgePersona" onchange="switchJudgeQuestion()" style="width:auto;">
+            <select id="judgePersona" class="judge-select" onchange="switchJudgeQuestion()" aria-label="เลือกกรรมการ">
               <option value="ysc">👨‍🔬 กรรมการ YSC (เน้นระเบียบวิธีวิจัย & Control)</option>
               <option value="nsc">💻 กรรมการ NSC (เน้นอัลกอริทึม & การใช้งานจริง)</option>
               <option value="tcas">🎓 อาจารย์สัมภาษณ์ TCAS รอบ Portfolio</option>
@@ -1045,9 +1134,9 @@
               "ในการทดลองเคลือบผิวมะม่วง นักเรียนทราบได้อย่างไรว่าความหนาของชั้นฟิล์มเพกตินที่เคลือบบนมะม่วงแต่ละลูกมีความสม่ำเสมอเท่ากัน? หากหนาไม่เท่ากันจะกลายเป็นตัวแปรแทรกซ้อนหรือไม่?"
             </div>
             <textarea id="judgeAnswerInput" rows="3" placeholder="พิมพ์คำตอบซ้อมพรีเซนต์ของคุณที่นี่...">พวกเราควบคุมโดยใช้การจุ่มเคลือบด้วยความเร็วคงที่เป็นเวลา 30 วินาทีเท่ากันทุกลูก และปล่อยให้หยดแห้งบนตะแกรงในตู้ควบคุมอุณหภูมิ 25°C พร้อมชั่งน้ำหนักก่อน-หลังเคลือบเพื่อวัดปริมาณสารเคลือบต่อพื้นที่ผิวครับ</textarea>
-            <div style="display:flex; justify-content:space-between; margin-top:0.75rem; flex-wrap:wrap; gap:0.5rem;">
-              <button class="btn btn-outline btn-sm" onclick="nextJudgeQuestion()">⏭️ เปลี่ยนคำถามถัดไป</button>
-              <button class="btn btn-primary btn-sm" onclick="evaluateJudgeAnswer()">✨ ให้โค้ช AI วิเคราะห์คำตอบ</button>
+            <div class="two-btn">
+              <button class="btn btn-outline btn-sm" onclick="nextJudgeQuestion()">⏭️ ข้อถัดไป</button>
+              <button class="btn btn-primary btn-sm" onclick="evaluateJudgeAnswer()">✨ AI วิเคราะห์</button>
             </div>
           </div>
 
@@ -1060,25 +1149,25 @@
         <section class="screen" id="screen-export">
           <div class="screen-header">
             <div>
-              <div class="screen-title">📄 เอกสารข้อเสนอ 1 หน้า, พอร์ต TCAS & ลิงก์ให้ครูที่ปรึกษาอนุมัติ</div>
-              <div class="screen-sub">สลับดูเทมเพลตเอกสาร และจำลองการส่งออก PDF / Word / Google Docs / ลิงก์ครูที่ปรึกษา</div>
+              <div class="screen-title">📄 เอกสาร & ครูอนุมัติ</div>
+              <div class="screen-sub">Proposal 1 หน้า • พอร์ต TCAS • บทพูด 3 นาที • ลิงก์ให้ครูอนุมัติ</div>
             </div>
-            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-              <button class="btn btn-outline btn-sm" onclick="switchDocTab('proposal')">📑 Proposal 1 หน้า</button>
-              <button class="btn btn-outline btn-sm" onclick="switchDocTab('tcas')">🎓 TCAS Portfolio Card</button>
-              <button class="btn btn-outline btn-sm" onclick="switchDocTab('pitch')">🎙️ Abstract & บทพูด 3 นาที</button>
-              <button class="btn btn-outline btn-sm" onclick="switchDocTab('advisor')">✍️ โหมดครูที่ปรึกษาตรวจ</button>
-            </div>
+          </div>
+          <div class="doc-tabs" role="tablist" aria-label="ประเภทเอกสาร">
+            <button class="doc-tab active" role="tab" aria-selected="true" data-tab="proposal" onclick="switchDocTab('proposal')">📑 Proposal</button>
+            <button class="doc-tab" role="tab" aria-selected="false" data-tab="tcas" onclick="switchDocTab('tcas')">🎓 TCAS</button>
+            <button class="doc-tab" role="tab" aria-selected="false" data-tab="pitch" onclick="switchDocTab('pitch')">🎙️ Pitch</button>
+            <button class="doc-tab" role="tab" aria-selected="false" data-tab="advisor" onclick="switchDocTab('advisor')">✍️ ครูตรวจ</button>
           </div>
 
           <!-- Document Sub-tab 1: 1-Page Proposal -->
           <div class="card" id="docTab-proposal">
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0F172A; padding-bottom:0.6rem; margin-bottom:0.8rem;">
+            <div class="doc-head">
               <div>
                 <h3 style="font-size:1.05rem;">ข้อเสนอโครงงานฉบับย่อ (1-Page Project Proposal)</h3>
                 <p style="font-size:0.76rem; color:var(--text-sub);">เป้าหมาย: <span id="propGoalTxt">YSC</span> • สถานะครูที่ปรึกษา: <b id="advisorStatusBadge" style="color:#D97706;">⏳ รอครูที่ปรึกษาอนุมัติ</b></p>
               </div>
-              <span class="badge-sim">คะแนนความพร้อม 8.0/10 🟢</span>
+              <span class="doc-score">🟢 ความพร้อม <b>8.0</b>/10</span>
             </div>
             <div style="font-size:0.84rem; line-height:1.6; display:grid; gap:0.5rem;">
               <div><b>ชื่อโครงงาน:</b> การพัฒนาสารเคลือบชีวภาพจากเพกตินเปลือกส้มโอร่วมกับการวิเคราะห์ภาพถ่ายสีผิวเพื่อชะลอการสุกของมะม่วงน้ำดอกไม้</div>
@@ -1113,18 +1202,18 @@
             <h3 style="font-size:1rem; margin-bottom:0.4rem;">✍️ โหมดครูที่ปรึกษาตรวจและอนุมัติ (Advisor Sign-off View — ไม่ต้องล็อกอิน)</h3>
             <p style="font-size:0.78rem; color:var(--text-sub); margin-bottom:0.75rem;">จำลองหน้าจอเมื่อครูคลิกลิงก์แชร์จากนักเรียน ครูสามารถคอมเมนต์และกดอนุมัติหัวข้อได้ทันที</p>
             <textarea id="advisorComment" rows="2" placeholder="ความเห็นครูที่ปรึกษา...">สมมติฐานและชุดควบคุมชัดเจนดีมาก อนุญาตให้ใช้ห้องปฏิบัติการเคมีวันพุธ-ศุกร์หลังเลิกเรียนได้ครับ</textarea>
-            <div style="display:flex; gap:0.5rem; margin-top:0.65rem;">
-              <button class="btn btn-mint btn-sm" onclick="setAdvisorDecision('approved')">✅ อนุมัติหัวข้อโครงงาน (Approve)</button>
-              <button class="btn btn-pink btn-sm" onclick="setAdvisorDecision('revision')">🛠️ ขอให้ปรับแก้เพิ่มเติม (Request Revision)</button>
+            <div class="two-btn">
+              <button class="btn btn-mint btn-sm" onclick="setAdvisorDecision('approved')">✅ อนุมัติ</button>
+              <button class="btn btn-pink btn-sm" onclick="setAdvisorDecision('revision')">🛠️ ขอให้แก้</button>
             </div>
           </div>
 
           <!-- Export Action Buttons -->
-          <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem;">
-            <button class="btn btn-primary" onclick="simulateExport('PDF (.pdf)')">📥 ส่งออก PDF 1 หน้า</button>
-            <button class="btn btn-outline" onclick="simulateExport('Word (.docx)')">📝 ส่งออก Word (.docx)</button>
-            <button class="btn btn-outline" onclick="simulateExport('Google Docs')">☁️ ส่งเข้า Google Docs</button>
-            <button class="btn btn-mint" onclick="copyShareLink()">🔗 คัดลอกลิงก์ส่งให้ครูที่ปรึกษา</button>
+          <div class="export-grid">
+            <button class="btn btn-primary" onclick="simulateExport('PDF (.pdf)')">📥 PDF</button>
+            <button class="btn btn-outline" onclick="simulateExport('Word (.docx)')">📝 Word</button>
+            <button class="btn btn-outline" onclick="simulateExport('Google Docs')">☁️ Docs</button>
+            <button class="btn btn-mint export-share" onclick="copyShareLink()">🔗 คัดลอกลิงก์ส่งครู</button>
           </div>
         </section>
 
@@ -1298,7 +1387,7 @@
       state.profile.budget = parseInt(document.getElementById('constraintBudget').value || '2500', 10);
       document.getElementById('lblBudget').textContent = state.profile.budget.toLocaleString();
       document.getElementById('lblWeeks').textContent = state.profile.weeks;
-      document.getElementById('bomBudgetCap').textContent = state.profile.budget.toLocaleString();
+      renderBom();
       document.getElementById('evalTargetLabel').textContent = state.profile.goal;
       document.getElementById('propGoalTxt').textContent = state.profile.goal;
     }
@@ -1337,8 +1426,45 @@
           <span>ระดับความยาก: ${card.difficulty}</span>
           <span>การ์ดใบที่ ${(state.cardIndex % state.cards.length) + 1}/${state.cards.length}</span>
         </div>
+        <div class="sw-stamp" aria-hidden="true"></div>
       `;
+      box.style.transform = '';
+      box.classList.remove('sw-flying');
     }
+
+    // --- Touch / mouse drag-to-swipe ---
+    (function initCardDrag() {
+      const el = document.getElementById('activeTopicCard');
+      const T = 90;
+      let start = null;
+      const decide = (dx, dy) => dy < -T && Math.abs(dy) > Math.abs(dx) ? 'super' : dx > T ? 'like' : dx < -T ? 'skip' : null;
+      const STAMP = { like: ['สนใจ ♥', 'like'], skip: ['ข้าม ✕', 'skip'], super: ['อยากทำ ★', 'super'] };
+      el.addEventListener('pointerdown', e => {
+        if (e.button !== 0) return;
+        start = { x: e.clientX, y: e.clientY };
+        el.setPointerCapture(e.pointerId);
+        el.classList.add('sw-dragging');
+      });
+      el.addEventListener('pointermove', e => {
+        if (!start) return;
+        const dx = e.clientX - start.x, dy = e.clientY - start.y;
+        el.style.transform = `translate(${dx}px, ${Math.min(dy, 40)}px) rotate(${dx / 18}deg)`;
+        const d = decide(dx, dy), st = el.querySelector('.sw-stamp');
+        if (st) { st.textContent = d ? STAMP[d][0] : ''; st.className = 'sw-stamp' + (d ? ' on ' + STAMP[d][1] : ''); }
+      });
+      const end = e => {
+        if (!start) return;
+        const dx = e.clientX - start.x, dy = e.clientY - start.y, d = decide(dx, dy);
+        start = null;
+        el.classList.remove('sw-dragging');
+        if (!d) { el.style.transform = ''; const st = el.querySelector('.sw-stamp'); if (st) st.className = 'sw-stamp'; return; }
+        el.classList.add('sw-flying');
+        el.style.transform = d === 'super' ? 'translateY(-120%)' : `translateX(${d === 'like' ? 140 : -140}%) rotate(${d === 'like' ? 18 : -18}deg)`;
+        setTimeout(() => handleSwipe(d), 220);
+      };
+      el.addEventListener('pointerup', end);
+      el.addEventListener('pointercancel', end);
+    })();
 
     function handleSwipe(action) {
       const card = state.cards[state.cardIndex % state.cards.length];
@@ -1534,6 +1660,10 @@
       sheet.querySelector('.sl-icon-btn').focus();
     }
 
+    document.querySelectorAll('.screen-title').forEach(t => {
+      t.innerHTML = t.innerHTML.replace(/\s*\(([A-Za-z][^)]*)\)\s*$/, ' <span class="t-en">($1)</span>');
+    });
+
     (function hoistSheet(){ const el = document.getElementById('slSheet'); if (el && el.parentElement !== document.body) document.body.appendChild(el); })();
 
     function closeCompare() { document.getElementById('slSheet').hidden = true; }
@@ -1653,20 +1783,67 @@
     }
 
     // --- Screen 8: BOM Estimator ---
-    function addBomRow() {
-      const tbody = document.getElementById('bomTbody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>กระดาษวัดค่า pH / บีกเกอร์แก้วขนาด 250 ml</td>
-        <td>1 ชุด</td>
-        <td class="bom-cost">150</td>
-        <td><span style="color:#047857;">ยืมจากห้องแล็บวิทยาศาสตร์โรงเรียน (0฿)</span></td>
-      `;
-      tbody.appendChild(tr);
-      let total = 0;
-      document.querySelectorAll('.bom-cost').forEach(td => { total += parseInt(td.textContent || '0', 10); });
+    state.bom = [
+      { id: 1, name: 'เอทานอล 95% สำหรับสกัดเพกติน (Food Grade)', qty: '2 ลิตร', price: 450, sub: 'เบิกจากห้องปฏิบัติการเคมีของโรงเรียน', useSub: true },
+      { id: 2, name: 'มะม่วงน้ำดอกไม้สำหรับทดสอบ (5 กลุ่ม × 5 ผล)', qty: '25 ผล', price: 600, sub: 'ผลไม้ตามฤดูกาลจากสวนในท้องถิ่น (ลด ~30%)', subPrice: 420, useSub: false },
+      { id: 3, name: 'เครื่องวัดความแน่นเนื้อผลไม้ (Penetrometer)', qty: '1 เครื่อง', price: 950, sub: 'เครื่องชั่งดิจิทัล + หัวกดทรงกระบอกในแล็บฟิสิกส์', useSub: false },
+    ];
+
+    function bomCost(it) { return it.useSub ? (it.subPrice || 0) : it.price; }
+
+    function renderBom() {
+      const cap = state.profile.budget, list = document.getElementById('bomList');
+      list.innerHTML = state.bom.map(it => `
+        <li class="bom-item ${it.useSub ? 'is-sub' : ''}">
+          <div class="bom-row1">
+            <div class="bom-name">${it.name}<span class="bom-qty">${it.qty}</span></div>
+            <div class="bom-price">${it.useSub ? `<s>${it.price.toLocaleString()}฿</s>` : ''}<b>${bomCost(it).toLocaleString()}฿</b></div>
+          </div>
+          ${it.sub ? `<label class="bom-sub">
+            <input type="checkbox" role="switch" ${it.useSub ? 'checked' : ''} onchange="toggleBomSub(${it.id})">
+            <span class="bom-switch" aria-hidden="true"></span>
+            <span class="bom-sub-txt">♻️ ${it.sub}<em>ประหยัด ${(it.price - (it.subPrice || 0)).toLocaleString()}฿</em></span>
+          </label>` : ''}
+          <button class="bom-del" onclick="removeBomItem(${it.id})" aria-label="ลบ ${it.name.slice(0, 24)}">✕</button>
+        </li>`).join('') || '<li class="sl-empty">ยังไม่มีรายการวัสดุ</li>';
+      const total = state.bom.reduce((a, it) => a + bomCost(it), 0);
+      const saved = state.bom.reduce((a, it) => a + (it.useSub ? it.price - (it.subPrice || 0) : 0), 0);
+      const r = cap ? total / cap : 0, over = total > cap;
       document.getElementById('bomTotalTxt').textContent = total.toLocaleString();
-      showToast('+ เพิ่มรายการวัสดุและคำนวณงบประมาณรวมใหม่แล้ว');
+      document.getElementById('bomBudgetCap').textContent = cap.toLocaleString();
+      const bar = document.getElementById('bomBar');
+      bar.style.width = Math.min(r, 1) * 100 + '%';
+      bar.className = over ? 'over' : r > 0.85 ? 'warn' : '';
+      document.getElementById('bomStatus').textContent = over ? `⚠️ เกินงบ ${(total - cap).toLocaleString()}฿` : `✅ เหลือ ${(cap - total).toLocaleString()}฿`;
+      document.getElementById('bomSaved').textContent = saved ? `♻️ ประหยัดไป ${saved.toLocaleString()}฿` : '';
+      document.getElementById('bomSummary').classList.toggle('is-over', over);
+    }
+
+    function toggleBomSub(id) {
+      const it = state.bom.find(x => x.id === id);
+      it.useSub = !it.useSub;
+      renderBom();
+      showToast(it.useSub ? '♻️ ใช้ของทดแทนในโรงเรียน — คำนวณงบใหม่แล้ว' : 'กลับไปใช้ราคาซื้อปกติ');
+    }
+
+    function removeBomItem(id) {
+      state.bom = state.bom.filter(x => x.id !== id);
+      renderBom();
+      showToast('ลบรายการแล้ว');
+    }
+
+    function addBomRow() {
+      const id = Math.max(0, ...state.bom.map(x => x.id)) + 1;
+      state.bom.push({ id, name: 'กระดาษวัดค่า pH + บีกเกอร์ 250 ml', qty: '1 ชุด', price: 150, sub: 'ยืมจากห้องแล็บวิทยาศาสตร์โรงเรียน', useSub: false });
+      renderBom();
+      showToast('+ เพิ่มรายการวัสดุและคำนวณงบใหม่แล้ว');
+    }
+
+    function updatePlanProgress(week, done) {
+      const all = document.querySelectorAll('.wk-item input'), n = [...all].filter(i => i.checked).length;
+      document.getElementById('wkPct').textContent = `${n}/${all.length}`;
+      document.getElementById('wkBar').style.width = (n / all.length * 100) + '%';
+      showToast(done ? `✅ สัปดาห์ ${week} เสร็จแล้ว (${n}/${all.length})` : `↩️ ยกเลิกติ๊กสัปดาห์ ${week}`);
     }
 
     // --- Screen 10: Mock Judge Q&A ---
@@ -1708,6 +1885,11 @@
       ['proposal', 'tcas', 'pitch', 'advisor'].forEach(t => {
         document.getElementById('docTab-' + t).style.display = (t === tab) ? 'block' : 'none';
       });
+      document.querySelectorAll('.doc-tab').forEach(b => {
+        const on = b.dataset.tab === tab;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on);
+      });
     }
 
     function setAdvisorDecision(status) {
@@ -1743,6 +1925,7 @@
     // Initialize first view
     renderCurrentCard();
     renderShortlist();
+    renderBom();
   </script>
 </body>
 </html>
