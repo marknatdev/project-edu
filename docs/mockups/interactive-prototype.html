@@ -30,6 +30,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg-gradient); min-height: 100%; }
     body {
       font-family: 'Prompt', 'Plus Jakarta Sans', sans-serif;
       background: var(--bg-gradient);
@@ -184,6 +185,8 @@
       color: #fff;
       font-weight: 600;
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    .nav-badge { white-space: nowrap;
     }
     .nav-badge {
       font-size: 0.68rem;
@@ -413,6 +416,8 @@
     .score-fill { height: 100%; border-radius: 999px; transition: width 0.4s ease; }
 
     /* Tables */
+    table.data-table { min-width: 620px;
+    }
     table.data-table {
       width: 100%;
       border-collapse: collapse;
@@ -710,10 +715,10 @@
             </div>
           </div>
 
-          <div style="display:flex; gap:0.5rem;">
-            <input type="text" id="chatInput" placeholder="พิมพ์คำตอบของคุณ เช่น มะม่วงช้ำในลังขนส่ง ดูจากเปลือกนอกไม่รู้..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
-            <button class="btn btn-primary" onclick="sendChatMessage()">ส่งคำตอบ</button>
-            <button class="btn btn-mint" onclick="goScreen('screen-variables')">สรุปตัวแปรต่อ →</button>
+          <div class="chat-input-row" style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <input type="text" id="chatInput" style="flex:1 1 220px; min-width:0;" placeholder="พิมพ์คำตอบของคุณ เช่น มะม่วงช้ำในลังขนส่ง ดูจากเปลือกนอกไม่รู้..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
+            <button class="btn btn-primary" style="white-space:nowrap;" onclick="sendChatMessage()">ส่งคำตอบ</button>
+            <button class="btn btn-mint" style="white-space:nowrap;" onclick="goScreen('screen-variables')">สรุปตัวแปรต่อ →</button>
           </div>
         </section>
 
@@ -750,7 +755,7 @@
               <input type="text" id="inpVarRep" value="ทำซ้ำ 5 ผลต่อกลุ่มการทดลอง (n = 5 ต่อกลุ่ม, รวม 25 ผล) วิเคราะห์ ANOVA" />
 
               <div style="margin-top:1rem; padding:0.75rem; background:#ECFDF5; border:1px solid #10B981; border-radius:0.75rem; font-size:0.82rem;" id="rigorCheckBox">
-                ✅ <b>Rigor Check ผ่านเกณฑ์:</b> ระบุหน่วยวัดชัดเจน มีทั้ง Negative & Positive Control และกำหนดจำนวนซ้ำ ($n \ge 3$) พร้อมสำหรับการประเมิน!
+                ✅ <b>Rigor Check ผ่านเกณฑ์:</b> ระบุหน่วยวัดชัดเจน มีทั้ง Negative & Positive Control และกำหนดจำนวนซ้ำ (n ≥ 3) พร้อมสำหรับการประเมิน!
               </div>
               <div style="margin-top:0.85rem; display:flex; justify-content:flex-end;">
                 <button class="btn btn-primary" onclick="runEvaluationSim()">ส่งประเมิน 5 ด้าน & ตรวจ Prior Work →</button>
@@ -994,8 +999,8 @@
             <div style="font-size:0.84rem; line-height:1.6; display:grid; gap:0.5rem;">
               <div><b>ชื่อโครงงาน:</b> การพัฒนาสารเคลือบชีวภาพจากเพกตินเปลือกส้มโอร่วมกับการวิเคราะห์ภาพถ่ายสีผิวเพื่อชะลอการสุกของมะม่วงน้ำดอกไม้</div>
               <div><b>ที่มาและความสำคัญ:</b> ลดการสูญเสียหลังการเก็บเกี่ยวของมะม่วงส่งออกโดยใช้วัสดุเหลือทิ้งทางการเกษตรทดแทนแว็กซ์สังเคราะห์</div>
-              <div><b>สมมติฐาน:</b> สารเคลือบเพกตินความเข้มข้น 3% w/v สามารถลดอัตราการสูญเสียน้ำหนักและรักษาความแน่นเนื้อของมะม่วงได้ดีกว่าชุดไม่เคลือบอย่างมีนัยสำคัญทางสถิติ ($p < 0.05$)</div>
-              <div><b>ตัวแปรและการวัดผล:</b> ตัวแปรต้น = ความเข้มข้นเพกติน (1%, 3%, 5%) | ตัวแปรตาม = % น้ำหนักลดลง, ความแน่นเนื้อ (N) | ชุดควบคุม = ไม่เคลือบ & แว็กซ์การค้า ($n=5$ ต่อกลุ่ม)</div>
+              <div><b>สมมติฐาน:</b> สารเคลือบเพกตินความเข้มข้น 3% w/v สามารถลดอัตราการสูญเสียน้ำหนักและรักษาความแน่นเนื้อของมะม่วงได้ดีกว่าชุดไม่เคลือบอย่างมีนัยสำคัญทางสถิติ (p &lt; 0.05)</div>
+              <div><b>ตัวแปรและการวัดผล:</b> ตัวแปรต้น = ความเข้มข้นเพกติน (1%, 3%, 5%) | ตัวแปรตาม = % น้ำหนักลดลง, ความแน่นเนื้อ (N) | ชุดควบคุม = ไม่เคลือบ & แว็กซ์การค้า (n = 5 ต่อกลุ่ม)</div>
             </div>
           </div>
 
@@ -1014,7 +1019,7 @@
             <h3 style="font-size:1rem; color:var(--brand-pink); margin-bottom:0.5rem;">🎙️ โครงร่างบทคัดย่อ 250 คำ & สคริปต์นำเสนอ 3 นาที (Elevator Pitch)</h3>
             <div style="font-size:0.84rem; line-height:1.6; display:grid; gap:0.5rem;">
               <div><b>[0:00 - 0:30] Hook & Problem:</b> "ทุกๆ ปี มะม่วงไทยกว่า 20% เสียหายระหว่างขนส่ง... พวกเราจึงเปลี่ยนเปลือกส้มโอเหลือทิ้งให้กลายเป็นเกราะชีวภาพยืดอายุผลไม้ครับ"</div>
-              <div><b>[0:30 - 1:45] Methodology & Control:</b> อธิบายการสกัดเพกติน 3 ความเข้มข้น เทียบกับชุดควบคุมทั้ง 2 แบบ ($n=5$)</div>
+              <div><b>[0:30 - 1:45] Methodology & Control:</b> อธิบายการสกัดเพกติน 3 ความเข้มข้น เทียบกับชุดควบคุมทั้ง 2 แบบ (n = 5)</div>
               <div><b>[1:45 - 3:00] Expected Impact:</b> ลดต้นทุนสารเคลือบนำเข้า และปลอดภัยต่อผู้บริโภค 100%</div>
             </div>
           </div>
@@ -1525,7 +1530,7 @@
 
     // Initialize first view
     renderCurrentCard();
-    fillSampleShortlist();
+    renderShortlist();
   </script>
 </body>
 </html>
