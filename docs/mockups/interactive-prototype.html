@@ -454,6 +454,77 @@
       .brand-header, .nav-group-label { display: none; }
       .nav-btn { width: auto; white-space: nowrap; }
     }
+
+    /* ===== Shortlist (mobile-first ranked cards) ===== */
+    #screen-shortlist { container-type: inline-size; }
+    .sl-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .sl-seg { flex: 1 1 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem; padding: 0.25rem; background: #F1F5F9; border-radius: 999px; max-width: 420px; }
+    .sl-seg-btn { min-height: 36px; padding: 0 0.4rem; border: 0; border-radius: 999px; background: transparent; font: inherit; font-size: 0.78rem; font-weight: 600; color: var(--text-sub); cursor: pointer; white-space: nowrap; }
+    .sl-seg-btn.active { background: #fff; color: var(--brand-indigo-dark); box-shadow: 0 1px 3px rgba(15,23,42,0.12); }
+    .sl-count { flex: 0 0 auto; font-size: 0.75rem; font-weight: 700; color: var(--brand-indigo-dark); background: #EEF2FF; padding: 0.25rem 0.6rem; border-radius: 999px; }
+    .sl-hint { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem; }
+    .sl-list { list-style: none; display: grid; grid-template-columns: 1fr; gap: 0.75rem; padding-bottom: 4.5rem; }
+    @container (min-width: 720px) { .sl-list { grid-template-columns: 1fr 1fr; } }
+    .sl-item { background: #fff; border: 2px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.875rem; display: flex; flex-direction: column; gap: 0.75rem; transition: border-color 0.15s, box-shadow 0.15s; }
+    .sl-item.is-top { border-color: var(--brand-indigo); box-shadow: 0 4px 0 rgba(99,102,241,0.25); }
+    .sl-item.is-picked { border-color: var(--brand-pink); }
+    .sl-top { display: grid; grid-template-columns: auto 1fr auto; gap: 0.625rem; align-items: start; }
+    .sl-rank { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.8rem; background: #F1F5F9; color: var(--text-sub); }
+    .sl-item.is-top .sl-rank { background: var(--brand-indigo); color: #fff; }
+    .sl-title { font-size: 0.9rem; font-weight: 600; line-height: 1.45; max-height: calc(1.45em * 3); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .sl-subject { display: inline-block; margin-top: 0.25rem; font-size: 0.7rem; font-weight: 600; color: var(--brand-indigo-dark); background: #EEF2FF; padding: 0.1rem 0.5rem; border-radius: 999px; }
+    .sl-fit { --p: 0; --c: var(--brand-mint); width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; position: relative; background: conic-gradient(var(--c) calc(var(--p) * 1%), #E2E8F0 0); }
+    .sl-fit::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: #fff; }
+    .sl-fit span { position: relative; text-align: center; line-height: 1; }
+    .sl-fit b { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; font-weight: 800; color: var(--text-main); }
+    .sl-fit small { font-size: 0.58rem; font-weight: 600; color: var(--text-sub); }
+    .sl-fit.mid { --c: var(--brand-amber); } .sl-fit.low { --c: var(--brand-red); }
+    .sl-meters { display: grid; gap: 0.4rem; }
+    .sl-meter { display: grid; grid-template-columns: 4.2rem 1fr auto; align-items: center; gap: 0.5rem; font-size: 0.74rem; color: var(--text-sub); }
+    .sl-meter .bar { height: 8px; background: #F1F5F9; border-radius: 999px; overflow: hidden; }
+    .sl-meter .bar i { display: block; height: 100%; border-radius: 999px; background: var(--brand-mint); }
+    .sl-meter.warn .bar i { background: var(--brand-amber); } .sl-meter.over .bar i { background: var(--brand-red); }
+    .sl-meter .val { font-weight: 600; color: var(--text-main); white-space: nowrap; }
+    .sl-meter.over .val { color: #B91C1C; }
+    .sl-safety { align-self: flex-start; font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 8px; background: #ECFDF5; color: #047857; }
+    .sl-safety.flag { background: #FEF3C7; color: #92400E; }
+    .sl-more summary { font-size: 0.76rem; font-weight: 600; color: var(--brand-indigo-dark); cursor: pointer; min-height: 32px; display: flex; align-items: center; list-style: none; }
+    .sl-more summary::-webkit-details-marker { display: none; }
+    .sl-more summary::before { content: '▸'; margin-right: 0.35rem; transition: transform 0.15s; }
+    .sl-more[open] summary::before { transform: rotate(90deg); }
+    .sl-more p, .sl-more li { font-size: 0.76rem; color: var(--text-sub); line-height: 1.5; }
+    .sl-more ul { margin: 0.35rem 0 0 1rem; }
+    .sl-actions { display: flex; align-items: center; gap: 0.5rem; padding-top: 0.625rem; border-top: 1px dashed #E2E8F0; }
+    .sl-check { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; padding: 0 0.6rem; border: 2px solid #E2E8F0; border-radius: 0.6rem; font-size: 0.76rem; font-weight: 600; cursor: pointer; user-select: none; }
+    .sl-check input { width: 16px; height: 16px; accent-color: var(--brand-pink); }
+    .sl-check:has(input:checked) { border-color: var(--brand-pink); color: #BE185D; background: #FDF2F8; }
+    .sl-check:has(input:disabled) { opacity: 0.45; cursor: not-allowed; }
+    .sl-icon-btn { width: 40px; height: 40px; flex: 0 0 auto; border: 2px solid #E2E8F0; border-radius: 0.6rem; background: #fff; color: var(--text-sub); font-size: 0.9rem; cursor: pointer; }
+    .sl-icon-btn:hover { border-color: var(--brand-red); color: var(--brand-red); }
+    .sl-go { margin-left: auto; min-height: 40px; }
+    .sl-empty { text-align: center; padding: 2rem 1rem; border: 2px dashed #CBD5E1; border-radius: var(--radius-lg); color: var(--text-sub); font-size: 0.85rem; }
+    .sl-empty .big { font-size: 2.25rem; margin-bottom: 0.5rem; }
+    .sl-compare-bar { position: sticky; bottom: 0.75rem; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.625rem 0.75rem; background: #0F172A; color: #fff; border-radius: var(--radius-lg); font-size: 0.8rem; box-shadow: 0 10px 25px rgba(15,23,42,0.3); }
+    .sl-compare-bar[hidden], .sl-sheet-backdrop[hidden] { display: none; }
+    .sl-compare-bar .btn-outline { background: transparent; color: #fff; border-color: #475569; }
+    .sl-compare-bar .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .sl-sheet-backdrop { position: fixed; inset: 0; z-index: 150; background: rgba(15,23,42,0.45); display: flex; align-items: flex-end; justify-content: center; }
+    .sl-sheet { width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto; background: #fff; border-radius: 1.25rem 1.25rem 0 0; padding: 0.5rem 1rem 1.25rem; animation: slUp 0.22s ease; }
+    @keyframes slUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+    .sl-sheet-grip { width: 40px; height: 4px; border-radius: 999px; background: #CBD5E1; margin: 0.25rem auto 0.5rem; }
+    .sl-sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .sl-sheet-head h3 { font-size: 1rem; }
+    .sl-cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .sl-cmp-name { font-size: 0.8rem; font-weight: 600; line-height: 1.35; padding: 0.6rem; border-radius: 0.6rem; background: #F8FAFC; }
+    .sl-cmp-row { grid-column: 1 / -1; font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 0.5rem; }
+    .sl-cmp-cell { font-size: 0.82rem; padding: 0.5rem 0.6rem; border: 2px solid #E2E8F0; border-radius: 0.6rem; }
+    .sl-cmp-cell.win { border-color: var(--brand-mint); background: #ECFDF5; font-weight: 700; }
+    .sl-cmp-cell.win::after { content: ' ✓ ดีกว่า'; font-size: 0.68rem; color: #047857; }
+    .sl-cmp-actions { position: sticky; bottom: -1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 1rem -1rem -1.25rem; padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid #E2E8F0; }
+    .sl-sheet-head { position: sticky; top: -0.5rem; background: #fff; padding: 0.25rem 0; z-index: 1; }
+    @media (max-width: 600px) { .demo-bar { position: static !important; } }
+    body:has(#screen-shortlist.active #slCompareBar:not([hidden])) #toast { bottom: 5.5rem; }
+    body:has(#slSheet:not([hidden])) #toast { display: none; }
   </style>
 </head>
 <body>
@@ -666,28 +737,41 @@
         <section class="screen" id="screen-shortlist">
           <div class="screen-header">
             <div>
-              <div class="screen-title">📊 ตารางเปรียบเทียบหัวข้อที่สนใจ (Shortlist Fit Matrix)</div>
-              <div class="screen-sub">คำนวณ Fit Score เทียบกับข้อจำกัดของคุณ (งบ <span id="lblBudget">2,500</span>฿ • เวลา <span id="lblWeeks">8</span> สัปดาห์)</div>
+              <div class="screen-title">📊 คัดเลือกหัวข้อ (Shortlist)</div>
+              <div class="screen-sub">จัดอันดับตามความเข้ากับข้อจำกัดของคุณ • งบ <span id="lblBudget">2,500</span>฿ • <span id="lblWeeks">8</span> สัปดาห์</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="fillSampleShortlist()">⚡ เติมการ์ดตัวอย่างให้ครบ 5 ใบทันที</button>
+            <button class="btn btn-outline btn-sm" onclick="fillSampleShortlist()">⚡ เติมตัวอย่าง 5 ใบ</button>
           </div>
 
-          <div class="card" style="overflow-x:auto;">
-            <table class="data-table" id="shortlistTable">
-              <thead>
-                <tr>
-                  <th>หัวข้อโครงงาน (Topic Card)</th>
-                  <th>วิชา</th>
-                  <th>งบ/เวลา</th>
-                  <th>Fit Score</th>
-                  <th>ความเสี่ยง Safety</th>
-                  <th>เลือกปั้นไอเดีย</th>
-                </tr>
-              </thead>
-              <tbody id="shortlistTbody">
-                <!-- Populated by JS -->
-              </tbody>
-            </table>
+          <div class="sl-toolbar">
+            <div class="sl-seg" role="group" aria-label="เรียงลำดับหัวข้อ">
+              <button class="sl-seg-btn active" data-sort="fit" onclick="setShortlistSort('fit')" aria-pressed="true">🎯 Fit สูง</button>
+              <button class="sl-seg-btn" data-sort="budget" onclick="setShortlistSort('budget')" aria-pressed="false">💰 ประหยัด</button>
+              <button class="sl-seg-btn" data-sort="weeks" onclick="setShortlistSort('weeks')" aria-pressed="false">⏳ เร็วสุด</button>
+            </div>
+            <span class="sl-count" id="slCount" aria-live="polite">0/5</span>
+          </div>
+          <p class="sl-hint">แตะ <b>☐ เทียบ</b> 2 หัวข้อเพื่อดูเคียงข้างกัน</p>
+
+          <ol class="sl-list" id="shortlistList" aria-label="หัวข้อที่สนใจ"></ol>
+
+          <div class="sl-compare-bar" id="slCompareBar" hidden>
+            <span>เลือกเทียบแล้ว <b id="slSelN">0</b>/2</span>
+            <div style="display:flex; gap:0.5rem;">
+              <button class="btn btn-outline btn-sm" onclick="clearCompare()">ล้าง</button>
+              <button class="btn btn-primary btn-sm" id="slCompareBtn" onclick="openCompare()" disabled>เทียบ 2 หัวข้อ →</button>
+            </div>
+          </div>
+
+          <div class="sl-sheet-backdrop" id="slSheet" hidden onclick="if(event.target===this) closeCompare()">
+            <div class="sl-sheet" role="dialog" aria-modal="true" aria-labelledby="slSheetTitle">
+              <div class="sl-sheet-grip" aria-hidden="true"></div>
+              <div class="sl-sheet-head">
+                <h3 id="slSheetTitle">เทียบเคียงข้าง</h3>
+                <button class="sl-icon-btn" onclick="closeCompare()" aria-label="ปิดหน้าต่างเปรียบเทียบ">✕</button>
+              </div>
+              <div id="slSheetBody"></div>
+            </div>
           </div>
         </section>
 
@@ -1310,26 +1394,154 @@
       showToast('⚡ เติมการ์ดตัวอย่างครบ 5 ใบใน Shortlist Matrix แล้ว');
     }
 
+    // --- Shortlist helpers ---
+    state.slSort = 'fit';
+    state.slCompare = [];
+
+    function fitLevel(score) { return score >= 80 ? 'hi' : score >= 60 ? 'mid' : 'low'; }
+    function fitLabel(score) { return { hi: 'เข้ากันสูง', mid: 'เข้ากันปานกลาง', low: 'เข้ากันต่ำ' }[fitLevel(score)]; }
+    function meterClass(ratio) { return ratio > 1 ? 'over' : ratio > 0.85 ? 'warn' : ''; }
+    function isSafe(c) { return c.safety.trim().startsWith('✅'); }
+
+    function fitReasons(c) {
+      const p = state.profile, r = [];
+      r.push(c.budget <= p.budget ? `ใช้งบ ${Math.round(c.budget / p.budget * 100)}% ของงบที่มี` : `เกินงบ ${(c.budget - p.budget).toLocaleString()}฿ — ลองหาของทดแทนในโรงเรียน`);
+      r.push(c.weeks <= p.weeks ? `ใช้เวลา ${c.weeks} จาก ${p.weeks} สัปดาห์ เหลือเผื่อ ${p.weeks - c.weeks} สัปดาห์` : `ใช้เวลาเกินแผน ${c.weeks - p.weeks} สัปดาห์`);
+      r.push(isSafe(c) ? 'ไม่ติดธงความปลอดภัย' : 'ติดธงความปลอดภัย — ต้องมีครูดูแล (ไม่บล็อกการเลือก)');
+      r.push(`ระดับความยาก: ${c.difficulty}`);
+      return r;
+    }
+
+    function updateShortlistBadges() {
+      const n = state.shortlist.length;
+      document.getElementById('badgeShortlist').textContent = `${n}/5`;
+      document.getElementById('shortlistCountBtn').textContent = n;
+      document.getElementById('slCount').textContent = `${n}/5 ใบ`;
+    }
+
+    function sortedShortlist() {
+      const key = state.slSort;
+      return [...state.shortlist].sort((a, b) => key === 'fit' ? b.fitScore - a.fitScore : key === 'budget' ? a.budget - b.budget : a.weeks - b.weeks);
+    }
+
     function renderShortlist() {
-      const tbody = document.getElementById('shortlistTbody');
+      updateShortlistBadges();
+      const list = document.getElementById('shortlistList');
+      state.slCompare = state.slCompare.filter(id => state.shortlist.some(c => c.id === id));
       if (state.shortlist.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-sub);">ยังไม่มีการ์ดในตะกร้า กดปุ่ม <b>"⚡ เติมการ์ดตัวอย่างให้ครบ 5 ใบทันที"</b> ด้านบน หรือกลับไปปัดการ์ดได้เลย!</td></tr>`;
+        list.innerHTML = `<li class="sl-empty"><div class="big">🃏</div>ยังไม่มีหัวข้อในรายการ<br>ปัดขวา (สนใจ) ที่การ์ดหัวข้อเพื่อเก็บเข้ามา
+          <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:1rem; flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" onclick="goScreen('screen-swipe')">ไปปัดการ์ด →</button>
+            <button class="btn btn-outline btn-sm" onclick="fillSampleShortlist()">⚡ เติมตัวอย่าง</button>
+          </div></li>`;
+        renderCompareBar();
         return;
       }
-      tbody.innerHTML = state.shortlist.map(c => `
-        <tr>
-          <td><b>${c.superLiked ? '🌟 ' : ''}${c.title}</b></td>
-          <td>${c.subject}</td>
-          <td>${c.budget.toLocaleString()}฿ / ${c.weeks} สัปดาห์</td>
-          <td><span style="color:#047857; font-weight:700;">🟢 ${c.fitScore}%</span></td>
-          <td>${c.safety}</td>
-          <td>
-            <button class="btn btn-primary btn-sm" onclick="selectTopicForSocratic('${c.title.replace(/'/g, '')}')">
-              เลือกปั้นไอเดีย →
-            </button>
-          </td>
-        </tr>
-      `).join('');
+      const p = state.profile, full = state.slCompare.length >= 2;
+      const topId = [...state.shortlist].sort((a, b) => b.fitScore - a.fitScore)[0].id;
+      list.innerHTML = sortedShortlist().map((c, i) => {
+        const br = p.budget ? c.budget / p.budget : 0, wr = c.weeks / p.weeks;
+        const picked = state.slCompare.includes(c.id), lvl = fitLevel(c.fitScore);
+        return `
+        <li class="sl-item ${c.id === topId ? 'is-top' : ''} ${picked ? 'is-picked' : ''}">
+          <div class="sl-top">
+            <span class="sl-rank" aria-label="อันดับ ${i + 1}">${i + 1}</span>
+            <div>
+              <h3 class="sl-title">${c.superLiked ? '🌟 ' : ''}${c.title}</h3>
+              <span class="sl-subject">${c.subject}</span>${c.id === topId ? ' <span class="sl-subject" style="background:#FDF2F8;color:#BE185D;">แนะนำ</span>' : ''}
+            </div>
+            <div class="sl-fit ${lvl}" style="--p:${c.fitScore}" role="img" aria-label="Fit Score ${c.fitScore} จาก 100, ${fitLabel(c.fitScore)}">
+              <span><b>${c.fitScore}</b><small>FIT</small></span>
+            </div>
+          </div>
+          <div class="sl-meters">
+            <div class="sl-meter ${meterClass(br)}"><span>💰 งบ</span><div class="bar"><i style="width:${Math.min(br, 1) * 100}%"></i></div><span class="val">${c.budget === 0 ? 'ฟรี' : c.budget.toLocaleString() + '฿'}</span></div>
+            <div class="sl-meter ${meterClass(wr)}"><span>⏳ เวลา</span><div class="bar"><i style="width:${Math.min(wr, 1) * 100}%"></i></div><span class="val">${c.weeks}/${p.weeks} สัปดาห์</span></div>
+          </div>
+          <span class="sl-safety ${isSafe(c) ? '' : 'flag'}">${c.safety}${isSafe(c) ? '' : ' • ต้องมีครูดูแล'}</span>
+          <details class="sl-more">
+            <summary>ทำไมได้ Fit ${c.fitScore}?</summary>
+            <p>${c.desc}</p>
+            <ul>${fitReasons(c).map(r => `<li>${r}</li>`).join('')}</ul>
+          </details>
+          <div class="sl-actions">
+            <label class="sl-check"><input type="checkbox" ${picked ? 'checked' : ''} ${!picked && full ? 'disabled' : ''} onchange="toggleCompare(${c.id})"> เทียบ</label>
+            <button class="sl-icon-btn" onclick="removeFromShortlist(${c.id})" aria-label="ลบ ${c.title.slice(0, 30)} ออกจากรายการ">✕</button>
+            <button class="btn btn-primary btn-sm sl-go" onclick="selectTopicById(${c.id})">ปั้นไอเดียนี้ →</button>
+          </div>
+        </li>`;
+      }).join('');
+      renderCompareBar();
+    }
+
+    function setShortlistSort(key) {
+      state.slSort = key;
+      document.querySelectorAll('.sl-seg-btn').forEach(b => {
+        const on = b.dataset.sort === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on);
+      });
+      renderShortlist();
+    }
+
+    function removeFromShortlist(id) {
+      const c = state.shortlist.find(x => x.id === id);
+      state.shortlist = state.shortlist.filter(x => x.id !== id);
+      renderShortlist();
+      showToast(`ลบ "${c.title.slice(0, 24)}..." ออกแล้ว`);
+    }
+
+    function toggleCompare(id) {
+      if (state.slCompare.includes(id)) state.slCompare = state.slCompare.filter(x => x !== id);
+      else if (state.slCompare.length < 2) state.slCompare.push(id);
+      renderShortlist();
+    }
+
+    function clearCompare() { state.slCompare = []; renderShortlist(); }
+
+    function renderCompareBar() {
+      const n = state.slCompare.length;
+      document.getElementById('slCompareBar').hidden = n === 0;
+      document.getElementById('slSelN').textContent = n;
+      document.getElementById('slCompareBtn').disabled = n < 2;
+    }
+
+    function openCompare() {
+      const [a, b] = state.slCompare.map(id => state.shortlist.find(c => c.id === id));
+      if (!a || !b) return;
+      const row = (label, va, vb, better) => {
+        const w = better(a, b);
+        return `<div class="sl-cmp-row">${label}</div><div class="sl-cmp-cell ${w === 'a' ? 'win' : ''}">${va}</div><div class="sl-cmp-cell ${w === 'b' ? 'win' : ''}">${vb}</div>`;
+      };
+      const cmp = (f, lowerWins) => (x, y) => f(x) === f(y) ? '' : (lowerWins ? f(x) < f(y) : f(x) > f(y)) ? 'a' : 'b';
+      document.getElementById('slSheetBody').innerHTML = `
+        <div class="sl-cmp">
+          <div class="sl-cmp-name">${a.title}</div><div class="sl-cmp-name">${b.title}</div>
+          ${row('Fit Score', a.fitScore + ' • ' + fitLabel(a.fitScore), b.fitScore + ' • ' + fitLabel(b.fitScore), cmp(c => c.fitScore, false))}
+          ${row('งบประมาณ', a.budget.toLocaleString() + '฿', b.budget.toLocaleString() + '฿', cmp(c => c.budget, true))}
+          ${row('ระยะเวลา', a.weeks + ' สัปดาห์', b.weeks + ' สัปดาห์', cmp(c => c.weeks, true))}
+          ${row('ความปลอดภัย', a.safety, b.safety, cmp(c => isSafe(c) ? 1 : 0, false))}
+          ${row('วิชา', a.subject, b.subject, () => '')}
+          ${row('ความยาก', a.difficulty, b.difficulty, () => '')}
+        </div>
+        <div class="sl-cmp-actions">
+          <button class="btn btn-primary btn-sm" onclick="closeCompare(); selectTopicById(${a.id})">เลือกซ้าย →</button>
+          <button class="btn btn-primary btn-sm" onclick="closeCompare(); selectTopicById(${b.id})">เลือกขวา →</button>
+        </div>`;
+      const sheet = document.getElementById('slSheet');
+      sheet.hidden = false;
+      sheet.querySelector('.sl-sheet').scrollTop = 0;
+      sheet.querySelector('.sl-icon-btn').focus();
+    }
+
+    (function hoistSheet(){ const el = document.getElementById('slSheet'); if (el && el.parentElement !== document.body) document.body.appendChild(el); })();
+
+    function closeCompare() { document.getElementById('slSheet').hidden = true; }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCompare(); });
+
+    function selectTopicById(id) {
+      const c = state.shortlist.find(x => x.id === id);
+      if (c) selectTopicForSocratic(c.title);
     }
 
     function selectTopicForSocratic(title) {
