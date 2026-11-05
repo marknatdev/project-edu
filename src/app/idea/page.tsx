@@ -378,6 +378,9 @@ function IdeaChatView() {
             )}
           </div>
 
+          <Link href={`/variables?ideaId=${encodeURIComponent(state.savedIdea.id)}`} className="flex min-h-[44px] items-center justify-center rounded-2xl border border-indigo-200 bg-indigo-50 p-3 text-sm font-bold text-indigo-800">
+            ตารางแยกตัวแปร & ชุดควบคุม + เช็กลิสต์ความปลอดภัย →
+          </Link>
           {/* Action Links */}
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <Link

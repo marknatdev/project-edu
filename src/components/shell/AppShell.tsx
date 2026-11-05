@@ -67,6 +67,12 @@ export function AppShell({ children }: AppShellProps) {
       active: pathname === '/idea',
     },
     {
+      href: '/variables',
+      label: 'ตัวแปร & ความปลอดภัย',
+      icon: ShieldCheck,
+      active: pathname === '/variables',
+    },
+    {
       href: '/proposal',
       label: 'ข้อเสนอ & แผนงาน (Proposal)',
       icon: FileText,
@@ -184,7 +190,7 @@ export function AppShell({ children }: AppShellProps) {
         aria-label="เมนูหลักสำหรับมือถือ"
         className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 md:hidden shadow-lg"
       >
-        <div className="grid grid-cols-5 h-16 max-w-md mx-auto">
+        <div className="grid grid-cols-6 h-16 max-w-md mx-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -198,7 +204,7 @@ export function AppShell({ children }: AppShellProps) {
                 }`}
               >
                 <Icon className={`w-5 h-5 ${item.active ? 'text-indigo-600' : 'text-slate-400'}`} />
-                <span className="truncate max-w-[72px] text-center">{item.label.split(' ')[0]}</span>
+                <span className="truncate max-w-full px-1 text-center">{item.label.split(' ')[0]}</span>
               </Link>
             );
           })}

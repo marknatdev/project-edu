@@ -294,6 +294,15 @@ function extractText(input: string | Idea): string {
   if (input.description) {
     parts.push(input.description);
   }
+  // Only learner-authored design fields; never inspect IDs or checklist metadata.
+  if (input.isolator) {
+    const design = input.isolator;
+    parts.push(...(design.preset === 'science'
+      ? [design.independent, design.dependent, ...design.controlled, design.controlGroup]
+      : [design.input, design.output, design.baseline, design.metric, design.dataSplit]));
+  } else if (input.variables) {
+    parts.push(input.variables.independent, input.variables.dependent, ...input.variables.controlled, input.variables.controlGroup);
+  }
   return parts.join(' ');
 }
 

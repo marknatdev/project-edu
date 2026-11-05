@@ -13,7 +13,7 @@ const CATEGORY_NAMES_TH: Record<string, string> = {
   hazardous_chemicals: 'สารเคมีอันตราย / วัตถุไวไฟ (Hazardous Chemicals)',
   human_subjects: 'อาสาสมัครมนุษย์ (Human Subjects)',
   vertebrate_animals: 'สัตว์มีกระดูกสันหลัง (Vertebrate Animals)',
-  hazardous_devices: 'รังสี / เลเซอร์ / อุปกรณ์อันตราย (Hazardous Devices)',
+  high_voltage_radiation: 'ไฟฟ้าแรงสูง / รังสี / เลเซอร์ (High Voltage & Radiation)',
 };
 
 export function SafetyFlagPanel({ safetyFlags }: SafetyFlagPanelProps) {
@@ -27,10 +27,10 @@ export function SafetyFlagPanel({ safetyFlags }: SafetyFlagPanelProps) {
         </div>
         <div>
           <h4 className="text-sm font-bold text-emerald-900 font-prompt">
-            ผ่านการคัดกรองความปลอดภัยเบื้องต้น (Safety Screener Passed)
+            ไม่พบธงความปลอดภัยจากคำที่ตรวจเบื้องต้น
           </h4>
           <p className="text-xs text-emerald-700 font-prompt mt-0.5">
-            ไม่พบคำหรือขั้นตอนที่สุ่มเสี่ยงต่อข้อกำหนด SRC/ISEF เบื้องต้น สามารถดำเนินการทดลองตามแผนได้
+            การไม่พบคำเสี่ยงไม่ใช่การรับรองความปลอดภัย ให้ครูทบทวนแผนและข้อกำหนดก่อนลงมือจริง
           </p>
         </div>
       </div>
@@ -75,7 +75,7 @@ export function SafetyFlagPanel({ safetyFlags }: SafetyFlagPanelProps) {
                 </span>
                 {flag.requiresPreApproval && (
                   <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 text-[10px] font-bold">
-                    ต้องมีครูที่ปรึกษาควบคุม & ขออนุมัติ SRC
+                    ให้ครูตรวจการกำกับดูแลและข้อกำหนดอนุมัติ
                   </span>
                 )}
               </div>

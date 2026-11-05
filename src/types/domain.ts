@@ -132,6 +132,12 @@ export interface IdeaVariablesLite {
   replicates: number;
 }
 
+export type VariableIsolator =
+  | { preset: 'science'; independent: string; dependent: string; controlled: string[];
+      controlGroup: string; unit: string; replicates: number; customUnitConfirmed?: boolean }
+  | { preset: 'computing'; input: string; output: string; baseline: string;
+      metric: string; unit: string; dataSplit: string; replicates: number; customUnitConfirmed?: boolean };
+
 export interface Idea {
   id: string;
   learnerId: string;
@@ -142,6 +148,8 @@ export interface Idea {
   gradeLevel: GradeLevel;
   goal: Goal;
   variables?: IdeaVariablesLite;
+  isolator?: VariableIsolator;
+  safetyChecklist?: string[];
   usedTier3Example?: boolean;
   tier3Rewrite?: string;
   createdAt: string;

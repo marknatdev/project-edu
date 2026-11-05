@@ -8,6 +8,7 @@ import type {
   PivotCoaching,
   VerifiedPriorWork,
 } from '@/types/domain';
+import { evaluateIsolator } from '@/lib/variables/rigor';
 import { getRubricPreset } from '@/lib/rubrics/presets';
 import { computeEvaluationScore } from '@/lib/rubrics/engine';
 import { screenIdea } from '@/lib/safety/screener';
@@ -60,7 +61,7 @@ export interface PivotApiResponse {
  */
 export function generateOfflineEvaluation(idea: Idea): Evaluation {
   const preset = getRubricPreset(idea.goal, idea.gradeLevel);
-  const safetyFlags = screenIdea(`${idea.title} ${idea.description}`);
+  const safetyFlags = screenIdea(idea);
   const rawMatchedPriorWork: VerifiedPriorWork[] = findPriorWork(idea, 3);
   const matchedPriorWork: VerifiedPriorWork[] =
     rawMatchedPriorWork.length > 0 ? rawMatchedPriorWork : PRIOR_WORK.slice(0, 3);
@@ -107,6 +108,8 @@ export function generateOfflineEvaluation(idea: Idea): Evaluation {
         'ปรับปรุงการนำเสนอให้ตอบโจทย์เกณฑ์ของเวทีการประกวดที่ตั้งเป้าหมายไว้',
     },
   };
+
+  if (idea.isolator) defaultAxes.rigor = evaluateIsolator(idea.isolator);
 
   const { overallScore, overallBadge } = computeEvaluationScore(defaultAxes, preset);
 

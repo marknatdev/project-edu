@@ -155,6 +155,12 @@ export function assembleProposal(sources: ProposalAssemblySources): Proposal {
     independent = [...(existingProposal.variables.independent ?? [])];
     dependent = [...(existingProposal.variables.dependent ?? [])];
     controlled = [...(existingProposal.variables.controlled ?? [])];
+  } else if (idea?.isolator) {
+    // Isolator supersedes the earlier Variables Lite answer copies. Never replace saved Proposal edits.
+    const design = idea.isolator;
+    independent = parseStringList(design.preset === 'science' ? design.independent : design.input);
+    dependent = parseStringList(design.preset === 'science' ? design.dependent : design.output);
+    controlled = design.preset === 'science' ? parseStringList(design.controlled) : [];
   } else {
     // Collect from studentAnswers first, then fallback to idea.variables
     const ansInd = studentAnswers?.independentVar;
@@ -261,6 +267,12 @@ export function verifyProposalProvenance(
     }
   }
 
+  if (sources.idea?.isolator) {
+    const design = sources.idea.isolator;
+    sourceTexts.push(...(design.preset === 'science'
+      ? [design.independent, design.dependent, ...design.controlled]
+      : [design.input, design.output]));
+  }
   if (sources.studentAnswers) {
     Object.values(sources.studentAnswers).forEach((val) => {
       if (typeof val === 'string') sourceTexts.push(val);

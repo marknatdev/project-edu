@@ -1,0 +1,85 @@
+{
+  "viewport": 360,
+  "documentWidth": 360,
+  "nav": [
+    {
+      "label": "สัมภาษณ์",
+      "width": 60,
+      "height": 64,
+      "bottom": 800
+    },
+    {
+      "label": "ค้นหาหัวข้อ",
+      "width": 60,
+      "height": 64,
+      "bottom": 800
+    },
+    {
+      "label": "พัฒนาไอเดีย",
+      "width": 60,
+      "height": 64,
+      "bottom": 800
+    },
+    {
+      "label": "ตัวแปร",
+      "width": 60,
+      "height": 64,
+      "bottom": 800
+    },
+    {
+      "label": "ข้อเสนอ",
+      "width": 60,
+      "height": 64,
+      "bottom": 800
+    },
+    {
+      "label": "ความเป็นส่วนตัว",
+      "width": 60,
+      "height": 64,
+      "bottom": 800
+    }
+  ],
+  "formControls": [
+    {
+      "type": "textarea",
+      "height": 58
+    },
+    {
+      "type": "textarea",
+      "height": 58
+    },
+    {
+      "type": "textarea",
+      "height": 58
+    },
+    {
+      "type": "textarea",
+      "height": 58
+    },
+    {
+      "type": "textarea",
+      "height": 58
+    },
+    {
+      "type": "text",
+      "height": 44
+    },
+    {
+      "type": "number",
+      "height": 44
+    },
+    {
+      "type": "submit",
+      "height": 44
+    }
+  ],
+  "checklistTargets": [
+    130.5,
+    130.5,
+    130.5,
+    110.5,
+    130.5,
+    130.5,
+    130.5
+  ]
+}

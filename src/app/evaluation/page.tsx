@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { AppShell } from '@/components/shell/AppShell';
 import { AxisCard } from '@/components/evaluation/AxisCard';
+import { SafetyChecklist } from '@/components/safety/SafetyChecklist';
+import { screenIdea } from '@/lib/safety/screener';
 import { SafetyFlagPanel } from '@/components/evaluation/SafetyFlagPanel';
 import { PriorWorkList } from '@/components/evaluation/PriorWorkList';
 import { PivotWorkshop } from '@/components/evaluation/PivotWorkshop';
@@ -29,6 +31,8 @@ import {
 } from '@/lib/evaluation/eval-client';
 import {
   getIdeas,
+  getIdea,
+  saveIdea,
   getEvaluations,
   saveEvaluation,
   getInterview,
@@ -109,7 +113,8 @@ function EvaluationContent() {
 
     // Check store for existing evaluation of this idea
     const allEvals = getEvaluations();
-    const existing = allEvals.find((e) => e.ideaId === currentIdea!.id);
+    const existing = allEvals.filter((e) => e.ideaId === currentIdea!.id)
+      .sort((a, b) => b.evaluatedAt.localeCompare(a.evaluatedAt))[0];
 
     if (existing) {
       setEvaluation(existing);
@@ -320,7 +325,22 @@ function EvaluationContent() {
       </div>
 
       {/* Safety Screener Flags (Non-blocking) */}
-      <SafetyFlagPanel safetyFlags={viewModel.safetyFlags} />
+      <Link href={`/variables?ideaId=${encodeURIComponent(idea.id)}`} className="flex min-h-[44px] items-center rounded-2xl border border-indigo-200 bg-indigo-50 p-4 text-sm font-bold text-indigo-800">
+        ตารางแยกตัวแปร & ชุดควบคุม →
+      </Link>
+      <p className="text-xs text-slate-600">คะแนนด้านสมมติฐาน/วิธีวัดผลใช้ตารางที่บันทึก ณ เวลาประเมิน หากแก้ตารางแล้ว ให้กดประเมินใหม่เพื่ออัปเดตคะแนน (ตามโควตา)</p>
+      <SafetyFlagPanel safetyFlags={[...viewModel.safetyFlags, ...screenIdea(idea)].filter((flag, index, flags) => flags.findIndex((entry) => entry.category === flag.category) === index)} />
+      <SafetyChecklist flags={[...viewModel.safetyFlags, ...screenIdea(idea)]} completed={idea.safetyChecklist ?? []} onChange={(safetyChecklist) => {
+        try {
+          const latest = getIdea(idea.id);
+          if (!latest) throw new Error('Idea missing');
+          const updated = { ...latest, safetyChecklist };
+          saveIdea(updated);
+          setIdea(updated);
+        } catch {
+          setErrorMessage('บันทึกเช็กลิสต์ไม่สำเร็จ กรุณาตรวจพื้นที่จัดเก็บและลองอีกครั้ง');
+        }
+      }} />
 
       {/* 5-Axis Score Cards */}
       <div className="space-y-3">
@@ -361,7 +381,7 @@ function EvaluationContent() {
       <PriorWorkList priorWork={viewModel.priorWork} />
 
       {/* Fixed Bottom Action Floating Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-3 sm:p-4 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg z-20">
+      <div className="fixed bottom-16 md:bottom-0 left-0 right-0 p-3 sm:p-4 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg z-20">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="hidden sm:block text-xs font-prompt text-slate-500">
             {viewModel.hasRedAxes ? (

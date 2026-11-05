@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { evaluateIsolator } from '@/lib/variables/rigor';
 import { z } from 'zod';
 import { quotaStore, getQuotaExceededMessage } from '@/lib/ai/quota';
 import { callAiGateway } from '@/lib/ai/gateway';
@@ -81,7 +82,7 @@ export async function POST(req: Request) {
   const preset = getRubricPreset(idea.goal, idea.gradeLevel);
 
   // 2. M1 Deterministic Safety Screener
-  const safetyFlags = screenIdea(`${idea.title} ${idea.description}`);
+  const safetyFlags = screenIdea(idea);
 
   // 3. M2.2 Deterministic Prior Work Matcher
   const matchedPriorWork: VerifiedPriorWork[] = findPriorWork(idea, 3);
@@ -143,6 +144,7 @@ export async function POST(req: Request) {
 คำอธิบาย: ${idea.description}
 ระดับชั้น: ${idea.gradeLevel}
 เป้าหมาย: ${idea.goal}
+ตารางแยกตัวแปรจากผู้เรียน: ${JSON.stringify(idea.isolator ?? idea.variables ?? {})}
 เกณฑ์ Rubric: ${preset.nameTh} (${preset.descriptionTh})
 น้ำหนักเกณฑ์: Novelty=${preset.weights.novelty}, Feasibility=${preset.weights.feasibility}, Impact=${preset.weights.impact}, Rigor=${preset.weights.rigor}, Fit=${preset.weights.fit}
 ผลงานอ้างอิงที่มีในระบบ: ${matchedPriorWork.map((pw) => pw.id + ': ' + pw.title).join(' | ')}
@@ -209,6 +211,9 @@ export async function POST(req: Request) {
       feedback: aiAxis?.feedback || defaultAxes[axis].feedback,
     };
   }
+
+  // Evidence-based app heuristic is authoritative for saved isolator designs, even with AI enabled.
+  if (idea.isolator) finalAxes.rigor = evaluateIsolator(idea.isolator);
 
   // Compute overall score according to Rubric weights
   const { overallScore: calculatedOverall, overallBadge } =

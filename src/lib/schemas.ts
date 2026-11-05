@@ -25,6 +25,7 @@ import type {
   ShortlistItem,
   Idea,
   IdeaVariablesLite,
+  VariableIsolator,
   EvaluationAxis,
   ScoreBadge,
   AxisEvaluation,
@@ -194,6 +195,22 @@ export const IdeaVariablesLiteSchema = z.object({
 });
 export type _IdeaVariablesLiteCheck = Assert<Equals<z.infer<typeof IdeaVariablesLiteSchema>, IdeaVariablesLite>>;
 
+export const VariableIsolatorSchema = z.discriminatedUnion('preset', [
+  z.object({
+    preset: z.literal('science'), independent: z.string(), dependent: z.string(),
+    controlled: z.array(z.string()), controlGroup: z.string(), unit: z.string(),
+    replicates: z.number().int().min(0).max(1000000),
+    customUnitConfirmed: z.boolean().optional(),
+  }),
+  z.object({
+    preset: z.literal('computing'), input: z.string(), output: z.string(), baseline: z.string(),
+    metric: z.string(), unit: z.string(), dataSplit: z.string(),
+    replicates: z.number().int().min(0).max(1000000),
+    customUnitConfirmed: z.boolean().optional(),
+  }),
+]);
+export type _VariableIsolatorCheck = Assert<Equals<z.infer<typeof VariableIsolatorSchema>, VariableIsolator>>;
+
 export const IdeaSchema = z.object({
   id: z.string().min(1),
   learnerId: z.string().min(1),
@@ -204,6 +221,8 @@ export const IdeaSchema = z.object({
   gradeLevel: GradeLevelSchema,
   goal: GoalSchema,
   variables: IdeaVariablesLiteSchema.optional(),
+  isolator: VariableIsolatorSchema.optional(),
+  safetyChecklist: z.array(z.string().min(1)).optional(),
   usedTier3Example: z.boolean().optional(),
   tier3Rewrite: z.string().optional(),
   createdAt: z.string().datetime(),
