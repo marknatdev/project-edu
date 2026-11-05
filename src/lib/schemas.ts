@@ -228,6 +228,8 @@ export const SafetyFlagSchema = z.object({
   reasonTh: z.string(),
   advisoryTh: z.string(),
   requiresPreApproval: z.boolean(),
+  matchedTerms: z.array(z.string()).optional(),
+  blocking: z.boolean().optional(),
 });
 export type _SafetyFlagCheck = Assert<Equals<z.infer<typeof SafetyFlagSchema>, SafetyFlag>>;
 

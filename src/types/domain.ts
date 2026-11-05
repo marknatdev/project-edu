@@ -225,6 +225,8 @@ export interface SafetyFlag {
   reasonTh: string;
   advisoryTh: string;
   requiresPreApproval: boolean;
+  matchedTerms?: string[];
+  blocking?: boolean;
 }
 
 // 18. Pivot & PivotCoaching (มุมใหม่ & การโค้ชชวนคิดแบบ 3 ระดับ)
