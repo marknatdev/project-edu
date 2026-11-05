@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #EEF2FF 0%, #FDF2F8 50%, #ECFDF5 100%);
+  --glass-surface: rgba(255, 255, 255, 0.85);
+  --glass-strong: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(99, 102, 241, 0.18);
+  --text-main: #0F172A;
+  --text-sub: #475569;
+  --text-muted: #94A3B8;
+  --brand-indigo: #6366F1;
+  --brand-indigo-dark: #4F46E5;
+  --brand-pink: #EC4899;
+  --brand-mint: #10B981;
+  --brand-amber: #F59E0B;
+  --brand-red: #EF4444;
+}
+
+body {
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+}
