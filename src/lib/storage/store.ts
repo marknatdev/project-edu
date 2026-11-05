@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BomSchema } from '@/lib/bom/budget';
 import {
   LearnerSchema,
   InterviewSchema,
@@ -19,11 +20,29 @@ import type {
   Proposal,
   Plan,
   ProjectStatus,
+  BomItem,
 } from '@/types/domain';
 
 export const CURRENT_STORAGE_VERSION = 2;
 export const STORAGE_PREFIX = 'edtech:';
 export const STORAGE_KEY = `${STORAGE_PREFIX}state`;
+export const BOM_RECOVERY_KEY = `${STORAGE_PREFIX}bom-recovery`;
+
+/** Quarantine only the new optional BOM field; never discard other learner work. */
+function recoverInvalidBom(raw: unknown): { value: unknown; recovered: boolean } {
+  if (!raw || typeof raw !== 'object' || !('projects' in raw) || !Array.isArray(raw.projects)) {
+    return { value: raw, recovered: false };
+  }
+  let recovered = false;
+  const projects = raw.projects.map((project: unknown) => {
+    if (!project || typeof project !== 'object' || !('bom' in project) || BomSchema.safeParse(project.bom).success) return project;
+    recovered = true;
+    const clean = { ...project };
+    delete clean.bom;
+    return clean;
+  });
+  return { value: { ...raw, projects }, recovered };
+}
 
 export interface StorageAdapter {
   getItem(key: string): string | null;
@@ -204,6 +223,7 @@ export function migrateStorageState(raw: unknown): { state: StorageState; migrat
 export function loadState(storage: StorageAdapter = getDefaultStorage()): {
   state: StorageState;
   recovered: boolean;
+  bomRecovered?: boolean;
 } {
   try {
     const rawStr = storage.getItem(STORAGE_KEY);
@@ -221,7 +241,10 @@ export function loadState(storage: StorageAdapter = getDefaultStorage()): {
       return { state: defaultState, recovered: true };
     }
 
-    const { state, migrated } = migrateStorageState(parsedJson);
+    const repaired = recoverInvalidBom(parsedJson);
+    const { state, migrated } = migrateStorageState(repaired.value);
+    // Keep damaged source untouched on reads; the next explicit save backs it up.
+    if (repaired.recovered) return { state, recovered: true, bomRecovered: true };
     if (migrated) {
       saveState(state, storage);
       return { state, recovered: true };
@@ -239,6 +262,15 @@ export function loadState(storage: StorageAdapter = getDefaultStorage()): {
  */
 export function saveState(state: StorageState, storage: StorageAdapter = getDefaultStorage()): void {
   const validated = StorageStateSchema.parse(state);
+  const previous = storage.getItem(STORAGE_KEY);
+  if (previous) {
+    let parsed: unknown;
+    try { parsed = JSON.parse(previous); } catch { parsed = null; }
+    if (recoverInvalidBom(parsed).recovered) {
+      // If backup fails, abort rather than overwrite the original damaged BOM.
+      storage.setItem(BOM_RECOVERY_KEY, previous);
+    }
+  }
   storage.setItem(STORAGE_KEY, JSON.stringify(validated));
 }
 
@@ -470,6 +502,20 @@ export function updateProjectPlan(
   if (!project) return null;
 
   project.plan = plan;
+  project.updatedAt = new Date().toISOString();
+  saveState(state, storage);
+  return project;
+}
+
+export function updateProjectBom(
+  projectId: string,
+  bom: BomItem[],
+  storage: StorageAdapter = getDefaultStorage(),
+): Project | null {
+  const { state } = loadState(storage);
+  const project = state.projects.find((p) => p.id === projectId);
+  if (!project) return null;
+  project.bom = bom;
   project.updatedAt = new Date().toISOString();
   saveState(state, storage);
   return project;

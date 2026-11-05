@@ -314,6 +314,19 @@ Automated detection of regulated project domains:
 
 ---
 
+## 11. M5.2 Calendar Source Appendix (checked 2026-11-05)
+
+The §10 calendar examples were **not official or verified annual deadlines**. The app shows recurring **approximate planning windows**, never “registration open” or an official closing date. Month-boundary countdowns are explicitly approximate, in Asia/Bangkok calendar days, and roll forward after a window. They do not set or overwrite the learner's Plan deadline.
+
+| Competition | Source observed | Planning-month interpretation / limits |
+|---|---|---|
+| YSC | [NSTDA YSC announcement](https://www.nstda.or.th/ysc/ysc2026) currently displays **YSC 2027**, despite its URL: registration-code deadline 25 Aug 2026; proposal deadline 10 Sep 2026 (search-index full text; extraction confirms YSC 2027 heading). | Use **Aug–Sep** as an approximate projection, superseding the unverified Oct–Nov example. This is **not** a published date for a future season. |
+| NSC | [Faculty of Science, Silpakorn University / coordinating partner: NSC 2026](https://sc.su.ac.th/การแข่งขันพัฒนาโปรแกรม) explicitly gives 1–29 May 2026 for proposals. | Use **May** as an approximate projection, superseding the unverified Aug–Sep example. Future dates must be checked. |
+| ศิลปหัตถกรรม | [Event system, Songkhla–Satun secondary education area](https://art74.vichakan.net/sm-ska) lists 26–28 Aug 2026, with science-project announcements. | Retain §10's **Sep–Dec** only as a broad planning example, **not a nationwide registration window**. The app explicitly warns that some areas run earlier (Aug), and to check the local area with a teacher. No school/location information is collected. |
+| ISEF | [Society for Science: Affiliated Fair Network / Dates & Deadlines](https://www.societyforscience.org/isef/affiliated-fair-network) lists ISEF 2027 on 8–14 May 2027. | **May** is an approximate **international-event** season, **not direct student registration**. Qualification via an affiliated fair and earlier approvals are required; follow that fair's own dates. |
+
+These sources were retrieved during implementation. Source pages can change; the app carries checked-on dates and a prominent instruction to verify the current-year organizer announcement. No official rules or application eligibility are inferred from month projections.
+
 ## Deliberation & Mention Protocol
 - **Researcher Assessment**: Completed deep-dive gap analysis comparing global science fair platforms (Science Buddies, ProjectBoard, ISEF Wizard) and Thai student needs (YSC, NSC, OBEC, TCAS Portfolio). Added Section 10 with 8 actionable feature expansions.
 - **Next Step**: Ask `@user` which expansion features to include in the current MVP scope (`PLAN.md`) vs deferring to Phase 2.

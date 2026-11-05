@@ -27,6 +27,7 @@ import { assembleProposal } from '@/lib/proposal/assemble';
 import { generateWeeklyPlan } from '@/lib/plan/weekly-plan';
 import { checkProposalQuota, consumeProposalQuota, type ProposalQuotaStatus } from '@/lib/proposal/quota-client';
 import { ProjectSwitcher } from '@/components/project/ProjectSwitcher';
+import { ProjectToolLinks } from '@/components/project/ProjectToolLinks';
 import { ProposalEditor } from '@/components/proposal/ProposalEditor';
 import { WeeklyPlanEditor } from '@/components/proposal/WeeklyPlanEditor';
 import { ExportPanel } from '@/components/export/ExportPanel';
@@ -37,9 +38,11 @@ function ProposalContent() {
   const searchParams = useSearchParams();
   const urlProjectId = searchParams.get('projectId');
   const urlIdeaId = searchParams.get('ideaId');
+  const urlTab = searchParams.get('tab');
 
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('proposal');
+  useEffect(() => { setActiveTab(urlTab === 'plan' ? 'plan' : 'proposal'); }, [urlTab]);
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProj] = useState<Project | null>(null);
@@ -311,6 +314,7 @@ function ProposalContent() {
       </div>
 
       {/* Multi-Project Workspace Switcher */}
+      <ProjectToolLinks projectId={activeProject?.id} />
       <ProjectSwitcher
         projects={projects}
         activeProject={activeProject}

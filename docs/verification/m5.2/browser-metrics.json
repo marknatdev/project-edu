@@ -1,0 +1,168 @@
+{
+  "bom360": {
+    "viewport": 360,
+    "document": 345,
+    "controls": [
+      {
+        "text": "ข้อเสนอ & แผน",
+        "width": 99,
+        "height": 50
+      },
+      {
+        "text": "งบ & อุปกรณ์",
+        "width": 99,
+        "height": 50
+      },
+      {
+        "text": "ปฏิทินแข่ง",
+        "width": 99,
+        "height": 50
+      },
+      {
+        "text": "โครงงานทดสอบ Aโครงงานทดสอบ B",
+        "width": 313,
+        "height": 49
+      },
+      {
+        "text": "♻️ ใช้ของในโรงเรียนแทน20 ฿ / ชิ้น • เปิด",
+        "width": 279,
+        "height": 50
+      },
+      {
+        "text": "แก้ไข",
+        "width": 135.5,
+        "height": 44
+      },
+      {
+        "text": "ลบ",
+        "width": 135.5,
+        "height": 44
+      },
+      {
+        "text": "+ เพิ่มรายการวัสดุ",
+        "width": 313,
+        "height": 48
+      }
+    ],
+    "nav": [
+      {
+        "text": "สัมภาษณ์",
+        "width": 57.5,
+        "height": 64
+      },
+      {
+        "text": "ค้นหาหัวข้อ",
+        "width": 57.5,
+        "height": 64
+      },
+      {
+        "text": "พัฒนาไอเดีย",
+        "width": 57.5,
+        "height": 64
+      },
+      {
+        "text": "ตัวแปร",
+        "width": 57.5,
+        "height": 64
+      },
+      {
+        "text": "ข้อเสนอ",
+        "width": 57.5,
+        "height": 64
+      },
+      {
+        "text": "ความเป็นส่วนตัว",
+        "width": 57.5,
+        "height": 64
+      }
+    ]
+  },
+  "sticky360": {
+    "top": 72,
+    "headerBottom": 65,
+    "scroll": 650,
+    "viewport": 360,
+    "document": 345
+  },
+  "calendar360": {
+    "viewport": 360,
+    "document": 345,
+    "cards": 4,
+    "sourceTargets": [
+      {
+        "width": 279,
+        "height": 50
+      },
+      {
+        "width": 279,
+        "height": 50
+      },
+      {
+        "width": 279,
+        "height": 50
+      },
+      {
+        "width": 279,
+        "height": 50
+      }
+    ]
+  },
+  "form360": {
+    "fields": [
+      {
+        "label": "ชื่อวัสดุ / อุปกรณ์",
+        "top": 377,
+        "height": 46,
+        "width": 277
+      },
+      {
+        "label": "จำนวน",
+        "top": 455,
+        "height": 46,
+        "width": 132.5
+      },
+      {
+        "label": "ราคาต่อชิ้น",
+        "top": 455,
+        "height": 46,
+        "width": 132.5
+      },
+      {
+        "label": "ราคาทดแทนต่อชิ้น",
+        "top": 533,
+        "height": 46,
+        "width": 277
+      }
+    ],
+    "summaryBottom": 216,
+    "selectorDisabled": true,
+    "viewport": 360,
+    "document": 345
+  },
+  "calendar1280": {
+    "viewport": 1280,
+    "document": 1265,
+    "cardPositions": [
+      {
+        "x": 376.5,
+        "y": 405,
+        "width": 376
+      },
+      {
+        "x": 768.5,
+        "y": 405,
+        "width": 376
+      },
+      {
+        "x": 376.5,
+        "y": 813,
+        "width": 376
+      },
+      {
+        "x": 768.5,
+        "y": 813,
+        "width": 376
+      }
+    ]
+  }
+}

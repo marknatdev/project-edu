@@ -313,9 +313,19 @@ export interface Plan {
 }
 
 // 21. Project (โครงงาน: ไอเดียที่ผ่านการประเมินแล้ว + Proposal + Plan)
+export interface BomItem {
+  id: string;
+  name: string;
+  quantity: number;
+  unitPriceBaht: number;
+  useSchoolSubstitute: boolean;
+  substitutePriceBaht: number;
+}
+
 export type ProjectStatus = 'in_progress' | 'ready_for_review' | 'completed';
 
 export interface Project {
+  bom?: BomItem[];
   id: string;
   learnerId: string;
   ideaId: string;

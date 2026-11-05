@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BomSchema } from '@/lib/bom/budget';
 import {
   GOALS,
   TRACKS,
@@ -404,6 +405,7 @@ export const ProjectStatusSchema = z.enum(['in_progress', 'ready_for_review', 'c
 export type _ProjectStatusCheck = Assert<Equals<z.infer<typeof ProjectStatusSchema>, ProjectStatus>>;
 
 export const ProjectSchema = z.object({
+  bom: BomSchema.optional(),
   id: z.string().min(1),
   learnerId: z.string().min(1),
   ideaId: z.string().min(1),
