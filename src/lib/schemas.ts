@@ -199,8 +199,10 @@ export type _EvaluationAxisCheck = Assert<Equals<z.infer<typeof EvaluationAxisSc
 export const ScoreBadgeSchema = z.enum(SCORE_BADGES);
 export type _ScoreBadgeCheck = Assert<Equals<z.infer<typeof ScoreBadgeSchema>, ScoreBadge>>;
 
+export const ScoreAxisSchema = z.number().int().min(1).max(10);
+
 export const EvaluationAxisSchema = z.object({
-  score: z.number().int().min(1).max(10),
+  score: ScoreAxisSchema,
   badge: ScoreBadgeSchema,
   rationale: z.string(),
   feedback: z.string(),
