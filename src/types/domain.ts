@@ -88,6 +88,7 @@ export interface TopicCard {
   minTeamSize: number;
   maxTeamSize: number;
   requiredSkills: string[];
+  safetyCategories?: SafetyCategory[];
 }
 
 // 10. SwipeAction (การตอบสนองต่อการ์ด: ข้าม, สนใจ, อยากทำเลย, ย้อนกลับ)

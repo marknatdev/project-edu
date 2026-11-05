@@ -119,6 +119,10 @@ export const SubfieldSchema = z.object({
 });
 export type _SubfieldCheck = Assert<Equals<z.infer<typeof SubfieldSchema>, Subfield>>;
 
+// Forward reference for TopicCardSchema & EvaluationSchema
+export const SafetyCategorySchema = z.enum(SAFETY_CATEGORIES);
+export type _SafetyCategoryCheck = Assert<Equals<z.infer<typeof SafetyCategorySchema>, SafetyCategory>>;
+
 // 9. TopicCard
 export const DifficultyLevelSchema = z.enum(['beginner', 'intermediate', 'advanced']);
 export type _DifficultyLevelCheck = Assert<Equals<z.infer<typeof DifficultyLevelSchema>, DifficultyLevel>>;
@@ -138,6 +142,7 @@ export const TopicCardSchema = z.object({
   minTeamSize: z.number().int().min(1),
   maxTeamSize: z.number().int().min(1),
   requiredSkills: z.array(z.string()),
+  safetyCategories: z.array(SafetyCategorySchema).optional(),
 });
 export type _TopicCardCheck = Assert<Equals<z.infer<typeof TopicCardSchema>, TopicCard>>;
 
@@ -219,9 +224,6 @@ export const EvaluationAxesSchema = z.object({
 export type _EvaluationAxesCheck = Assert<Equals<z.infer<typeof EvaluationAxesSchema>, EvaluationAxes>>;
 
 // Forward reference for EvaluationSchema
-export const SafetyCategorySchema = z.enum(SAFETY_CATEGORIES);
-export type _SafetyCategoryCheck = Assert<Equals<z.infer<typeof SafetyCategorySchema>, SafetyCategory>>;
-
 export const SafetyFlagSchema = z.object({
   category: SafetyCategorySchema,
   flagged: z.boolean(),
