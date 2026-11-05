@@ -24,6 +24,7 @@ import type {
   FitScore,
   ShortlistItem,
   Idea,
+  IdeaVariablesLite,
   EvaluationAxis,
   ScoreBadge,
   AxisEvaluation,
@@ -184,6 +185,15 @@ export const ShortlistItemSchema = z.object({
 export type _ShortlistItemCheck = Assert<Equals<z.infer<typeof ShortlistItemSchema>, ShortlistItem>>;
 
 // 13. Idea
+export const IdeaVariablesLiteSchema = z.object({
+  independent: z.string().min(1),
+  dependent: z.string().min(1),
+  controlled: z.array(z.string().min(1)).min(1),
+  controlGroup: z.string().min(1),
+  replicates: z.number().int().min(1),
+});
+export type _IdeaVariablesLiteCheck = Assert<Equals<z.infer<typeof IdeaVariablesLiteSchema>, IdeaVariablesLite>>;
+
 export const IdeaSchema = z.object({
   id: z.string().min(1),
   learnerId: z.string().min(1),
@@ -193,6 +203,9 @@ export const IdeaSchema = z.object({
   sourceTopicCardId: z.string().optional(),
   gradeLevel: GradeLevelSchema,
   goal: GoalSchema,
+  variables: IdeaVariablesLiteSchema.optional(),
+  usedTier3Example: z.boolean().optional(),
+  tier3Rewrite: z.string().optional(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });

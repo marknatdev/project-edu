@@ -207,7 +207,7 @@ function DiscoveryContent() {
 
     // Redirect to idea track / coaching
     setTimeout(() => {
-      router.push('/idea');
+      router.push(`/idea?topicCardId=${encodeURIComponent(card.id)}`);
     }, 600);
   };
 

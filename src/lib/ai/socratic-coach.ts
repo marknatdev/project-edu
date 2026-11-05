@@ -100,13 +100,13 @@ export function createInitialCoachState(
 }
 
 // Fallback bank for deterministic responses
-interface AspectPrompts {
+export interface AspectPrompts {
   tier1: string;
   tier2: { content: string; lenses: string[] };
   tier3: { content: string; examples: string[] };
 }
 
-const FALLBACK_PROMPTS: Record<CoachAspect, AspectPrompts> = {
+export const FALLBACK_PROMPTS: Record<CoachAspect, AspectPrompts> = {
   problem: {
     tier1:
       'ลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?',

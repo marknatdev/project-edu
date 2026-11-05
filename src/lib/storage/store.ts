@@ -60,6 +60,8 @@ export function createMemoryStorage(): StorageAdapter {
   };
 }
 
+let ssrMemoryStorage: StorageAdapter | null = null;
+
 /**
  * Returns localStorage when running in a browser, or an in-memory fallback during SSR.
  */
@@ -67,7 +69,10 @@ function getDefaultStorage(): StorageAdapter {
   if (typeof window !== 'undefined' && window.localStorage) {
     return window.localStorage;
   }
-  return createMemoryStorage();
+  if (!ssrMemoryStorage) {
+    ssrMemoryStorage = createMemoryStorage();
+  }
+  return ssrMemoryStorage;
 }
 
 // PDPA Consent Schema
@@ -245,6 +250,11 @@ export function undoLastSwipeAction(storage: StorageAdapter = getDefaultStorage(
 export function getIdeas(storage: StorageAdapter = getDefaultStorage()): Idea[] {
   const { state } = loadState(storage);
   return state.ideas;
+}
+
+export function getIdea(id: string, storage: StorageAdapter = getDefaultStorage()): Idea | null {
+  const ideas = getIdeas(storage);
+  return ideas.find((i) => i.id === id) ?? null;
 }
 
 export function saveIdea(idea: Idea, storage: StorageAdapter = getDefaultStorage()): void {

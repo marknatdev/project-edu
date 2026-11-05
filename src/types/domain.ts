@@ -124,6 +124,14 @@ export interface ShortlistItem {
 }
 
 // 13. Idea (ไอเดีย: หัวข้อที่เลือกแล้ว + มุมมองของผู้เรียน)
+export interface IdeaVariablesLite {
+  independent: string;
+  dependent: string;
+  controlled: string[];
+  controlGroup: string;
+  replicates: number;
+}
+
 export interface Idea {
   id: string;
   learnerId: string;
@@ -133,6 +141,9 @@ export interface Idea {
   sourceTopicCardId?: string;
   gradeLevel: GradeLevel;
   goal: Goal;
+  variables?: IdeaVariablesLite;
+  usedTier3Example?: boolean;
+  tier3Rewrite?: string;
   createdAt: string;
   updatedAt: string;
 }
