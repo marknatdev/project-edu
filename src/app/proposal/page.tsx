@@ -29,6 +29,7 @@ import { checkProposalQuota, consumeProposalQuota, type ProposalQuotaStatus } fr
 import { ProjectSwitcher } from '@/components/project/ProjectSwitcher';
 import { ProposalEditor } from '@/components/proposal/ProposalEditor';
 import { WeeklyPlanEditor } from '@/components/proposal/WeeklyPlanEditor';
+import { ExportPanel } from '@/components/export/ExportPanel';
 
 type ActiveTab = 'proposal' | 'plan';
 
@@ -69,6 +70,7 @@ function ProposalContent() {
     const learner = getLearner();
 
     setProjects(storedProjects);
+    setActiveProj(getActiveProject());
     setIdeas(storedIdeas);
     setInterview(storedInterview);
 
@@ -375,6 +377,7 @@ function ProposalContent() {
           <p className="text-sm text-slate-500">ยังไม่ได้เลือกโครงงาน</p>
         </div>
       )}
+      {activeProject && <ExportPanel key={`${activeProject.id}:${activeProject.updatedAt}`} project={activeProject} />}
     </div>
   );
 }

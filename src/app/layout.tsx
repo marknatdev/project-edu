@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Prompt, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { PwaInstall } from '@/components/pwa/PwaInstall';
 
 const prompt = Prompt({
   weight: ["300", "400", "500", "600", "700"],
@@ -17,9 +18,15 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  manifest: '/manifest.json',
+  applicationName: 'Project Edu',
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Project Edu' },
+  icons: { icon: '/icons/icon-192.png', apple: '/icons/apple-touch-icon.png' },
   title: "Project Edu — ผู้ช่วยเริ่มต้นโครงงาน ม.ต้น / ม.ปลาย",
   description: "แอปช่วยนักเรียน ม.ต้น/ม.ปลาย เริ่มต้นโครงงาน ตั้งแต่หาหัวข้อจนได้ข้อเสนอโครงงาน",
 };
+
+export const viewport: Viewport = { themeColor: '#4F46E5', width: 'device-width', initialScale: 1 };
 
 export default function RootLayout({
   children,
@@ -28,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th" className={`${prompt.variable} ${plusJakartaSans.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased"><PwaInstall />{children}</body>
     </html>
   );
 }
