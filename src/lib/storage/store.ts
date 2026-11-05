@@ -16,9 +16,12 @@ import type {
   Project,
   Evaluation,
   Pivot,
+  Proposal,
+  Plan,
+  ProjectStatus,
 } from '@/types/domain';
 
-export const CURRENT_STORAGE_VERSION = 1;
+export const CURRENT_STORAGE_VERSION = 2;
 export const STORAGE_PREFIX = 'edtech:';
 export const STORAGE_KEY = `${STORAGE_PREFIX}state`;
 
@@ -95,6 +98,7 @@ export const StorageStateSchema = z.object({
   projects: z.array(ProjectSchema),
   evaluations: z.array(EvaluationSchema),
   pivots: z.array(PivotSchema).optional().default([]),
+  activeProjectId: z.string().nullable().optional().default(null),
 });
 export type StorageState = z.infer<typeof StorageStateSchema>;
 
@@ -112,6 +116,7 @@ export function getDefaultState(): StorageState {
     projects: [],
     evaluations: [],
     pivots: [],
+    activeProjectId: null,
   };
 }
 
@@ -132,7 +137,7 @@ export function migrateStorageState(raw: unknown): { state: StorageState; migrat
   }
 
   if (version === 0) {
-    // Migration from v0 to v1
+    // Migration from v0 to v2
     const candidate = {
       schemaVersion: CURRENT_STORAGE_VERSION,
       consent: record.consent ?? { accepted: false, acceptedAt: null },
@@ -143,6 +148,35 @@ export function migrateStorageState(raw: unknown): { state: StorageState; migrat
       projects: Array.isArray(record.projects) ? record.projects : [],
       evaluations: Array.isArray(record.evaluations) ? record.evaluations : [],
       pivots: Array.isArray(record.pivots) ? record.pivots : [],
+      activeProjectId: null,
+    };
+
+    const parsed = StorageStateSchema.safeParse(candidate);
+    if (parsed.success) {
+      return { state: parsed.data, migrated: true };
+    }
+    return { state: getDefaultState(), migrated: true };
+  }
+
+  if (version === 1) {
+    // Migration from v1 to v2: initialize activeProjectId to first project if present
+    const projectsList = Array.isArray(record.projects) ? record.projects : [];
+    const firstProjId =
+      projectsList.length > 0 && typeof projectsList[0] === 'object' && (projectsList[0] as Record<string, unknown>)?.id
+        ? String((projectsList[0] as Record<string, unknown>).id)
+        : null;
+
+    const candidate = {
+      schemaVersion: CURRENT_STORAGE_VERSION,
+      consent: record.consent ?? { accepted: false, acceptedAt: null },
+      learner: record.learner ?? null,
+      interview: record.interview ?? null,
+      swipeHistory: Array.isArray(record.swipeHistory) ? record.swipeHistory : [],
+      ideas: Array.isArray(record.ideas) ? record.ideas : [],
+      projects: projectsList,
+      evaluations: Array.isArray(record.evaluations) ? record.evaluations : [],
+      pivots: Array.isArray(record.pivots) ? record.pivots : [],
+      activeProjectId: typeof record.activeProjectId === 'string' ? record.activeProjectId : firstProjId,
     };
 
     const parsed = StorageStateSchema.safeParse(candidate);
@@ -273,9 +307,172 @@ export function saveIdea(idea: Idea, storage: StorageAdapter = getDefaultStorage
   saveState(state, storage);
 }
 
+export function deleteIdea(id: string, storage: StorageAdapter = getDefaultStorage()): boolean {
+  const { state } = loadState(storage);
+  const exists = state.ideas.some((i) => i.id === id);
+  if (!exists) return false;
+
+  state.ideas = state.ideas.filter((i) => i.id !== id);
+  saveState(state, storage);
+  return true;
+}
+
 export function getProjects(storage: StorageAdapter = getDefaultStorage()): Project[] {
   const { state } = loadState(storage);
   return state.projects;
+}
+
+export function getProject(id: string, storage: StorageAdapter = getDefaultStorage()): Project | null {
+  const projects = getProjects(storage);
+  return projects.find((p) => p.id === id) ?? null;
+}
+
+export function getActiveProjectId(storage: StorageAdapter = getDefaultStorage()): string | null {
+  const { state } = loadState(storage);
+  return state.activeProjectId ?? null;
+}
+
+export function getActiveProject(storage: StorageAdapter = getDefaultStorage()): Project | null {
+  const { state } = loadState(storage);
+  if (!state.activeProjectId) return null;
+  return state.projects.find((p) => p.id === state.activeProjectId) ?? null;
+}
+
+export function setActiveProjectId(id: string | null, storage: StorageAdapter = getDefaultStorage()): boolean {
+  const { state } = loadState(storage);
+  if (id === null) {
+    state.activeProjectId = null;
+    saveState(state, storage);
+    return true;
+  }
+  const exists = state.projects.some((p) => p.id === id);
+  if (!exists) return false;
+
+  state.activeProjectId = id;
+  saveState(state, storage);
+  return true;
+}
+
+export interface CreateProjectParams {
+  id?: string;
+  title?: string;
+  learnerId?: string;
+  ideaId?: string;
+  proposal?: Proposal;
+  plan?: Plan;
+  status?: ProjectStatus;
+}
+
+export function createProject(
+  params: CreateProjectParams = {},
+  storage: StorageAdapter = getDefaultStorage()
+): Project {
+  const { state } = loadState(storage);
+  const now = new Date().toISOString();
+  const id = params.id ?? `proj-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+  const cleanTitle = params.title?.trim() || 'โครงงานใหม่';
+  const learnerId = params.learnerId ?? state.learner?.id ?? 'guest-learner';
+  const ideaId = params.ideaId ?? (state.ideas[0]?.id ?? `idea-${Date.now()}`);
+
+  const defaultProposal: Proposal = params.proposal ?? {
+    title: cleanTitle,
+    problemStatement: '',
+    objectives: [],
+    hypothesis: '',
+    variables: {
+      independent: [],
+      dependent: [],
+      controlled: [],
+    },
+    methodology: '',
+  };
+
+  const defaultPlan: Plan = params.plan ?? {
+    targetDeadline: new Date(Date.now() + 8 * 7 * 24 * 60 * 60 * 1000).toISOString(),
+    totalWeeks: 8,
+    milestones: [],
+  };
+
+  const project: Project = {
+    id,
+    learnerId,
+    ideaId,
+    title: cleanTitle,
+    proposal: defaultProposal,
+    plan: defaultPlan,
+    status: params.status ?? 'in_progress',
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  state.projects.push(project);
+  state.activeProjectId = id;
+  saveState(state, storage);
+  return project;
+}
+
+export function renameProject(
+  id: string,
+  newTitle: string,
+  storage: StorageAdapter = getDefaultStorage()
+): Project | null {
+  const cleanTitle = newTitle.trim();
+  if (!cleanTitle) return null;
+
+  const { state } = loadState(storage);
+  const project = state.projects.find((p) => p.id === id);
+  if (!project) return null;
+
+  project.title = cleanTitle;
+  if (project.proposal) {
+    project.proposal.title = cleanTitle;
+  }
+  project.updatedAt = new Date().toISOString();
+  saveState(state, storage);
+  return project;
+}
+
+export function deleteProject(id: string, storage: StorageAdapter = getDefaultStorage()): boolean {
+  const { state } = loadState(storage);
+  const exists = state.projects.some((p) => p.id === id);
+  if (!exists) return false;
+
+  state.projects = state.projects.filter((p) => p.id !== id);
+  if (state.activeProjectId === id) {
+    state.activeProjectId = state.projects[0]?.id ?? null;
+  }
+  saveState(state, storage);
+  return true;
+}
+
+export function updateProjectProposal(
+  projectId: string,
+  proposal: Proposal,
+  storage: StorageAdapter = getDefaultStorage()
+): Project | null {
+  const { state } = loadState(storage);
+  const project = state.projects.find((p) => p.id === projectId);
+  if (!project) return null;
+
+  project.proposal = proposal;
+  project.updatedAt = new Date().toISOString();
+  saveState(state, storage);
+  return project;
+}
+
+export function updateProjectPlan(
+  projectId: string,
+  plan: Plan,
+  storage: StorageAdapter = getDefaultStorage()
+): Project | null {
+  const { state } = loadState(storage);
+  const project = state.projects.find((p) => p.id === projectId);
+  if (!project) return null;
+
+  project.plan = plan;
+  project.updatedAt = new Date().toISOString();
+  saveState(state, storage);
+  return project;
 }
 
 export function saveProject(project: Project, storage: StorageAdapter = getDefaultStorage()): void {
@@ -285,6 +482,9 @@ export function saveProject(project: Project, storage: StorageAdapter = getDefau
     state.projects[existingIdx] = project;
   } else {
     state.projects.push(project);
+    if (!state.activeProjectId) {
+      state.activeProjectId = project.id;
+    }
   }
   saveState(state, storage);
 }

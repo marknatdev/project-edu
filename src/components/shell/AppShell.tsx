@@ -13,6 +13,7 @@ import {
   AlertCircle,
   X,
   GraduationCap,
+  FileText,
 } from 'lucide-react';
 import { wipeAllLearnerData } from '@/lib/storage/store';
 import { signInWithGoogle } from '@/lib/supabase/client';
@@ -64,6 +65,12 @@ export function AppShell({ children }: AppShellProps) {
       label: 'พัฒนาไอเดีย (Idea Track)',
       icon: Lightbulb,
       active: pathname === '/idea',
+    },
+    {
+      href: '/proposal',
+      label: 'ข้อเสนอ & แผนงาน (Proposal)',
+      icon: FileText,
+      active: pathname === '/proposal',
     },
     {
       href: '/consent',
@@ -177,7 +184,7 @@ export function AppShell({ children }: AppShellProps) {
         aria-label="เมนูหลักสำหรับมือถือ"
         className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 md:hidden shadow-lg"
       >
-        <div className="grid grid-cols-4 h-16 max-w-md mx-auto">
+        <div className="grid grid-cols-5 h-16 max-w-md mx-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (

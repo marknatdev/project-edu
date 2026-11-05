@@ -354,12 +354,12 @@ export const ProposalVariablesSchema = z.object({
 export type _ProposalVariablesCheck = Assert<Equals<z.infer<typeof ProposalVariablesSchema>, ProposalVariables>>;
 
 export const ProposalSchema = z.object({
-  title: z.string().min(1),
-  problemStatement: z.string().min(1),
-  objectives: z.array(z.string()).min(1),
-  hypothesis: z.string().min(1),
+  title: z.string(),
+  problemStatement: z.string(),
+  objectives: z.array(z.string()),
+  hypothesis: z.string(),
   variables: ProposalVariablesSchema,
-  methodology: z.string().min(1),
+  methodology: z.string(),
 });
 export type _ProposalCheck = Assert<Equals<z.infer<typeof ProposalSchema>, Proposal>>;
 
