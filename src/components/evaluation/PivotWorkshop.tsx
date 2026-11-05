@@ -1,0 +1,503 @@
+'use client';
+
+import React, { useState } from 'react';
+import {
+  Compass,
+  HelpCircle,
+  Sparkles,
+  Lock,
+  CheckCircle,
+  AlertCircle,
+  Lightbulb,
+  PenTool,
+  RefreshCw,
+} from 'lucide-react';
+import type {
+  EvaluationAxis,
+  Idea,
+  Constraints,
+} from '@/types/domain';
+import {
+  createInitialPivotState,
+  pivotReducer,
+  type PivotState,
+} from '@/lib/pivot/pivot-reducer';
+import { fetchPivot } from '@/lib/evaluation/eval-client';
+import { isRewriteAcceptable } from '@/lib/advisor/chat-reducer';
+import { AXIS_META } from '@/lib/evaluation/view-model';
+import { saveIdea, savePivot } from '@/lib/storage/store';
+import Link from 'next/link';
+
+export interface PivotWorkshopProps {
+  idea: Idea;
+  redAxes: EvaluationAxis[];
+  constraints?: Constraints;
+  anonymousId?: string;
+  onIdeaUpdated?: (updatedIdea: Idea) => void;
+}
+
+export function PivotWorkshop({
+  idea,
+  redAxes,
+  constraints,
+  anonymousId = 'guest_user',
+  onIdeaUpdated,
+}: PivotWorkshopProps) {
+  const [state, setState] = useState<PivotState>(() =>
+    createInitialPivotState({
+      idea,
+      redAxes,
+      constraints,
+    })
+  );
+
+  const [rewriteInput, setRewriteInput] = useState('');
+  const [rewriteError, setRewriteError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [savedSuccess, setSavedSuccess] = useState(false);
+
+  if (redAxes.length === 0) {
+    return null;
+  }
+
+  const activeAxisMeta = AXIS_META[state.activeAxis];
+  const hasTier2 = state.unlockedTiers.includes(2);
+  const hasTier3 = state.unlockedTiers.includes(3);
+
+  // Switch Red Axis
+  const handleSwitchAxis = (axis: EvaluationAxis) => {
+    setState((prev) => pivotReducer(prev, { type: 'SWITCH_AXIS', axis }));
+    setRewriteInput('');
+    setRewriteError(null);
+    setSavedSuccess(false);
+  };
+
+  // Unlock Tier 2
+  const handleUnlockTier2 = async () => {
+    setState((prev) => pivotReducer(prev, { type: 'UNLOCK_TIER_2' }));
+
+    // Optionally fetch dynamic Tier 2 lens from API
+    setIsSubmitting(true);
+    const res = await fetchPivot({
+      anonymousId,
+      idea: state.originalIdea,
+      redAxes: [state.activeAxis],
+      tier: 2,
+      constraints,
+      unlockedTiers: [1, 2],
+    });
+    setIsSubmitting(false);
+
+    if (res.success && res.coaching?.tier2Lenses) {
+      setState((prev) =>
+        pivotReducer(prev, {
+          type: 'SET_COACHING_DATA',
+          tier2Lenses: res.coaching?.tier2Lenses,
+        })
+      );
+    }
+  };
+
+  // Request Tier 3 (Last Resort Angles)
+  const handleRequestTier3 = async () => {
+    if (!hasTier2) {
+      return;
+    }
+
+    setState((prev) => pivotReducer(prev, { type: 'REQUEST_TIER_3' }));
+    setIsSubmitting(true);
+
+    const res = await fetchPivot({
+      anonymousId,
+      idea: state.originalIdea,
+      redAxes: [state.activeAxis],
+      tier: 3,
+      constraints,
+      unlockedTiers: [1, 2, 3],
+    });
+    setIsSubmitting(false);
+
+    if (res.success && res.coaching?.tier3Examples) {
+      setState((prev) =>
+        pivotReducer(prev, {
+          type: 'SET_COACHING_DATA',
+          tier3Examples: res.coaching?.tier3Examples,
+        })
+      );
+    } else if (res.error) {
+      setState((prev) =>
+        pivotReducer(prev, {
+          type: 'COACH_FAILURE_FALLBACK',
+          error: res.error,
+        })
+      );
+    }
+  };
+
+  // Select an angle to rewrite
+  const handleSelectAngle = (angle: string) => {
+    setState((prev) => pivotReducer(prev, { type: 'SELECT_ANGLE', angle }));
+    setRewriteInput('');
+    setRewriteError(null);
+  };
+
+  // Submit student rewrite (Rewrite Gate)
+  const handleSubmitRewrite = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!state.pendingAngle) return;
+
+    const check = isRewriteAcceptable(state.pendingAngle, rewriteInput);
+    if (!check.acceptable) {
+      setRewriteError(check.reasonTh ?? 'ข้อความยังไม่ผ่านเกณฑ์การเขียนใหม่');
+      return;
+    }
+
+    setRewriteError(null);
+    const nextState = pivotReducer(state, {
+      type: 'SUBMIT_REWRITE',
+      rewrite: rewriteInput,
+    });
+    setState(nextState);
+
+    if (nextState.updatedIdea && nextState.pivotRecord) {
+      // Persist to store
+      saveIdea(nextState.updatedIdea);
+      savePivot(nextState.pivotRecord);
+      setSavedSuccess(true);
+      if (onIdeaUpdated) {
+        onIdeaUpdated(nextState.updatedIdea);
+      }
+    }
+  };
+
+  return (
+    <div
+      id="pivot-workshop"
+      className="rounded-3xl border-2 border-rose-300 bg-white p-4 sm:p-6 shadow-sm space-y-5"
+    >
+      {/* Workshop Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-rose-100">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-rose-100 text-rose-800 text-xs font-bold font-prompt">
+            <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+            <span>Socratic Pivot Workshop (AC-8)</span>
+          </div>
+          <h3 className="text-base sm:text-lg font-extrabold text-slate-900 font-prompt">
+            ห้องทดลองปรับมุมมองใหม่ สำหรับจุดที่ต้องพัฒนา (Red Axes)
+          </h3>
+          <p className="text-xs text-slate-600 font-prompt">
+            ช่วยวิเคราะห์และปรับมุมมองโครงงานตามลำดับ 3 ระดับ (ADR 0002) โดยไม่ตัดสิทธิ์การเขียนข้อเสนอโครงงาน
+          </p>
+        </div>
+
+        {/* Non-blocking skip to Proposal button */}
+        <Link
+          href={`/proposal?ideaId=${state.originalIdea.id}`}
+          className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold font-prompt text-xs transition-all shrink-0 w-full sm:w-auto"
+        >
+          <span>ข้ามไปเขียน Proposal →</span>
+        </Link>
+      </div>
+
+      {/* Red Axes Tabs (if multiple red axes) */}
+      {redAxes.length > 1 && (
+        <div className="space-y-1.5">
+          <span className="text-xs font-bold text-slate-600 font-prompt">
+            เลือกด้านที่ต้องการปรับมุมมอง:
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {redAxes.map((axis) => {
+              const meta = AXIS_META[axis];
+              const isSelected = state.activeAxis === axis;
+              return (
+                <button
+                  key={axis}
+                  type="button"
+                  onClick={() => handleSwitchAxis(axis)}
+                  className={`min-h-[40px] px-3.5 py-1.5 rounded-2xl text-xs font-bold font-prompt transition-all flex items-center gap-1.5 ${
+                    isSelected
+                      ? 'bg-rose-600 text-white shadow-xs'
+                      : 'bg-rose-50 text-rose-800 hover:bg-rose-100 border border-rose-200'
+                  }`}
+                >
+                  <span>🔴</span>
+                  <span>{meta.nameTh}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Progressive 3-Tier Scaffolding Navigation */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        {/* Tier 1 Tab */}
+        <button
+          type="button"
+          onClick={() => setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 1 }))}
+          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
+            state.currentTier === 1
+              ? 'bg-indigo-600 text-white border-indigo-700 shadow-indigo-100 ring-2 ring-indigo-200'
+              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <HelpCircle className="w-4 h-4 shrink-0" />
+            <span>ระดับ 1: คำถามชวนคิด</span>
+          </div>
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">พร้อมใช้</span>
+        </button>
+
+        {/* Tier 2 Tab */}
+        <button
+          type="button"
+          onClick={() => {
+            if (hasTier2) {
+              setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 2 }));
+            } else {
+              handleUnlockTier2();
+            }
+          }}
+          disabled={isSubmitting}
+          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
+            state.currentTier === 2
+              ? 'bg-indigo-600 text-white border-indigo-700 shadow-indigo-100 ring-2 ring-indigo-200'
+              : hasTier2
+                ? 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                : 'bg-slate-50 text-slate-400 border-slate-200 hover:border-slate-300'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <Compass className="w-4 h-4 shrink-0" />
+            <span>ระดับ 2: กรอบความคิด/คำใบ้</span>
+          </div>
+          {hasTier2 ? (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">ปลดล็อกแล้ว</span>
+          ) : (
+            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+          )}
+        </button>
+
+        {/* Tier 3 Tab */}
+        <button
+          type="button"
+          onClick={() => {
+            if (hasTier3) {
+              setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 3 }));
+            } else if (hasTier2) {
+              handleRequestTier3();
+            }
+          }}
+          disabled={!hasTier2 || isSubmitting}
+          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
+            state.currentTier === 3
+              ? 'bg-rose-600 text-white border-rose-700 shadow-rose-100 ring-2 ring-rose-200'
+              : hasTier3
+                ? 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <Lightbulb className="w-4 h-4 shrink-0" />
+            <span>ระดับ 3: มุมมองใหม่ (2-3 ทาง)</span>
+          </div>
+          {hasTier3 ? (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">ปลดล็อกแล้ว</span>
+          ) : (
+            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+          )}
+        </button>
+      </div>
+
+      {/* Tier 1 Content: Socratic Question Prompt */}
+      {state.currentTier === 1 && (
+        <div className="rounded-2xl bg-indigo-50/60 border border-indigo-200 p-4 sm:p-5 space-y-3 font-prompt">
+          <div className="flex items-center gap-2 text-indigo-900 font-bold text-xs sm:text-sm">
+            <HelpCircle className="w-4 h-4 text-indigo-600 shrink-0" />
+            <span>คำถามชวนคิดสำหรับด้าน {activeAxisMeta.nameTh}:</span>
+          </div>
+          <p className="text-slate-800 text-sm sm:text-base leading-relaxed bg-white p-3.5 rounded-xl border border-indigo-100">
+            {state.tier1Prompt}
+          </p>
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span className="text-xs text-slate-500">
+              ลองคิดหาคำตอบด้วยตนเอง หากยังนึกไม่ออก สามารถขอรับคำใบ้กรอบความคิดในระดับ 2 ได้
+            </span>
+            <button
+              type="button"
+              onClick={handleUnlockTier2}
+              className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0"
+            >
+              <span>ขอรับกรอบความคิด (Tier 2) →</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Tier 2 Content: Thinking Lenses */}
+      {state.currentTier === 2 && (
+        <div className="rounded-2xl bg-amber-50/60 border border-amber-200 p-4 sm:p-5 space-y-3 font-prompt">
+          <div className="flex items-center gap-2 text-amber-950 font-bold text-xs sm:text-sm">
+            <Compass className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>กรอบความคิดและคำใบ้เพื่อปรับปรุง (Thinking Lenses):</span>
+          </div>
+
+          <div className="space-y-2">
+            {state.tier2Lenses.map((lens, idx) => (
+              <div
+                key={idx}
+                className="p-3 bg-white rounded-xl border border-amber-100 text-xs sm:text-sm text-slate-800 leading-relaxed flex items-start gap-2 shadow-xs"
+              >
+                <span className="font-bold text-amber-600 shrink-0">{idx + 1}.</span>
+                <span>{lens}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-amber-200/60">
+            <span className="text-xs text-slate-500">
+              ลองนำกรอบความคิดด้านบนไปปรับแผน หากติดตันจริง ๆ สามารถขอตัวอย่างมุมมองใหม่ (Last Resort)
+            </span>
+            <button
+              type="button"
+              onClick={handleRequestTier3}
+              disabled={isSubmitting}
+              className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
+            >
+              {isSubmitting ? (
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  <span>กำลังประมวลผล...</span>
+                </>
+              ) : (
+                <span>ขอมุมมองใหม่ตัวอย่าง (Tier 3 Last Resort) →</span>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Tier 3 Content: 2-3 Pivot Angles + Rewrite Gate */}
+      {state.currentTier === 3 && (
+        <div className="rounded-2xl bg-rose-50/70 border border-rose-200 p-4 sm:p-5 space-y-4 font-prompt">
+          <div className="flex items-center gap-2 text-rose-950 font-bold text-xs sm:text-sm">
+            <Lightbulb className="w-4 h-4 text-rose-600 shrink-0" />
+            <span>ทางเลือกมุมมองใหม่ 2–3 แนวทาง (Pivot Angles):</span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-2.5">
+            {state.tier3Examples.map((angle, idx) => {
+              const isSelected = state.pendingAngle === angle;
+              return (
+                <div
+                  key={idx}
+                  onClick={() => handleSelectAngle(angle)}
+                  className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-white border-rose-600 ring-2 ring-rose-200 shadow-sm'
+                      : 'bg-white/90 border-slate-200 hover:border-rose-300 hover:bg-white'
+                  }`}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') handleSelectAngle(angle);
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-extrabold text-rose-600">
+                          แนวทางที่ {idx + 1}
+                        </span>
+                        {isSelected && (
+                          <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 text-[10px] font-bold">
+                            เลือกแนวทางนี้
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                        {angle}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ADR 0002 Rewrite Gate */}
+          {state.pendingAngle ? (
+            <div className="pt-2 space-y-3">
+              <div className="p-4 rounded-2xl bg-white border-2 border-rose-300 shadow-xs space-y-3">
+                <div className="flex items-center gap-2 text-xs font-bold text-rose-900">
+                  <PenTool className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span>ด่านเรียบเรียงไอเดียด้วยภาษาของตนเอง (Rewrite Gate):</span>
+                </div>
+                <p className="text-xs text-slate-600">
+                  เพื่อป้องกันการคัดลอก กรุณาเขียนสรุปแนวทางนี้ด้วยภาษาและความเข้าใจของคุณเอง (อย่างน้อย 15 ตัวอักษร)
+                </p>
+
+                <form onSubmit={handleSubmitRewrite} className="space-y-3">
+                  <textarea
+                    value={rewriteInput}
+                    onChange={(e) => setRewriteInput(e.target.value)}
+                    placeholder="เขียนอธิบายว่าคุณจะนำแนวทางนี้ไปปรับใช้อย่างไร..."
+                    rows={3}
+                    className="w-full p-3 rounded-xl border border-slate-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-xs sm:text-sm text-slate-900 outline-hidden font-prompt resize-none"
+                  />
+
+                  {rewriteError && (
+                    <div className="flex items-center gap-1.5 p-2 rounded-lg bg-rose-50 text-rose-700 text-xs font-medium">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <span>{rewriteError}</span>
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+                    <span className="text-[11px] text-slate-400">
+                      จำนวนตัวอักษร: {rewriteInput.trim().length} / 15
+                    </span>
+                    <button
+                      type="submit"
+                      disabled={rewriteInput.trim().length < 15}
+                      className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      <span>บันทึกการปรับมุมมองใหม่</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          ) : (
+            <p className="text-xs text-slate-500 italic text-center pt-1">
+              👆 คลิกเลือกแนวทางมุมมองใหม่ด้านบน 1 ข้อ เพื่อเข้าสู่ด่านเรียบเรียงไอเดีย
+            </p>
+          )}
+
+          {/* Success Banner */}
+          {savedSuccess && (
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs sm:text-sm font-prompt space-y-2">
+              <div className="flex items-center gap-2 font-bold">
+                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>บันทึกการปรับปรุงมุมมองใหม่ลงในโครงงานเรียบร้อยแล้ว!</span>
+              </div>
+              <p className="text-xs text-emerald-700">
+                คุณสามารถประเมินโครงงานใหม่อีกครั้งเพื่อดูคะแนนที่อัปเดต หรือเดินทางต่อไปยังหน้าข้อเสนอโครงงาน (Proposal) ได้ทันที
+              </p>
+              <div className="pt-1 flex flex-wrap gap-2">
+                <Link
+                  href={`/proposal?ideaId=${state.originalIdea.id}`}
+                  className="min-h-[40px] px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs inline-flex items-center gap-1.5"
+                >
+                  <span>ไปเขียนข้อเสนอโครงงานต่อ (Proposal) →</span>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

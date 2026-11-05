@@ -248,5 +248,20 @@ export async function POST(req: Request) {
   return NextResponse.json({
     source: gatewayResult.source,
     evaluation,
+    quota: {
+      used: quotaResult.record.used,
+      limit: quotaResult.record.limit,
+      remaining: quotaResult.record.remaining,
+      resetAt: quotaResult.record.resetAt,
+    },
+  });
+}
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const anonymousId = searchParams.get('anonymousId') || 'guest';
+  const record = await quotaStore.check(anonymousId, 'evaluate');
+  return NextResponse.json({
+    quota: record,
   });
 }

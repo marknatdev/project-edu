@@ -6,6 +6,7 @@ import {
   IdeaSchema,
   ProjectSchema,
   EvaluationSchema,
+  PivotSchema,
 } from '@/lib/schemas';
 import type {
   Learner,
@@ -14,6 +15,7 @@ import type {
   Idea,
   Project,
   Evaluation,
+  Pivot,
 } from '@/types/domain';
 
 export const CURRENT_STORAGE_VERSION = 1;
@@ -92,6 +94,7 @@ export const StorageStateSchema = z.object({
   ideas: z.array(IdeaSchema),
   projects: z.array(ProjectSchema),
   evaluations: z.array(EvaluationSchema),
+  pivots: z.array(PivotSchema).optional().default([]),
 });
 export type StorageState = z.infer<typeof StorageStateSchema>;
 
@@ -108,6 +111,7 @@ export function getDefaultState(): StorageState {
     ideas: [],
     projects: [],
     evaluations: [],
+    pivots: [],
   };
 }
 
@@ -138,6 +142,7 @@ export function migrateStorageState(raw: unknown): { state: StorageState; migrat
       ideas: Array.isArray(record.ideas) ? record.ideas : [],
       projects: Array.isArray(record.projects) ? record.projects : [],
       evaluations: Array.isArray(record.evaluations) ? record.evaluations : [],
+      pivots: Array.isArray(record.pivots) ? record.pivots : [],
     };
 
     const parsed = StorageStateSchema.safeParse(candidate);
@@ -296,6 +301,25 @@ export function saveEvaluation(evaluation: Evaluation, storage: StorageAdapter =
     state.evaluations[existingIdx] = evaluation;
   } else {
     state.evaluations.push(evaluation);
+  }
+  saveState(state, storage);
+}
+
+export function getPivots(storage: StorageAdapter = getDefaultStorage()): Pivot[] {
+  const { state } = loadState(storage);
+  return state.pivots ?? [];
+}
+
+export function savePivot(pivot: Pivot, storage: StorageAdapter = getDefaultStorage()): void {
+  const { state } = loadState(storage);
+  if (!state.pivots) {
+    state.pivots = [];
+  }
+  const existingIdx = state.pivots.findIndex((p) => p.id === pivot.id);
+  if (existingIdx >= 0) {
+    state.pivots[existingIdx] = pivot;
+  } else {
+    state.pivots.push(pivot);
   }
   saveState(state, storage);
 }

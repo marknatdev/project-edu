@@ -14,6 +14,8 @@ import {
   getProjects,
   saveEvaluation,
   getEvaluations,
+  savePivot,
+  getPivots,
   saveConsent,
   getConsent,
   wipeAllLearnerData,
@@ -30,6 +32,7 @@ import type {
   Idea,
   Project,
   Evaluation,
+  Pivot,
 } from '@/types/domain';
 
 describe('Local Store (src/lib/storage/store.ts)', () => {
@@ -188,6 +191,20 @@ describe('Local Store (src/lib/storage/store.ts)', () => {
       expect(getIdeas(storage)).toEqual([idea]);
       expect(getEvaluations(storage)).toEqual([evaluation]);
       expect(getProjects(storage)).toEqual([project]);
+
+      // Pivot storage round-trip
+      const pivot: Pivot = {
+        id: 'pivot_01',
+        originalIdeaId: 'idea_01',
+        redAxes: ['feasibility'],
+        coaching: {
+          tier: 1,
+          tier1Prompt: 'prompt test',
+        },
+        createdAt: '2026-11-05T00:00:00.000Z',
+      };
+      savePivot(pivot, storage);
+      expect(getPivots(storage)).toEqual([pivot]);
     });
 
     it('round-trips PDPA Consent status', () => {
