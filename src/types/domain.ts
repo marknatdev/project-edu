@@ -208,6 +208,17 @@ export interface PriorWork {
   url: string;
   summary: string;
   difference: string;
+  subfieldIds?: string[];
+  keywords?: string[];
+  verifiedAt?: string;
+  observedTitle?: string;
+}
+
+export interface VerifiedPriorWork extends PriorWork {
+  subfieldIds: string[];
+  keywords: string[];
+  verifiedAt: string;
+  observedTitle: string;
 }
 
 // 17. SafetyFlag (ธงความปลอดภัย: มาตรฐาน SRC/ISEF 5 หมวดความเสี่ยง)

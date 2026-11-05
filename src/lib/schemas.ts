@@ -33,6 +33,7 @@ import type {
   RubricPresetCriteria,
   RubricPreset,
   PriorWork,
+  VerifiedPriorWork,
   SafetyCategory,
   SafetyFlag,
   CoachingTier,
@@ -246,8 +247,23 @@ export const PriorWorkSchema = z.object({
   }),
   summary: z.string(),
   difference: z.string(),
+  subfieldIds: z.array(z.string()).optional(),
+  keywords: z.array(z.string()).optional(),
+  verifiedAt: z.string().optional(),
+  observedTitle: z.string().optional(),
 });
 export type _PriorWorkCheck = Assert<Equals<z.infer<typeof PriorWorkSchema>, PriorWork>>;
+
+export const VerifiedPriorWorkSchema = PriorWorkSchema.extend({
+  subfieldIds: z.array(z.string()).min(1),
+  keywords: z.array(z.string()).min(1),
+  verifiedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  observedTitle: z.string().min(1),
+  url: z.string().url().refine((u) => /^https:\/\//i.test(u), {
+    message: 'Must be an https URL',
+  }),
+});
+export type _VerifiedPriorWorkCheck = Assert<Equals<z.infer<typeof VerifiedPriorWorkSchema>, VerifiedPriorWork>>;
 
 export const EvaluationSchema = z.object({
   id: z.string().min(1),
