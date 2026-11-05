@@ -233,6 +233,15 @@ export function addSwipeAction(action: SwipeAction, storage: StorageAdapter = ge
   saveState(state, storage);
 }
 
+export function undoLastSwipeAction(storage: StorageAdapter = getDefaultStorage()): SwipeAction | null {
+  const { state } = loadState(storage);
+  const popped = state.swipeHistory.pop() ?? null;
+  if (popped) {
+    saveState(state, storage);
+  }
+  return popped;
+}
+
 export function getIdeas(storage: StorageAdapter = getDefaultStorage()): Idea[] {
   const { state } = loadState(storage);
   return state.ideas;

@@ -6,6 +6,7 @@ import {
   saveInterview,
   getInterview,
   addSwipeAction,
+  undoLastSwipeAction,
   getSwipeHistory,
   saveIdea,
   getIdeas,
@@ -107,6 +108,11 @@ describe('Local Store (src/lib/storage/store.ts)', () => {
       expect(history).toHaveLength(2);
       expect(history[0]).toEqual(action1);
       expect(history[1]).toEqual(action2);
+
+      const popped = undoLastSwipeAction(storage);
+      expect(popped).toEqual(action2);
+      expect(getSwipeHistory(storage)).toHaveLength(1);
+      expect(getSwipeHistory(storage)[0]).toEqual(action1);
     });
 
     it('round-trips Ideas, Projects, and Evaluations', () => {
