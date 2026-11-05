@@ -3,11 +3,7 @@
 import React, { Suspense, useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  FileText,
-  Calendar,
-  ArrowLeft,
-} from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import {
   getProjects,
   getActiveProject,
@@ -30,9 +26,14 @@ import { ProjectSwitcher } from '@/components/project/ProjectSwitcher';
 import { ProjectToolLinks } from '@/components/project/ProjectToolLinks';
 import { ProposalEditor } from '@/components/proposal/ProposalEditor';
 import { WeeklyPlanEditor } from '@/components/proposal/WeeklyPlanEditor';
-import { ExportPanel } from '@/components/export/ExportPanel';
+import { ProjectDeliverables } from '@/components/presentation/ProjectDeliverables';
+import '@/components/export/document.css';
 
-type ActiveTab = 'proposal' | 'plan';
+type ActiveTab = 'proposal' | 'plan' | 'tcas' | 'pitch' | 'advisor';
+const documentTabs: { id: ActiveTab; label: string }[] = [
+  { id: 'proposal', label: '📑 Proposal' }, { id: 'plan', label: '🗓️ Plan รายสัปดาห์' },
+  { id: 'tcas', label: '🎓 พอร์ต TCAS' }, { id: 'pitch', label: '🎙️ Abstract & Pitch' }, { id: 'advisor', label: '✍️ ครูตรวจ' },
+];
 
 function ProposalContent() {
   const searchParams = useSearchParams();
@@ -42,7 +43,11 @@ function ProposalContent() {
 
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('proposal');
-  useEffect(() => { setActiveTab(urlTab === 'plan' ? 'plan' : 'proposal'); }, [urlTab]);
+  useEffect(() => {
+    const selectTab = () => setActiveTab(window.location.hash.startsWith('#advisor=') ? 'advisor' : documentTabs.find(t => t.id === urlTab)?.id ?? 'proposal');
+    selectTab(); window.addEventListener('hashchange', selectTab);
+    return () => window.removeEventListener('hashchange', selectTab);
+  }, [urlTab]);
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProj] = useState<Project | null>(null);
@@ -306,10 +311,10 @@ function ProposalContent() {
       {/* Page Title & Mission */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-prompt">
-          ข้อเสนอโครงงาน & แผนงาน
+          Proposal, พอร์ต & ครูอนุมัติ
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-          สร้าง Proposal 1 หน้าจากคำตอบจริงของผู้เรียน และบริหารจัดการแผนงานรายสัปดาห์
+          จัดเอกสารจากคำตอบจริงของผู้เรียน: Proposal + Plan • พอร์ต TCAS • Abstract & Pitch • ส่งครูตรวจ
         </p>
       </div>
 
@@ -325,37 +330,9 @@ function ProposalContent() {
         onDeleteProject={handleDeleteProject}
       />
 
-      {/* View Tabs: Proposal vs Weekly Plan */}
-      <div className="flex items-center p-1.5 bg-slate-100 rounded-2xl gap-1">
-        <button
-          type="button"
-          onClick={() => setActiveTab('proposal')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition min-h-[44px] ${
-            activeTab === 'proposal'
-              ? 'bg-white text-indigo-700 shadow-xs'
-              : 'text-slate-600 hover:text-slate-900'
-          }`}
-          role="tab"
-          aria-selected={activeTab === 'proposal'}
-        >
-          <FileText className="w-4 h-4" />
-          <span>📑 1-Page Proposal</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('plan')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition min-h-[44px] ${
-            activeTab === 'plan'
-              ? 'bg-white text-indigo-700 shadow-xs'
-              : 'text-slate-600 hover:text-slate-900'
-          }`}
-          role="tab"
-          aria-selected={activeTab === 'plan'}
-        >
-          <Calendar className="w-4 h-4" />
-          <span>🗓️ แผนงานรายสัปดาห์</span>
-        </button>
+      <div className="grid grid-cols-2 sm:grid-cols-3 p-1.5 bg-slate-100 rounded-2xl gap-1" aria-label="ประเภทเอกสาร">
+        {documentTabs.map(tab => <button key={tab.id} type="button" aria-pressed={activeTab === tab.id}
+          onClick={() => setActiveTab(tab.id)} className={`min-h-11 rounded-xl p-3 text-xs sm:text-sm font-bold transition ${activeTab === tab.id ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:bg-white/60'}`}>{tab.label}</button>)}
       </div>
 
       {/* Tab Panels */}
@@ -368,20 +345,20 @@ function ProposalContent() {
             onSave={handleSaveProposal}
             onReassemble={handleReassembleProposal}
           />
-        ) : (
+        ) : activeTab === 'plan' ? (
           <WeeklyPlanEditor
             plan={activeProject.plan}
             methodology={activeProject.proposal?.methodology}
             isSaving={isSaving}
             onSave={handleSavePlan}
           />
-        )
+        ) : null
       ) : (
         <div className="bg-white rounded-3xl border border-slate-200/80 p-8 text-center space-y-3">
           <p className="text-sm text-slate-500">ยังไม่ได้เลือกโครงงาน</p>
         </div>
       )}
-      {activeProject && <ExportPanel key={`${activeProject.id}:${activeProject.updatedAt}`} project={activeProject} />}
+      {activeProject && <ProjectDeliverables key={`${activeProject.id}:${activeProject.updatedAt}`} project={activeProject} view={activeTab} />}
     </div>
   );
 }

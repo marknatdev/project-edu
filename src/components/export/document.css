@@ -19,6 +19,8 @@
 .document-subtitle { text-align: center; color: #475569; margin: 8px 0 16px; }
 .document-section { margin: 14px 0; }
 .proposal-document p { white-space: pre-wrap; }
+.portfolio-sheet { font-size: 14px; }
+.portfolio-sheet .document-section { margin: 10px 0; }
 @page { size: A4; margin: 15mm; }
 @media print {
   html, body { background: white !important; min-height: 0; }
@@ -30,5 +32,7 @@
   .proposal-document h2, .proposal-document h3 { font-size: 14pt; break-after: avoid; }
   .document-section { margin: 9pt 0; }
   .document-section p { orphans: 3; widows: 3; }
-  .plan-sheet { break-before: page; }
+  .plan-sheet, .template-sheet { break-before: page; }
+  .portfolio-sheet { font-size: 11pt; line-height: 1.3; }
+  .portfolio-sheet .document-section { margin: 7pt 0; }
 }

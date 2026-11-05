@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "consent": {
+    "accepted": true,
+    "acceptedAt": "2026-11-05T00:00:00.000Z"
+  },
+  "learner": null,
+  "interview": null,
+  "swipeHistory": [],
+  "pivots": [],
+  "activeProjectId": "m53-a",
+  "ideas": [
+    {
+      "id": "m53-idea-a",
+      "learnerId": "synthetic",
+      "title": "เปรียบเทียบมุมแผงพลังงาน",
+      "description": "อยากลดการใช้ไฟจากระบบหลัก",
+      "source": "idea_track",
+      "gradeLevel": "m_plai",
+      "goal": "ysc",
+      "createdAt": "2026-11-05T00:00:00.000Z",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "m53-a",
+      "learnerId": "synthetic",
+      "ideaId": "m53-idea-a",
+      "title": "เปรียบเทียบมุมแผงพลังงาน",
+      "proposal": {
+        "title": "เปรียบเทียบมุมแผงพลังงาน",
+        "problemStatement": "ชุมชนต้องการลดค่าไฟ",
+        "objectives": [
+          "เปรียบเทียบกำลังไฟของมุมแผงสามระดับ"
+        ],
+        "hypothesis": "มุมเอียงอาจส่งผลต่อกำลังไฟ",
+        "variables": {
+          "independent": [
+            "มุมแผง"
+          ],
+          "dependent": [
+            "กำลังไฟ (W)"
+          ],
+          "controlled": [
+            "ชนิดแผงและเวลาวัด"
+          ]
+        },
+        "methodology": "วัดกำลังไฟวันละ 3 ครั้ง บันทึกเมฆและอุณหภูมิ"
+      },
+      "plan": {
+        "totalWeeks": 2,
+        "targetDeadline": "2026-12-01T00:00:00.000Z",
+        "milestones": [
+          {
+            "week": 1,
+            "title": "เตรียมชุดทดลอง",
+            "description": "ตรวจระบบก่อนวัด",
+            "deliverable": "ตารางข้อมูลดิบ",
+            "completed": false
+          }
+        ]
+      },
+      "status": "in_progress",
+      "createdAt": "2026-11-05T00:00:00.000Z",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
+    },
+    {
+      "id": "m53-b",
+      "learnerId": "synthetic",
+      "ideaId": "m53-idea-b",
+      "title": "โครงงานที่สอง ไม่มี Evaluation",
+      "proposal": {
+        "title": "โครงงานที่สอง ไม่มี Evaluation",
+        "problemStatement": "ชุมชนต้องการลดค่าไฟ",
+        "objectives": [
+          "เปรียบเทียบกำลังไฟของมุมแผงสามระดับ"
+        ],
+        "hypothesis": "มุมเอียงอาจส่งผลต่อกำลังไฟ",
+        "variables": {
+          "independent": [
+            "มุมแผง"
+          ],
+          "dependent": [
+            "กำลังไฟ (W)"
+          ],
+          "controlled": [
+            "ชนิดแผงและเวลาวัด"
+          ]
+        },
+        "methodology": "วัดกำลังไฟวันละ 3 ครั้ง บันทึกเมฆและอุณหภูมิ"
+      },
+      "plan": {
+        "totalWeeks": 2,
+        "targetDeadline": "2026-12-01T00:00:00.000Z",
+        "milestones": [
+          {
+            "week": 1,
+            "title": "เตรียมชุดทดลอง",
+            "description": "ตรวจระบบก่อนวัด",
+            "deliverable": "ตารางข้อมูลดิบ",
+            "completed": false
+          }
+        ]
+      },
+      "status": "in_progress",
+      "createdAt": "2026-11-05T00:00:00.000Z",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
+    }
+  ],
+  "evaluations": [
+    {
+      "id": "m53-eval",
+      "ideaId": "m53-idea-a",
+      "overallScore": 5,
+      "overallBadge": "yellow",
+      "axes": {
+        "novelty": {
+          "score": 6,
+          "badge": "yellow",
+          "rationale": "คำอธิบายตัวอย่างสำหรับทดสอบ",
+          "feedback": "คำถามตัวอย่างสำหรับทดสอบ"
+        },
+        "feasibility": {
+          "score": 8,
+          "badge": "green",
+          "rationale": "คำอธิบายตัวอย่างสำหรับทดสอบ",
+          "feedback": "คำถามตัวอย่างสำหรับทดสอบ"
+        },
+        "impact": {
+          "score": 5,
+          "badge": "yellow",
+          "rationale": "คำอธิบายตัวอย่างสำหรับทดสอบ",
+          "feedback": "คำถามตัวอย่างสำหรับทดสอบ"
+        },
+        "rigor": {
+          "score": 2,
+          "badge": "red",
+          "rationale": "คำอธิบายตัวอย่างสำหรับทดสอบ",
+          "feedback": "คำถามตัวอย่างสำหรับทดสอบ"
+        },
+        "fit": {
+          "score": 9,
+          "badge": "green",
+          "rationale": "คำอธิบายตัวอย่างสำหรับทดสอบ",
+          "feedback": "คำถามตัวอย่างสำหรับทดสอบ"
+        }
+      },
+      "safetyFlags": [],
+      "priorWork": [],
+      "evaluatedAt": "2026-11-05T01:00:00.000Z"
+    }
+  ]
+}

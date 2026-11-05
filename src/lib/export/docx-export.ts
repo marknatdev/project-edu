@@ -11,6 +11,8 @@ import {
   TableCell,
   WidthType,
 } from 'docx';
+import { assemblePresentationTemplates } from '@/lib/presentation/templates';
+import type { PresentationNotes } from '@/lib/presentation/notes';
 import type { Proposal, Plan } from '@/types/domain';
 import { Buffer } from 'buffer';
 
@@ -18,6 +20,8 @@ export interface ExportDocxOptions {
   title: string;
   proposal: Proposal;
   plan?: Plan | null;
+  includeTemplates?: boolean;
+  presentationNotes?: PresentationNotes;
   fonts?: { regular: Uint8Array; bold: Uint8Array };
 }
 
@@ -256,6 +260,24 @@ export function buildProposalDocument(options: ExportDocxOptions): Document {
     });
 
     docChildren.push(milestoneTable);
+  }
+
+  if (options.includeTemplates) {
+    const templates = assemblePresentationTemplates({ title, proposal, presentationNotes: options.presentationNotes });
+    const newPage = (heading: string) => new Paragraph({ pageBreakBefore: true, keepNext: true,
+      spacing: { before: 80, after: 120 }, children: [createRun(heading, { bold: true, size: 30 })] });
+    const compact = (text: string, bold = false) => new Paragraph({
+      spacing: { before: 60, after: 60 }, keepNext: bold,
+      children: [createRun(text, { size: 22, bold })],
+    });
+    docChildren.push(newPage('TCAS — โครงร่างพอร์ต 1 หน้า'), compact(templates.portfolio.title, true));
+    docChildren.push(compact('คัดข้อความจาก Proposal ที่บันทึกไว้ ข้อความยาวใช้ส่วนต้น (…) ตรวจและเติมจากประสบการณ์จริง ไม่ใช่แบบฟอร์มทางการ'));
+    for (const section of templates.portfolio.sections) docChildren.push(compact(section.heading, true), compact(section.text));
+    docChildren.push(newPage('บทคัดย่อ (Abstract)'), createParagraph(`${templates.abstract.wordCount}/250 คำ — ตัดคำไทย/อังกฤษด้วย Intl.Segmenter; ตรวจวิธีนับของเวทีอีกครั้ง`));
+    if (templates.abstract.truncated) docChildren.push(createParagraph('คัดเฉพาะส่วนต้น (…) ไม่ใช่การสรุปความหมาย กรุณาทบทวนก่อนใช้'));
+    docChildren.push(createParagraph(templates.abstract.text), newPage('โครงร่างนำเสนอ 3 นาที (Pitch)'));
+    templates.pitch.forEach(part => docChildren.push(createHeading(`${part.range} ${part.heading}`), createParagraph(part.text)));
+    docChildren.push(createParagraph('โครงร่างสำหรับซ้อม ไม่รับประกันว่าจะพูดจบใน 3 นาที กรุณาจับเวลาจริงและปรับด้วยภาษาของตนเอง'));
   }
 
   return new Document({

@@ -4,6 +4,11 @@ import { encodeSharePayload, decodeSharePayload } from '@/lib/export/share-link'
 import { exportFixture } from '../fixtures/export';
 
 describe('read-only share document codec', () => {
+  it('preserves the explicit presentation-template opt-in while keeping old links unchanged', async () => {
+    const output = await decodeSharePayload(await encodeSharePayload({ ...exportFixture, includeTemplates: true }));
+    expect(output.includeTemplates).toBe(true);
+    expect(await decodeSharePayload(await encodeSharePayload(exportFixture))).not.toHaveProperty('includeTemplates');
+  });
   it('refuses an oversized Proposal before compression even if it compresses well', async () => {
     const input = structuredClone(exportFixture);
     input.proposal.methodology = 'ก'.repeat(100_000);

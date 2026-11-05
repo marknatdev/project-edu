@@ -2,12 +2,28 @@
 import { describe, it, expect } from 'vitest';
 import JSZip from 'jszip';
 import type { Proposal, Plan } from '@/types/domain';
+import { exportFixture } from '../fixtures/export';
 import {
   generateProposalDocxBuffer,
   getProposalExportFilename,
 } from '@/lib/export/docx-export';
 
 describe('DOCX Export (Seam 1)', () => {
+  it('appends TCAS, bounded abstract and 3-minute pitch only on explicit opt-in', async () => {
+    const output = await generateProposalDocxBuffer({ ...exportFixture, includeTemplates: true, presentationNotes: {
+      role: 'ออกแบบต้นแบบด้วยตนเอง', skills: '', learning: '', targetField: '', results: 'ข้อมูลยังไม่พอสรุป',
+    } });
+    const xml = await (await JSZip.loadAsync(output)).file('word/document.xml')!.async('text');
+    expect(xml).toContain('TCAS — โครงร่างพอร์ต 1 หน้า');
+    expect(xml).toContain('บทคัดย่อ');
+    expect(xml).toContain('0:30–1:45');
+    expect(xml).toContain('วัดกำลังไฟวันละ 3 ครั้ง');
+    expect(xml).toContain('ออกแบบต้นแบบด้วยตนเอง');
+    expect(xml).toContain('ข้อมูลยังไม่พอสรุป');
+    const legacy = await generateProposalDocxBuffer(exportFixture);
+    const oldXml = await (await JSZip.loadAsync(legacy)).file('word/document.xml')!.async('text');
+    expect(oldXml).not.toContain('TCAS');
+  });
   const sampleProposal: Proposal = {
     title: 'การศึกษาพลาสติกชีวภาพ',
     problemStatement: 'ปัญหาขยะพลาสติกในชุมชนและการย่อยสลายช้า',

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { PROJECT_RECORD_KINDS, projectRecordKey } from './project-records';
 import { BomSchema } from '@/lib/bom/budget';
 import {
   LearnerSchema,
@@ -474,6 +475,7 @@ export function deleteProject(id: string, storage: StorageAdapter = getDefaultSt
     state.activeProjectId = state.projects[0]?.id ?? null;
   }
   saveState(state, storage);
+  for (const kind of PROJECT_RECORD_KINDS) storage.removeItem(projectRecordKey(kind, id));
   return true;
 }
 

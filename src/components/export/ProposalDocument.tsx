@@ -1,4 +1,5 @@
 import type { ExportSnapshot } from '@/lib/export/snapshot';
+import { PresentationDocument } from './PresentationDocument';
 
 const missing = '(ยังไม่ได้ระบุ)';
 
@@ -36,6 +37,7 @@ export function ProposalDocument({ snapshot }: { snapshot: ExportSnapshot }) {
           <p>สถานะ: {milestone.completed ? 'เสร็จแล้ว' : 'ยังไม่เสร็จ'}</p>
         </section>)}
       </section>
+      {snapshot.includeTemplates && <PresentationDocument input={snapshot} />}
     </article>
   );
 }
