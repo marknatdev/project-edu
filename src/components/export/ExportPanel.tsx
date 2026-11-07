@@ -71,7 +71,7 @@ export function ExportPanel({ project, presentationNotes }: { project: Project; 
   return (
     <section aria-labelledby="export-heading" className="rounded-3xl border border-accent/30 bg-surface p-5 space-y-4 min-w-0">
       <div>
-        <h2 id="export-heading" className="font-bold text-ink">ส่งออก Proposal + Plan</h2>
+        <h2 id="export-heading" className="font-bold text-ink">ส่งออก ข้อเสนอโครงงานและแผนงาน</h2>
         <p className="mt-1 text-caption text-ink-2 leading-relaxed">ส่งออกฉบับที่บันทึกแล้วเท่านั้น — กด “บันทึกการแก้ไข” ในแต่ละแท็บก่อนส่งออก ไม่เสียโควตา AI</p>
       </div>
       <label className="flex min-h-11 items-center gap-3 text-callout text-ink-2 cursor-pointer">

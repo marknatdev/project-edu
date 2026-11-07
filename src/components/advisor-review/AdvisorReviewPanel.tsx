@@ -69,7 +69,7 @@ export function AdvisorReviewPanel({ project }: { project: Project }) {
     </div>
     <label className="flex min-h-11 gap-3 items-start text-callout cursor-pointer leading-relaxed">
       <input className="mt-1 h-5 w-5 shrink-0 accent-indigo-600" type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />
-      <span>ตรวจแล้วว่า Proposal + Plan และเทมเพลตไม่มีชื่อจริง โรงเรียน หรือข้อมูลส่วนตัว ทุกคนที่มีลิงก์อ่านและส่งต่อได้ เป็นสำเนาไม่อัปเดตและเรียกคืนไม่ได้ เนื้อหาอยู่ใน # ของ URL ไม่ส่งให้เซิร์ฟเวอร์ การสร้างคำขอใหม่แทนคำขอเดิม</span>
+      <span>ตรวจแล้วว่า ข้อเสนอโครงงานและแผนงาน และเทมเพลตไม่มีชื่อจริง โรงเรียน หรือข้อมูลส่วนตัว ทุกคนที่มีลิงก์อ่านและส่งต่อได้ เป็นสำเนาไม่อัปเดตและเรียกคืนไม่ได้ เนื้อหาอยู่ใน # ของ URL ไม่ส่งให้เซิร์ฟเวอร์ การสร้างคำขอใหม่แทนคำขอเดิม</span>
     </label>
     <button className={`${button} w-full bg-accent text-white`} disabled={busy || !consent || !ready} onClick={share}>สร้างลิงก์ส่งครูตรวจฉบับที่บันทึกแล้ว</button>
     {shareUrl && <label className="block text-caption font-semibold">ลิงก์ส่งครูตรวจ (เลือกทั้งหมดเพื่อคัดลอก)

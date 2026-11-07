@@ -260,7 +260,7 @@ function IdeaChatView({ topicCardId, topicKey, savedIdea, resumeOnly = false }: 
 
           {state.phase === 'chatting' && (
             <form onSubmit={handleSendMessage} className="sticky bottom-[92px] z-10 flex flex-col gap-2 md:bottom-6">
-              <div className="flex items-center gap-2 rounded-3xl border border-control bg-surface py-1.5 pl-4 pr-1.5 shadow-e1">
+              <div className="flex items-center gap-2 rounded-3xl border border-control bg-surface py-1.5 pl-4 pr-1.5 shadow-e1 focus-within:ring-[3px] focus-within:ring-accent">
                 <label htmlFor="coach-input" className="sr-only">ข้อความถึงครูที่ปรึกษา</label>
                 <input id="coach-input" type="text" value={inputMessage} onChange={e => setInputMessage(e.target.value)} disabled={state.isWaitingForResponse}
                   placeholder="พิมพ์ข้อความถึงครูที่ปรึกษา…" maxLength={8000} enterKeyHint="send"

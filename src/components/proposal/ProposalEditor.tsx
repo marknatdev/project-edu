@@ -163,7 +163,7 @@ export function ProposalEditor({
           value={proposal.title}
           onChange={(e) => handleTitleChange(e.target.value)}
           placeholder="ระบุชื่อโครงงานฉบับสมบูรณ์..."
-          className="w-full text-body sm:text-headline font-bold text-ink px-4 py-2.5 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[44px]"
+          className="w-full text-body sm:text-headline font-bold text-ink px-4 py-2.5 rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-[44px]"
         />
       </div>
 
@@ -185,7 +185,7 @@ export function ProposalEditor({
           value={proposal.problemStatement}
           onChange={(e) => handleProblemChange(e.target.value)}
           placeholder="อธิบายปัญหาที่พบ ช่องว่างความรู้ หรือแรงบันดาลใจที่ทำให้เริ่มทำโครงงานนี้..."
-          className="w-full text-caption sm:text-callout text-ink p-3.5 rounded-2xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent leading-relaxed"
+          className="w-full text-caption sm:text-callout text-ink p-3.5 rounded-2xl border border-control focus:outline-none focus:ring-2 focus:ring-accent leading-relaxed"
         />
       </div>
 
@@ -224,12 +224,12 @@ export function ProposalEditor({
                   value={obj}
                   onChange={(e) => handleObjectiveChange(idx, e.target.value)}
                   placeholder={`เช่น เพื่อศึกษาประสิทธิภาพของ...`}
-                  className="flex-1 text-caption sm:text-callout text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="flex-1 text-caption sm:text-callout text-ink px-3 py-2 rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveObjective(idx)}
-                  className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                   aria-label={`ลบวัตถุประสงค์ข้อที่ ${idx + 1}`}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -255,7 +255,7 @@ export function ProposalEditor({
           value={proposal.hypothesis}
           onChange={(e) => handleHypothesisChange(e.target.value)}
           placeholder="ถ้า... ดังนี้แล้ว... (เช่น หากเพิ่มความเข้มข้นสารสกัด จะลดการเจริญเติบโตของแบคทีเรียได้อย่างมีนัยสำคัญ)..."
-          className="w-full text-caption sm:text-callout text-ink p-3.5 rounded-2xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent leading-relaxed"
+          className="w-full text-caption sm:text-callout text-ink p-3.5 rounded-2xl border border-control focus:outline-none focus:ring-2 focus:ring-accent leading-relaxed"
         />
       </div>
 
@@ -293,12 +293,12 @@ export function ProposalEditor({
                   value={val}
                   onChange={(e) => handleVariableChange('independent', idx, e.target.value)}
                   placeholder="เช่น ชนิดของสารเคลือบ / ความเข้มข้น"
-                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveVariable('independent', idx)}
-                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-11 flex items-center justify-center"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -332,12 +332,12 @@ export function ProposalEditor({
                   value={val}
                   onChange={(e) => handleVariableChange('dependent', idx, e.target.value)}
                   placeholder="เช่น อัตราการสูญเสียน้ำหนัก / ความแน่นเนื้อ"
-                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveVariable('dependent', idx)}
-                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-11 flex items-center justify-center"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -371,12 +371,12 @@ export function ProposalEditor({
                   value={val}
                   onChange={(e) => handleVariableChange('controlled', idx, e.target.value)}
                   placeholder="เช่น อุณหภูมิการเก็บรักษา / ระยะเวลา"
-                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveVariable('controlled', idx)}
-                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-11 flex items-center justify-center"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -404,7 +404,7 @@ export function ProposalEditor({
           value={proposal.methodology}
           onChange={(e) => handleMethodologyChange(e.target.value)}
           placeholder="ระบุขั้นตอนดำเนินการเป็นลำดับ เช่น 1. การเตรียมสารสกัด 2. การสร้างชุดทดสอบ 3. การเก็บข้อมูล..."
-          className="w-full text-caption sm:text-callout text-ink p-3.5 rounded-2xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent leading-relaxed font-mono text-[13px]"
+          className="w-full text-caption sm:text-callout text-ink p-3.5 rounded-2xl border border-control focus:outline-none focus:ring-2 focus:ring-accent leading-relaxed font-mono text-[13px]"
         />
       </div>
 

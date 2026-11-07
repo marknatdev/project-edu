@@ -65,13 +65,13 @@ export function JudgePractice({ project, lockSelection }: { project: Project; lo
   return <section className="space-y-4 min-w-0" aria-label="ฝึกตอบคำถาม">
     <div className="rounded-2xl bg-accent-tint border border-accent/30 p-4 text-callout leading-relaxed text-ink">
       <p className="font-bold">คลังคำถามจำลอง · ทำงานโดยไม่ใช้ AI</p>
-      <p>เรียงด้านสีแดงก่อนสีเหลืองจาก Evaluation ของ Idea นี้ ไม่ใช่คำถามหรือเกณฑ์ทางการ คำตอบเป็นของคุณเอง ไม่สร้างคำตอบตัวอย่างแทนผู้เรียน</p>
-      <p className="mt-2 text-caption">{evaluation ? `อิงผลประเมิน ${new Date(evaluation.evaluatedAt).toLocaleDateString('th-TH')}` : 'ยังไม่มี Evaluation ของ Idea นี้ — ใช้คำถามฝึกทั่วไป ไม่อ้างว่าเป็นจุดอ่อน'}</p>
-      {stale && <p className="mt-2 text-caution">Idea เปลี่ยนหลังประเมิน คำถามยังอิงผลเดิม กรุณาประเมินใหม่เมื่อพร้อม</p>}
-      <Link href={`/evaluation?ideaId=${encodeURIComponent(project.ideaId)}`} className="inline-flex items-center min-h-11 underline font-semibold">ไปประเมิน Idea</Link>
+      <p>เรียงด้านที่ต้องแก้ก่อนด้านที่ควรปรับ จากผลประเมินของไอเดียนี้ ไม่ใช่คำถามหรือเกณฑ์ทางการ คำตอบเป็นของคุณเอง ไม่สร้างคำตอบตัวอย่างแทนผู้เรียน</p>
+      <p className="mt-2 text-caption">{evaluation ? `อิงผลประเมิน ${new Date(evaluation.evaluatedAt).toLocaleDateString('th-TH')}` : 'ยังไม่มี Evaluation ของไอเดียนี้ — ใช้คำถามฝึกทั่วไป ไม่อ้างว่าเป็นจุดอ่อน'}</p>
+      {stale && <p className="mt-2 text-caution">ไอเดีย เปลี่ยนหลังประเมิน คำถามยังอิงผลเดิม กรุณาประเมินใหม่เมื่อพร้อม</p>}
+      <Link href={`/evaluation?ideaId=${encodeURIComponent(project.ideaId)}`} className="inline-flex items-center min-h-11 underline font-semibold">ไปประเมิน ไอเดีย</Link>
     </div>
     <label className="block text-callout font-semibold">เลือกบทบาทกรรมการ
-      <select className="mt-2 min-h-11 w-full min-w-0 rounded-xl border border-accent/30 bg-surface p-3 text-callout" aria-label="เลือกบทบาทกรรมการ" disabled={dirty} value={persona} onChange={e => move(e.target.value as JudgePersona, 0)}>
+      <select className="mt-2 min-h-11 w-full min-w-0 rounded-xl border border-control bg-surface p-3 text-callout" aria-label="เลือกบทบาทกรรมการ" disabled={dirty} value={persona} onChange={e => move(e.target.value as JudgePersona, 0)}>
         {JUDGE_PERSONAS.map(p => <option value={p} key={p}>{personas[p]}</option>)}
       </select>
     </label>
@@ -81,7 +81,7 @@ export function JudgePractice({ project, lockSelection }: { project: Project; lo
       {evaluation && <p className="text-caption font-semibold">{evaluation.axes[question.axis].score < 4 ? 'ควรปรับปรุง' : evaluation.axes[question.axis].score < 7 ? 'ควรพัฒนา' : 'แข็งแรง'} · {evaluation.axes[question.axis].score}/10</p>}
       <p className="font-semibold leading-relaxed">{question.prompt}</p>
       <label className="block text-callout font-semibold">คำตอบของฉัน (ไม่ใส่ชื่อจริง / โรงเรียน)
-        <textarea aria-label="คำตอบซ้อมกรรมการ" className="mt-2 w-full min-w-0 rounded-xl border border-separator p-3 text-callout leading-relaxed" rows={5} maxLength={6000} disabled={readFailed} value={draft} onChange={e => { setDraft(e.target.value); setFeedback(null); }} placeholder="อธิบายเหตุผลและหลักฐานด้วยภาษาของคุณเอง…" />
+        <textarea aria-label="คำตอบซ้อมกรรมการ" className="mt-2 w-full min-w-0 rounded-xl border border-control p-3 text-callout leading-relaxed" rows={5} maxLength={6000} disabled={readFailed} value={draft} onChange={e => { setDraft(e.target.value); setFeedback(null); }} placeholder="อธิบายเหตุผลและหลักฐานด้วยภาษาของคุณเอง…" />
       </label>
       <p className="text-caption text-ink-3">{draft.length}/6,000 ตัวอักษร · {dirty ? 'ยังไม่บันทึก — บันทึกหรือยกเลิกก่อนเปลี่ยนคำถาม/โครงงาน' : 'คำตอบที่บันทึกในอุปกรณ์นี้'}</p>
       <div className="grid grid-cols-2 gap-2">

@@ -52,7 +52,7 @@ function VariablesContent() {
     <SafetyChecklist flags={screenIdea(idea)} completed={idea.safetyChecklist ?? []} onChange={(safetyChecklist) => persist({ safetyChecklist })} />
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <Link className="flex min-h-[44px] items-center justify-center rounded-2xl bg-accent p-3 text-callout font-bold text-white" href={`/evaluation?ideaId=${encodeURIComponent(idea.id)}`}>ไปประเมิน 5 ด้าน →</Link>
-      <Link className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/30 bg-surface p-3 text-callout font-bold text-accent-text" href={`/proposal?ideaId=${encodeURIComponent(idea.id)}`}>ร่าง Proposal ต่อ (ไม่ปิดกั้น)</Link>
+      <Link className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/30 bg-surface p-3 text-callout font-bold text-accent-text" href={`/proposal?ideaId=${encodeURIComponent(idea.id)}`}>ร่าง ข้อเสนอโครงงาน ต่อ (ไม่ปิดกั้น)</Link>
     </div>
   </div>;
 }

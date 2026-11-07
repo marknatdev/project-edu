@@ -44,7 +44,7 @@ export function ProjectToolWorkspace({ view, intro, children }: { view: DocsView
       {!ready ? <p role="status">กำลังโหลดโครงงาน…</p> : <>
         {projects.length > 0 && <label className="block text-callout font-semibold text-ink-2">
           โครงงาน
-          <select aria-label="เลือกโครงงาน" className="mt-2 block min-h-11 w-full min-w-0 rounded-xl border border-accent/30 bg-surface p-3 text-callout" value={project?.id ?? ''} disabled={locked} onChange={(event) => {
+          <select aria-label="เลือกโครงงาน" className="mt-2 block min-h-11 w-full min-w-0 rounded-xl border border-control bg-surface p-3 text-callout" value={project?.id ?? ''} disabled={locked} onChange={(event) => {
             try {
               if (!setActiveProjectId(event.target.value)) throw new Error('missing');
               setProjects(getProjects());

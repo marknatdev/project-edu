@@ -62,7 +62,7 @@ export function DocumentReader({ mode }: { mode: 'share' | 'print' }) {
   return (
     <main className="document-reader max-w-4xl mx-auto px-4 py-6 sm:p-8 space-y-5">
       <header className="print-controls rounded-2xl border border-accent/30 bg-surface p-4 space-y-3">
-        <h1 className="text-headline font-bold">{mode === 'share' ? 'สำเนาอ่านอย่างเดียว — Proposal + Plan' : 'ตัวอย่างก่อนพิมพ์ / ดาวน์โหลด PDF'}</h1>
+        <h1 className="text-headline font-bold">{mode === 'share' ? 'สำเนาอ่านอย่างเดียว — ข้อเสนอโครงงานและแผนงาน' : 'ตัวอย่างก่อนพิมพ์ / ดาวน์โหลด PDF'}</h1>
         <p className="text-callout text-ink-2 leading-relaxed">{mode === 'share'
           ? 'สำเนานี้ไม่เชื่อมกับพื้นที่ทำงาน แก้ไขไม่ได้ และไม่เปลี่ยนตามต้นฉบับ ผู้มีลิงก์สามารถอ่านและส่งต่อได้'
           : 'เลือก “บันทึกเป็น PDF / Save as PDF” ในหน้าต่างพิมพ์ ขนาด A4 ปิดหัวกระดาษ/ท้ายกระดาษเพื่อไม่พิมพ์ URL — Proposal แบบย่อ 1 หน้า และ Plan แยกหน้า เนื้อหายาวอาจใช้หลายหน้าโดยไม่ตัดข้อความ'}</p>

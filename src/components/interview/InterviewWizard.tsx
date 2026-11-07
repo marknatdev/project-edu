@@ -45,6 +45,9 @@ export function InterviewWizard() {
   const [showAllGoals, setShowAllGoals] = useState(false);
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
+  // Constraints are shown on two screens (≤ 3 question groups each); validation still runs once for step 3.
+  const [constraintsPage, setConstraintsPage] = useState<1 | 2>(1);
+  const uiStep = step <= 2 ? step : step === 3 ? 2 + constraintsPage : 5;
   const [consentAccepted, setConsentAccepted] = useState<boolean>(false);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -112,12 +115,14 @@ export function InterviewWizard() {
       return;
     }
 
+    if (step === 3 && constraintsPage === 1) { setConstraintsPage(2); return; }
     const validation = validateInterviewStep(step, currentDraft);
     if (!validation.valid) {
       setErrorMessages(validation.errors);
       return;
     }
 
+    if (step === 3 && constraintsPage === 1) { setConstraintsPage(2); return; }
     if (step < 4) {
       setStep((prev) => prev + 1);
     }
@@ -125,6 +130,8 @@ export function InterviewWizard() {
 
   const handlePrevStep = () => {
     setErrorMessages([]);
+    if (step === 3 && constraintsPage === 2) { setConstraintsPage(1); return; }
+    if (step === 4) setConstraintsPage(2);
     if (step > 1) {
       setStep((prev) => prev - 1);
     }
@@ -229,21 +236,21 @@ export function InterviewWizard() {
       <div className={consentAccepted ? "flex flex-col gap-4" : "hidden"}>
         <div className="flex items-center justify-between text-caption text-ink-3 font-medium">
           <span className="font-bold text-accent-text">
-            ขั้นตอนที่ {step} จาก 4
+            ขั้นตอนที่ {uiStep} จาก 5
           </span>
           <span>
             {step === 1 && 'ระดับชั้นของผู้เรียน'}
             {step === 2 && 'เป้าหมายโครงงาน'}
-            {step === 3 && 'ข้อจำกัดและความพร้อม'}
+            {step === 3 && (constraintsPage === 1 ? 'เวลา งบ และทีม' : 'อุปกรณ์และทักษะ')}
             {step === 4 && 'เลือกเส้นทางเริ่มต้น'}
           </span>
         </div>
 
         {/* Progress Bar */}
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-separator" role="progressbar" aria-valuemin={1} aria-valuemax={4} aria-valuenow={step} aria-label="ความคืบหน้าการสัมภาษณ์">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-separator" role="progressbar" aria-valuemin={1} aria-valuemax={5} aria-valuenow={uiStep} aria-label="ความคืบหน้าการสัมภาษณ์">
           <div
             className="bg-accent h-full transition-all duration-300 ease-out rounded-full"
-            style={{ width: `${(step / 4) * 100}%` }}
+            style={{ width: `${(uiStep / 5) * 100}%` }}
           />
         </div>
 
@@ -369,12 +376,11 @@ export function InterviewWizard() {
                 ข้อจำกัดและความพร้อมของผู้เรียน
               </h2>
               <p className="text-caption sm:text-callout text-ink-2">
-                ระบบคำนวณ Fit Score (0–100) โดยนำข้อจำกัดเหล่านี้ไปเทียบกับความต้องการของแต่ละหัวข้อโครงงาน
-              </p>
+                ใช้เทียบกับสิ่งที่แต่ละไอเดียต้องการ เพื่อบอกว่าเข้ากับคุณแค่ไหน              </p>
             </div>
 
             {/* Time weeks */}
-            <div className="space-y-2">
+            <div className={constraintsPage === 1 ? "space-y-2" : "hidden"}>
               <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Clock className="w-4 h-4 text-accent-text" />
                 <span>เวลาที่มีจนถึงวันส่งงาน / วันแข่งขัน: {timeWeeks} สัปดาห์</span>
@@ -398,7 +404,7 @@ export function InterviewWizard() {
             </div>
 
             {/* Budget Baht */}
-            <div className="space-y-2">
+            <div className={constraintsPage === 1 ? "space-y-2" : "hidden"}>
               <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Wallet className="w-4 h-4 text-accent-text" />
                 <span>งบประมาณที่มี: {budgetBaht.toLocaleString('th-TH')} บาท</span>
@@ -422,7 +428,7 @@ export function InterviewWizard() {
             </div>
 
             {/* Team Size */}
-            <div className="space-y-2">
+            <div className={constraintsPage === 1 ? "space-y-2" : "hidden"}>
               <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Users className="w-4 h-4 text-accent-text" />
                 <span>จำนวนสมาชิกในกลุ่ม: {teamSize} คน</span>
@@ -446,7 +452,7 @@ export function InterviewWizard() {
             </div>
 
             {/* Equipment Multi-select */}
-            <div className="space-y-2">
+            <div className={constraintsPage === 2 ? "space-y-2" : "hidden"}>
               <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Wrench className="w-4 h-4 text-accent-text" />
                 <span>อุปกรณ์ที่สามารถเข้าถึงได้ (เลือกได้หลายข้อ)</span>
@@ -476,7 +482,7 @@ export function InterviewWizard() {
             </div>
 
             {/* Skills Multi-select */}
-            <div className="space-y-2">
+            <div className={constraintsPage === 2 ? "space-y-2" : "hidden"}>
               <p className="flex items-center gap-1.5 font-medium text-ink">
                 <BookOpen className="w-4 h-4 text-accent-text" />
                 <span>ทักษะและความถนัดของทีม (เลือกได้หลายข้อ)</span>

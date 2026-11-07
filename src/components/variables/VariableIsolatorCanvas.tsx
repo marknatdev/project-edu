@@ -78,7 +78,7 @@ export function VariableIsolatorCanvas({ idea, onSave }: { idea: Idea; onSave: (
           <ul className="space-y-2 text-callout text-ink">{rigor.checks.map((check) => <li key={check.id}>{check.passed ? '✓ มีข้อมูลแล้ว' : '○ ยังไม่ครบ'} — {check.hintTh}</li>)}</ul>
           <p className="text-callout text-ink-2">ประมาณคะแนนด้านสมมติฐาน/วิธีวัดผล: {axis.score}/10 (heuristic ไม่ใช่คะแนนทางการ)</p>
           <p className="text-callout text-ink-2">{axis.feedback}</p>
-          <p className="text-caption text-ink-2">ไม่บล็อกการร่าง Proposal แม้ยังกรอกไม่ครบ บันทึกแล้วกดประเมินใหม่เพื่ออัปเดตคะแนนทั้ง 5 ด้านตามโควตา</p>
+          <p className="text-caption text-ink-2">ไม่บล็อกการร่าง ข้อเสนอโครงงาน แม้ยังกรอกไม่ครบ บันทึกแล้วกดประเมินใหม่เพื่ออัปเดตคะแนนทั้ง 5 ด้านตามโควตา</p>
         </div>
         <button type="submit" className="w-full min-h-[44px] rounded-2xl bg-accent px-4 py-3 text-callout font-bold text-white">บันทึกตารางแยกตัวแปร</button>
         <p className="text-caption text-ink-3" role="status">{dirty ? 'มีการแก้ไขที่ยังไม่บันทึก' : 'บันทึกเฉพาะเมื่อกดปุ่ม • ไม่ใช้โควตา AI'}</p>

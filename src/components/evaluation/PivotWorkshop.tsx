@@ -211,7 +211,7 @@ export function PivotWorkshop({
           href={`/proposal?ideaId=${state.originalIdea.id}`}
           className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-2xl bg-surface-2 hover:bg-separator text-ink-2 font-bold text-caption transition-all shrink-0 w-full sm:w-auto"
         >
-          <span>ข้ามไปเขียน Proposal →</span>
+          <span>ข้ามไปเขียน ข้อเสนอโครงงาน →</span>
         </Link>
       </div>
 

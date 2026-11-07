@@ -55,14 +55,14 @@ function Heading({ eyebrow, title, desc }: { eyebrow: string; title: string; des
 
 function QuotaPanel({ quota }: { quota: CardQuota | null }) {
   return (
-    <section aria-label="สิทธิ์สร้างการ์ดวันนี้" className="rounded-2xl bg-ink p-3 text-callout text-white">
+    <section aria-label="สิทธิ์สร้างการ์ดวันนี้" className="rounded-2xl bg-surface-2 p-3 text-callout text-ink">
       {quota ? (
         <>
-          <p>ฟรีเหลือ <strong className="text-good" data-testid="quota-free">{quota.freeRemaining}</strong>/5 ใบ · ขอเพิ่มเหลือ <strong className="text-good" data-testid="quota-extra">{quota.extraRemaining}</strong>/30 ใบ</p>
-          <p className="text-caption text-ink-3">วันนี้ใช้แล้ว {quota.used} ใบ{quota.reserved ? ` · กำลังจอง ${quota.reserved} ใบ` : ''} · เริ่มนับใหม่ {new Date(quota.resetAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok', dateStyle: 'medium', timeStyle: 'short' })} (เวลาประเทศไทย)</p>
-          <p className="text-caption text-ink-3">นับเฉพาะการ์ดที่สร้างสำเร็จและไม่ซ้ำ · เปลี่ยนเรื่องหรือเริ่มคุยใหม่ไม่ได้คืนสิทธิ์</p>
+          <p>ฟรีเหลือ <strong className="text-ink font-medium" data-testid="quota-free">{quota.freeRemaining}</strong>/5 ใบ · ขอเพิ่มเหลือ <strong className="text-ink font-medium" data-testid="quota-extra">{quota.extraRemaining}</strong>/30 ใบ</p>
+          <p className="text-caption text-ink-2">วันนี้ใช้แล้ว {quota.used} ใบ{quota.reserved ? ` · กำลังจอง ${quota.reserved} ใบ` : ''} · เริ่มนับใหม่ {new Date(quota.resetAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok', dateStyle: 'medium', timeStyle: 'short' })} (เวลาประเทศไทย)</p>
+          <p className="text-caption text-ink-2">นับเฉพาะการ์ดที่สร้างสำเร็จและไม่ซ้ำ · เปลี่ยนเรื่องหรือเริ่มคุยใหม่ไม่ได้คืนสิทธิ์</p>
         </>
-      ) : <p className="text-caption text-ink-3">ยังอ่านสิทธิ์ที่เหลือจากเซิร์ฟเวอร์ไม่ได้ ระบบจะแจ้งตัวเลขจริงหลังติดต่อได้</p>}
+      ) : <p className="text-caption text-ink-2">ยังอ่านสิทธิ์ที่เหลือจากเซิร์ฟเวอร์ไม่ได้ ระบบจะแจ้งตัวเลขจริงหลังติดต่อได้</p>}
     </section>
   );
 }
@@ -79,7 +79,7 @@ function CardDetails({ card }: { card: TopicCard }) {
         <p className="text-caption font-bold text-accent-text">เชื่อมกับความสนใจ</p><p className="text-callout text-ink">{s.interestLink}</p></>}
       <div className="flex flex-wrap gap-2 text-caption">
         <span className="rounded-full bg-accent-tint px-2 py-1 text-accent-text">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท</span>
-        <span className="rounded-full bg-good-tint px-2 py-1 text-good">ประมาณ {card.estimatedWeeks} สัปดาห์</span>
+        <span className="rounded-full bg-good-tint px-2 py-1 text-ink font-medium">ประมาณ {card.estimatedWeeks} สัปดาห์</span>
         <span className="rounded-full bg-surface-2 px-2 py-1 text-ink-2">ทีม {card.minTeamSize}–{card.maxTeamSize} คน</span>
       </div>
       {s?.fitNotes?.length ? <ul className="list-disc pl-5 text-caption text-ink-2">{s.fitNotes.map(n => <li key={n}>{n}</li>)}</ul> : null}
@@ -102,7 +102,7 @@ function Notice({ session, busy, onRetry, onDismiss, canGenerate }: { session: D
   );
   const n = session.notice;
   if (!n) return null;
-  const tone = n.kind === 'success' ? 'border-good/30 bg-good-tint text-good' : n.kind === 'partial' || n.kind === 'pending' ? 'border-caution/30 bg-caution-tint text-caution' : 'border-risk/40 bg-risk-tint text-risk';
+  const tone = n.kind === 'success' ? 'border-good/30 bg-good-tint text-ink font-medium' : n.kind === 'partial' || n.kind === 'pending' ? 'border-caution/30 bg-caution-tint text-caution' : 'border-risk/40 bg-risk-tint text-risk';
   return (
     <div role={n.kind === 'error' || n.kind === 'quota' ? 'alert' : 'status'} className={`space-y-2 rounded-2xl border p-3 text-callout ${tone}`} data-testid="generation-notice" data-kind={n.kind}>
       <p className="font-semibold">{n.messageTh}</p>
@@ -124,7 +124,7 @@ function InterestChat({ session, dispatch, interview }: { session: DiscoverySess
       <ol className="space-y-3" aria-label="บทสนทนาความสนใจ">
         {session.answers.map((a, i) => (
           <li key={i} className="space-y-2">
-            <div className="rounded-2xl rounded-bl-sm border border-separator bg-surface p-3 text-callout"><b className="text-caption text-ink-3">ผู้ช่วยค้นหาเรื่อง (คำถามนำทาง ไม่ใช่ AI)</b><p className="whitespace-pre-wrap">{a.question}</p></div>
+            <div className="rounded-2xl rounded-bl-sm border border-separator bg-surface p-3 text-callout"><b className="text-caption text-ink-2">ผู้ช่วยค้นหาเรื่อง (คำถามนำทาง ไม่ใช่ AI)</b><p className="whitespace-pre-wrap">{a.question}</p></div>
             <div className="ml-6 rounded-2xl rounded-br-sm border border-accent/30 bg-accent-tint p-3 text-callout"><b className="text-caption">คุณ</b><p className="whitespace-pre-wrap break-words">{a.answer}</p></div>
           </li>
         ))}
@@ -133,7 +133,7 @@ function InterestChat({ session, dispatch, interview }: { session: DiscoverySess
         <button type="button" className={primary} onClick={() => dispatch({ type: 'GO', stage: 'summary' })}>ดูสรุปความสนใจ</button>
       ) : (
         <div className="space-y-3">
-          <p className="text-caption text-ink-3">คำถามที่ {session.answers.length + 1} · ไม่เกิน 4 ข้อ</p>
+          <p className="text-caption text-ink-2">คำถามที่ {session.answers.length + 1} · ไม่เกิน 4 ข้อ</p>
           <h2 className="border-l-4 border-accent pl-3 text-body font-bold text-ink" data-testid="interest-question">{step.question.text}</h2>
           <div className="flex flex-wrap gap-2">
             {step.question.choices.map(choice => <button key={choice} type="button" className={secondary} onClick={() => submit(choice)}>{choice}</button>)}
@@ -187,7 +187,7 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
       <p className="rounded-xl bg-surface-2 p-2 text-caption text-ink-2">{FRESH_NOTICE_TH}</p>
       {card ? (
         <>
-          <p className="text-caption text-ink-3">รอบนี้ใบที่ {session.cursor + 1}/{session.batch.length}</p>
+          <p className="text-caption text-ink-2">รอบนี้ใบที่ {session.cursor + 1}/{session.batch.length}</p>
           <div className="h-1.5 rounded bg-separator"><div className="h-full rounded" style={{ width: `${((session.cursor + 1) / session.batch.length) * 100}%` }} /></div>
           <article ref={cardRef} tabIndex={0} data-testid="active-card" data-card-id={card.id}
             aria-label={`การ์ด ${card.title} กดลูกศรซ้ายเพื่อข้าม ขวาเพื่อสนใจ ขึ้นเพื่อเลือก`}
@@ -205,9 +205,9 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
           <div className="grid grid-cols-3 gap-2">
             <button type="button" className={`${secondary} whitespace-nowrap px-1`} onClick={() => swipe('skip')}>← ข้าม</button>
             <button type="button" className={`${btn} whitespace-nowrap border-accent/30 bg-accent-tint px-1 text-accent-text`} onClick={() => onSelect(card)}>↑ เลือกใบนี้</button>
-            <button type="button" className={`${btn} whitespace-nowrap border-good/30 bg-good-tint px-1 text-good`} onClick={() => swipe('like')}>สนใจ →</button>
+            <button type="button" className={`${btn} whitespace-nowrap border-good/30 bg-good-tint px-1 text-ink font-medium`} onClick={() => swipe('like')}>สนใจ →</button>
           </div>
-          <p className="text-caption text-ink-3">ใช้ปุ่มได้เสมอ หรือโฟกัสที่การ์ดแล้วกดลูกศร ← → ↑</p>
+          <p className="text-caption text-ink-2">ใช้ปุ่มได้เสมอ หรือโฟกัสที่การ์ดแล้วกดลูกศร ← → ↑</p>
         </>
       ) : (
         <div className="rounded-2xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">ดูการ์ดรอบนี้ครบแล้ว ({session.batch.length} ใบ) เลือกจาก รายการที่สนใจ หรือบอกเพิ่มเพื่อขอรอบถัดไป</div>
@@ -226,7 +226,7 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
           <label htmlFor="refinement" className="block text-callout font-semibold">อยากปรับอะไรในรอบถัดไป? (ไม่บังคับ)</label>
           <textarea id="refinement" value={session.refinement} maxLength={FRESH_LIMITS.refinementChars} onChange={e => dispatch({ type: 'SET_REFINEMENT', refinement: e.target.value })}
             placeholder="เช่น เน้นเรื่องน้ำ ไม่ต้องใช้อุปกรณ์เพิ่ม" className="min-h-[80px] w-full rounded-xl border border-control p-3 text-body" />
-          <p className="text-caption text-ink-3">ระบบส่งการ์ดที่คุณสนใจ/ข้าม และการ์ดที่เคยเห็นไปด้วย เพื่อไม่ให้ได้แนวทางเดิมซ้ำ</p>
+          <p className="text-caption text-ink-2">ระบบส่งการ์ดที่คุณสนใจ/ข้าม และการ์ดที่เคยเห็นไปด้วย เพื่อไม่ให้ได้แนวทางเดิมซ้ำ</p>
           <button type="submit" className={primary} disabled={!canGenerate || !session.summary.trim()}>ขอการ์ดเพิ่ม 5 ใบ</button>
         </form>
       </details>
@@ -240,7 +240,7 @@ function MiniCard({ card, children, selected }: { card: TopicCard; children?: Re
       <p className="mb-1 text-caption font-semibold text-accent-text">AI สร้างจากคำตอบของคุณ</p>
       <h2 className="text-body font-bold text-ink">{card.title}</h2>
       <p className="text-callout text-ink-2">{card.starter?.problem ?? card.phenomenon}</p>
-      <p className="mt-1 text-caption text-ink-3">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท · {card.estimatedWeeks} สัปดาห์</p>
+      <p className="mt-1 text-caption text-ink-2">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท · {card.estimatedWeeks} สัปดาห์</p>
       <div className="mt-2 flex flex-wrap gap-2">{children}</div>
     </li>
   );
@@ -452,7 +452,7 @@ export function FreshDiscovery() {
   return (
     <div className="mx-auto max-w-5xl min-w-0 space-y-4 break-words">
       <header className={`${panel} flex flex-wrap items-center gap-3`}>
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-good-tint text-good"><Compass aria-hidden className="h-5 w-5" /></div>
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-good-tint text-ink font-medium"><Compass aria-hidden className="h-5 w-5" /></div>
         <div className="min-w-0 flex-1">
           <p className="text-body font-semibold text-ink sm:text-headline">ค้นหาเรื่องที่อยากทำ</p>
           <p className="text-caption text-ink-2">คุยสั้น ๆ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณ ครั้งละ 5 ใบ · บันทึกในเบราว์เซอร์นี้ รีเฟรชแล้วทำต่อได้</p>
@@ -479,7 +479,7 @@ export function FreshDiscovery() {
               <Heading eyebrow="01 / สรุปก่อนสำรวจ" title="ฟังดูเป็นเรื่องที่คุณสนใจไหม?" desc="แก้สรุปให้ตรงใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้น 5 ใบจากคำตอบและข้อจำกัดของคุณ" />
               <label htmlFor="interest-summary" className="block text-callout font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
               <textarea id="interest-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[110px] w-full rounded-xl border border-control p-3 text-body" />
-              <p className="text-caption text-ink-3">แก้ได้ตามใจ · ข้อจำกัดเดิมถูกนำไปใช้ต่อ · การ์ดเป็นไอเดียตั้งต้น ไม่ใช่โครงงานสำเร็จรูป</p>
+              <p className="text-caption text-ink-2">แก้ได้ตามใจ · ข้อจำกัดเดิมถูกนำไปใช้ต่อ · การ์ดเป็นไอเดียตั้งต้น ไม่ใช่โครงงานสำเร็จรูป</p>
               {quotaEmpty && <p role="status" className="text-callout text-risk">วันนี้ใช้สิทธิ์สร้างการ์ดครบแล้ว การ์ดที่สร้างไว้ยังอยู่ สร้างใหม่ได้หลังเที่ยงคืนตามเวลาประเทศไทย</p>}
               <div className="flex flex-wrap gap-2">
                 <button type="submit" className={`${primary} w-full sm:w-auto`} disabled={!canGenerate || !session.summary.trim()}>{session.cards.length ? 'สร้างการ์ดเพิ่ม 5 ใบ →' : 'สร้างการ์ด 5 ใบ →'}</button>

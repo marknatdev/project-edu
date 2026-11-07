@@ -259,7 +259,7 @@ export function WeeklyPlanEditor({
                         type="text"
                         value={editTitle}
                         onChange={(e) => setEditTitle(e.target.value)}
-                        className="w-full text-caption sm:text-callout font-bold text-ink px-3 py-2 rounded-xl border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                        className="w-full text-caption sm:text-callout font-bold text-ink px-3 py-2 rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                         autoFocus
                       />
                     </div>
@@ -271,7 +271,7 @@ export function WeeklyPlanEditor({
                         rows={2}
                         value={editDescription}
                         onChange={(e) => setEditDescription(e.target.value)}
-                        className="w-full text-caption text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="w-full text-caption text-ink px-3 py-2 rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent"
                       />
                     </div>
                     <div>
@@ -282,7 +282,7 @@ export function WeeklyPlanEditor({
                         type="text"
                         value={editDeliverable}
                         onChange={(e) => setEditDeliverable(e.target.value)}
-                        className="w-full text-caption text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                        className="w-full text-caption text-ink px-3 py-2 rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                       />
                     </div>
 
@@ -309,7 +309,7 @@ export function WeeklyPlanEditor({
                     <button
                       type="button"
                       onClick={() => handleToggle(idx)}
-                      className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition min-h-11 min-w-[40px] ${
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition min-h-11 min-w-11 ${
                         milestone.completed
                           ? 'bg-good text-white shadow-e1'
                           : 'bg-surface-2 border border-control text-transparent hover:border-accent/30'
@@ -338,7 +338,7 @@ export function WeeklyPlanEditor({
                           <button
                             type="button"
                             onClick={() => handleStartEdit(idx, milestone)}
-                            className="p-2 text-ink-3 hover:text-accent-text rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-ink-3 hover:text-accent-text rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                             title="แก้ไขขั้นตอน"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -346,7 +346,7 @@ export function WeeklyPlanEditor({
                           <button
                             type="button"
                             onClick={() => handleRemove(idx)}
-                            className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                             title="ลบขั้นตอนนี้"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -388,7 +388,7 @@ export function WeeklyPlanEditor({
               <button
                 type="button"
                 onClick={() => setShowAddModal(false)}
-                className="text-ink-3 hover:text-ink-2 min-h-11 min-w-[40px] flex items-center justify-center"
+                className="text-ink-3 hover:text-ink-2 min-h-11 min-w-11 flex items-center justify-center"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -405,7 +405,7 @@ export function WeeklyPlanEditor({
                   max={52}
                   value={newWeek}
                   onChange={(e) => setNewWeek(parseInt(e.target.value) || 1)}
-                  className="w-24 px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="w-24 px-3 py-2 text-caption rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                   required
                 />
               </div>
@@ -419,7 +419,7 @@ export function WeeklyPlanEditor({
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="เช่น สัปดาห์ 5: วิเคราะห์ผลและทำซ้ำ"
-                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="w-full px-3 py-2 text-caption rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                   required
                   autoFocus
                 />
@@ -434,7 +434,7 @@ export function WeeklyPlanEditor({
                   value={newDescription}
                   onChange={(e) => setNewDescription(e.target.value)}
                   placeholder="รายละเอียดสิ่งที่ทีมต้องทำ..."
-                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-3 py-2 text-caption rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
 
@@ -447,7 +447,7 @@ export function WeeklyPlanEditor({
                   value={newDeliverable}
                   onChange={(e) => setNewDeliverable(e.target.value)}
                   placeholder="เช่น ตารางบันทึกค่าสถิติ n=3"
-                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
+                  className="w-full px-3 py-2 text-caption rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
               </div>
 
@@ -495,7 +495,7 @@ export function WeeklyPlanEditor({
                 max={52}
                 value={targetWeeks}
                 onChange={(e) => setTargetWeeks(parseInt(e.target.value) || 1)}
-                className="w-full px-3.5 py-2.5 text-callout rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent font-bold min-h-[44px]"
+                className="w-full px-3.5 py-2.5 text-callout rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent font-bold min-h-[44px]"
               />
             </div>
 

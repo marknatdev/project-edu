@@ -96,7 +96,7 @@ export function ShortlistMatrix({
             cx="24"
             cy="24"
             r={radius}
-            className="text-accent-on"
+            className="text-separator"
             strokeWidth="4"
             stroke="currentColor"
             fill="transparent"
@@ -447,7 +447,7 @@ export function ShortlistMatrix({
                 <button
                   type="button"
                   onClick={() => onSelectFinalTopic(item.card)}
-                  className="min-h-11 px-4 py-1.5 rounded-xl bg-ink hover:bg-accent text-white font-bold text-caption shadow-2xs flex items-center gap-1 transition-all cursor-pointer active:scale-95"
+                  className="min-h-11 px-4 py-1.5 rounded-xl bg-accent hover:bg-accent-press text-accent-on font-medium text-caption flex items-center gap-1 transition-all cursor-pointer active:scale-95"
                 >
                   <span>เลือกหัวข้อนี้</span>
                   <ArrowRight className="w-3.5 h-3.5" />

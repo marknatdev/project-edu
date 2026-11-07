@@ -116,7 +116,7 @@ export function ProjectSwitcher({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-11 h-11 rounded-lg flex items-center justify-center text-ink-3 hover:text-ink-2 hover:bg-surface-2 min-h-11 min-w-[40px]"
+                className="w-11 h-11 rounded-lg flex items-center justify-center text-ink-3 hover:text-ink-2 hover:bg-surface-2 min-h-11 min-w-11"
                 aria-label="ปิดหน้าต่างสลับโครงงาน"
               >
                 <X className="w-4 h-4" />
@@ -157,7 +157,7 @@ export function ProjectSwitcher({
                             type="text"
                             value={editingTitle}
                             onChange={(e) => setEditingTitle(e.target.value)}
-                            className="flex-1 px-3 py-1.5 text-caption rounded-lg border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent font-medium"
+                            className="flex-1 px-3 py-1.5 text-caption rounded-lg border border-control focus:outline-none focus:ring-2 focus:ring-accent font-medium"
                             autoFocus
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') handleSaveRename(project.id);
@@ -167,7 +167,7 @@ export function ProjectSwitcher({
                           <button
                             type="button"
                             onClick={() => handleSaveRename(project.id)}
-                            className="p-2 text-good hover:bg-good-tint rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-good hover:bg-good-tint rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                             title="บันทึกชื่อ"
                           >
                             <Check className="w-4 h-4" />
@@ -175,7 +175,7 @@ export function ProjectSwitcher({
                           <button
                             type="button"
                             onClick={() => setEditingProjectId(null)}
-                            className="p-2 text-ink-3 hover:bg-surface-2 rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-ink-3 hover:bg-surface-2 rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                             title="ยกเลิก"
                           >
                             <X className="w-4 h-4" />
@@ -217,7 +217,7 @@ export function ProjectSwitcher({
                             <button
                               type="button"
                               onClick={() => handleStartRename(project)}
-                              className="p-2 text-ink-3 hover:text-ink-2 hover:bg-surface-2 rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                              className="p-2 text-ink-3 hover:text-ink-2 hover:bg-surface-2 rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                               title="เปลี่ยนชื่อ"
                               aria-label={`เปลี่ยนชื่อ ${project.title}`}
                             >
@@ -226,7 +226,7 @@ export function ProjectSwitcher({
                             <button
                               type="button"
                               onClick={() => setConfirmDeleteId(project.id)}
-                              className="p-2 text-risk hover:text-risk hover:bg-risk-tint rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
+                              className="p-2 text-risk hover:text-risk hover:bg-risk-tint rounded-lg min-h-11 min-w-11 flex items-center justify-center"
                               title="ลบโครงงาน"
                               aria-label={`ลบโครงงาน ${project.title}`}
                             >
@@ -268,7 +268,7 @@ export function ProjectSwitcher({
               <button
                 type="button"
                 onClick={() => setShowNewModal(false)}
-                className="text-ink-3 hover:text-ink-2 p-1 min-h-11 min-w-[40px] flex items-center justify-center"
+                className="text-ink-3 hover:text-ink-2 p-1 min-h-11 min-w-11 flex items-center justify-center"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -284,7 +284,7 @@ export function ProjectSwitcher({
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="เช่น การพัฒนาสารเคลือบชีวภาพจากเปลือกส้มโอ..."
-                  className="w-full px-3.5 py-2.5 text-callout rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent font-medium"
+                  className="w-full px-3.5 py-2.5 text-callout rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent font-medium"
                   required
                   autoFocus
                 />
@@ -298,7 +298,7 @@ export function ProjectSwitcher({
                   <select
                     value={selectedIdeaId}
                     onChange={(e) => setSelectedIdeaId(e.target.value)}
-                    className="w-full px-3.5 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent bg-surface font-medium min-h-11"
+                    className="w-full px-3.5 py-2 text-caption rounded-xl border border-control focus:outline-none focus:ring-2 focus:ring-accent bg-surface font-medium min-h-11"
                   >
                     <option value="">-- เริ่มต้นเป็นโครงงานว่าง --</option>
                     {ideas.map((idea) => (
@@ -339,7 +339,7 @@ export function ProjectSwitcher({
             </div>
             <h3 className="font-bold text-ink text-body mb-1.5">ยืนยันการลบโครงงาน?</h3>
             <p className="text-caption text-ink-2 mb-4 leading-relaxed">
-              โครงงานนี้และเอกสาร Proposal / แผนงานจะถูกลบออกจากพื้นที่ทำงานในเบราว์เซอร์นี้
+              โครงงานนี้และเอกสาร ข้อเสนอโครงงาน / แผนงานจะถูกลบออกจากพื้นที่ทำงานในเบราว์เซอร์นี้
             </p>
             <div className="flex items-center justify-end gap-2">
               <button

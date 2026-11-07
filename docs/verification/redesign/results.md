@@ -41,3 +41,14 @@ Checklist: [`checklist.md`](checklist.md). Figma file `z4zVDNyXxsBAG8mZiBi0sb`, 
 - The desktop coaching frame shows a right-hand "สิ่งที่คุณตอบแล้ว" panel; the app keeps a single column with progress chips instead.
 - `/variables`, `/bom`, `/calendar`, `/judge`, `/advisor-review`, `/share` were migrated by token codemod plus the shared header; their inner layouts were not redrawn.
 - Live AI (Discovery cards, AI coach text) was not exercised locally; deterministic server fallbacks were.
+
+## Re-audit after review (2026-11-07, later)
+
+Every route was audited again at 375 px after the last changes, with a second script that measures rendered text contrast against its real background: `/`, `/auth`, `/consent`, `/interview`, `/discovery`, `/idea`, `/evaluation` (filled), `/variables`, `/proposal`, `?tab=plan`, `?tab=export`, `/bom`, `/calendar`, `/judge`, `/advisor-review`, `/share`. Fixes made from it: the discovery quota panel and BOM budget summary moved off dark backgrounds (contrast 2.8–3.1 → pass), form-field borders use the 3:1 `control` token, the chat composer shows focus with `focus-within`, edit/delete icon buttons widened to 44 px, interview constraints split into two screens (5 steps, ≤ 3 question groups each), the remaining English words in Thai sentences translated.
+
+### Not yet verified (open)
+
+- The 1280 px re-audit was not repeated after these fixes.
+- `node tests/browser/*.browser.mjs` harnesses were not run, so Discovery screens 03–05 with real cards were not rendered; those rows above are design-reviewed only.
+- `figma_lint_design` ran on three mobile frames only, not every desktop frame.
+- `/variables`, `/bom`, `/calendar`, `/judge`, `/advisor-review`, `/share` inner layouts were not redrawn in Figma.

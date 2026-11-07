@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from 'react';
 import { BomItemSchema, type BomItem } from '@/lib/bom/budget';
 
-const inputClass = 'mt-1 min-h-11 w-full min-w-0 rounded-xl border border-separator bg-surface p-3 text-callout focus:outline-none focus:ring-2 focus:ring-accent';
+const inputClass = 'mt-1 min-h-11 w-full min-w-0 rounded-xl border border-control bg-surface p-3 text-callout focus:outline-none focus:ring-2 focus:ring-accent';
 
 export function BomItemForm({ item, onSave, onCancel }: { item?: BomItem; onSave: (item: BomItem) => void; onCancel: () => void }) {
   const [name, setName] = useState(item?.name ?? '');

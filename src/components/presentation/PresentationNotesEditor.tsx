@@ -33,7 +33,7 @@ export function PresentationNotesEditor({ notes, onSave }: { notes: Presentation
     }}>
       <p className="text-caption text-ink-2">ไม่บังคับกรอก เว้นว่างได้ แอปจะไม่แต่งข้อมูลแทนคุณ เก็บแยกตาม Project ในเบราว์เซอร์นี้ ไม่ใส่ชื่อจริง โรงเรียน หรือข้อมูลติดต่อ</p>
       {fields.map(field => <label key={field.key} className="block text-callout font-semibold">{field.label}
-        <textarea rows={3} maxLength={1500} aria-label={field.label} className="mt-2 w-full min-w-0 rounded-xl border border-separator p-3 text-callout font-normal" value={draft[field.key]} placeholder={field.hint} onChange={e => { setDraft({ ...draft, [field.key]: e.target.value }); setMessage(''); }} />
+        <textarea rows={3} maxLength={1500} aria-label={field.label} className="mt-2 w-full min-w-0 rounded-xl border border-control p-3 text-callout font-normal" value={draft[field.key]} placeholder={field.hint} onChange={e => { setDraft({ ...draft, [field.key]: e.target.value }); setMessage(''); }} />
       </label>)}
       <p className="text-caption text-ink-3">{dirty ? 'มีข้อความยังไม่บันทึก — บันทึกก่อนเปลี่ยนแท็บ/โครงงานหรือส่งออก' : 'ใช้ข้อความที่บันทึกแล้วเท่านั้น'}</p>
       <button className="min-h-11 w-full rounded-xl bg-accent px-4 py-3 text-callout font-semibold text-white" type="submit">บันทึกข้อความประกอบพอร์ต & Pitch</button>
