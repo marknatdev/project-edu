@@ -9,7 +9,6 @@ import {
   Check,
   X,
   ChevronDown,
-  Layers,
   Sparkles,
 } from 'lucide-react';
 import type { Project, Idea } from '@/types/domain';
@@ -74,45 +73,28 @@ export function ProjectSwitcher({
 
   return (
     <div className="relative w-full">
-      {/* Current Active Project Bar / Trigger */}
-      <div className="bg-surface border border-accent/30 rounded-2xl p-3 shadow-e1 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <div className="w-9 h-9 rounded-xl bg-accent-tint border border-accent/30 flex items-center justify-center text-accent-text shrink-0">
-            <FolderKanban className="w-4 h-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="text-caption font-medium text-ink-3 uppercase tracking-wide">
-              โครงงานปัจจุบัน
-            </div>
-            <div className="font-bold text-ink text-callout truncate">
-              {activeProject?.title || 'ยังไม่มีโครงงาน (สร้างโครงงานแรก)'}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            type="button"
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-1.5 px-3 py-2 text-caption font-semibold text-accent-text bg-accent-tint hover:bg-accent-tint rounded-xl transition min-h-11"
-            aria-expanded={isOpen}
-            aria-label="สลับหรือจัดการโครงงาน"
-          >
-            <Layers className="w-3.5 h-3.5" />
-            <span>สลับโครงงาน ({projects.length})</span>
-            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-          </button>
-
-          <button
-            type="button"
-            onClick={handleOpenCreate}
-            className="flex items-center justify-center w-11 h-11 rounded-xl bg-accent text-white hover:bg-accent-press transition shadow-e1"
-            aria-label="สร้างโครงงานใหม่"
-            title="สร้างโครงงานใหม่"
-          >
-            <Plus className="w-5 h-5" />
-          </button>
-        </div>
+      {/* Current project: one row, title wraps instead of truncating */}
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex min-h-11 min-w-0 flex-1 items-center gap-2 rounded-xl bg-surface px-3 py-2 text-left shadow-e1 hover:bg-surface-2"
+          aria-expanded={isOpen}
+          aria-label={`โครงงาน: ${activeProject?.title ?? 'ยังไม่มีโครงงาน'} · สลับหรือจัดการโครงงาน (${projects.length})`}
+        >
+          <FolderKanban className="h-5 w-5 shrink-0 text-accent-text" aria-hidden />
+          <span className="min-w-0 flex-1 text-callout [overflow-wrap:anywhere]"><span className="text-ink-2">โครงงาน: </span>{activeProject?.title || 'ยังไม่มีโครงงาน'}</span>
+          <ChevronDown className={`h-4 w-4 shrink-0 text-ink-2 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden />
+        </button>
+        <button
+          type="button"
+          onClick={handleOpenCreate}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface text-accent-text shadow-e1 hover:bg-surface-2"
+          aria-label="สร้างโครงงานใหม่"
+          title="สร้างโครงงานใหม่"
+        >
+          <Plus className="h-5 w-5" aria-hidden />
+        </button>
       </div>
 
       {/* Dropdown / Drawer for switching and managing projects */}

@@ -436,7 +436,7 @@ export function ProposalEditor({
             }
           >
             <RefreshCw className="w-4 h-4" />
-            <span>สร้างใหม่จากคำตอบสัมภาษณ์</span>
+            <span>สร้างใหม่จากคำตอบ</span>
           </button>
 
           <button
