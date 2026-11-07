@@ -52,7 +52,7 @@ jobs:
 
   build-ios:
     name: Build iOS App
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
