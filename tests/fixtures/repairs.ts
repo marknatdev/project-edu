@@ -26,9 +26,9 @@ export function cookieJar(origin = 'http://localhost') {
     set cookie(value: string) { cookie = value; },
     async send(handler: Handler, path: string, init: { method?: string; body?: unknown; headers?: Record<string, string> } = {}) {
       const headers: Record<string, string> = { cookie, ...(init.headers ?? {}) };
-      // Synthetic account fixtures explicitly select the separate workspace.
+      // Synthetic account fixtures send the verified account workspace scope (ADR 0003).
       const session = /sb-[^=]+-auth-token=base64-([^;]+)/.exec(cookie)?.[1];
-      if (session && cookie.includes('edu-workspace=account')) {
+      if (session) {
         const id = JSON.parse(Buffer.from(session, 'base64url').toString()).user.id;
         headers['x-edu-workspace'] ??= 'account:' + createHash('sha256').update('u:' + id).digest('hex');
       }

@@ -41,7 +41,7 @@ function accountCookie(id: string) {
   const exp = Math.floor(Date.now() / 1000) + 3600;
   const access_token = ['eyJhbGciOiJIUzI1NiJ9', Buffer.from(JSON.stringify({ sub: id, exp })).toString('base64url'), 'synthetic'].join('.');
   const session = { access_token, refresh_token: 'synthetic-refresh', token_type: 'bearer', expires_in: 3600, expires_at: exp, user: { ...authUser, id } };
-  return 'sb-ppctndzkerwiokjfaklw-auth-token=base64-' + Buffer.from(JSON.stringify(session)).toString('base64url') + '; edu-workspace=account';
+  return 'sb-ppctndzkerwiokjfaklw-auth-token=base64-' + Buffer.from(JSON.stringify(session)).toString('base64url');
 }
 type Jar = ReturnType<typeof cookieJar>;
 const evaluate = (jar: Jar, idea = ideaFixture()) => jar.send(evaluatePOST, '/api/ai/evaluate', { body: { idea } });
@@ -91,7 +91,7 @@ describe('release repairs on real PostgreSQL 17 (production config; REST/Auth ho
     const forged = await userA.send(evaluatePOST, '/api/ai/evaluate', { body: { anonymousId: 'u:33333333-3333-4333-8333-333333333333', idea: ideaFixture() } });
     expect(forged.status).toBe(400);
     expect((await account2.send(evaluateGET, '/api/ai/evaluate?anonymousId=guest', { method: 'GET' })).data.quota.remaining).toBe(0);
-    expect((await cookieJar(ORIGIN).send(evaluateGET, '/api/ai/evaluate', { method: 'GET' })).status).toBe(401);
+    expect(await cookieJar(ORIGIN).send(evaluateGET, '/api/ai/evaluate', { method: 'GET' })).toMatchObject({ status: 401, data: { error: 'AUTH_REQUIRED', messageTh: 'กรุณาเข้าสู่ระบบอีกครั้ง งานในเครื่องยังอยู่' } });
   });
 
   it('Pivot progression is owner-bound, CAS-serialized, restart-durable and never writes evaluate/proposal usage', async () => {

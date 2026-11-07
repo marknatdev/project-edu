@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { boundedText, BodyLimitError } from '@/lib/http/bounded-body';
-import { resolvePrincipal, GUEST_COOKIE } from '@/lib/auth/principal.server';
+import { resolvePrincipal, GUEST_COOKIE, SIGN_IN_AGAIN_TH } from '@/lib/auth/principal.server';
 import { sameOrigin } from '@/lib/auth/paths';
 import { foundationForOwner } from '@/lib/persistence/factory.server';
 import { PersistenceError } from '@/lib/persistence/contracts';
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       response.cookies.set(GUEST_COOKIE, '', { path: '/', httpOnly: true, sameSite: 'strict', secure: requiresCloudPersistence() || new URL(req.url).protocol === 'https:', maxAge: 0 });
       return response;
     }
-    if (e instanceof PersistenceError && e.status !== 503) return error(e.status, e.status === 409 ? 'บทสนทนาเปลี่ยนแล้ว กรุณาโหลดข้อมูลล่าสุด ข้อความของคุณยังอยู่' : 'สิทธิ์เข้าถึงบทสนทนาเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่');
+    if (e instanceof PersistenceError && e.status !== 503) return error(e.status, e.status === 401 ? SIGN_IN_AGAIN_TH : e.status === 409 ? 'บทสนทนาเปลี่ยนแล้ว กรุณาโหลดข้อมูลล่าสุด ข้อความของคุณยังอยู่' : 'สิทธิ์เข้าถึงบทสนทนาเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่');
     return error(503, 'บันทึกบทสนทนาไม่ได้ในขณะนี้ กรุณาลองใหม่ ข้อความในเครื่องยังอยู่');
   }
 }

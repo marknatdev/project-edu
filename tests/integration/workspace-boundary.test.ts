@@ -5,7 +5,6 @@ import { tmpdir } from 'node:os';
 import { POST } from '@/app/api/ai/coach/route';
 import { authCookie, authUser } from '../fixtures/auth';
 import { connectLocalFoundationStore } from '@/lib/persistence/sqlite-store.server';
-import { POST as chooseWorkspace } from '@/app/auth/workspace/route';
 import { GET as sessionStatus } from '@/app/auth/session/route';
 import { createMemoryStorage, scopedStorage, saveIdea, getIdea } from '@/lib/storage/store';
 import { ideaFixture } from '../fixtures/repairs';
@@ -29,8 +28,7 @@ describe('Guest/account context opt-in at authenticated HTTP persistence boundar
   it('ADR 0003: a signed-in user is always the account; a guest workspace cookie or header grants no Guest ownership', async () => {
     const initial = await (await sessionStatus(new Request('https://app.test/auth/session', { headers: { cookie: authCookie() } }))).json();
     expect(initial).toMatchObject({ authenticated: true, decisionRequired: false, workspace: 'account' });
-    const response = await chooseWorkspace(new Request('https://app.test/auth/workspace', { method: 'POST', headers: { origin: 'https://app.test', cookie: authCookie() }, body: JSON.stringify({ decision: 'guest' }) }));
-    const cookie = authCookie() + '; ' + response.headers.getSetCookie().map(c => c.split(';')[0]).join('; ');
+    const cookie = authCookie() + '; edu-workspace=guest'; // legacy chooser cookie is ignored
     const status = await sessionStatus(new Request('https://app.test/auth/session', { headers: { cookie } }));
     expect(await status.json()).toEqual({ ...initial, workspace: 'account' });
     const coach = await POST(new Request('https://app.test/api/ai/coach', { method: 'POST', headers: { origin: 'https://app.test', cookie, 'x-edu-workspace': 'guest' }, body: JSON.stringify({ action: 'open', topicKey: 'card:guest-card', context: { track: 'discovery_track', gradeLevel: 'm_ton', goal: 'curiosity' } }) }));
@@ -42,12 +40,13 @@ describe('Guest/account context opt-in at authenticated HTTP persistence boundar
     const coach = await POST(new Request('https://app.test/api/ai/coach', { method: 'POST', headers: { origin: 'https://app.test', 'x-edu-workspace': 'guest' }, body: JSON.stringify({ action: 'open', topicKey: 'card:x', context: { track: 'idea_track', gradeLevel: 'm_ton', goal: 'curiosity' } }) }));
     expect(coach.status).toBe(401);
     expect(coach.headers.getSetCookie().join(';')).not.toContain('edu-coaching-owner=');
+    expect(JSON.stringify(await coach.json())).toContain('กรุณาเข้าสู่ระบบอีกครั้ง');
     const status = await sessionStatus(new Request('https://app.test/auth/session'));
     expect(status.status).toBe(401);
   });
 
   it('separate-account selection rejects a stale mounted Guest writer before account persistence', async () => {
-    const cookie = authCookie() + '; edu-workspace=account';
+    const cookie = authCookie();
     const response = await POST(new Request('https://app.test/api/ai/coach', { method: 'POST', headers: { origin: 'https://app.test', cookie, 'x-edu-workspace': 'guest' }, body: JSON.stringify({ action: 'open', topicKey: 'stale-guest', context: { track: 'idea_track', gradeLevel: 'm_ton', goal: 'curiosity' } }) }));
     expect(response.status).toBe(409);
     expect(await (await connectLocalFoundationStore(`u:${authUser.id}`)).read('coaching', 'stale-guest')).toBeNull();
@@ -70,7 +69,7 @@ describe('Guest/account context opt-in at authenticated HTTP persistence boundar
     const account = await connectLocalFoundationStore(`u:${authUser.id}`);
     await account.write({ collection: 'coaching', key: stored.topicKey, expected: null,
       next: { id: stored.id, revision: stored.revision, data: { ...stored, receipts: {} } } });
-    const cookie = authCookie() + '; edu-workspace=account';
+    const cookie = authCookie();
     const session = await (await sessionStatus(new Request('https://app.test/auth/session', { headers: { cookie } }))).json();
     const request = (key: string) => POST(new Request('https://app.test/api/ai/coach', { method: 'POST', headers: { cookie, origin: 'https://app.test', 'x-edu-workspace': session.scope }, body: JSON.stringify({ action: 'resume', topicKey: key }) }));
     const resumed = await request(stored.topicKey);

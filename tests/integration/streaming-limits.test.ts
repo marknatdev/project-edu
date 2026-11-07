@@ -7,7 +7,6 @@ import { POST as evaluate } from '@/app/api/ai/evaluate/route';
 import { POST as pivot } from '@/app/api/ai/pivot/route';
 import { POST as proposal } from '@/app/api/ai/proposal/route';
 import { POST as legacyCards } from '@/app/api/ai/cards/generate/route';
-import { POST as workspace } from '@/app/auth/workspace/route';
 import { callAiStrict } from '@/lib/ai/gateway';
 import { z } from 'zod';
 
@@ -36,7 +35,6 @@ describe('bounded HTTP stream admission', () => {
     ['Pivot', async (r: Request) => (await pivot(r)).status],
     ['proposal', async (r: Request) => (await proposal(r)).status],
     ['legacy local cards', async (r: Request) => (await legacyCards(r)).status],
-    ['workspace decision', async (r: Request) => (await workspace(r)).status],
   ] as const)('%s cancels the twenty-chunk allocation probe before consuming it', async (_name, handle) => {
     const f = fixture();
     expect(await handle(request(f.stream))).toBe(413);
