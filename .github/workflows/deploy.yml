@@ -84,6 +84,11 @@ jobs:
       - name: Link project
         run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
 
+      - name: Reconcile legacy migration tracking
+        run: |
+          supabase migration repair --status reverted 20261107040501 20261107040555 20261107040630 20261107040631 20261107040700 20261107040701 --remote --password "$SUPABASE_DB_PASSWORD" --yes || true
+          supabase migration repair --status applied 202611060001 202611060002 202611060003 202611060004 202611060005 202611060006 --remote --password "$SUPABASE_DB_PASSWORD" --yes || true
+
       - name: Push migrations
         run: supabase db push --remote --password "$SUPABASE_DB_PASSWORD" --include-all --yes
 
