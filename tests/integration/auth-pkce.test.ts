@@ -65,7 +65,7 @@ describe('Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)', (
     }));
     const cookie = authCookie() + '; edu-coaching-owner=synthetic-guest-work';
     const status = await sessionStatus(new Request('https://app.test/auth/session', { headers: { cookie } }));
-    expect(await status.json()).toEqual({ authenticated: true, workspace: 'account', decisionRequired: true,
+    expect(await status.json()).toEqual({ authenticated: true, workspace: 'account', decisionRequired: false,
       scope: 'account:367878358188186b734b3b92e696fb2b4cc711c3a90e39857209484304b50f16' });
     const response = await logout(new Request('https://app.test/auth/logout', { method: 'POST', headers: { cookie, origin: 'https://app.test' } }));
     expect(response.status).toBe(200);

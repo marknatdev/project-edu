@@ -6,7 +6,6 @@ import type { Project } from '@/types/domain';
 import type { PresentationNotes } from '@/lib/presentation/notes';
 import { encodeSharePayload } from '@/lib/export/share-link';
 import { openPrintPreview } from '@/lib/export/pdf-export';
-import { OptionalLoginOffer } from '@/components/auth/AccountAccess';
 
 const buttonClass = 'min-h-[44px] rounded-xl px-3 py-3 text-sm font-semibold flex items-center justify-center gap-2 border border-indigo-100 disabled:opacity-50';
 const actionClass = `${buttonClass} bg-white text-indigo-700 hover:bg-indigo-50`;
@@ -73,9 +72,8 @@ export function ExportPanel({ project, presentationNotes }: { project: Project; 
     <section aria-labelledby="export-heading" className="rounded-3xl border border-indigo-100 bg-white/90 p-5 space-y-4 min-w-0">
       <div>
         <h2 id="export-heading" className="font-bold text-slate-900">ส่งออก Proposal + Plan</h2>
-        <p className="mt-1 text-xs text-slate-600 leading-relaxed">ส่งออกฉบับที่บันทึกแล้วเท่านั้น — กด “บันทึกการแก้ไข” ในแต่ละแท็บก่อนส่งออก ใช้ได้ใน Guest Mode โดยไม่เสียโควตา AI</p>
+        <p className="mt-1 text-xs text-slate-600 leading-relaxed">ส่งออกฉบับที่บันทึกแล้วเท่านั้น — กด “บันทึกการแก้ไข” ในแต่ละแท็บก่อนส่งออก ไม่เสียโควตา AI</p>
       </div>
-      <OptionalLoginOffer />
       <label className="flex min-h-11 items-center gap-3 text-sm text-slate-700 cursor-pointer">
         <input type="checkbox" className="h-5 w-5 shrink-0 accent-indigo-600" checked={includeTemplates} disabled={busy} onChange={e => { setIncludeTemplates(e.target.checked); setShareUrl(''); }} />
         <span>แนบพอร์ต TCAS + Abstract ≤250 คำ + โครงร่าง Pitch 3 นาที</span>

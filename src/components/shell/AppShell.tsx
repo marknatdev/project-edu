@@ -123,11 +123,11 @@ export function AppShell({ children }: AppShellProps) {
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-700">โหมดการใช้งาน</span>
               <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-medium">
-                Guest / บัญชีเสริม
+                บัญชี Google
               </span>
             </div>
             <p className="text-slate-500 text-[11px] leading-relaxed">
-              ไอเดียและฉบับร่างเก็บในเบราว์เซอร์ บทสนทนาชวนคิดเก็บบนเซิร์ฟเวอร์ด้วยรหัสนิรนามเพื่อคุยต่อได้ ไม่ต้องระบุชื่อหรือโรงเรียน
+              ไอเดียและฉบับร่างเก็บในเบราว์เซอร์ บทสนทนาชวนคิดเก็บบนเซิร์ฟเวอร์ด้วยรหัสบัญชีเพื่อคุยต่อได้ ไม่เก็บชื่อ อีเมล หรือโรงเรียน
             </p>
           </div>
 

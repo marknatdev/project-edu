@@ -14,22 +14,16 @@ export interface RequestPrincipal { owner: OwnerKey; kind: 'guest' | 'account'; 
 /** Ownership never comes from JSON anonymousId/unlockedTiers, a custom header,
  * or getSession(). Only verified Auth ID or a signed server-issued capability. */
 export async function resolvePrincipal(req: Request, options: { guestOnly?: boolean; ignoreWorkspace?: boolean; allowUndecided?: boolean } = {}): Promise<RequestPrincipal> {
-  let auth: RequestSupabase | undefined;
-  let authenticated = false;
-  const selection = parseCookieHeader(req.headers.get('cookie') ?? '').find(c => c.name === WORKSPACE_COOKIE)?.value;
+  // ADR 0003: with Auth configured, every app request needs a verified account; no Guest workspace.
   if (!options.guestOnly && isSupabaseConfigured()) {
-    auth = requestSupabase(req);
-    if (auth.hasSessionCookie) {
-      const { data, error } = await auth.client.auth.getUser();
-      if (error || !data.user || !/^[a-f0-9-]{36}$/i.test(data.user.id)) throw new PersistenceError(error && error.status && error.status >= 500 ? 503 : 401, 'AUTH_VERIFICATION_REQUIRED');
-      authenticated = true;
-      if (selection !== 'guest' || options.ignoreWorkspace) {
-        const who: RequestPrincipal = { owner: `u:${data.user.id}`, kind: 'account', authenticated: true,
-          decisionRequired: selection !== 'account' && selection !== 'guest', apply: response => auth!.apply(response) };
-        if (!options.allowUndecided && (who.decisionRequired || req.headers.get('x-edu-workspace') !== workspaceScope(who))) throw new PersistenceError(409, 'WORKSPACE_DECISION_REQUIRED');
-        return who;
-      }
-    }
+    const auth: RequestSupabase = requestSupabase(req);
+    if (!auth.hasSessionCookie) throw new PersistenceError(401, 'AUTH_REQUIRED');
+    const { data, error } = await auth.client.auth.getUser();
+    if (error || !data.user || !/^[a-f0-9-]{36}$/i.test(data.user.id)) throw new PersistenceError(error && error.status && error.status >= 500 ? 503 : 401, 'AUTH_VERIFICATION_REQUIRED');
+    const who: RequestPrincipal = { owner: `u:${data.user.id}`, kind: 'account', authenticated: true,
+      decisionRequired: false, apply: response => auth.apply(response) };
+    if (!options.allowUndecided && req.headers.get('x-edu-workspace') !== workspaceScope(who)) throw new PersistenceError(409, 'WORKSPACE_DECISION_REQUIRED');
+    return who;
   }
   const saved = parseCookieHeader(req.headers.get('cookie') ?? '').find(c => c.name === GUEST_COOKIE)?.value;
   const secret = process.env.APP_GUEST_SECRET;
@@ -51,8 +45,7 @@ export async function resolvePrincipal(req: Request, options: { guestOnly?: bool
   } else { token = randomBytes(32).toString('hex'); }
   const owner: OwnerKey = `g:${createHash('sha256').update(token).digest('hex')}`;
   if (!options.guestOnly && !options.allowUndecided && req.headers.has('x-edu-workspace') && req.headers.get('x-edu-workspace') !== 'guest') throw new PersistenceError(409, 'WORKSPACE_CHANGED');
-  return { owner, kind: 'guest', authenticated, decisionRequired: false, apply(response) {
-    auth?.apply(response);
+  return { owner, kind: 'guest', authenticated: false, decisionRequired: false, apply(response) {
     response.headers.set('Cache-Control', 'no-store');
     if (!saved) response.cookies.set(GUEST_COOKIE, secret ? `v1.${token}.${sign(token)}` : token, {
       httpOnly: true, sameSite: 'strict', secure: requiresCloudPersistence() || new URL(req.url).protocol === 'https:', path: '/', maxAge: 60 * 60 * 24 * 365,

@@ -36,7 +36,7 @@ export default function HomePage() {
                 ม.ต้น & ม.ปลาย
               </span>
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                Zero-PII Guest Mode
+                Zero-PII
               </span>
             </div>
 

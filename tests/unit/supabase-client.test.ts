@@ -39,7 +39,7 @@ describe('Supabase Client (src/lib/supabase/client.ts)', () => {
       expect(result.success).toBe(false);
       expect(result.client).toBeNull();
       expect(result.error).toContain('ยังไม่ได้ตั้งค่าการเชื่อมต่อ Supabase');
-      expect(result.error).toContain('ใช้งานต่อในโหมด Guest');
+      expect(result.error).toContain('งานในเครื่องยังอยู่');
     });
 
     it('detects valid configuration when env vars are present', () => {

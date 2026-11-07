@@ -85,7 +85,7 @@ export function ConsentView() {
           ความยินยอมและการคุ้มครองข้อมูลเยาวชน (PDPA)
         </h1>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-prompt">
-          โปรไฟล์โครงงานไม่ถามชื่อจริงหรือโรงเรียน ใช้ Guest ได้โดยไม่ผูกอีเมล หากเลือกเข้าสู่ระบบ Google จะมีการประมวลผลข้อมูลบัญชีโดย Google และ Supabase Auth ตามรายละเอียดด้านล่าง
+          โปรไฟล์โครงงานไม่ถามชื่อจริงหรือโรงเรียน ต้องเข้าสู่ระบบด้วย Google ก่อนใช้งาน ซึ่ง Google และ Supabase Auth จะประมวลผลข้อมูลบัญชีตามรายละเอียดด้านล่าง
         </p>
       </div>
 
@@ -128,36 +128,17 @@ export function ConsentView() {
         </div>
       </div>
 
-      {/* Comparison: Guest Mode vs Google OAuth */}
+      {/* Account (ADR 0003: Google sign-in is required before using the app) */}
       <div className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
         <h2 className="text-lg font-bold text-slate-900 font-prompt">
-          เปรียบเทียบโหมดการใช้งาน: Guest Mode vs Google Sign-In
+          บัญชีที่ใช้งาน
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Guest Mode Card */}
-          <div className="p-5 rounded-2xl bg-slate-50 border-2 border-indigo-500/20 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-indigo-900 text-sm">
-                1. โหมด Guest (แนะนำสำหรับทุกคน)
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-semibold">
-                พร้อมใช้งานทันที
-              </span>
-            </div>
-            <ul className="text-xs text-slate-600 space-y-2 list-disc list-inside font-prompt leading-relaxed">
-              <li>ไม่ต้องสมัครสมาชิกและไม่ต้องผูกอีเมลใด ๆ</li>
-              <li>ข้อมูลการสัมภาษณ์และการปัดการ์ดบันทึกในอุปกรณ์นี้</li>
-              <li>ล้างแคชจะลบข้อมูลในเครื่อง แต่ไม่ใช่คำขอลบบทสนทนาบนเซิร์ฟเวอร์ หากลบคุกกี้จะเสียสิทธิ์กลับมาคุยต่อ ควรกดลบข้อมูลในแอปก่อน</li>
-              <li>ใช้งาน Socratic Coach และประเมินโครงงานได้ตามโควตารายวัน</li>
-            </ul>
-          </div>
-
-          {/* Google Sign In Card */}
+        <div className="grid grid-cols-1 gap-4">
           <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
             <div className="flex items-center justify-between">
               <span className="font-bold text-slate-800 text-sm">
-                2. บัญชี Google (ตัวเลือกเสริม)
+                บัญชี Google (จำเป็นก่อนใช้งาน)
               </span>
               {supabaseReady ? (
                 <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[11px] font-semibold">
@@ -171,14 +152,12 @@ export function ConsentView() {
               )}
             </div>
             <ul className="text-xs text-slate-600 space-y-2 list-disc list-inside font-prompt leading-relaxed">
-              <li>การเข้าสู่ระบบเป็นตัวเลือก ไม่จำเป็นสำหรับบันทึกหรือส่งออก งานในเครื่องยังอยู่ และยังไม่ซิงค์โครงงานข้ามอุปกรณ์</li>
-              <li>เมื่อคุณเลือกเข้าสู่ระบบ Google และ Supabase Auth ประมวลผลชื่อ อีเมล และข้อมูลยืนยันบัญชีเพื่อการลงชื่อเข้าใช้ ไม่ใช่การใช้งานแบบไร้ข้อมูลส่วนบุคคลทั้งหมด</li>
+              <li>ต้องเข้าสู่ระบบด้วย Google ก่อนใช้งานทุกหน้า ยกเว้นหน้านี้และลิงก์อ่านอย่างเดียว ข้อมูลการสัมภาษณ์และการปัดการ์ดยังบันทึกในอุปกรณ์นี้ และยังไม่ซิงค์โครงงานข้ามอุปกรณ์</li>
+              <li>Google และ Supabase Auth ประมวลผลชื่อ อีเมล และข้อมูลยืนยันบัญชีเพื่อการลงชื่อเข้าใช้ ไม่ใช่การใช้งานแบบไร้ข้อมูลส่วนบุคคลทั้งหมด</li>
               <li>แอปใช้เพียงรหัสบัญชีที่ตรวจสอบแล้วเพื่อแยกสิทธิ์ ไม่คัดลอกชื่อหรืออีเมลลงข้อมูลโครงงาน บันทึกเหตุการณ์ หรือคำสั่งให้ AI และไม่ขอสิทธิ์ Google Drive หรือ Calendar</li>
-              <li>งาน Guest กับงานบัญชีแยกกัน ไม่ย้ายหรือเขียนทับงานคลาวด์อัตโนมัติ การมี public config ไม่ยืนยันว่าผู้ให้บริการ Google พร้อม ต้องทดสอบลงชื่อเข้าใช้จริงก่อน</li>
-              <li>
-                {!supabaseReady &&
-                  'ปัจจุบันสภาพแวดล้อมนี้ยังไม่ได้ตั้งค่าคลาวด์ ท่านจึงสามารถใช้งานต่อในโหมด Guest ได้อย่างเต็มรูปแบบ'}
-              </li>
+              <li>งาน Guest ที่เคยทำก่อนหน้านี้ไม่ถูกย้ายเข้าบัญชี และจะไม่แสดงหลังเข้าสู่ระบบ กดลบข้อมูลด้านล่างเพื่อลบทั้งงานในเครื่องและบทสนทนาเดิมได้</li>
+              <li>ล้างแคชจะลบข้อมูลในเครื่อง แต่ไม่ใช่คำขอลบบทสนทนาบนเซิร์ฟเวอร์ ควรกดลบข้อมูลในแอปก่อน</li>
+              {!supabaseReady && <li>สภาพแวดล้อมนี้ยังไม่ได้ตั้งค่าการเข้าสู่ระบบ จึงใช้งานแบบไม่ต้องเข้าสู่ระบบได้เฉพาะตอนพัฒนาเท่านั้น</li>}
             </ul>
           </div>
         </div>
