@@ -62,6 +62,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check secrets present
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "::error::Missing SUPABASE_ACCESS_TOKEN secret. Please set it in GitHub repository secrets."
+            exit 1
+          fi
+          if [ -z "$SUPABASE_DB_PASSWORD" ]; then
+            echo "::error::Missing SUPABASE_DB_PASSWORD secret. Please set it in GitHub repository secrets."
+            exit 1
+          fi
+
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v1
         with:
@@ -71,10 +82,10 @@ jobs:
         run: test -f supabase/config.toml || supabase init
 
       - name: Link project
-        run: supabase link --project-ref $SUPABASE_PROJECT_ID --password $SUPABASE_DB_PASSWORD
+        run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
 
       - name: Push migrations
-        run: supabase db push --password $SUPABASE_DB_PASSWORD
+        run: supabase db push --password "$SUPABASE_DB_PASSWORD"
 
   deploy-vercel:
     name: Deploy to Vercel (Production)
@@ -88,6 +99,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check secrets present
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::error::Missing VERCEL_TOKEN secret. Please set it in GitHub repository secrets."
+            exit 1
+          fi
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v4
@@ -122,6 +140,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check secrets present
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::warning::Missing VERCEL_TOKEN secret. Skipping preview deployment."
+            exit 0
+          fi
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v4
