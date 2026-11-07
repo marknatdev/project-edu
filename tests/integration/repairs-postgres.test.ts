@@ -49,11 +49,16 @@ const proposal = (jar: Jar, body: object) => jar.send(proposalPOST, '/api/ai/pro
 const pivot = (jar: Jar, body: object) => jar.send(pivotPOST, '/api/ai/pivot', { body });
 const turn = (jar: Jar, p: { id: string; revision: number }, extra: object) =>
   pivot(jar, { action: 'turn', pivotId: p.id, revision: p.revision, requestId: crypto.randomUUID(), ...extra });
+/** ADR 0003: production requires a signed-in account; each jar is a distinct synthetic account. */
+let nextUser = 0x100;
+function user(): Jar {
+  const jar = cookieJar(ORIGIN);
+  jar.cookie = accountCookie(`55555555-5555-4555-8555-${(nextUser++).toString(16).padStart(12, '0')}`);
+  return jar;
+}
 async function ownerOf(jar: Jar): Promise<string> {
-  // Owner digest is derived server-side; read back only through the DB fixture.
-  const token = /v1\.([a-f0-9]{64})\./.exec(jar.cookie)?.[1];
-  const { createHash } = await import('node:crypto');
-  return 'g:' + createHash('sha256').update(token!).digest('hex');
+  const session = /auth-token=base64-([^;]+)/.exec(jar.cookie)![1];
+  return 'u:' + JSON.parse(Buffer.from(session, 'base64url').toString()).user.id;
 }
 
 describe('release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)', () => {
@@ -61,7 +66,7 @@ describe('release repairs on real PostgreSQL 17 (production config; REST/Auth ho
     vi.stubEnv('AI_API_KEY', 'synthetic-ai-key'); vi.stubEnv('AI_MODEL', 'synthetic-model');
     for (const url of ['http://127.0.0.1:20128/v1', 'http://ai.example.com/v1', 'https://localhost/v1', 'https://169.254.169.254/v1', 'https://[::1]/v1']) {
       vi.stubEnv('AI_BASE_URL', url);
-      const r = await evaluate(cookieJar(ORIGIN));
+      const r = await evaluate(user());
       expect(r.status).toBe(200);
       expect(r.data.source).toBe('fallback');
     }
@@ -69,32 +74,32 @@ describe('release repairs on real PostgreSQL 17 (production config; REST/Auth ho
     expect(upstream).toHaveLength(0);
   });
 
-  it('concurrent independent Guests and accounts each get exactly 5 evaluations; no shared or caller-chosen pool', async () => {
-    const guestA = cookieJar(ORIGIN), guestB = cookieJar(ORIGIN), account1 = cookieJar(ORIGIN), account2 = cookieJar(ORIGIN);
+  it('concurrent independent accounts each get exactly 5 evaluations; no shared or caller-chosen pool; no Guest pool', async () => {
+    const userA = user(), userB = user(), account1 = cookieJar(ORIGIN), account2 = cookieJar(ORIGIN);
     account1.cookie = accountCookie('22222222-2222-4222-8222-222222222222');
     account2.cookie = accountCookie('33333333-3333-4333-8333-333333333333');
-    await evaluate(guestA); await evaluate(guestB); // issue capabilities first
+    await evaluate(userA); await evaluate(userB); // one evaluation first, then the race
     const burst = async (jar: Jar, n: number) => Promise.all(Array.from({ length: n }, () => evaluate(jar)));
-    const [a, b, c, d] = await Promise.all([burst(guestA, 7), burst(guestB, 7), burst(account1, 8), burst(account2, 8)]);
+    const [a, b, c, d] = await Promise.all([burst(userA, 7), burst(userB, 7), burst(account1, 8), burst(account2, 8)]);
     const ok = (rs: { status: number }[]) => rs.filter(r => r.status === 200).length;
     expect(ok(a) + 1).toBe(5); expect(ok(b) + 1).toBe(5); expect(ok(c)).toBe(5); expect(ok(d)).toBe(5);
     for (const r of [...a, ...b, ...c, ...d]) expect([200, 429]).toContain(r.status);
     const used = await pg.pool.query("SELECT owner_key, used FROM public.edu_daily_quota WHERE kind='evaluate' AND owner_key=ANY($1) ORDER BY owner_key",
-      [[await ownerOf(guestA), await ownerOf(guestB), 'u:22222222-2222-4222-8222-222222222222', 'u:33333333-3333-4333-8333-333333333333']]);
+      [[await ownerOf(userA), await ownerOf(userB), 'u:22222222-2222-4222-8222-222222222222', 'u:33333333-3333-4333-8333-333333333333']]);
     expect(used.rows.map(r => r.used)).toEqual([5, 5, 5, 5]);
     expect(used.rows.map(r => r.owner_key)).toContain('u:22222222-2222-4222-8222-222222222222');
-    const forged = await guestA.send(evaluatePOST, '/api/ai/evaluate', { body: { anonymousId: 'u:33333333-3333-4333-8333-333333333333', idea: ideaFixture() } });
+    const forged = await userA.send(evaluatePOST, '/api/ai/evaluate', { body: { anonymousId: 'u:33333333-3333-4333-8333-333333333333', idea: ideaFixture() } });
     expect(forged.status).toBe(400);
     expect((await account2.send(evaluateGET, '/api/ai/evaluate?anonymousId=guest', { method: 'GET' })).data.quota.remaining).toBe(0);
-    expect((await cookieJar(ORIGIN).send(evaluateGET, '/api/ai/evaluate', { method: 'GET' })).data.quota.remaining).toBe(5);
+    expect((await cookieJar(ORIGIN).send(evaluateGET, '/api/ai/evaluate', { method: 'GET' })).status).toBe(401);
   });
 
   it('Pivot progression is owner-bound, CAS-serialized, restart-durable and never writes evaluate/proposal usage', async () => {
-    const learner = cookieJar(ORIGIN), outsider = cookieJar(ORIGIN), account = cookieJar(ORIGIN);
+    const learner = user(), outsider = user(), account = cookieJar(ORIGIN);
     account.cookie = accountCookie('44444444-4444-4444-8444-444444444444');
     const opened = await pivot(learner, { action: 'open', idea: ideaFixture(), axis: 'rigor' });
     expect(opened.status).toBe(200);
-    expect(opened.set).toContain('Secure');
+    expect(opened.set ?? '').not.toContain('edu-coaching-owner='); // ADR 0003: accounts never get a Guest capability
     expect((await turn(learner, opened.data.pivot, { requestedTier: 3 })).status).toBe(409);
     // Two tabs race the same revision: exactly one advances.
     const race = await Promise.all([1, 2, 3].map(() => turn(learner, opened.data.pivot, { requestedTier: 2, learnerResponse: 'วัดซ้ำ 3 ครั้ง' })));
@@ -115,7 +120,7 @@ describe('release repairs on real PostgreSQL 17 (production config; REST/Auth ho
   }, 60_000);
 
   it('applies migration 0005 admission: Pivot 12/owner/min independent of proposal allowance', async () => {
-    const jar = cookieJar(ORIGIN);
+    const jar = user();
     const statuses: number[] = [];
     for (let i = 0; i < 13; i++) statuses.push((await pivot(jar, { action: 'open', idea: ideaFixture({ id: `idea-pg-rate-${i}` }), axis: 'impact' })).status);
     expect(statuses.filter(s => s === 200).length).toBe(12);
@@ -124,7 +129,7 @@ describe('release repairs on real PostgreSQL 17 (production config; REST/Auth ho
   });
 
   it('proposal 2/day is idempotent per owner and resets on the next Bangkok database day', async () => {
-    const jar = cookieJar(ORIGIN);
+    const jar = user();
     const requestId = crypto.randomUUID();
     await Promise.all([1, 2, 3].map(() => proposal(jar, { action: 'consume', requestId })));
     expect((await proposal(jar, { action: 'check' })).data.remaining).toBe(1);
@@ -136,15 +141,14 @@ describe('release repairs on real PostgreSQL 17 (production config; REST/Auth ho
     expect((await proposal(jar, { action: 'check' })).data).toMatchObject({ allowed: true, remaining: 2 });
   });
 
-  it('explicit wipe erases Pivot progression; a new capability starts again at Tier 1', async () => {
-    const jar = cookieJar(ORIGIN);
+  it('explicit wipe erases Pivot progression; the same account starts again at Tier 1', async () => {
+    const jar = user();
     const opened = await pivot(jar, { action: 'open', idea: ideaFixture(), axis: 'fit' });
     await turn(jar, opened.data.pivot, { requestedTier: 2, learnerResponse: 'ตอบแล้ว' });
     const owner = await ownerOf(jar);
     const wiped = await jar.send(wipeDELETE, '/api/ai/coach', { method: 'DELETE' });
     expect(wiped.status).toBe(200);
     expect((await pg.pool.query("SELECT 1 FROM public.edu_records WHERE owner_key=$1 AND collection='pivot'", [owner])).rowCount).toBe(0);
-    jar.cookie = '';
     const fresh = await pivot(jar, { action: 'open', idea: ideaFixture(), axis: 'fit' });
     expect(fresh.data.pivot.unlockedTiers).toEqual([1]);
   });

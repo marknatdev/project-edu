@@ -23,4 +23,22 @@ describe('Next15 refresh middleware using real SSR SDK / simulated Auth network'
     expect(response.headers.get('x-middleware-request-cookie')).not.toBe(authCookie(true));
     expect(response.headers.get('cache-control')).toBe('no-store');
   });
+  it('ADR 0003: redirects app pages to sign-in when signed out or verification fails, keeping a safe next', async () => {
+    const signedOut = await middleware(new NextRequest('https://app.test/proposal?tab=plan'));
+    expect(signedOut.status).toBe(303);
+    expect(signedOut.headers.get('location')).toBe('https://app.test/auth?next=%2Fproposal%3Ftab%3Dplan');
+    expect(signedOut.headers.get('cache-control')).toBe('no-store');
+    vi.stubGlobal('fetch', vi.fn(async () => Response.json({ msg: 'bad token' }, { status: 401 })));
+    const rejected = await middleware(new NextRequest('https://app.test/', { headers: { cookie: authCookie() } }));
+    expect(rejected.headers.get('location')).toBe('https://app.test/auth');
+    const unsafe = await middleware(new NextRequest('https://app.test/print'));
+    expect(unsafe.headers.get('location')).toBe('https://app.test/auth');
+  });
+  it('lets the sign-in flow, APIs, read-only links and the privacy notice through without a session', async () => {
+    for (const path of ['/auth', '/auth/callback?code=x', '/api/ai/coach', '/share', '/advisor-review', '/consent']) {
+      const response = await middleware(new NextRequest('https://app.test' + path));
+      expect(response.headers.get('location'), path).toBeNull();
+    }
+    expect((await middleware(new NextRequest('https://app.test/authx'))).status).toBe(303);
+  });
 });

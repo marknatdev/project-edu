@@ -12,6 +12,9 @@ describe('request principal (server-issued capability / verified Auth seam)', ()
     expect(who.owner).toBe('u:'+authUser.id);
     vi.stubGlobal('fetch',vi.fn(async()=>Response.json({msg:'bad token'},{status:401})));
     await expect(resolvePrincipal(new Request('https://app.test',{headers:{cookie:authCookie()}}))).rejects.toMatchObject({status:401});
+    // ADR 0003: no session means no principal at all, not a Guest; sign-in admission still gets a Guest key.
+    await expect(resolvePrincipal(new Request('https://app.test'))).rejects.toMatchObject({status:401,code:'AUTH_REQUIRED'});
+    expect((await resolvePrincipal(new Request('https://app.test'),{guestOnly:true})).kind).toBe('guest');
   });
   it('issues an authenticated guest capability, resumes it, and refuses tampering/caller-selected tokens', async () => {
     vi.stubEnv('NODE_ENV', 'production'); vi.stubEnv('APP_GUEST_SECRET', 'synthetic-guest-signing-key-for-tests-only-0123456789');

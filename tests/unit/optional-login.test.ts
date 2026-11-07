@@ -5,19 +5,20 @@ import { ExportPanel } from '@/components/export/ExportPanel';
 import { ProposalEditor } from '@/components/proposal/ProposalEditor';
 import { exportFixture } from '../fixtures/export';
 import type { Project } from '@/types/domain';
-describe('Save/Export optional account offering, rendered public UI seam', () => {
-  it('offers optional Google login near Save without replacing the local save action', () => {
+// ADR 0003: sign-in is required before these pages, so they no longer offer "optional" Google login or Guest wording.
+describe('Save/Export after required sign-in, rendered public UI seam', () => {
+  it('keeps the local save action without an optional-login offer', () => {
     const html = renderToStaticMarkup(createElement(ProposalEditor, { proposal: exportFixture.proposal, onSave() {}, onReassemble() {} }));
     expect(html).toContain('บันทึกการแก้ไข');
-    expect(html).toContain('บัญชี Google (ไม่บังคับ)');
-    expect(html).toContain('ยังไม่ซิงค์โครงงานข้ามอุปกรณ์');
+    expect(html).not.toContain('ไม่บังคับ)');
+    expect(html).not.toContain('Guest');
   });
-  it('keeps Guest export actions available alongside an honest optional-login offer', () => {
+  it('keeps export actions without Guest or optional-login wording', () => {
     const project = { ...exportFixture, id: 'synthetic', ideaId: 'synthetic', status: 'in_progress', createdAt: '', updatedAt: '' } as Project;
     const html = renderToStaticMarkup(createElement(ExportPanel, { project }));
     expect(html).toContain('Word (.docx)');
     expect(html).toContain('PDF / พิมพ์');
-    expect(html).toContain('บัญชี Google (ไม่บังคับ)');
-    expect(html).toContain('ยังไม่ซิงค์โครงงานข้ามอุปกรณ์');
+    expect(html).not.toContain('บัญชี Google (ไม่บังคับ)');
+    expect(html).not.toContain('Guest');
   });
 });

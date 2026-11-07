@@ -26,23 +26,24 @@ describe('Guest/account context opt-in at authenticated HTTP persistence boundar
     expect(await (await connectLocalFoundationStore(`u:${authUser.id}`)).read('coaching', 'card:guest-card')).toBeNull();
   });
 
-  it('explicit continue-Guest selects Guest ownership without copying or overwriting the account', async () => {
+  it('ADR 0003: a signed-in user is always the account; a guest workspace cookie or header grants no Guest ownership', async () => {
     const initial = await (await sessionStatus(new Request('https://app.test/auth/session', { headers: { cookie: authCookie() } }))).json();
+    expect(initial).toMatchObject({ authenticated: true, decisionRequired: false, workspace: 'account' });
     const response = await chooseWorkspace(new Request('https://app.test/auth/workspace', { method: 'POST', headers: { origin: 'https://app.test', cookie: authCookie() }, body: JSON.stringify({ decision: 'guest' }) }));
-    expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ selected: 'guest', imported: false });
-    const cookies = response.headers.getSetCookie().map(c => c.split(';')[0]);
-    const cookie = authCookie() + '; ' + cookies.join('; ');
+    const cookie = authCookie() + '; ' + response.headers.getSetCookie().map(c => c.split(';')[0]).join('; ');
     const status = await sessionStatus(new Request('https://app.test/auth/session', { headers: { cookie } }));
-    expect(await status.json()).toEqual({ authenticated: true, workspace: 'guest', scope: 'guest', decisionRequired: false });
-    const account = await connectLocalFoundationStore(`u:${authUser.id}`);
-    const previous = { id: crypto.randomUUID(), revision: 1, data: { accountOnly: 'keep' } };
-    await account.write({ collection: 'discovery', key: 'context', expected: null, next: previous });
+    expect(await status.json()).toEqual({ ...initial, workspace: 'account' });
     const coach = await POST(new Request('https://app.test/api/ai/coach', { method: 'POST', headers: { origin: 'https://app.test', cookie, 'x-edu-workspace': 'guest' }, body: JSON.stringify({ action: 'open', topicKey: 'card:guest-card', context: { track: 'discovery_track', gradeLevel: 'm_ton', goal: 'curiosity' } }) }));
-    expect(coach.status).toBe(200);
-    expect(await account.read('coaching', 'card:guest-card')).toBeNull();
-    expect(await account.read('discovery', 'context')).toEqual(previous);
-    expect(initial).toMatchObject({ authenticated: true, decisionRequired: true, workspace: 'account' });
+    expect(coach.status).toBe(409);
+    expect(await (await connectLocalFoundationStore(`u:${authUser.id}`)).read('coaching', 'card:guest-card')).toBeNull();
+  });
+
+  it('ADR 0003: with Auth configured, a request without a signed-in session gets 401 and no Guest capability', async () => {
+    const coach = await POST(new Request('https://app.test/api/ai/coach', { method: 'POST', headers: { origin: 'https://app.test', 'x-edu-workspace': 'guest' }, body: JSON.stringify({ action: 'open', topicKey: 'card:x', context: { track: 'idea_track', gradeLevel: 'm_ton', goal: 'curiosity' } }) }));
+    expect(coach.status).toBe(401);
+    expect(coach.headers.getSetCookie().join(';')).not.toContain('edu-coaching-owner=');
+    const status = await sessionStatus(new Request('https://app.test/auth/session'));
+    expect(status.status).toBe(401);
   });
 
   it('separate-account selection rejects a stale mounted Guest writer before account persistence', async () => {

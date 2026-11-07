@@ -13,7 +13,6 @@ import {
 import type { Proposal, ProposalVariables } from '@/types/domain';
 import { updateProposalSection } from '@/lib/proposal/assemble';
 import type { ProposalQuotaStatus } from '@/lib/proposal/quota-client';
-import { OptionalLoginOffer } from '@/components/auth/AccountAccess';
 
 interface ProposalEditorProps {
   proposal: Proposal;
@@ -481,7 +480,6 @@ export function ProposalEditor({
         </div>
       </div>
 
-      <OptionalLoginOffer />
       {/* Reassemble Confirmation Modal */}
       {showReassembleConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">

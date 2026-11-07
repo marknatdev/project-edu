@@ -326,7 +326,7 @@ function ProposalContent() {
         </Link>
 
         <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-          ม.ต้น & ม.ปลาย • Guest Mode
+          ม.ต้น & ม.ปลาย
         </span>
       </div>
 

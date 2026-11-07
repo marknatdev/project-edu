@@ -92,14 +92,14 @@ export function getSupabaseClient(
 
 /**
  * Triggers Google OAuth sign-in if configured.
- * When unconfigured, returns an informative Thai message and allows Guest Mode to continue.
+ * When unconfigured, returns an informative Thai message (local dev runs without sign-in).
  */
 export async function signInWithGoogle(
   env: Record<string, string | undefined> = publicSupabaseEnv(), next?: string
 ): Promise<SignInWithGoogleResult> {
   const config = getSupabaseConfig(env);
   if (!config || typeof window === 'undefined') return { success: false, client: null,
-    error: 'ระบบยังไม่ได้ตั้งค่าการเชื่อมต่อ Supabase จึงยังเข้าสู่ระบบไม่ได้ คุณใช้งานต่อในโหมด Guest ได้ งานในเครื่องยังอยู่' };
+    error: 'ระบบยังไม่ได้ตั้งค่าการเชื่อมต่อ Supabase จึงยังเข้าสู่ระบบไม่ได้ งานในเครื่องยังอยู่' };
   try {
     const response = await appFetch('/auth/login', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ next: next ?? window.location.pathname + window.location.search }) });
@@ -109,7 +109,7 @@ export async function signInWithGoogle(
     if (url.origin !== new URL(config.url).origin || url.pathname !== '/auth/v1/authorize') throw Error('AUTH_UNAVAILABLE');
     window.location.assign(url.href);
     return { success: true, client: null };
-  } catch { return { success: false, client: null, error: 'เข้าสู่ระบบไม่สำเร็จ ลองใหม่หรือใช้งานต่อในโหมด Guest งานในเครื่องยังอยู่' }; }
+  } catch { return { success: false, client: null, error: 'เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่ งานในเครื่องยังอยู่' }; }
 }
 export async function signOut(): Promise<boolean> {
   try { return (await fetch('/auth/logout', { method: 'POST', credentials: 'same-origin' })).ok; }
