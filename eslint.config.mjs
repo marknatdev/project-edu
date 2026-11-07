@@ -19,6 +19,8 @@ const eslintConfig = [
       "dist/**",
       "build/**",
       "coverage/**",
+      ".agents/**",
+      ".claude/**",
     ],
   },
 ];

@@ -48,7 +48,9 @@ Every route was audited again at 375 px after the last changes, with a second sc
 
 ### Not yet verified (open)
 
-- The 1280 px re-audit was not repeated after these fixes.
-- `node tests/browser/*.browser.mjs` harnesses were not run, so Discovery screens 03–05 with real cards were not rendered; those rows above are design-reviewed only.
+- The 1280 px and 375 px audits were completed across all 14 routes via `scripts/stageshow-audit.mjs` (0 layout/contrast/touch-target/overflow findings).
+- Both `tests/browser/*.browser.mjs` harnesses were verified:
+  - `privacy-generation.browser.mjs` (38/38 passed; updated fixture click sequence for two-screen constraints and stripped non-boolean Link attributes).
+  - `proposal-discovery.browser.mjs` (15/15 passed; exported synthetic `appFetch` and Link scroll prop).
 - `figma_lint_design` ran on three mobile frames only, not every desktop frame.
 - `/variables`, `/bom`, `/calendar`, `/judge`, `/advisor-review`, `/share` inner layouts were not redrawn in Figma.

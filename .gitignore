@@ -11,4 +11,7 @@ Thumbs.db
 coverage/
 .local/
 *.tsbuildinfo
+.claude/
+.agents/
+skills-lock.json
 

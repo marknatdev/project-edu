@@ -33,7 +33,7 @@ try {
       b.onLoad({ filter: /.*/, namespace: 'synthetic' }, () => ({
         contents: `export { Link as default, useRouter, usePathname, STORAGE_PREFIX, getInterview, getLearner,
           saveIdea, getDefaultStorage, wipeAllLearnerData, saveTopicCardSnapshot, fetchCardQuota,
-          requestFreshCards, OptionalLoginOffer, getWorkspaceScope, setWorkspaceScope, getWipeGeneration, reloadWorkspace } from ${JSON.stringify(path.join(root, 'tests/browser/proposal-discovery.mocks.tsx'))};`,
+          requestFreshCards, OptionalLoginOffer, getWorkspaceScope, setWorkspaceScope, getWipeGeneration, reloadWorkspace, appFetch } from ${JSON.stringify(path.join(root, 'tests/browser/proposal-discovery.mocks.tsx'))};`,
         resolveDir: root, loader: 'tsx',
       }));
     } }],

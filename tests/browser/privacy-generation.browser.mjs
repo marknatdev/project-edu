@@ -31,7 +31,7 @@ try {
       b.onResolve({ filter: /.*/ }, a => modules.has(a.path) ? { path: a.path, namespace: 'shell' } : undefined);
       b.onLoad({ filter: /.*/, namespace: 'shell' }, () => ({ contents: `
         import React from 'react';
-        export default function Link({children,...props}) { return <a {...props}>{children}</a>; }
+        export default function Link({children, scroll, ...props}) { return <a {...props}>{children}</a>; }
         export const useSearchParams = () => new URLSearchParams(window.__search ?? '');
         export const useRouter = () => ({ push() {}, replace() {} });
         export const usePathname = () => '/';

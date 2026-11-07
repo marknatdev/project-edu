@@ -10,7 +10,11 @@ export const state = {
   generation: 'g0',
   reloads: 0,
 };
-export const Link = ({ children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => <a {...props}>{children}</a>;
+export const Link = ({ children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { scroll?: boolean }) => {
+  const p = { ...props };
+  delete p.scroll;
+  return <a {...p}>{children}</a>;
+};
 export const useRouter = () => ({ push() {} });
 export const usePathname = () => '/proposal';
 export const STORAGE_PREFIX = 'synthetic:';
@@ -37,3 +41,4 @@ export const authFetch = async () => {
   if (state.authFails) throw Error('synthetic auth outage');
   return { ok: true, json: async () => ({ authenticated: true, scope: state.serverScope ?? state.scope, workspace: 'guest', decisionRequired: false }) };
 };
+export const appFetch = authFetch;
