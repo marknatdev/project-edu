@@ -7,7 +7,7 @@ import { requestSupabase, type RequestSupabase } from '@/lib/supabase/server';
 import { PersistenceError, type OwnerKey } from '@/lib/persistence/contracts';
 import { requiresCloudPersistence } from '@/lib/persistence/config';
 export const GUEST_COOKIE = 'edu-coaching-owner';
-export const WORKSPACE_COOKIE = 'edu-workspace';
+export const SIGN_IN_AGAIN_TH = 'กรุณาเข้าสู่ระบบอีกครั้ง งานในเครื่องยังอยู่';
 export const workspaceScope = (who: Pick<RequestPrincipal, 'owner' | 'kind'>) => who.kind === 'guest' ? 'guest' : 'account:' + createHash('sha256').update(who.owner).digest('hex');
 export interface RequestPrincipal { owner: OwnerKey; kind: 'guest' | 'account'; authenticated: boolean; decisionRequired: boolean; apply(response: NextResponse): NextResponse }
 

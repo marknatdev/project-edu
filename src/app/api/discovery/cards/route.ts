@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { boundedText, BodyLimitError } from '@/lib/http/bounded-body';
-import { resolvePrincipal, GUEST_COOKIE } from '@/lib/auth/principal.server';
+import { resolvePrincipal, GUEST_COOKIE, SIGN_IN_AGAIN_TH } from '@/lib/auth/principal.server';
 import { sameOrigin } from '@/lib/auth/paths';
 import { foundationForOwner } from '@/lib/persistence/factory.server';
 import { PersistenceError } from '@/lib/persistence/contracts';
@@ -33,7 +33,7 @@ function persistenceFailure(req: Request, e: unknown): NextResponse {
     return response;
   }
   if (e instanceof PersistenceError && e.status !== 503) {
-    return json(e.status, { error: e.code, messageTh: 'สิทธิ์เข้าถึงข้อมูลเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ คำตอบในเครื่องยังอยู่' });
+    return json(e.status, { error: e.code, messageTh: e.status === 401 ? SIGN_IN_AGAIN_TH : 'สิทธิ์เข้าถึงข้อมูลเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ คำตอบในเครื่องยังอยู่' });
   }
   return json(503, { error: 'PERSISTENCE_UNAVAILABLE', messageTh: 'ระบบบันทึกโควตาและการ์ดยังไม่พร้อม จึงยังไม่สร้างการ์ดใหม่และไม่ได้ใช้โควตา กรุณาลองใหม่ภายหลัง' });
 }

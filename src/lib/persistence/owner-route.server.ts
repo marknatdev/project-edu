@@ -2,7 +2,7 @@ import 'server-only';
 import { boundedText, BodyLimitError } from '@/lib/http/bounded-body';
 import { createHash } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import { GUEST_COOKIE } from '@/lib/auth/principal.server';
+import { GUEST_COOKIE, SIGN_IN_AGAIN_TH } from '@/lib/auth/principal.server';
 import { sameOrigin } from '@/lib/auth/paths';
 import { PersistenceError } from './contracts';
 import { requiresCloudPersistence } from './config';
@@ -35,7 +35,7 @@ export function ownerFailure(req: Request, e: unknown, unavailableTh: string): N
     return response;
   }
   if (e instanceof PersistenceError && e.status !== 503) {
-    return json(e.status, { error: e.code, messageTh: 'ข้อมูลบนเซิร์ฟเวอร์เปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ งานในเครื่องยังอยู่' });
+    return json(e.status, { error: e.code, messageTh: e.status === 401 ? SIGN_IN_AGAIN_TH : 'ข้อมูลบนเซิร์ฟเวอร์เปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ งานในเครื่องยังอยู่' });
   }
   return json(503, { error: 'PERSISTENCE_UNAVAILABLE', messageTh: unavailableTh });
 }
