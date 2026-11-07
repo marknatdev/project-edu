@@ -16,8 +16,8 @@ export function PresentationNotesEditor({ notes, onSave }: { notes: Presentation
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const dirty = JSON.stringify(draft) !== JSON.stringify(notes ?? EMPTY_PRESENTATION_NOTES);
-  return <details className="rounded-2xl border border-indigo-100 bg-white p-4">
-    <summary className="min-h-11 cursor-pointer font-semibold text-sm text-indigo-800 py-3">เติมบทบาท ทักษะ และผลจริงด้วยตนเอง</summary>
+  return <details className="rounded-2xl border border-accent/30 bg-surface p-4">
+    <summary className="min-h-11 cursor-pointer font-semibold text-callout text-accent-text py-3">เติมบทบาท ทักษะ และผลจริงด้วยตนเอง</summary>
     <form className="mt-3 space-y-4" onSubmit={e => {
       e.preventDefault(); setMessage(''); setError('');
       try {
@@ -31,14 +31,14 @@ export function PresentationNotesEditor({ notes, onSave }: { notes: Presentation
       }
       catch { setError('ยังไม่บันทึก กรุณาตรวจพื้นที่จัดเก็บและลองใหม่ ข้อความที่พิมพ์ยังอยู่'); }
     }}>
-      <p className="text-xs text-slate-600">ไม่บังคับกรอก เว้นว่างได้ แอปจะไม่แต่งข้อมูลแทนคุณ เก็บแยกตาม Project ในเบราว์เซอร์นี้ ไม่ใส่ชื่อจริง โรงเรียน หรือข้อมูลติดต่อ</p>
-      {fields.map(field => <label key={field.key} className="block text-sm font-semibold">{field.label}
-        <textarea rows={3} maxLength={1500} aria-label={field.label} className="mt-2 w-full min-w-0 rounded-xl border border-slate-200 p-3 text-sm font-normal" value={draft[field.key]} placeholder={field.hint} onChange={e => { setDraft({ ...draft, [field.key]: e.target.value }); setMessage(''); }} />
+      <p className="text-caption text-ink-2">ไม่บังคับกรอก เว้นว่างได้ แอปจะไม่แต่งข้อมูลแทนคุณ เก็บแยกตาม Project ในเบราว์เซอร์นี้ ไม่ใส่ชื่อจริง โรงเรียน หรือข้อมูลติดต่อ</p>
+      {fields.map(field => <label key={field.key} className="block text-callout font-semibold">{field.label}
+        <textarea rows={3} maxLength={1500} aria-label={field.label} className="mt-2 w-full min-w-0 rounded-xl border border-separator p-3 text-callout font-normal" value={draft[field.key]} placeholder={field.hint} onChange={e => { setDraft({ ...draft, [field.key]: e.target.value }); setMessage(''); }} />
       </label>)}
-      <p className="text-xs text-slate-500">{dirty ? 'มีข้อความยังไม่บันทึก — บันทึกก่อนเปลี่ยนแท็บ/โครงงานหรือส่งออก' : 'ใช้ข้อความที่บันทึกแล้วเท่านั้น'}</p>
-      <button className="min-h-11 w-full rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white" type="submit">บันทึกข้อความประกอบพอร์ต & Pitch</button>
-      {message && <p role="status" className="text-sm text-emerald-800">{message}</p>}
-      {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
+      <p className="text-caption text-ink-3">{dirty ? 'มีข้อความยังไม่บันทึก — บันทึกก่อนเปลี่ยนแท็บ/โครงงานหรือส่งออก' : 'ใช้ข้อความที่บันทึกแล้วเท่านั้น'}</p>
+      <button className="min-h-11 w-full rounded-xl bg-accent px-4 py-3 text-callout font-semibold text-white" type="submit">บันทึกข้อความประกอบพอร์ต & Pitch</button>
+      {message && <p role="status" className="text-callout text-good">{message}</p>}
+      {error && <p role="alert" className="text-callout text-risk">{error}</p>}
     </form>
   </details>;
 }

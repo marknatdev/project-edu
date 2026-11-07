@@ -54,7 +54,7 @@ export function ProjectDeliverables({ project, view }: { project: Project; view:
   }, []);
 
   if (wiped) return <p role="status">ลบข้อมูลแล้ว กรุณาเปิดโครงงานใหม่ก่อนแก้ไขหรือส่งออก</p>;
-  if (error) return <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-950">{error}</p>;
+  if (error) return <p role="alert" className="rounded-xl bg-caution-tint p-4 text-callout text-caution">{error}</p>;
   if (!ready || !context || context.projectId !== project.id) return <p role="status">กำลังโหลดเอกสาร…</p>;
   return <div className="space-y-5 min-w-0">
     {(view === 'tcas' || view === 'pitch') && <>

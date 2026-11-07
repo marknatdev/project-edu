@@ -41,9 +41,9 @@ export function ProjectToolWorkspace({ children }: { children: (context: ToolCon
     <div className="space-y-5">
       <ProjectToolLinks projectId={project?.id} />
       {!ready ? <p role="status">กำลังโหลดโครงงาน…</p> : <>
-        {projects.length > 0 && <label className="block text-sm font-semibold text-slate-700">
+        {projects.length > 0 && <label className="block text-callout font-semibold text-ink-2">
           โครงงาน (Project)
-          <select aria-label="เลือกโครงงาน" className="mt-2 block min-h-11 w-full min-w-0 rounded-xl border border-indigo-200 bg-white p-3 text-sm" value={project?.id ?? ''} disabled={locked} onChange={(event) => {
+          <select aria-label="เลือกโครงงาน" className="mt-2 block min-h-11 w-full min-w-0 rounded-xl border border-accent/30 bg-surface p-3 text-callout" value={project?.id ?? ''} disabled={locked} onChange={(event) => {
             try {
               if (!setActiveProjectId(event.target.value)) throw new Error('missing');
               setProjects(getProjects());
@@ -54,13 +54,13 @@ export function ProjectToolWorkspace({ children }: { children: (context: ToolCon
             {!project && <option value="">ไม่พบโครงงานที่ระบุ</option>}
             {projects.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}
           </select>
-          {locked && <span className="mt-1 block text-xs font-normal text-slate-500">บันทึกหรือยกเลิกรายการก่อนสลับโครงงาน</span>}
+          {locked && <span className="mt-1 block text-caption font-normal text-ink-3">บันทึกหรือยกเลิกรายการก่อนสลับโครงงาน</span>}
         </label>}
-        {error && <p role="alert" className="text-sm text-rose-700">{error}</p>}
-        {recoveryWarning && <p role="alert" className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950">พบ BOM บางส่วนอ่านไม่ได้ จึงไม่นำส่วนนั้นมารวมยอด โครงงานและเอกสารอื่นยังอยู่ กรุณาตรวจรายการใหม่ ข้อมูลต้นฉบับยังอยู่และจะเก็บสำเนาในอุปกรณ์นี้ก่อนบันทึกครั้งถัดไป</p>}
-        {!project && <div className="rounded-2xl border border-dashed border-indigo-200 bg-white p-5 text-sm space-y-3">
+        {error && <p role="alert" className="text-callout text-risk">{error}</p>}
+        {recoveryWarning && <p role="alert" className="rounded-xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">พบ BOM บางส่วนอ่านไม่ได้ จึงไม่นำส่วนนั้นมารวมยอด โครงงานและเอกสารอื่นยังอยู่ กรุณาตรวจรายการใหม่ ข้อมูลต้นฉบับยังอยู่และจะเก็บสำเนาในอุปกรณ์นี้ก่อนบันทึกครั้งถัดไป</p>}
+        {!project && <div className="rounded-2xl border border-dashed border-accent/30 bg-surface p-5 text-callout space-y-3">
           <p>{requestedId ? 'ไม่พบโครงงานที่ระบุในเบราว์เซอร์นี้' : 'ยังไม่มีโครงงาน เริ่มจากข้อเสนอโครงงานเพื่อเก็บ BOM และแผนงานแยกกัน'}</p>
-          <Link href="/proposal" className="min-h-11 inline-flex items-center rounded-xl bg-indigo-600 px-4 text-white">ไปพื้นที่โครงงาน</Link>
+          <Link href="/proposal" className="min-h-11 inline-flex items-center rounded-xl bg-accent px-4 text-white">ไปพื้นที่โครงงาน</Link>
         </div>}
         {children({ project, budgetBaht: budget, lockSelection })}
       </>}

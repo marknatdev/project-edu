@@ -62,96 +62,96 @@ export function ConsentView() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Title & Badge */}
-      <div className="bg-white/85 backdrop-blur-md border border-indigo-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+      <div className="bg-surface backdrop-blur-md border border-accent/30 rounded-3xl p-6 sm:p-8 shadow-e1 space-y-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-semibold text-indigo-700">
-            <ShieldCheck className="w-4 h-4 text-indigo-600" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-tint border border-accent/30 text-caption font-semibold text-accent-text">
+            <ShieldCheck className="w-4 h-4 text-accent-text" />
             <span>เก็บข้อมูลเท่าที่จำเป็น</span>
           </span>
           {consent.accepted ? (
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700">
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-good-tint border border-good/30 text-caption font-semibold text-good">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>ยินยอมแล้ว</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-xs font-semibold text-amber-700">
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-caution-tint border border-caution/30 text-caption font-semibold text-caution">
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>รอการยินยอม</span>
             </span>
           )}
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-prompt">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-ink">
           ความยินยอมและการคุ้มครองข้อมูลเยาวชน (PDPA)
         </h1>
-        <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-prompt">
+        <p className="text-callout sm:text-base text-ink-2 leading-relaxed">
           โปรไฟล์โครงงานไม่ถามชื่อจริงหรือโรงเรียน ต้องเข้าสู่ระบบด้วย Google ก่อนใช้งาน ซึ่ง Google และ Supabase Auth จะประมวลผลข้อมูลบัญชีตามรายละเอียดด้านล่าง
         </p>
       </div>
 
       {/* 3 Core Principles */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl bg-white/80 border border-indigo-50 shadow-xs space-y-2">
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+        <div className="p-5 rounded-2xl bg-surface border border-accent/30 shadow-e1 space-y-2">
+          <div className="w-9 h-9 rounded-xl bg-accent-tint text-accent-text flex items-center justify-center">
             <UserX className="w-5 h-5" />
           </div>
-          <h3 className="font-bold text-slate-800 text-sm font-prompt">
+          <h3 className="font-bold text-ink text-callout">
             โปรไฟล์ไม่ถามชื่อจริงหรือโรงเรียน
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-prompt">
+          <p className="text-caption text-ink-2 leading-relaxed">
             ไม่ขอชื่อจริง โรงเรียน เลขบัตร หรือเบอร์โทรในข้อมูลโครงงาน โปรดไม่พิมพ์ข้อมูลส่วนตัวลงคำตอบหรือข้อความที่ส่งให้ AI
           </p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white/80 border border-pink-50 shadow-xs space-y-2">
-          <div className="w-9 h-9 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center">
+        <div className="p-5 rounded-2xl bg-surface border border-accent/30 shadow-e1 space-y-2">
+          <div className="w-9 h-9 rounded-xl bg-accent-tint text-accent-text flex items-center justify-center">
             <Database className="w-5 h-5" />
           </div>
-          <h3 className="font-bold text-slate-800 text-sm font-prompt">
+          <h3 className="font-bold text-ink text-callout">
             เก็บข้อมูลในเครื่องคุณ (Local-First)
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-prompt">
+          <p className="text-caption text-ink-2 leading-relaxed">
             การสัมภาษณ์ ไอเดีย และการประเมินเก็บในอุปกรณ์ ส่วนบทสนทนาชวนคิดและการ์ดที่ใช้คุยจะเก็บบนเซิร์ฟเวอร์ด้วยคุกกี้รหัสนิรนาม เพื่อกลับมาคุยต่อหลังรีสตาร์ตได้ โปรดไม่พิมพ์ชื่อจริง โรงเรียน หรือข้อมูลติดต่อ
           </p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white/80 border border-emerald-50 shadow-xs space-y-2">
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+        <div className="p-5 rounded-2xl bg-surface border border-good/30 shadow-e1 space-y-2">
+          <div className="w-9 h-9 rounded-xl bg-good-tint text-good flex items-center justify-center">
             <Lock className="w-5 h-5" />
           </div>
-          <h3 className="font-bold text-slate-800 text-sm font-prompt">
+          <h3 className="font-bold text-ink text-callout">
             สิทธิ์ควบคุมเป็นของคุณ 100%
           </h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-prompt">
+          <p className="text-caption text-ink-2 leading-relaxed">
             กดลบข้อมูลเพื่อขอล้างข้อมูลในอุปกรณ์และบทสนทนาบนเซิร์ฟเวอร์ ต้องออนไลน์เพื่อยืนยันการลบ ถ้าเชื่อมต่อไม่ได้จะแจ้งให้ลองใหม่ ไม่อ้างว่าลบสำเร็จ
           </p>
         </div>
       </div>
 
       {/* Account (ADR 0003: Google sign-in is required before using the app) */}
-      <div className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-        <h2 className="text-lg font-bold text-slate-900 font-prompt">
+      <div className="bg-surface backdrop-blur-md border border-separator rounded-3xl p-6 sm:p-8 shadow-e1 space-y-6">
+        <h2 className="text-lg font-bold text-ink">
           บัญชีที่ใช้งาน
         </h2>
 
         <div className="grid grid-cols-1 gap-4">
-          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+          <div className="p-5 rounded-2xl bg-surface-2 border border-separator space-y-3">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-slate-800 text-sm">
+              <span className="font-bold text-ink text-callout">
                 บัญชี Google (จำเป็นก่อนใช้งาน)
               </span>
               {supabaseReady ? (
-                <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[11px] font-semibold">
+                <span className="px-2 py-0.5 rounded-full bg-accent-tint text-accent-text text-caption font-semibold">
                   ตั้งค่าจุดเชื่อมต่อแล้ว
                 </span>
               ) : (
-                <span className="px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[11px] font-medium flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-full bg-separator text-ink-2 text-caption font-medium flex items-center gap-1">
                   <CloudOff className="w-3 h-3" />
                   <span>ยังไม่เปิดให้บริการ</span>
                 </span>
               )}
             </div>
-            <ul className="text-xs text-slate-600 space-y-2 list-disc list-inside font-prompt leading-relaxed">
+            <ul className="text-caption text-ink-2 space-y-2 list-disc list-inside leading-relaxed">
               <li>ต้องเข้าสู่ระบบด้วย Google ก่อนใช้งานทุกหน้า ยกเว้นหน้านี้และลิงก์อ่านอย่างเดียว ข้อมูลการสัมภาษณ์และการปัดการ์ดยังบันทึกในอุปกรณ์นี้ และยังไม่ซิงค์โครงงานข้ามอุปกรณ์</li>
               <li>Google และ Supabase Auth ประมวลผลชื่อ อีเมล และข้อมูลยืนยันบัญชีเพื่อการลงชื่อเข้าใช้ ไม่ใช่การใช้งานแบบไร้ข้อมูลส่วนบุคคลทั้งหมด</li>
               <li>แอปใช้เพียงรหัสบัญชีที่ตรวจสอบแล้วเพื่อแยกสิทธิ์ ไม่คัดลอกชื่อหรืออีเมลลงข้อมูลโครงงาน บันทึกเหตุการณ์ หรือคำสั่งให้ AI และไม่ขอสิทธิ์ Google Drive หรือ Calendar</li>
@@ -163,8 +163,8 @@ export function ConsentView() {
         </div>
 
         {/* Consent Action Box */}
-        <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-xs text-slate-500 font-prompt">
+        <div className="pt-4 border-t border-separator flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-caption text-ink-3">
             {consent.accepted
               ? `คุณได้ให้ความยินยอมเมื่อ ${new Date(
                   consent.acceptedAt ?? ''
@@ -182,10 +182,10 @@ export function ConsentView() {
             <button
               type="button"
               onClick={handleAcceptConsent}
-              className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-sm transition shadow-sm min-h-[44px] flex items-center justify-center gap-2 ${
+              className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-callout transition shadow-e1 min-h-[44px] flex items-center justify-center gap-2 ${
                 consent.accepted
-                  ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                  : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                  ? 'bg-good text-white hover:bg-good'
+                  : 'bg-accent text-white hover:bg-accent-press'
               }`}
             >
               <CheckCircle2 className="w-4 h-4" />
@@ -195,23 +195,23 @@ export function ConsentView() {
         </div>
 
         {acceptSuccess && (
-          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 animate-in fade-in">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <div className="p-3 rounded-xl bg-good-tint border border-good/30 text-good text-caption flex items-center gap-2 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-good" />
             <span>บันทึกความยินยอมเรียบร้อยแล้ว คุณสามารถเริ่มทำแบบสัมภาษณ์ได้ทันที</span>
           </div>
         )}
       </div>
 
       {/* Delete all data (Data Wipe Section) */}
-      <div className="bg-white/85 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
-        <div className="flex items-center gap-2 text-rose-600">
-          <Trash2 className="w-5 h-5 text-rose-600" />
-          <h2 className="text-lg font-bold font-prompt">
+      <div className="bg-surface backdrop-blur-md border border-risk/40 rounded-3xl p-6 sm:p-8 shadow-e1 space-y-4">
+        <div className="flex items-center gap-2 text-risk">
+          <Trash2 className="w-5 h-5 text-risk" />
+          <h2 className="text-lg font-bold">
             การจัดการข้อมูลส่วนตัว (Data Erasure)
           </h2>
         </div>
 
-        <p className="text-sm text-slate-600 leading-relaxed font-prompt">
+        <p className="text-callout text-ink-2 leading-relaxed">
           การลบจะขอล้างข้อมูลโครงงานในอุปกรณ์และข้อมูลบทสนทนา/การ์ดที่แอปจัดเก็บสำหรับบัญชีหรือ Guest ในเบราว์เซอร์นี้ (บัญชีจะยังเก็บเฉพาะตัวเลขโควตาที่ใช้ไปของวันนี้ ไม่มีเนื้อหางาน) ต้องออนไลน์และได้รับคำยืนยันจากเซิร์ฟเวอร์ก่อน สำเนาสำรองอยู่ภายใต้นโยบายผู้ให้บริการ การลบนี้ไม่ลบบัญชี Google หรือ Supabase Auth และไม่ถอนสิทธิ์ Google; จัดการการเชื่อมต่อได้ในบัญชี Google ของคุณ
         </p>
 
@@ -219,9 +219,9 @@ export function ConsentView() {
           <button
             type="button"
             onClick={() => setShowWipeModal(true)}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 font-semibold text-sm transition min-h-[44px] flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-risk-tint border border-risk/40 text-risk hover:bg-risk-tint font-semibold text-callout transition min-h-[44px] flex items-center justify-center gap-2"
           >
-            <Trash2 className="w-4 h-4 text-rose-600" />
+            <Trash2 className="w-4 h-4 text-risk" />
             <span>ลบข้อมูลทั้งหมดของฉัน (Wipe All My Data)</span>
           </button>
         </div>
@@ -232,7 +232,7 @@ export function ConsentView() {
         <div className="flex justify-end pt-2">
           <Link
             href="/interview"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-200 transition min-h-[44px]"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-accent hover:bg-accent-press text-white font-bold text-callout shadow-e2 transition min-h-[44px]"
           >
             <span>ไปที่แบบสัมภาษณ์โครงงาน</span>
             <ArrowRight className="w-4 h-4" />
@@ -242,17 +242,17 @@ export function ConsentView() {
 
       {/* Wipe Confirmation Modal */}
       {showWipeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-5 animate-in fade-in zoom-in-95">
-            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+          <div className="bg-surface rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-e3 border border-separator space-y-5 animate-in fade-in zoom-in-95">
+            <div className="w-12 h-12 rounded-2xl bg-risk-tint text-risk flex items-center justify-center mx-auto">
               <AlertTriangle className="w-6 h-6" />
             </div>
 
             <div className="text-center space-y-2">
-              <h3 className="font-bold text-slate-900 text-lg font-prompt">
+              <h3 className="font-bold text-ink text-lg">
                 คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมด?
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-prompt">
+              <p className="text-caption sm:text-callout text-ink-2 leading-relaxed">
                 ข้อมูลโครงงาน ประวัติการปัดการ์ด การประเมิน และการตั้งค่าความยินยอมทั้งหมดในเบราว์เซอร์นี้จะถูกล้างทิ้งทันที และไม่สามารถกู้คืนได้
               </p>
             </div>
@@ -261,14 +261,14 @@ export function ConsentView() {
               <button
                 type="button"
                 onClick={() => setShowWipeModal(false)}
-                className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm hover:bg-slate-50 min-h-[44px]"
+                className="px-4 py-2.5 rounded-xl border border-separator text-ink-2 font-semibold text-caption sm:text-callout hover:bg-surface-2 min-h-[44px]"
               >
                 ยกเลิก
               </button>
               <button
                 type="button"
                 onClick={handleConfirmWipe}
-                className="px-4 py-2.5 rounded-xl bg-rose-600 text-white font-semibold text-xs sm:text-sm hover:bg-rose-700 shadow-sm min-h-[44px]"
+                className="px-4 py-2.5 rounded-xl bg-risk text-white font-semibold text-caption sm:text-callout hover:bg-risk shadow-e1 min-h-[44px]"
               >
                 ยืนยันการลบข้อมูล
               </button>
@@ -279,8 +279,8 @@ export function ConsentView() {
 
       {/* Success notification */}
       {wipeSuccess && (
-        <div className="fixed top-5 right-5 z-50 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-2 text-sm">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="fixed top-5 right-5 z-50 bg-ink text-white px-5 py-3.5 rounded-2xl shadow-e3 flex items-center gap-2 text-callout">
+          <CheckCircle2 className="w-4 h-4 text-good" />
           <span>ลบข้อมูลทั้งหมดออกจากอุปกรณ์เรียบร้อยแล้ว</span>
         </div>
       )}

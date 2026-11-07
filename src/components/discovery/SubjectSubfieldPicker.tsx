@@ -57,15 +57,15 @@ export function SubjectSubfieldPicker({
   return (
     <div className="space-y-6">
       {/* 1. Header & Instructions */}
-      <div className="bg-white/90 backdrop-blur-md border border-indigo-100 rounded-3xl p-5 sm:p-6 shadow-xs">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200/80 text-xs font-semibold text-indigo-700 mb-3">
-          <Compass className="w-3.5 h-3.5 text-indigo-600" />
+      <div className="bg-surface backdrop-blur-md border border-accent/30 rounded-3xl p-5 sm:p-6 shadow-e1">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-tint border border-accent/30 text-caption font-semibold text-accent-text mb-3">
+          <Compass className="w-3.5 h-3.5 text-accent-text" />
           <span>ขั้นตอนที่ 1 • เลือกสาขาวิชาที่สนใจ</span>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-prompt">
+        <h2 className="text-xl sm:text-2xl font-bold text-ink">
           คุณอยากเริ่มต้นสำรวจในหมวดหมู่วิชาใด?
         </h2>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+        <p className="text-caption sm:text-callout text-ink-2 mt-1 leading-relaxed">
           เลือกหมวดหมู่วิชาหลักและสาขาย่อย หรือเลือก &ldquo;ยังไม่รู้&rdquo; เพื่อให้ระบบสุ่มหัวข้อหลากหลายสาขาแบบสมดุล
         </p>
       </div>
@@ -85,27 +85,27 @@ export function SubjectSubfieldPicker({
               }}
               className={`p-4 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between min-h-[96px] ${
                 isSelected
-                  ? 'bg-gradient-to-br from-indigo-500/10 to-indigo-600/15 border-indigo-500 shadow-sm ring-2 ring-indigo-500/20'
-                  : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:bg-slate-50/80'
+                  ? '   border-accent shadow-e1 ring-2 ring-accent'
+                  : 'bg-surface border-separator hover:border-accent/30 hover:bg-surface-2'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div
                   className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                    isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
+                    isSelected ? 'bg-accent text-white' : 'bg-surface-2 text-ink-2'
                   }`}
                 >
                   {getSubjectIcon(subject.icon)}
                 </div>
                 {isSelected && (
-                  <span className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-full bg-accent text-white flex items-center justify-center">
                     <Check className="w-3 h-3 stroke-[3]" />
                   </span>
                 )}
               </div>
               <div className="mt-3">
-                <div className="font-bold text-sm text-slate-900 font-prompt">{subject.nameTh}</div>
-                <div className="text-[11px] text-slate-500 line-clamp-1">{subject.description}</div>
+                <div className="font-bold text-callout text-ink">{subject.nameTh}</div>
+                <div className="text-caption text-ink-3 line-clamp-1">{subject.description}</div>
               </div>
             </button>
           );
@@ -113,13 +113,13 @@ export function SubjectSubfieldPicker({
       </div>
 
       {/* 3. Subfields Selection */}
-      <div className="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs">
+      <div className="bg-surface backdrop-blur-md border border-separator rounded-3xl p-5 sm:p-6 space-y-4 shadow-e1">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-bold text-slate-800 font-prompt flex items-center gap-2">
+          <label className="text-callout font-bold text-ink flex items-center gap-2">
             <span>สาขาย่อยในหมวดนี้</span>
-            <span className="text-xs font-normal text-slate-500">(เลือกได้หลายข้อ)</span>
+            <span className="text-caption font-normal text-ink-3">(เลือกได้หลายข้อ)</span>
           </label>
-          <span className="text-xs font-medium text-slate-500">
+          <span className="text-caption font-medium text-ink-3">
             {isMixedMode ? 'โหมดผสมผสาน' : `เลือก ${selectedSubfieldIds.length} สาขา`}
           </span>
         </div>
@@ -129,10 +129,10 @@ export function SubjectSubfieldPicker({
           <button
             type="button"
             onClick={() => onSelectSubfields('unknown')}
-            className={`min-h-[42px] px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+            className={`min-h-[42px] px-3.5 py-2 rounded-xl text-caption font-semibold flex items-center gap-1.5 transition-all ${
               isMixedMode
-                ? 'bg-amber-500 text-white shadow-xs ring-2 ring-amber-400/30'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                ? 'bg-caution text-white shadow-e1 ring-2 ring-amber-400/30'
+                : 'bg-surface-2 text-ink-2 hover:bg-separator border border-separator'
             }`}
           >
             <HelpCircle className="w-4 h-4" />
@@ -152,10 +152,10 @@ export function SubjectSubfieldPicker({
                 key={subfield.id}
                 type="button"
                 onClick={() => handleToggleSubfield(subfield.id)}
-                className={`min-h-[42px] px-3.5 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
+                className={`min-h-[42px] px-3.5 py-2 rounded-xl text-caption font-medium transition-all flex items-center gap-1.5 ${
                   isPicked
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-white text-slate-700 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50'
+                    ? 'bg-accent text-white shadow-e1'
+                    : 'bg-surface text-ink-2 border border-separator hover:border-accent/30 hover:bg-accent-tint'
                 }`}
               >
                 <span>{subfield.nameTh}</span>
@@ -167,11 +167,11 @@ export function SubjectSubfieldPicker({
       </div>
 
       {/* 4. Action Banner */}
-      <div className="sticky bottom-4 z-10 bg-slate-900 text-white rounded-2xl p-4 shadow-xl flex items-center justify-between gap-3">
+      <div className="sticky bottom-4 z-10 bg-ink text-white rounded-2xl p-4 shadow-e3 flex items-center justify-between gap-3">
         <div>
-          <div className="text-xs text-slate-300">พร้อมสำรวจหัวข้อ</div>
-          <div className="text-sm font-bold text-white font-prompt flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-amber-400" />
+          <div className="text-caption text-ink-3">พร้อมสำรวจหัวข้อ</div>
+          <div className="text-callout font-bold text-white flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-caution" />
             <span>พบการ์ดหัวข้อ {matchingCardCount} ใบ</span>
           </div>
         </div>
@@ -180,7 +180,7 @@ export function SubjectSubfieldPicker({
           type="button"
           onClick={onProceedToDeck}
           disabled={matchingCardCount === 0}
-          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white text-sm font-bold font-prompt transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-95"
+          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-accent hover:bg-accent disabled:opacity-50 text-white text-callout font-bold transition-all shadow-e2 flex items-center gap-2 cursor-pointer active:scale-95"
         >
           <span>เริ่มปัดการ์ด</span>
           <span>→</span>

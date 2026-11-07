@@ -235,27 +235,27 @@ function EvaluationContent() {
   // 1. Empty State: No Idea found
   if (!isLoading && !idea) {
     return (
-      <div className="max-w-xl mx-auto py-12 px-4 text-center space-y-4 font-prompt">
-        <div className="w-14 h-14 rounded-3xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center mx-auto shadow-xs">
+      <div className="max-w-xl mx-auto py-12 px-4 text-center space-y-4">
+        <div className="w-14 h-14 rounded-3xl bg-accent-tint border border-accent/30 text-accent-text flex items-center justify-center mx-auto shadow-e1">
           <BookOpen className="w-7 h-7" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900">
+        <h2 className="text-xl font-bold text-ink">
           ยังไม่พบข้อมูลโครงงานสำหรับประเมิน
         </h2>
-        <p className="text-sm text-slate-600 leading-relaxed max-w-md mx-auto">
+        <p className="text-callout text-ink-2 leading-relaxed max-w-md mx-auto">
           กรุณาเริ่มต้นจากการเลือกหัวข้อในหน้าค้นหา หรือเล่าไอเดียโครงงานของคุณกับครูที่ปรึกษา AI เพื่อเริ่มการประเมิน 5 ด้าน
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <Link
             href="/discovery"
-            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-xs"
+            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-2xl bg-accent hover:bg-accent-press text-white font-bold text-callout flex items-center justify-center gap-2 transition-all shadow-e1"
           >
             <Layers className="w-4 h-4" />
             <span>ไปค้นหาไอเดีย (Discovery Track)</span>
           </Link>
           <Link
             href="/interview"
-            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm flex items-center justify-center gap-2 transition-all"
+            className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-2xl bg-surface-2 hover:bg-separator text-ink-2 font-bold text-callout flex items-center justify-center gap-2 transition-all"
           >
             <span>เริ่มสัมภาษณ์เป้าหมาย</span>
           </Link>
@@ -265,14 +265,14 @@ function EvaluationContent() {
   }
 
   if (!isLoading && !viewModel && errorMessage && idea) {
-    return <section role="alert" className="max-w-xl mx-auto p-6 space-y-4 font-prompt">
-      <h2 className="font-bold text-slate-900">ยังประเมินโครงงานไม่ได้</h2>
-      <p className="text-sm text-amber-900">{errorMessage}</p>
-      <p className="text-sm text-slate-600">ไอเดียและงานในเครื่องยังอยู่ คุณแก้ไขต่อหรือเขียนข้อเสนอด้วยตนเองได้</p>
+    return <section role="alert" className="max-w-xl mx-auto p-6 space-y-4">
+      <h2 className="font-bold text-ink">ยังประเมินโครงงานไม่ได้</h2>
+      <p className="text-callout text-caution">{errorMessage}</p>
+      <p className="text-callout text-ink-2">ไอเดียและงานในเครื่องยังอยู่ คุณแก้ไขต่อหรือเขียนข้อเสนอด้วยตนเองได้</p>
       <div className="flex flex-wrap gap-3">
-        <button type="button" disabled={quota.remaining <= 0} onClick={() => void performEvaluation(idea)} className="min-h-[44px] rounded-xl bg-indigo-600 px-4 py-2 text-sm text-white disabled:opacity-50">ลองประเมินใหม่</button>
-        <Link className="inline-flex min-h-[44px] items-center px-3 text-sm underline" href={`/idea?ideaId=${idea.id}`}>กลับไปแก้ไอเดีย</Link>
-        <Link className="inline-flex min-h-[44px] items-center px-3 text-sm underline" href={`/proposal?ideaId=${idea.id}`}>เขียนข้อเสนอโครงงาน</Link>
+        <button type="button" disabled={quota.remaining <= 0} onClick={() => void performEvaluation(idea)} className="min-h-[44px] rounded-xl bg-accent px-4 py-2 text-callout text-white disabled:opacity-50">ลองประเมินใหม่</button>
+        <Link className="inline-flex min-h-[44px] items-center px-3 text-callout underline" href={`/idea?ideaId=${idea.id}`}>กลับไปแก้ไอเดีย</Link>
+        <Link className="inline-flex min-h-[44px] items-center px-3 text-callout underline" href={`/proposal?ideaId=${idea.id}`}>เขียนข้อเสนอโครงงาน</Link>
       </div>
     </section>;
   }
@@ -280,14 +280,14 @@ function EvaluationContent() {
   // 2. Loading State
   if (isLoading || !viewModel || !idea) {
     return (
-      <div className="max-w-2xl mx-auto py-16 px-4 text-center space-y-4 font-prompt">
-        <div className="w-14 h-14 rounded-3xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center mx-auto animate-pulse">
+      <div className="max-w-2xl mx-auto py-16 px-4 text-center space-y-4">
+        <div className="w-14 h-14 rounded-3xl bg-accent-tint border border-accent/30 text-accent-text flex items-center justify-center mx-auto animate-pulse">
           <RefreshCw className="w-7 h-7 animate-spin" />
         </div>
-        <h3 className="text-lg font-bold text-slate-900">
+        <h3 className="text-lg font-bold text-ink">
           กำลังประเมินโครงงาน 5 ด้าน...
         </h3>
-        <p className="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto leading-relaxed">
+        <p className="text-caption sm:text-callout text-ink-3 max-w-sm mx-auto leading-relaxed">
           ระบบกำลังวิเคราะห์ความแปลกใหม่ ความเป็นไปได้ ผลกระทบ ความรัดกุม และความเหมาะสมตามเกณฑ์ของระดับชั้น พร้อมสืบค้นผลงานอ้างอิง
         </p>
       </div>
@@ -297,47 +297,47 @@ function EvaluationContent() {
   const preset = getRubricPreset(idea.goal, idea.gradeLevel);
   const overallBadgeClass =
     viewModel.overall.badge === 'green'
-      ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+      ? 'bg-good-tint text-good border-good/30'
       : viewModel.overall.badge === 'yellow'
-        ? 'bg-amber-50 text-amber-800 border-amber-200'
-        : 'bg-rose-50 text-rose-800 border-rose-200';
+        ? 'bg-caution-tint text-caution border-caution/30'
+        : 'bg-risk-tint text-risk border-risk/40';
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-3 sm:px-6 space-y-6 pb-28 font-prompt">
+    <div className="max-w-4xl mx-auto py-6 px-3 sm:px-6 space-y-6 pb-28">
       {/* Top Breadcrumb & Navigation */}
-      <div className="flex items-center justify-between gap-2 text-xs font-prompt">
+      <div className="flex items-center justify-between gap-2 text-caption">
         <Link
           href={`/idea?ideaId=${idea.id}`}
-          className="inline-flex min-h-[40px] items-center gap-1.5 text-slate-500 hover:text-indigo-600 py-1 transition-colors"
+          className="inline-flex min-h-[40px] items-center gap-1.5 text-ink-3 hover:text-accent-text py-1 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>กลับสู่รายละเอียดไอเดีย</span>
         </Link>
-        <span className="text-slate-400">
+        <span className="text-ink-3">
           ประเมินเมื่อ: {new Date(viewModel.evaluatedAt).toLocaleDateString('th-TH')}
         </span>
       </div>
 
       {/* Error Alert Banner (if any) */}
       {errorMessage && (
-        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs sm:text-sm font-prompt flex items-center gap-2 shadow-xs">
-          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+        <div className="p-4 rounded-2xl bg-caution-tint border border-caution/30 text-caution text-caption sm:text-callout flex items-center gap-2 shadow-e1">
+          <AlertCircle className="w-4 h-4 text-caution shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
 
       {/* Screen Header */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-4 sm:p-6 shadow-xs space-y-4">
+      <div className="bg-surface rounded-3xl border border-separator p-4 sm:p-6 shadow-e1 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-800 text-xs font-bold font-prompt">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-tint border border-accent/30 text-accent-text text-caption font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-accent-text" />
               <span>ผลการประเมินไอเดีย 5 ด้าน (5-Axis Evaluation Dashboard)</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight font-prompt">
+            <h1 className="text-xl sm:text-2xl font-semibold text-ink">
               {idea.title}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 line-clamp-2">
+            <p className="text-caption sm:text-callout text-ink-2 line-clamp-2">
               {idea.description}
             </p>
           </div>
@@ -348,25 +348,25 @@ function EvaluationContent() {
               type="button"
               onClick={handleReevaluate}
               disabled={isReevaluating || !viewModel.canReevaluate}
-              className={`min-h-[44px] px-4 py-2.5 rounded-2xl border text-xs sm:text-sm font-bold font-prompt flex items-center gap-2 transition-all shadow-xs ${
+              className={`min-h-[44px] px-4 py-2.5 rounded-2xl border text-caption sm:text-callout font-bold  flex items-center gap-2 transition-all shadow-e1 ${
                 viewModel.canReevaluate
-                  ? 'bg-white hover:bg-slate-50 text-slate-700 border-slate-300 hover:border-indigo-300 active:bg-slate-100'
-                  : 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+                  ? 'bg-surface hover:bg-surface-2 text-ink-2 border-control hover:border-accent/30 active:bg-surface-2'
+                  : 'bg-surface-2 text-ink-3 border-separator cursor-not-allowed'
               }`}
               title={viewModel.quotaMessageTh}
             >
               <RotateCcw
-                className={`w-4 h-4 ${isReevaluating ? 'animate-spin text-indigo-600' : 'text-slate-500'}`}
+                className={`w-4 h-4 ${isReevaluating ? 'animate-spin text-accent-text' : 'text-ink-3'}`}
               />
               <span>
                 {isReevaluating ? 'กำลังประเมินใหม่...' : 'ประเมินใหม่'}
               </span>
-              <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-mono border border-slate-200">
+              <span className="px-2 py-0.5 rounded-full bg-surface-2 text-ink-2 text-caption font-mono border border-separator">
                 เหลือ {quota.remaining}/5
               </span>
             </button>
             {viewModel.quotaMessageTh && (
-              <span className="text-[11px] text-amber-700">
+              <span className="text-caption text-caution">
                 {viewModel.quotaMessageTh}
               </span>
             )}
@@ -374,36 +374,36 @@ function EvaluationContent() {
         </div>
 
         {/* Overall Score Banner */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-surface-2 border border-separator flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <span className="text-xs font-bold text-slate-500">
+            <span className="text-caption font-bold text-ink-3">
               เกณฑ์จำลองอ้างอิง:
             </span>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-extrabold text-slate-900">
+              <span className="text-callout font-semibold text-ink">
                 {preset.nameTh}
               </span>
-              <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-[11px] font-mono">
+              <span className="px-2 py-0.5 rounded bg-separator text-ink-2 text-caption font-mono">
                 {preset.isHeuristic ? 'Heuristic Model' : 'Official'}
               </span>
             </div>
-            <p className="text-xs text-slate-500 max-w-lg">
+            <p className="text-caption text-ink-3 max-w-lg">
               {preset.descriptionTh}
             </p>
           </div>
 
           {/* Overall score badge with text label (not color alone - AC-7) */}
-          <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 shrink-0 bg-white sm:bg-transparent p-3 sm:p-0 rounded-2xl border sm:border-0 border-slate-200">
-            <span className="text-xs font-bold text-slate-500 sm:text-right">
+          <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 shrink-0 bg-surface sm:bg-transparent p-3 sm:p-0 rounded-2xl border sm:border-0 border-separator">
+            <span className="text-caption font-bold text-ink-3 sm:text-right">
               คะแนนภาพรวม (Overall Score):
             </span>
             <div
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-sm sm:text-base font-black ${overallBadgeClass}`}
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-callout sm:text-base font-semibold ${overallBadgeClass}`}
               aria-label={viewModel.overall.ariaLabel}
             >
               <span>{viewModel.overall.emoji}</span>
               <span>{viewModel.overall.score}.0 / 10</span>
-              <span className="text-xs font-bold opacity-90">
+              <span className="text-caption font-bold opacity-90">
                 • {viewModel.overall.labelTh}
               </span>
             </div>
@@ -412,10 +412,10 @@ function EvaluationContent() {
       </div>
 
       {/* Safety Screener Flags (Non-blocking) */}
-      <Link href={`/variables?ideaId=${encodeURIComponent(idea.id)}`} className="flex min-h-[44px] items-center rounded-2xl border border-indigo-200 bg-indigo-50 p-4 text-sm font-bold text-indigo-800">
+      <Link href={`/variables?ideaId=${encodeURIComponent(idea.id)}`} className="flex min-h-[44px] items-center rounded-2xl border border-accent/30 bg-accent-tint p-4 text-callout font-bold text-accent-text">
         ตารางแยกตัวแปร & ชุดควบคุม →
       </Link>
-      <p className="text-xs text-slate-600">คะแนนด้านสมมติฐาน/วิธีวัดผลใช้ตารางที่บันทึก ณ เวลาประเมิน หากแก้ตารางแล้ว ให้กดประเมินใหม่เพื่ออัปเดตคะแนน (ตามโควตา)</p>
+      <p className="text-caption text-ink-2">คะแนนด้านสมมติฐาน/วิธีวัดผลใช้ตารางที่บันทึก ณ เวลาประเมิน หากแก้ตารางแล้ว ให้กดประเมินใหม่เพื่ออัปเดตคะแนน (ตามโควตา)</p>
       <SafetyFlagPanel safetyFlags={[...viewModel.safetyFlags, ...screenIdea(idea)].filter((flag, index, flags) => flags.findIndex((entry) => entry.category === flag.category) === index)} />
       <SafetyChecklist flags={[...viewModel.safetyFlags, ...screenIdea(idea)]} completed={idea.safetyChecklist ?? []} onChange={(safetyChecklist) => {
         try {
@@ -432,11 +432,11 @@ function EvaluationContent() {
       {/* 5-Axis Score Cards */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-base sm:text-lg font-bold text-slate-900 font-prompt">
+          <h2 className="text-base sm:text-lg font-bold text-ink">
             คะแนนประเมิน 5 มิติ (5 Evaluation Axes)
           </h2>
-          <span className="text-xs text-slate-400">
-            สเกล 1–10 (🟢 7–10 | 🟡 4–6 | 🔴 1–3)
+          <span className="text-caption text-ink-3">
+            สเกล 1–10 · 7–10 ดี · 4–6 ควรปรับ · 1–3 ต้องแก้
           </span>
         </div>
 
@@ -469,16 +469,16 @@ function EvaluationContent() {
       <PriorWorkList priorWork={viewModel.priorWork} />
 
       {/* Fixed Bottom Action Floating Bar */}
-      <div className="fixed bottom-16 md:bottom-0 left-0 right-0 p-3 sm:p-4 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg z-20">
+      <div className="fixed bottom-16 md:bottom-0 left-0 right-0 p-3 sm:p-4 bg-surface backdrop-blur-md border-t border-separator shadow-e2 z-20">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="hidden sm:block text-xs font-prompt text-slate-500">
+          <div className="hidden sm:block text-caption text-ink-3">
             {viewModel.hasRedAxes ? (
-              <span className="text-rose-700 font-bold flex items-center gap-1.5">
-                <Lightbulb className="w-4 h-4 text-rose-600" />
+              <span className="text-risk font-bold flex items-center gap-1.5">
+                <Lightbulb className="w-4 h-4 text-risk" />
                 <span>มี {viewModel.redAxes.length} ด้านที่สามารถพัฒนาต่อได้ใน Pivot Workshop</span>
               </span>
             ) : (
-              <span className="text-emerald-700 font-bold">
+              <span className="text-good font-bold">
                 ✓ ผลการประเมินผ่านเกณฑ์พร้อมสำหรับการเขียนข้อเสนอโครงงาน
               </span>
             )}
@@ -489,7 +489,7 @@ function EvaluationContent() {
               <button
                 type="button"
                 onClick={() => handleOpenPivot(viewModel.redAxes[0])}
-                className="w-full sm:w-auto min-h-[44px] px-4 py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold font-prompt transition-all flex items-center justify-center gap-1.5"
+                className="w-full sm:w-auto min-h-[44px] px-4 py-2.5 rounded-2xl bg-risk-tint hover:bg-risk-tint text-risk border border-risk/40 text-caption font-bold transition-all flex items-center justify-center gap-1.5"
               >
                 <span>ปรับมุมมองใหม่ (Pivot)</span>
               </button>
@@ -498,7 +498,7 @@ function EvaluationContent() {
             {/* Non-blocking: always can proceed to proposal */}
             <Link
               href={`/proposal?ideaId=${idea.id}`}
-              className="w-full sm:w-auto min-h-[44px] px-6 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold font-prompt text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-indigo-100"
+              className="w-full sm:w-auto min-h-[44px] px-6 py-2.5 rounded-2xl bg-accent hover:bg-accent-press active:bg-accent-press text-white font-bold text-caption sm:text-callout flex items-center justify-center gap-2 transition-all shadow-e2"
             >
               <span>ไปเขียนข้อเสนอโครงงานต่อ (Proposal)</span>
               <ArrowRight className="w-4 h-4" />
@@ -515,9 +515,9 @@ export default function EvaluationPage() {
     <AppShell>
       <Suspense
         fallback={
-          <div className="max-w-2xl mx-auto py-16 px-4 text-center font-prompt">
-            <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="mt-4 text-xs text-slate-500">กำลังเตรียมหน้าประเมิน...</p>
+          <div className="max-w-2xl mx-auto py-16 px-4 text-center">
+            <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="mt-4 text-caption text-ink-3">กำลังเตรียมหน้าประเมิน...</p>
           </div>
         }
       >

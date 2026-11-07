@@ -27,10 +27,10 @@ import { fetchCardQuota, requestFreshCards } from '@/lib/discovery/fresh-client'
 import type { Idea, Interview, SafetyCategory, TopicCard } from '@/types/domain';
 import type { CardQuota } from '@/lib/persistence/contracts';
 
-const btn = 'min-h-[44px] min-w-[44px] rounded-2xl border px-4 py-2 text-sm font-bold font-prompt transition disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-indigo-700';
-const primary = `${btn} border-indigo-700 bg-indigo-700 text-white shadow-[0_4px_0_#3730A3] hover:bg-indigo-800`;
-const secondary = `${btn} border-slate-300 bg-white text-slate-800 hover:border-indigo-400 hover:bg-indigo-50`;
-const panel = 'min-w-0 rounded-3xl border border-indigo-100 bg-white/90 p-4 shadow-sm sm:p-6';
+const btn = 'min-h-[44px] min-w-[44px] rounded-2xl border px-4 py-2 text-callout font-bold  transition disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent';
+const primary = `${btn} border-accent bg-accent-press text-white shadow-[0_4px_0_#3730A3] hover:bg-accent-press`;
+const secondary = `${btn} border-control bg-surface text-ink hover:border-accent/30 hover:bg-accent-tint`;
+const panel = 'min-w-0 rounded-3xl border border-accent/30 bg-surface p-4 shadow-e1 sm:p-6';
 const POLL_MS = 10_000; // polls count against the 6/min admission limit: poll slowly
 const MAX_POLLS = 12;
 const BOUNDARY_RETRIES = 3; // re-reads at +2s, +4s, +8s if resetAt has not advanced
@@ -46,23 +46,23 @@ const formatBaht = (n: number) => new Intl.NumberFormat('th-TH').format(n);
 function Heading({ eyebrow, title, desc }: { eyebrow: string; title: string; desc: string }) {
   return (
     <div className="space-y-1">
-      <p className="text-xs font-bold uppercase tracking-wider text-indigo-700">{eyebrow}</p>
-      <h1 id="discovery-stage-title" tabIndex={-1} className="font-prompt text-xl font-extrabold leading-snug text-slate-900 outline-none sm:text-2xl">{title}</h1>
-      <p className="text-sm text-slate-600">{desc}</p>
+      <p className="text-caption font-bold uppercase tracking-wider text-accent-text">{eyebrow}</p>
+      <h1 id="discovery-stage-title" tabIndex={-1} className="text-xl font-semibold leading-snug text-ink outline-none sm:text-2xl">{title}</h1>
+      <p className="text-callout text-ink-2">{desc}</p>
     </div>
   );
 }
 
 function QuotaPanel({ quota }: { quota: CardQuota | null }) {
   return (
-    <section aria-label="สิทธิ์สร้างการ์ดวันนี้" className="rounded-2xl bg-slate-900 p-3 text-sm text-white">
+    <section aria-label="สิทธิ์สร้างการ์ดวันนี้" className="rounded-2xl bg-ink p-3 text-callout text-white">
       {quota ? (
         <>
-          <p>ฟรีเหลือ <strong className="text-emerald-300" data-testid="quota-free">{quota.freeRemaining}</strong>/5 ใบ · ขอเพิ่มเหลือ <strong className="text-emerald-300" data-testid="quota-extra">{quota.extraRemaining}</strong>/30 ใบ</p>
-          <p className="text-xs text-slate-300">วันนี้ใช้แล้ว {quota.used} ใบ{quota.reserved ? ` · กำลังจอง ${quota.reserved} ใบ` : ''} · เริ่มนับใหม่ {new Date(quota.resetAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok', dateStyle: 'medium', timeStyle: 'short' })} (เวลาประเทศไทย)</p>
-          <p className="text-xs text-slate-300">นับเฉพาะการ์ดที่สร้างสำเร็จและไม่ซ้ำ · เปลี่ยนเรื่องหรือเริ่มคุยใหม่ไม่ได้คืนสิทธิ์</p>
+          <p>ฟรีเหลือ <strong className="text-good" data-testid="quota-free">{quota.freeRemaining}</strong>/5 ใบ · ขอเพิ่มเหลือ <strong className="text-good" data-testid="quota-extra">{quota.extraRemaining}</strong>/30 ใบ</p>
+          <p className="text-caption text-ink-3">วันนี้ใช้แล้ว {quota.used} ใบ{quota.reserved ? ` · กำลังจอง ${quota.reserved} ใบ` : ''} · เริ่มนับใหม่ {new Date(quota.resetAt).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok', dateStyle: 'medium', timeStyle: 'short' })} (เวลาประเทศไทย)</p>
+          <p className="text-caption text-ink-3">นับเฉพาะการ์ดที่สร้างสำเร็จและไม่ซ้ำ · เปลี่ยนเรื่องหรือเริ่มคุยใหม่ไม่ได้คืนสิทธิ์</p>
         </>
-      ) : <p className="text-xs text-slate-300">ยังอ่านสิทธิ์ที่เหลือจากเซิร์ฟเวอร์ไม่ได้ ระบบจะแจ้งตัวเลขจริงหลังติดต่อได้</p>}
+      ) : <p className="text-caption text-ink-3">ยังอ่านสิทธิ์ที่เหลือจากเซิร์ฟเวอร์ไม่ได้ ระบบจะแจ้งตัวเลขจริงหลังติดต่อได้</p>}
     </section>
   );
 }
@@ -71,19 +71,19 @@ function CardDetails({ card }: { card: TopicCard }) {
   const s = card.starter;
   return (
     <div className="min-w-0 space-y-2 break-words">
-      <p className="rounded-lg bg-purple-50 px-2 py-1 text-xs font-semibold text-purple-800">ที่มา: AI สร้างใหม่จากคำตอบของคุณ · {subfieldName(card.subfieldId)} · ยังไม่ตรวจความใหม่ (Prior Work)</p>
-      <h2 className="font-prompt text-lg font-extrabold leading-snug text-slate-900">{card.title}</h2>
-      <p className="text-xs font-bold text-indigo-700">ปัญหาที่ชวนสำรวจ</p>
-      <p className="text-sm text-slate-800">{s?.problem ?? card.phenomenon}</p>
-      {s && <><p className="text-xs font-bold text-indigo-700">แนวทางทดลองคร่าว ๆ</p><p className="text-sm text-slate-800">{s.roughDirection}</p>
-        <p className="text-xs font-bold text-indigo-700">เชื่อมกับความสนใจ</p><p className="text-sm text-slate-800">{s.interestLink}</p></>}
-      <div className="flex flex-wrap gap-2 text-xs">
-        <span className="rounded-full bg-indigo-50 px-2 py-1 text-indigo-800">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท</span>
-        <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-800">ประมาณ {card.estimatedWeeks} สัปดาห์</span>
-        <span className="rounded-full bg-slate-100 px-2 py-1 text-slate-700">ทีม {card.minTeamSize}–{card.maxTeamSize} คน</span>
+      <p className="rounded-lg bg-accent-tint px-2 py-1 text-caption font-semibold text-accent-text">ที่มา: AI สร้างใหม่จากคำตอบของคุณ · {subfieldName(card.subfieldId)} · ยังไม่ตรวจความใหม่ (Prior Work)</p>
+      <h2 className="text-lg font-semibold leading-snug text-ink">{card.title}</h2>
+      <p className="text-caption font-bold text-accent-text">ปัญหาที่ชวนสำรวจ</p>
+      <p className="text-callout text-ink">{s?.problem ?? card.phenomenon}</p>
+      {s && <><p className="text-caption font-bold text-accent-text">แนวทางทดลองคร่าว ๆ</p><p className="text-callout text-ink">{s.roughDirection}</p>
+        <p className="text-caption font-bold text-accent-text">เชื่อมกับความสนใจ</p><p className="text-callout text-ink">{s.interestLink}</p></>}
+      <div className="flex flex-wrap gap-2 text-caption">
+        <span className="rounded-full bg-accent-tint px-2 py-1 text-accent-text">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท</span>
+        <span className="rounded-full bg-good-tint px-2 py-1 text-good">ประมาณ {card.estimatedWeeks} สัปดาห์</span>
+        <span className="rounded-full bg-surface-2 px-2 py-1 text-ink-2">ทีม {card.minTeamSize}–{card.maxTeamSize} คน</span>
       </div>
-      {s?.fitNotes?.length ? <ul className="list-disc pl-5 text-xs text-slate-600">{s.fitNotes.map(n => <li key={n}>{n}</li>)}</ul> : null}
-      <div className="rounded-xl border border-amber-300 bg-amber-50 p-2 text-xs text-amber-900">
+      {s?.fitNotes?.length ? <ul className="list-disc pl-5 text-caption text-ink-2">{s.fitNotes.map(n => <li key={n}>{n}</li>)}</ul> : null}
+      <div className="rounded-xl border border-caution/30 bg-caution-tint p-2 text-caption text-caution">
         <b>ธงความปลอดภัย (ตรวจคำเบื้องต้น ไม่ใช่การรับรองความปลอดภัย):</b>{' '}
         {card.safetyCategories?.length ? card.safetyCategories.map(c => SAFETY_TH[c]).join(', ') + ' — ต้องมีครูดูแลหรือขออนุมัติก่อนทำจริง' : 'ไม่พบคำเสี่ยงจากการตรวจเบื้องต้น ควรปรึกษาครูก่อนทดลองเสมอ'}
       </div>
@@ -91,22 +91,22 @@ function CardDetails({ card }: { card: TopicCard }) {
   );
 }
 
-const Guardrail = () => <p className="text-xs text-slate-600">เป็นเพียงไอเดียตั้งต้น ยังไม่ใช่โครงงานสำเร็จรูป ต้องคิดต่อ ปรับ และอธิบายด้วยภาษาของคุณเอง · งบและเวลาเป็นค่าประมาณ</p>;
+const Guardrail = () => <p className="text-caption text-ink-2">เป็นเพียงไอเดียตั้งต้น ยังไม่ใช่โครงงานสำเร็จรูป ต้องคิดต่อ ปรับ และอธิบายด้วยภาษาของคุณเอง · งบและเวลาเป็นค่าประมาณ</p>;
 
 function Notice({ session, busy, onRetry, onDismiss, canGenerate }: { session: DiscoverySession; busy: boolean; onRetry: () => void; onDismiss: () => void; canGenerate: boolean }) {
   if (busy) return (
-    <div role="status" aria-live="polite" className="flex items-start gap-3 rounded-2xl border border-indigo-200 bg-indigo-50 p-3 text-sm text-indigo-900">
+    <div role="status" aria-live="polite" className="flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent-tint p-3 text-callout text-accent-text">
       <Loader2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 animate-spin motion-reduce:animate-none" />
-      <div><b>กำลังให้ AI สร้างการ์ดไอเดียตั้งต้นจากคำตอบของคุณ…</b><p className="text-xs">ยังไม่หักโควตาจนกว่าจะได้รับการ์ดที่ผ่านเกณฑ์ คำตอบและการ์ดเดิมยังอยู่</p></div>
+      <div><b>กำลังให้ AI สร้างการ์ดไอเดียตั้งต้นจากคำตอบของคุณ…</b><p className="text-caption">ยังไม่หักโควตาจนกว่าจะได้รับการ์ดที่ผ่านเกณฑ์ คำตอบและการ์ดเดิมยังอยู่</p></div>
     </div>
   );
   const n = session.notice;
   if (!n) return null;
-  const tone = n.kind === 'success' ? 'border-emerald-300 bg-emerald-50 text-emerald-900' : n.kind === 'partial' || n.kind === 'pending' ? 'border-amber-300 bg-amber-50 text-amber-900' : 'border-rose-300 bg-rose-50 text-rose-900';
+  const tone = n.kind === 'success' ? 'border-good/30 bg-good-tint text-good' : n.kind === 'partial' || n.kind === 'pending' ? 'border-caution/30 bg-caution-tint text-caution' : 'border-risk/40 bg-risk-tint text-risk';
   return (
-    <div role={n.kind === 'error' || n.kind === 'quota' ? 'alert' : 'status'} className={`space-y-2 rounded-2xl border p-3 text-sm ${tone}`} data-testid="generation-notice" data-kind={n.kind}>
+    <div role={n.kind === 'error' || n.kind === 'quota' ? 'alert' : 'status'} className={`space-y-2 rounded-2xl border p-3 text-callout ${tone}`} data-testid="generation-notice" data-kind={n.kind}>
       <p className="font-semibold">{n.messageTh}</p>
-      {(n.kind === 'error' || n.kind === 'quota') && <p className="text-xs">รอบนี้ไม่ได้รับการ์ดใหม่ · ไม่มีการนำการ์ดคลังเดิมมาแทน{session.cards.length ? ` · การ์ดที่สร้างไว้ ${session.cards.length} ใบยังอยู่` : ''}</p>}
+      {(n.kind === 'error' || n.kind === 'quota') && <p className="text-caption">รอบนี้ไม่ได้รับการ์ดใหม่ · ไม่มีการนำการ์ดคลังเดิมมาแทน{session.cards.length ? ` · การ์ดที่สร้างไว้ ${session.cards.length} ใบยังอยู่` : ''}</p>}
       <div className="flex flex-wrap gap-2">
         {n.retry && n.kind !== 'quota' && <button type="button" className={primary} onClick={onRetry} disabled={!canGenerate}><RotateCcw aria-hidden className="mr-1 inline h-4 w-4" />ลองใหม่</button>}
         <button type="button" className={secondary} onClick={onDismiss}>ปิดข้อความ</button>
@@ -124,8 +124,8 @@ function InterestChat({ session, dispatch, interview }: { session: DiscoverySess
       <ol className="space-y-3" aria-label="บทสนทนาความสนใจ">
         {session.answers.map((a, i) => (
           <li key={i} className="space-y-2">
-            <div className="rounded-2xl rounded-bl-sm border border-slate-200 bg-white p-3 text-sm"><b className="text-xs text-slate-500">ผู้ช่วยค้นหาเรื่อง (คำถามนำทาง ไม่ใช่ AI)</b><p className="whitespace-pre-wrap">{a.question}</p></div>
-            <div className="ml-6 rounded-2xl rounded-br-sm border border-indigo-200 bg-indigo-50 p-3 text-sm"><b className="text-xs">คุณ</b><p className="whitespace-pre-wrap break-words">{a.answer}</p></div>
+            <div className="rounded-2xl rounded-bl-sm border border-separator bg-surface p-3 text-callout"><b className="text-caption text-ink-3">ผู้ช่วยค้นหาเรื่อง (คำถามนำทาง ไม่ใช่ AI)</b><p className="whitespace-pre-wrap">{a.question}</p></div>
+            <div className="ml-6 rounded-2xl rounded-br-sm border border-accent/30 bg-accent-tint p-3 text-callout"><b className="text-caption">คุณ</b><p className="whitespace-pre-wrap break-words">{a.answer}</p></div>
           </li>
         ))}
       </ol>
@@ -133,15 +133,15 @@ function InterestChat({ session, dispatch, interview }: { session: DiscoverySess
         <button type="button" className={primary} onClick={() => dispatch({ type: 'GO', stage: 'summary' })}>ดูสรุปความสนใจ</button>
       ) : (
         <div className="space-y-3">
-          <p className="text-xs text-slate-500">คำถามที่ {session.answers.length + 1} · ไม่เกิน 4 ข้อ</p>
-          <h2 className="border-l-4 border-indigo-500 pl-3 font-prompt text-base font-bold text-slate-900" data-testid="interest-question">{step.question.text}</h2>
+          <p className="text-caption text-ink-3">คำถามที่ {session.answers.length + 1} · ไม่เกิน 4 ข้อ</p>
+          <h2 className="border-l-4 border-accent pl-3 text-base font-bold text-ink" data-testid="interest-question">{step.question.text}</h2>
           <div className="flex flex-wrap gap-2">
             {step.question.choices.map(choice => <button key={choice} type="button" className={secondary} onClick={() => submit(choice)}>{choice}</button>)}
           </div>
           <form className="space-y-2" onSubmit={e => { e.preventDefault(); submit(session.answerDraft); }}>
-            <label htmlFor="interest-answer" className="block text-sm font-semibold">หรือเล่าในแบบของคุณ</label>
+            <label htmlFor="interest-answer" className="block text-callout font-semibold">หรือเล่าในแบบของคุณ</label>
             <textarea id="interest-answer" value={session.answerDraft} maxLength={FRESH_LIMITS.answerChars} onChange={e => dispatch({ type: 'SET_DRAFT', draft: e.target.value })}
-              placeholder="ไม่ต้องพิมพ์ชื่อจริงหรือชื่อโรงเรียน" className="min-h-[96px] w-full rounded-xl border border-slate-400 p-3 text-base" />
+              placeholder="ไม่ต้องพิมพ์ชื่อจริงหรือชื่อโรงเรียน" className="min-h-[96px] w-full rounded-xl border border-control p-3 text-base" />
             <button type="submit" className={primary} disabled={!session.answerDraft.trim()}>ส่งคำตอบ →</button>
           </form>
         </div>
@@ -153,11 +153,11 @@ function InterestChat({ session, dispatch, interview }: { session: DiscoverySess
 function ConstraintChips({ interview }: { interview: Interview }) {
   const c = interview.constraints;
   return (
-    <details className="rounded-2xl border border-slate-200 bg-white p-3 text-sm">
+    <details className="rounded-2xl border border-separator bg-surface p-3 text-callout">
       <summary className="min-h-[44px] cursor-pointer py-2 font-semibold">ข้อจำกัดที่ทราบแล้ว (นำไปใช้ต่อ ไม่ถามซ้ำ)</summary>
-      <p className="text-slate-700">{interview.gradeLevel === 'm_plai' ? 'ม.ปลาย' : 'ม.ต้น'} · งบประมาณ {formatBaht(c.budgetBaht)} บาท · {c.timeWeeks} สัปดาห์ · ทีม {c.teamSize} คน</p>
-      <p className="text-slate-600">อุปกรณ์: {c.equipment.map(e => labelOf(EQUIPMENT_OPTIONS, e)).join(', ') || '—'}</p>
-      <p className="text-slate-600">ทักษะ: {c.skills.map(s => labelOf(SKILL_OPTIONS, s)).join(', ') || '—'}</p>
+      <p className="text-ink-2">{interview.gradeLevel === 'm_plai' ? 'ม.ปลาย' : 'ม.ต้น'} · งบประมาณ {formatBaht(c.budgetBaht)} บาท · {c.timeWeeks} สัปดาห์ · ทีม {c.teamSize} คน</p>
+      <p className="text-ink-2">อุปกรณ์: {c.equipment.map(e => labelOf(EQUIPMENT_OPTIONS, e)).join(', ') || '—'}</p>
+      <p className="text-ink-2">ทักษะ: {c.skills.map(s => labelOf(SKILL_OPTIONS, s)).join(', ') || '—'}</p>
     </details>
   );
 }
@@ -183,34 +183,34 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
   return (
     <div className="space-y-4">
       <Heading eyebrow="02 / สำรวจทีละใบ" title="มีเรื่องไหนที่อยากลองต่อบ้าง?" desc="ปัดหรือกดปุ่มเพื่อเก็บสิ่งที่สนใจ ข้ามใบเดียวไม่ได้หมายถึงไม่ชอบทั้งสาขา" />
-      <p className="text-xs text-indigo-800" data-testid="deck-counts">ความสนใจ: {session.summary || '—'}{session.refinement ? ` · บอกเพิ่ม: ${session.refinement}` : ''}<br />การ์ดที่ได้รับสะสม {session.cards.length} ใบ · สนใจ {likes} · ข้าม {skips}</p>
-      <p className="rounded-xl bg-slate-50 p-2 text-xs text-slate-600">{FRESH_NOTICE_TH}</p>
+      <p className="text-caption text-accent-text" data-testid="deck-counts">ความสนใจ: {session.summary || '—'}{session.refinement ? ` · บอกเพิ่ม: ${session.refinement}` : ''}<br />การ์ดที่ได้รับสะสม {session.cards.length} ใบ · สนใจ {likes} · ข้าม {skips}</p>
+      <p className="rounded-xl bg-surface-2 p-2 text-caption text-ink-2">{FRESH_NOTICE_TH}</p>
       {card ? (
         <>
-          <p className="text-xs text-slate-500">รอบนี้ใบที่ {session.cursor + 1}/{session.batch.length}</p>
-          <div className="h-1.5 rounded bg-slate-200"><div className="h-full rounded bg-gradient-to-r from-indigo-500 to-pink-500" style={{ width: `${((session.cursor + 1) / session.batch.length) * 100}%` }} /></div>
+          <p className="text-caption text-ink-3">รอบนี้ใบที่ {session.cursor + 1}/{session.batch.length}</p>
+          <div className="h-1.5 rounded bg-separator"><div className="h-full rounded" style={{ width: `${((session.cursor + 1) / session.batch.length) * 100}%` }} /></div>
           <article ref={cardRef} tabIndex={0} data-testid="active-card" data-card-id={card.id}
             aria-label={`การ์ด ${card.title} กดลูกศรซ้ายเพื่อข้าม ขวาเพื่อสนใจ ขึ้นเพื่อเลือก`}
             onKeyDown={e => { if (e.target !== e.currentTarget) return; if (e.key === 'ArrowLeft') { e.preventDefault(); swipe('skip'); } else if (e.key === 'ArrowRight') { e.preventDefault(); swipe('like'); } else if (e.key === 'ArrowUp') { e.preventDefault(); onSelect(card); } }}
-            className="min-w-0 rounded-3xl border-2 border-slate-800 bg-white p-4 shadow-[5px_5px_0_#1E293B] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-indigo-700">
-            <div aria-hidden className="mb-3 grid min-h-[72px] cursor-grab touch-none select-none place-items-center rounded-2xl bg-gradient-to-br from-indigo-50 via-pink-50 to-emerald-50 text-xs font-semibold text-slate-600"
+            className="min-w-0 rounded-3xl border-2 border-slate-800 bg-surface p-4 shadow-[5px_5px_0_#1E293B] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-accent">
+            <div aria-hidden className="mb-3 grid min-h-[72px] cursor-grab touch-none select-none place-items-center rounded-2xl text-caption font-semibold text-ink-2"
               onPointerDown={e => { if (e.button === 0 && e.isPrimary) { drag.current = { x: e.clientX, y: e.clientY }; e.currentTarget.setPointerCapture(e.pointerId); } }}
               onPointerCancel={() => { drag.current = null; }}
               onPointerUp={e => { const start = drag.current; drag.current = null; if (!start) return; const dx = e.clientX - start.x, dy = e.clientY - start.y;
                 if (dy < -65 && Math.abs(dy) > Math.abs(dx)) onSelect(card); else if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy)) swipe(dx > 0 ? 'like' : 'skip'); }}>
-              <Sparkles className="h-6 w-6 text-indigo-500" />ลากตรงนี้ ← ข้าม · → สนใจ · ↑ เลือก
+              <Sparkles className="h-6 w-6 text-accent-text" />ลากตรงนี้ ← ข้าม · → สนใจ · ↑ เลือก
             </div>
             <CardDetails card={card} />
           </article>
           <div className="grid grid-cols-3 gap-2">
             <button type="button" className={`${secondary} whitespace-nowrap px-1`} onClick={() => swipe('skip')}>← ข้าม</button>
-            <button type="button" className={`${btn} whitespace-nowrap border-pink-300 bg-pink-50 px-1 text-pink-900`} onClick={() => onSelect(card)}>↑ เลือกใบนี้</button>
-            <button type="button" className={`${btn} whitespace-nowrap border-emerald-300 bg-emerald-50 px-1 text-emerald-900`} onClick={() => swipe('like')}>สนใจ →</button>
+            <button type="button" className={`${btn} whitespace-nowrap border-accent/30 bg-accent-tint px-1 text-accent-text`} onClick={() => onSelect(card)}>↑ เลือกใบนี้</button>
+            <button type="button" className={`${btn} whitespace-nowrap border-good/30 bg-good-tint px-1 text-good`} onClick={() => swipe('like')}>สนใจ →</button>
           </div>
-          <p className="text-xs text-slate-500">ใช้ปุ่มได้เสมอ หรือโฟกัสที่การ์ดแล้วกดลูกศร ← → ↑</p>
+          <p className="text-caption text-ink-3">ใช้ปุ่มได้เสมอ หรือโฟกัสที่การ์ดแล้วกดลูกศร ← → ↑</p>
         </>
       ) : (
-        <div className="rounded-2xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">ดูการ์ดรอบนี้ครบแล้ว ({session.batch.length} ใบ) เลือกจาก Shortlist หรือบอกเพิ่มเพื่อขอรอบถัดไป</div>
+        <div className="rounded-2xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">ดูการ์ดรอบนี้ครบแล้ว ({session.batch.length} ใบ) เลือกจาก Shortlist หรือบอกเพิ่มเพื่อขอรอบถัดไป</div>
       )}
       <div className="flex flex-wrap gap-2">
         <button type="button" className={secondary} disabled={!canUndo} onClick={() => { dispatch({ type: 'UNDO' }); announce('ย้อนการปัดล่าสุดแล้ว โควตายังคงเดิม'); }}>↶ ย้อนการปัดล่าสุด</button>
@@ -218,15 +218,15 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
         <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'saved' })}>การ์ดที่บันทึกทั้งหมด ({session.cards.length})</button>
       </div>
       <Guardrail />
-      <details id="refine-box" className="rounded-2xl border border-dashed border-slate-300 p-3" open={!card}>
-        <summary className="min-h-[44px] cursor-pointer py-2 text-sm font-semibold">ยังไม่ตรงใจ? ปรับความสนใจแล้วขอเพิ่มอีก 5 ใบ</summary>
+      <details id="refine-box" className="rounded-2xl border border-dashed border-control p-3" open={!card}>
+        <summary className="min-h-[44px] cursor-pointer py-2 text-callout font-semibold">ยังไม่ตรงใจ? ปรับความสนใจแล้วขอเพิ่มอีก 5 ใบ</summary>
         <form className="space-y-2" onSubmit={e => { e.preventDefault(); onGenerate(); }}>
-          <label htmlFor="refine-summary" className="block text-sm font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
-          <textarea id="refine-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[80px] w-full rounded-xl border border-slate-400 p-3 text-base" />
-          <label htmlFor="refinement" className="block text-sm font-semibold">อยากปรับอะไรในรอบถัดไป? (ไม่บังคับ)</label>
+          <label htmlFor="refine-summary" className="block text-callout font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
+          <textarea id="refine-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[80px] w-full rounded-xl border border-control p-3 text-base" />
+          <label htmlFor="refinement" className="block text-callout font-semibold">อยากปรับอะไรในรอบถัดไป? (ไม่บังคับ)</label>
           <textarea id="refinement" value={session.refinement} maxLength={FRESH_LIMITS.refinementChars} onChange={e => dispatch({ type: 'SET_REFINEMENT', refinement: e.target.value })}
-            placeholder="เช่น เน้นเรื่องน้ำ ไม่ต้องใช้อุปกรณ์เพิ่ม" className="min-h-[80px] w-full rounded-xl border border-slate-400 p-3 text-base" />
-          <p className="text-xs text-slate-500">ระบบส่งการ์ดที่คุณสนใจ/ข้าม และการ์ดที่เคยเห็นไปด้วย เพื่อไม่ให้ได้แนวทางเดิมซ้ำ</p>
+            placeholder="เช่น เน้นเรื่องน้ำ ไม่ต้องใช้อุปกรณ์เพิ่ม" className="min-h-[80px] w-full rounded-xl border border-control p-3 text-base" />
+          <p className="text-caption text-ink-3">ระบบส่งการ์ดที่คุณสนใจ/ข้าม และการ์ดที่เคยเห็นไปด้วย เพื่อไม่ให้ได้แนวทางเดิมซ้ำ</p>
           <button type="submit" className={primary} disabled={!canGenerate || !session.summary.trim()}>ขอการ์ดเพิ่ม 5 ใบ</button>
         </form>
       </details>
@@ -236,11 +236,11 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
 
 function MiniCard({ card, children, selected }: { card: TopicCard; children?: React.ReactNode; selected?: boolean }) {
   return (
-    <li className={`min-w-0 list-none rounded-2xl border bg-white p-3 ${selected ? 'border-2 border-indigo-700' : 'border-slate-300'}`} data-card-id={card.id}>
-      <p className="mb-1 text-xs font-semibold text-purple-800">AI สร้างจากคำตอบของคุณ</p>
-      <h2 className="font-prompt text-base font-bold text-slate-900">{card.title}</h2>
-      <p className="text-sm text-slate-600">{card.starter?.problem ?? card.phenomenon}</p>
-      <p className="mt-1 text-xs text-slate-500">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท · {card.estimatedWeeks} สัปดาห์</p>
+    <li className={`min-w-0 list-none rounded-2xl border bg-surface p-3 ${selected ? 'border-2 border-accent' : 'border-control'}`} data-card-id={card.id}>
+      <p className="mb-1 text-caption font-semibold text-accent-text">AI สร้างจากคำตอบของคุณ</p>
+      <h2 className="text-base font-bold text-ink">{card.title}</h2>
+      <p className="text-callout text-ink-2">{card.starter?.problem ?? card.phenomenon}</p>
+      <p className="mt-1 text-caption text-ink-3">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท · {card.estimatedWeeks} สัปดาห์</p>
       <div className="mt-2 flex flex-wrap gap-2">{children}</div>
     </li>
   );
@@ -436,7 +436,7 @@ export function FreshDiscovery() {
   };
 
   if (erased) return <section role="status" className={`${panel} space-y-3`}><h1 className="text-lg font-bold">ลบข้อมูลแล้ว</h1><p>หยุดการค้นหาและลบคำตอบ การ์ด และคำขอที่ค้างในหน้านี้แล้ว ไม่บันทึกข้อมูลเก่ากลับคืน</p><Link href="/interview" className={`${primary} inline-flex items-center`}>เริ่มต้นใหม่</Link></section>;
-  if (!ready || interview === undefined) return <p className="p-8 text-center text-sm text-slate-500">กำลังโหลดการค้นหาเรื่องที่อยากทำ…</p>;
+  if (!ready || interview === undefined) return <p className="p-8 text-center text-callout text-ink-3">กำลังโหลดการค้นหาเรื่องที่อยากทำ…</p>;
   if (!interview) return (
     <section className={`${panel} mx-auto max-w-2xl space-y-3`}>
       <Heading eyebrow="ก่อนเริ่มค้นหา" title="ทำแบบสัมภาษณ์สั้น ๆ ก่อนนะ" desc="ต้องรู้ระดับชั้น เป้าหมาย และข้อจำกัด (เวลา งบ อุปกรณ์ ทีม ทักษะ) ก่อน การ์ดจึงจะเหมาะกับคุณ ระบบจะไม่เดาค่าแทน" />
@@ -452,19 +452,19 @@ export function FreshDiscovery() {
   return (
     <div className="mx-auto max-w-5xl min-w-0 space-y-4 break-words">
       <header className={`${panel} flex flex-wrap items-center gap-3`}>
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700"><Compass aria-hidden className="h-5 w-5" /></div>
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-good-tint text-good"><Compass aria-hidden className="h-5 w-5" /></div>
         <div className="min-w-0 flex-1">
-          <p className="font-prompt text-base font-black text-slate-900 sm:text-lg">ค้นหาเรื่องที่อยากทำ (Discovery)</p>
-          <p className="text-xs text-slate-600">คุยสั้น ๆ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณ ครั้งละ 5 ใบ · บันทึกในเบราว์เซอร์นี้ รีเฟรชแล้วทำต่อได้</p>
+          <p className="text-base font-semibold text-ink sm:text-lg">ค้นหาเรื่องที่อยากทำ (Discovery)</p>
+          <p className="text-caption text-ink-2">คุยสั้น ๆ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณ ครั้งละ 5 ใบ · บันทึกในเบราว์เซอร์นี้ รีเฟรชแล้วทำต่อได้</p>
         </div>
       </header>
-      {storageWarning && <p role="alert" className="rounded-2xl border border-rose-300 bg-rose-50 p-3 text-sm text-rose-900">{storageWarning}</p>}
+      {storageWarning && <p role="alert" className="rounded-2xl border border-risk/40 bg-risk-tint p-3 text-callout text-risk">{storageWarning}</p>}
       <div className="grid min-w-0 gap-4 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className={`${panel} space-y-3 self-start`} aria-label="ขั้นตอนและสิทธิ์">
           <nav aria-label="ขั้นตอนค้นหา" className="grid grid-cols-3 gap-1 lg:grid-cols-1">
             {navItems.map(([label, stage, enabled]) => (
               <button key={label} type="button" disabled={!enabled || busy} aria-current={current(stage) ? 'step' : undefined} onClick={() => dispatch({ type: 'GO', stage })}
-                className={`min-h-[44px] rounded-xl border px-2 text-xs font-bold sm:text-sm lg:text-left ${current(stage) ? 'border-indigo-300 bg-indigo-50 text-indigo-800' : 'border-transparent bg-transparent text-slate-700'} disabled:opacity-50`}>{label}</button>
+                className={`min-h-[44px] rounded-xl border px-2 text-caption font-bold sm:text-callout lg:text-left ${current(stage) ? 'border-accent/30 bg-accent-tint text-accent-text' : 'border-transparent bg-transparent text-ink-2'} disabled:opacity-50`}>{label}</button>
             ))}
           </nav>
           <QuotaPanel quota={session.quota} />
@@ -477,10 +477,10 @@ export function FreshDiscovery() {
           {session.stage === 'summary' && (
             <form className="space-y-3" onSubmit={e => { e.preventDefault(); generate(); }}>
               <Heading eyebrow="01 / สรุปก่อนสำรวจ" title="ฟังดูเป็นเรื่องที่คุณสนใจไหม?" desc="แก้สรุปให้ตรงใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้น 5 ใบจากคำตอบและข้อจำกัดของคุณ" />
-              <label htmlFor="interest-summary" className="block text-sm font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
-              <textarea id="interest-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[110px] w-full rounded-xl border border-slate-400 p-3 text-base" />
-              <p className="text-xs text-slate-500">แก้ได้ตามใจ · ข้อจำกัดเดิมถูกนำไปใช้ต่อ · การ์ดเป็นไอเดียตั้งต้น ไม่ใช่โครงงานสำเร็จรูป</p>
-              {quotaEmpty && <p role="status" className="text-sm text-rose-800">วันนี้ใช้สิทธิ์สร้างการ์ดครบแล้ว การ์ดที่สร้างไว้ยังอยู่ สร้างใหม่ได้หลังเที่ยงคืนตามเวลาประเทศไทย</p>}
+              <label htmlFor="interest-summary" className="block text-callout font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
+              <textarea id="interest-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[110px] w-full rounded-xl border border-control p-3 text-base" />
+              <p className="text-caption text-ink-3">แก้ได้ตามใจ · ข้อจำกัดเดิมถูกนำไปใช้ต่อ · การ์ดเป็นไอเดียตั้งต้น ไม่ใช่โครงงานสำเร็จรูป</p>
+              {quotaEmpty && <p role="status" className="text-callout text-risk">วันนี้ใช้สิทธิ์สร้างการ์ดครบแล้ว การ์ดที่สร้างไว้ยังอยู่ สร้างใหม่ได้หลังเที่ยงคืนตามเวลาประเทศไทย</p>}
               <div className="flex flex-wrap gap-2">
                 <button type="submit" className={`${primary} w-full sm:w-auto`} disabled={!canGenerate || !session.summary.trim()}>{session.cards.length ? 'สร้างการ์ดเพิ่ม 5 ใบ →' : 'สร้างการ์ด 5 ใบ →'}</button>
                 <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'chat' })}>กลับไปดูบทสนทนา</button>
@@ -499,7 +499,7 @@ export function FreshDiscovery() {
                     <button type="button" className={primary} onClick={() => select(c)}>เลือกไปคุยต่อ</button>
                     <button type="button" className={secondary} onClick={() => { dispatch({ type: 'REMOVE_SHORTLIST', id: c.id }); announce('นำออกจาก Shortlist แล้ว การ์ดยังอยู่ในที่บันทึก'); }}>นำออก</button>
                   </MiniCard>))}</ul>
-              ) : <p className="rounded-2xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">ยังไม่มีการ์ดที่สนใจ กลับไปสำรวจแล้วกด “สนใจ” เพื่อเก็บไว้ที่นี่</p>}
+              ) : <p className="rounded-2xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">ยังไม่มีการ์ดที่สนใจ กลับไปสำรวจแล้วกด “สนใจ” เพื่อเก็บไว้ที่นี่</p>}
               <div className="flex flex-wrap gap-2">
                 <button type="button" className={primary} disabled={session.compare.length !== 2} onClick={() => dispatch({ type: 'GO', stage: 'compare' })}>เทียบ {session.compare.length}/2 ใบ →</button>
                 <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'deck' })}>← กลับไปสำรวจ</button>
@@ -512,10 +512,10 @@ export function FreshDiscovery() {
               <Heading eyebrow="03 / เปรียบเทียบ" title="สองเรื่องนี้ ต่างกันตรงไหน?" desc="ดูปัญหา แนวทาง งบ และเวลาเคียงกัน ตัวเลขเป็นค่าประมาณจาก AI ไม่ใช่คะแนนรับรอง" />
               <div className="grid min-w-0 gap-3 sm:grid-cols-2">
                 {session.compare.map(byId).filter((c): c is TopicCard => Boolean(c)).map(c => (
-                  <article key={c.id} className="min-w-0 space-y-2 rounded-2xl border border-slate-300 border-t-4 border-t-indigo-500 bg-white p-3" data-card-id={c.id}>
+                  <article key={c.id} className="min-w-0 space-y-2 rounded-2xl border border-control border-t-4 border-t-indigo-500 bg-surface p-3" data-card-id={c.id}>
                     <CardDetails card={c} />
-                    <p className="text-xs font-bold text-indigo-700">เทียบกับข้อจำกัดของคุณ</p>
-                    <p className="text-sm text-slate-700">{fitLine(c, interview)} · ยังต้องตรวจอุปกรณ์และวิธีทำกับครู</p>
+                    <p className="text-caption font-bold text-accent-text">เทียบกับข้อจำกัดของคุณ</p>
+                    <p className="text-callout text-ink-2">{fitLine(c, interview)} · ยังต้องตรวจอุปกรณ์และวิธีทำกับครู</p>
                     <button type="button" className={`${primary} w-full`} onClick={() => select(c)}>เลือกเรื่องนี้ →</button>
                   </article>
                 ))}
@@ -534,7 +534,7 @@ export function FreshDiscovery() {
               <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'deck' })}>← กลับไปสำรวจ</button>
             </div>
           )}
-          <p role="status" aria-live="polite" aria-atomic="true" className="min-h-[1.5em] text-sm text-indigo-800" data-testid="announcement">{announcement}</p>
+          <p role="status" aria-live="polite" aria-atomic="true" className="min-h-[1.5em] text-callout text-accent-text" data-testid="announcement">{announcement}</p>
         </main>
       </div>
     </div>

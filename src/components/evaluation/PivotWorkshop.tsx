@@ -189,19 +189,19 @@ export function PivotWorkshop({
   return (
     <div
       id="pivot-workshop"
-      className="rounded-3xl border-2 border-rose-300 bg-white p-4 sm:p-6 shadow-sm space-y-5"
+      className="rounded-3xl border-2 border-risk/40 bg-surface p-4 sm:p-6 shadow-e1 space-y-5"
     >
       {/* Workshop Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-rose-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-risk/40">
         <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-rose-100 text-rose-800 text-xs font-bold font-prompt">
-            <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-risk-tint text-risk text-caption font-bold">
+            <Sparkles className="w-3.5 h-3.5 text-risk" />
             <span>Socratic Pivot Workshop (AC-8)</span>
           </div>
-          <h3 className="text-base sm:text-lg font-extrabold text-slate-900 font-prompt">
+          <h3 className="text-base sm:text-lg font-semibold text-ink">
             ห้องทดลองปรับมุมมองใหม่ สำหรับจุดที่ต้องพัฒนา (Red Axes)
           </h3>
-          <p className="text-xs text-slate-600 font-prompt">
+          <p className="text-caption text-ink-2">
             ช่วยวิเคราะห์และปรับมุมมองโครงงานตามลำดับ 3 ระดับ (ADR 0002) โดยไม่ตัดสิทธิ์การเขียนข้อเสนอโครงงาน
           </p>
         </div>
@@ -209,7 +209,7 @@ export function PivotWorkshop({
         {/* Non-blocking skip to Proposal button */}
         <Link
           href={`/proposal?ideaId=${state.originalIdea.id}`}
-          className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold font-prompt text-xs transition-all shrink-0 w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2 rounded-2xl bg-surface-2 hover:bg-separator text-ink-2 font-bold text-caption transition-all shrink-0 w-full sm:w-auto"
         >
           <span>ข้ามไปเขียน Proposal →</span>
         </Link>
@@ -218,7 +218,7 @@ export function PivotWorkshop({
       {/* Red Axes Tabs (if multiple red axes) */}
       {redAxes.length > 1 && (
         <div className="space-y-1.5">
-          <span className="text-xs font-bold text-slate-600 font-prompt">
+          <span className="text-caption font-bold text-ink-2">
             เลือกด้านที่ต้องการปรับมุมมอง:
           </span>
           <div className="flex flex-wrap gap-2">
@@ -231,13 +231,13 @@ export function PivotWorkshop({
                   type="button"
                   onClick={() => handleSwitchAxis(axis)}
                   disabled={isSubmitting}
-                  className={`min-h-[40px] px-3.5 py-1.5 rounded-2xl text-xs font-bold font-prompt transition-all flex items-center gap-1.5 ${
+                  className={`min-h-[40px] px-3.5 py-1.5 rounded-2xl text-caption font-bold  transition-all flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-rose-600 text-white shadow-xs'
-                      : 'bg-rose-50 text-rose-800 hover:bg-rose-100 border border-rose-200'
+                      ? 'bg-risk text-white shadow-e1'
+                      : 'bg-risk-tint text-risk hover:bg-risk-tint border border-risk/40'
                   }`}
                 >
-                  <span>🔴</span>
+                  <span></span>
                   <span>{meta.nameTh}</span>
                 </button>
               );
@@ -252,17 +252,17 @@ export function PivotWorkshop({
         <button
           type="button"
           onClick={() => setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 1 }))}
-          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
+          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-caption font-bold  text-left flex items-center justify-between gap-2 transition-all ${
             state.currentTier === 1
-              ? 'bg-indigo-600 text-white border-indigo-700 shadow-indigo-100 ring-2 ring-indigo-200'
-              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              ? 'bg-accent text-white border-accent  ring-2 ring-accent'
+              : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
           }`}
         >
           <div className="flex items-center gap-2">
             <HelpCircle className="w-4 h-4 shrink-0" />
             <span>ระดับ 1: คำถามชวนคิด</span>
           </div>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">พร้อมใช้</span>
+          <span className="text-caption px-1.5 py-0.5 rounded bg-surface">พร้อมใช้</span>
         </button>
 
         {/* Tier 2 Tab */}
@@ -277,12 +277,12 @@ export function PivotWorkshop({
             }
           }}
           disabled={isSubmitting}
-          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
+          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-caption font-bold  text-left flex items-center justify-between gap-2 transition-all ${
             state.currentTier === 2
-              ? 'bg-indigo-600 text-white border-indigo-700 shadow-indigo-100 ring-2 ring-indigo-200'
+              ? 'bg-accent text-white border-accent  ring-2 ring-accent'
               : hasTier2
-                ? 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                : 'bg-slate-50 text-slate-400 border-slate-200 hover:border-slate-300'
+                ? 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
+                : 'bg-surface-2 text-ink-3 border-separator hover:border-control'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -290,9 +290,9 @@ export function PivotWorkshop({
             <span>ระดับ 2: กรอบความคิด/คำใบ้</span>
           </div>
           {hasTier2 ? (
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">ปลดล็อกแล้ว</span>
+            <span className="text-caption px-1.5 py-0.5 rounded bg-surface">ปลดล็อกแล้ว</span>
           ) : (
-            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <Lock className="w-3.5 h-3.5 shrink-0 text-ink-3" />
           )}
         </button>
 
@@ -307,12 +307,12 @@ export function PivotWorkshop({
             }
           }}
           disabled={(!hasTier3 && !serverHasTier2) || isSubmitting}
-          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
+          className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-caption font-bold  text-left flex items-center justify-between gap-2 transition-all ${
             state.currentTier === 3
-              ? 'bg-rose-600 text-white border-rose-700 shadow-rose-100 ring-2 ring-rose-200'
+              ? 'bg-risk text-white border-risk/40  ring-2 ring-rose-200'
               : hasTier3 || serverHasTier2
-                ? 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+                ? 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
+                : 'bg-surface-2 text-ink-3 border-separator cursor-not-allowed'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -320,15 +320,15 @@ export function PivotWorkshop({
             <span>ระดับ 3: มุมมองใหม่ (2-3 ทาง)</span>
           </div>
           {hasTier3 ? (
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">ปลดล็อกแล้ว</span>
+            <span className="text-caption px-1.5 py-0.5 rounded bg-surface">ปลดล็อกแล้ว</span>
           ) : (
-            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            <Lock className="w-3.5 h-3.5 shrink-0 text-ink-3" />
           )}
         </button>
       </div>
 
       {notice && (
-        <div role="status" className="flex items-start gap-2 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-prompt">
+        <div role="status" className="flex items-start gap-2 p-3 rounded-2xl bg-caution-tint border border-caution/30 text-caution text-caption">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span>{notice}</span>
         </div>
@@ -336,16 +336,16 @@ export function PivotWorkshop({
 
       {/* Tier 1 Content: Socratic Question Prompt */}
       {state.currentTier === 1 && (
-        <div className="rounded-2xl bg-indigo-50/60 border border-indigo-200 p-4 sm:p-5 space-y-3 font-prompt">
-          <div className="flex items-center gap-2 text-indigo-900 font-bold text-xs sm:text-sm">
-            <HelpCircle className="w-4 h-4 text-indigo-600 shrink-0" />
+        <div className="rounded-2xl bg-accent-tint border border-accent/30 p-4 sm:p-5 space-y-3">
+          <div className="flex items-center gap-2 text-accent-text font-bold text-caption sm:text-callout">
+            <HelpCircle className="w-4 h-4 text-accent-text shrink-0" />
             <span>คำถามชวนคิดสำหรับด้าน {activeAxisMeta.nameTh}:</span>
           </div>
-          <p className="text-slate-800 text-sm sm:text-base leading-relaxed bg-white p-3.5 rounded-xl border border-indigo-100">
+          <p className="text-ink text-callout sm:text-base leading-relaxed bg-surface p-3.5 rounded-xl border border-accent/30">
             {state.tier1Prompt}
           </p>
           <form onSubmit={handleSubmitTier1} className="pt-2 space-y-2">
-            <label htmlFor="pivot-tier1-answer" className="block text-xs font-bold text-slate-700">
+            <label htmlFor="pivot-tier1-answer" className="block text-caption font-bold text-ink-2">
               คำตอบของคุณ (ตอบสั้น ๆ หรือบอกว่ายังคิดไม่ออกก็ได้)
             </label>
             <textarea
@@ -355,16 +355,16 @@ export function PivotWorkshop({
               maxLength={2000}
               rows={3}
               placeholder="ลองเขียนสิ่งที่คุณคิดก่อน..."
-              className="w-full p-3 rounded-xl border border-indigo-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm text-slate-900 outline-hidden font-prompt resize-none bg-white"
+              className="w-full p-3 rounded-xl border border-accent/30 focus:border-accent focus:ring-2 focus:ring-accent text-callout text-ink outline-hidden resize-none bg-surface"
             />
             <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-              <span className="text-xs text-slate-500">
+              <span className="text-caption text-ink-3">
                 ส่งคำตอบระดับ 1 ก่อน จึงขอรับคำใบ้กรอบความคิดในระดับ 2 ได้
               </span>
               <button
                 type="submit"
                 disabled={isSubmitting || !tier1Answer.trim()}
-                className="w-full sm:w-auto min-h-[44px] px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0"
+                className="w-full sm:w-auto min-h-[44px] px-4 py-2 rounded-xl bg-accent hover:bg-accent-press disabled:opacity-50 text-white text-caption font-bold transition-all shadow-e1 flex items-center justify-center gap-1.5 shrink-0"
               >
                 <span>{isSubmitting ? 'กำลังส่ง...' : 'ส่งคำตอบและขอกรอบความคิด (Tier 2) →'}</span>
               </button>
@@ -375,9 +375,9 @@ export function PivotWorkshop({
 
       {/* Tier 2 Content: Thinking Lenses */}
       {state.currentTier === 2 && (
-        <div className="rounded-2xl bg-amber-50/60 border border-amber-200 p-4 sm:p-5 space-y-3 font-prompt">
-          <div className="flex items-center gap-2 text-amber-950 font-bold text-xs sm:text-sm">
-            <Compass className="w-4 h-4 text-amber-600 shrink-0" />
+        <div className="rounded-2xl bg-caution-tint border border-caution/30 p-4 sm:p-5 space-y-3">
+          <div className="flex items-center gap-2 text-caution font-bold text-caption sm:text-callout">
+            <Compass className="w-4 h-4 text-caution shrink-0" />
             <span>กรอบความคิดและคำใบ้เพื่อปรับปรุง (Thinking Lenses):</span>
           </div>
 
@@ -385,23 +385,23 @@ export function PivotWorkshop({
             {state.tier2Lenses.map((lens, idx) => (
               <div
                 key={idx}
-                className="p-3 bg-white rounded-xl border border-amber-100 text-xs sm:text-sm text-slate-800 leading-relaxed flex items-start gap-2 shadow-xs"
+                className="p-3 bg-surface rounded-xl border border-caution/30 text-caption sm:text-callout text-ink leading-relaxed flex items-start gap-2 shadow-e1"
               >
-                <span className="font-bold text-amber-600 shrink-0">{idx + 1}.</span>
+                <span className="font-bold text-caution shrink-0">{idx + 1}.</span>
                 <span>{lens}</span>
               </div>
             ))}
           </div>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-amber-200/60">
-            <span className="text-xs text-slate-500">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-caution/30">
+            <span className="text-caption text-ink-3">
               ลองนำกรอบความคิดด้านบนไปปรับแผน หากติดตันจริง ๆ สามารถขอตัวอย่างมุมมองใหม่ (Last Resort)
             </span>
             <button
               type="button"
               onClick={() => void handleRequestTier3()}
               disabled={isSubmitting || !serverHasTier2}
-              className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
+              className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-risk hover:bg-risk text-white text-caption font-bold transition-all shadow-e1 flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
@@ -418,9 +418,9 @@ export function PivotWorkshop({
 
       {/* Tier 3 Content: 2-3 Pivot Angles + Rewrite Gate */}
       {state.currentTier === 3 && (
-        <div className="rounded-2xl bg-rose-50/70 border border-rose-200 p-4 sm:p-5 space-y-4 font-prompt">
-          <div className="flex items-center gap-2 text-rose-950 font-bold text-xs sm:text-sm">
-            <Lightbulb className="w-4 h-4 text-rose-600 shrink-0" />
+        <div className="rounded-2xl bg-risk-tint border border-risk/40 p-4 sm:p-5 space-y-4">
+          <div className="flex items-center gap-2 text-rose-950 font-bold text-caption sm:text-callout">
+            <Lightbulb className="w-4 h-4 text-risk shrink-0" />
             <span>ทางเลือกมุมมองใหม่ 2–3 แนวทาง (Pivot Angles):</span>
           </div>
 
@@ -433,8 +433,8 @@ export function PivotWorkshop({
                   onClick={() => handleSelectAngle(angle)}
                   className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-white border-rose-600 ring-2 ring-rose-200 shadow-sm'
-                      : 'bg-white/90 border-slate-200 hover:border-rose-300 hover:bg-white'
+                      ? 'bg-surface border-risk/40 ring-2 ring-rose-200 shadow-e1'
+                      : 'bg-surface border-separator hover:border-risk/40 hover:bg-surface'
                   }`}
                   role="button"
                   tabIndex={0}
@@ -446,16 +446,16 @@ export function PivotWorkshop({
                   <div className="flex items-start justify-between gap-2">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-extrabold text-rose-600">
+                        <span className="text-caption font-semibold text-risk">
                           แนวทางที่ {idx + 1}
                         </span>
                         {isSelected && (
-                          <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 text-[10px] font-bold">
+                          <span className="px-2 py-0.5 rounded-md bg-risk-tint text-risk text-caption font-bold">
                             เลือกแนวทางนี้
                           </span>
                         )}
                       </div>
-                      <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                      <p className="text-caption sm:text-callout text-ink leading-relaxed font-medium">
                         {angle}
                       </p>
                     </div>
@@ -468,12 +468,12 @@ export function PivotWorkshop({
           {/* ADR 0002 Rewrite Gate */}
           {state.pendingAngle ? (
             <div className="pt-2 space-y-3">
-              <div className="p-4 rounded-2xl bg-white border-2 border-rose-300 shadow-xs space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-rose-900">
-                  <PenTool className="w-4 h-4 text-rose-600 shrink-0" />
+              <div className="p-4 rounded-2xl bg-surface border-2 border-risk/40 shadow-e1 space-y-3">
+                <div className="flex items-center gap-2 text-caption font-bold text-risk">
+                  <PenTool className="w-4 h-4 text-risk shrink-0" />
                   <span>ด่านเรียบเรียงไอเดียด้วยภาษาของตนเอง (Rewrite Gate):</span>
                 </div>
-                <p className="text-xs text-slate-600">
+                <p className="text-caption text-ink-2">
                   เพื่อป้องกันการคัดลอก กรุณาเขียนสรุปแนวทางนี้ด้วยภาษาและความเข้าใจของคุณเอง (อย่างน้อย 15 ตัวอักษร)
                 </p>
 
@@ -483,24 +483,24 @@ export function PivotWorkshop({
                     onChange={(e) => setRewriteInput(e.target.value)}
                     placeholder="เขียนอธิบายว่าคุณจะนำแนวทางนี้ไปปรับใช้อย่างไร..."
                     rows={3}
-                    className="w-full p-3 rounded-xl border border-slate-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-xs sm:text-sm text-slate-900 outline-hidden font-prompt resize-none"
+                    className="w-full p-3 rounded-xl border border-control focus:border-risk/40 focus:ring-2 focus:ring-rose-200 text-caption sm:text-callout text-ink outline-hidden resize-none"
                   />
 
                   {rewriteError && (
-                    <div className="flex items-center gap-1.5 p-2 rounded-lg bg-rose-50 text-rose-700 text-xs font-medium">
+                    <div className="flex items-center gap-1.5 p-2 rounded-lg bg-risk-tint text-risk text-caption font-medium">
                       <AlertCircle className="w-4 h-4 shrink-0" />
                       <span>{rewriteError}</span>
                     </div>
                   )}
 
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-                    <span className="text-[11px] text-slate-400">
+                    <span className="text-caption text-ink-3">
                       จำนวนตัวอักษร: {rewriteInput.trim().length} / 15
                     </span>
                     <button
                       type="submit"
                       disabled={rewriteInput.trim().length < 15}
-                      className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm transition-all shadow-xs flex items-center justify-center gap-2"
+                      className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl bg-risk hover:bg-risk disabled:opacity-50 text-white font-bold text-caption sm:text-callout transition-all shadow-e1 flex items-center justify-center gap-2"
                     >
                       <CheckCircle className="w-4 h-4" />
                       <span>บันทึกการปรับมุมมองใหม่</span>
@@ -510,25 +510,25 @@ export function PivotWorkshop({
               </div>
             </div>
           ) : (
-            <p className="text-xs text-slate-500 italic text-center pt-1">
-              👆 คลิกเลือกแนวทางมุมมองใหม่ด้านบน 1 ข้อ เพื่อเข้าสู่ด่านเรียบเรียงไอเดีย
+            <p className="text-caption text-ink-3 italic text-center pt-1">
+              คลิกเลือกแนวทางมุมมองใหม่ด้านบน 1 ข้อ เพื่อเข้าสู่ด่านเรียบเรียงไอเดีย
             </p>
           )}
 
           {/* Success Banner */}
           {savedSuccess && (
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs sm:text-sm font-prompt space-y-2">
+            <div className="p-4 rounded-2xl bg-good-tint border border-good/30 text-good text-caption sm:text-callout space-y-2">
               <div className="flex items-center gap-2 font-bold">
-                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle className="w-4 h-4 text-good shrink-0" />
                 <span>บันทึกการปรับปรุงมุมมองใหม่ลงในโครงงานเรียบร้อยแล้ว!</span>
               </div>
-              <p className="text-xs text-emerald-700">
+              <p className="text-caption text-good">
                 คุณสามารถประเมินโครงงานใหม่อีกครั้งเพื่อดูคะแนนที่อัปเดต หรือเดินทางต่อไปยังหน้าข้อเสนอโครงงาน (Proposal) ได้ทันที
               </p>
               <div className="pt-1 flex flex-wrap gap-2">
                 <Link
                   href={`/proposal?ideaId=${state.originalIdea.id}`}
-                  className="min-h-[40px] px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs inline-flex items-center gap-1.5"
+                  className="min-h-[40px] px-4 py-2 rounded-xl bg-good hover:bg-good text-white font-bold text-caption transition-all shadow-e1 inline-flex items-center gap-1.5"
                 >
                   <span>ไปเขียนข้อเสนอโครงงานต่อ (Proposal) →</span>
                 </Link>

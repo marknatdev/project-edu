@@ -39,20 +39,20 @@ function VariablesContent() {
     }
   }
 
-  if (!ready) return <p className="p-6 text-sm">กำลังโหลดไอเดีย...</p>;
+  if (!ready) return <p className="p-6 text-callout">กำลังโหลดไอเดีย...</p>;
   if (!idea) return <div className="mx-auto max-w-xl space-y-4 p-4">
     <h1 className="text-xl font-bold">ยังไม่พบไอเดียสำหรับตารางแยกตัวแปร</h1>
-    <Link href="/idea" className="inline-flex min-h-[44px] items-center rounded-xl bg-indigo-600 px-4 text-white">พัฒนาไอเดียกับครูที่ปรึกษา</Link>
+    <Link href="/idea" className="inline-flex min-h-[44px] items-center rounded-xl bg-accent px-4 text-white">พัฒนาไอเดียกับครูที่ปรึกษา</Link>
   </div>;
 
-  return <div className="mx-auto max-w-4xl space-y-5 pb-24 font-prompt break-words">
-    <p className="rounded-2xl border border-indigo-100 bg-white p-4 text-sm text-slate-700">ไอเดีย: <strong>{idea.title}</strong></p>
+  return <div className="mx-auto max-w-4xl space-y-5 pb-24 break-words">
+    <p className="rounded-2xl border border-accent/30 bg-surface p-4 text-callout text-ink-2">ไอเดีย: <strong>{idea.title}</strong></p>
     <VariableIsolatorCanvas key={idea.id} idea={idea} onSave={(isolator) => persist({ isolator })} />
-    {message && <p role="status" className="rounded-2xl border border-indigo-200 bg-white p-3 text-sm">{message}</p>}
+    {message && <p role="status" className="rounded-2xl border border-accent/30 bg-surface p-3 text-callout">{message}</p>}
     <SafetyChecklist flags={screenIdea(idea)} completed={idea.safetyChecklist ?? []} onChange={(safetyChecklist) => persist({ safetyChecklist })} />
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <Link className="flex min-h-[44px] items-center justify-center rounded-2xl bg-indigo-600 p-3 text-sm font-bold text-white" href={`/evaluation?ideaId=${encodeURIComponent(idea.id)}`}>ไปประเมิน 5 ด้าน →</Link>
-      <Link className="flex min-h-[44px] items-center justify-center rounded-2xl border border-indigo-200 bg-white p-3 text-sm font-bold text-indigo-700" href={`/proposal?ideaId=${encodeURIComponent(idea.id)}`}>ร่าง Proposal ต่อ (ไม่ปิดกั้น)</Link>
+      <Link className="flex min-h-[44px] items-center justify-center rounded-2xl bg-accent p-3 text-callout font-bold text-white" href={`/evaluation?ideaId=${encodeURIComponent(idea.id)}`}>ไปประเมิน 5 ด้าน →</Link>
+      <Link className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/30 bg-surface p-3 text-callout font-bold text-accent-text" href={`/proposal?ideaId=${encodeURIComponent(idea.id)}`}>ร่าง Proposal ต่อ (ไม่ปิดกั้น)</Link>
     </div>
   </div>;
 }

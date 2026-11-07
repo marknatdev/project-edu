@@ -68,7 +68,7 @@ export function WorkspaceBoundary({ children }: { children: React.ReactNode }) {
   if (error && !session) return <p role="alert">{error}</p>;
   if (!session) return <p role="status">กำลังตรวจสอบพื้นที่งาน…</p>;
   return <>
-    {error && <aside role="alert" className="relative z-40 mb-4 border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">{error}</aside>}
+    {error && <aside role="alert" className="relative z-40 mb-4 border border-caution/30 bg-caution-tint p-3 text-callout text-caution">{error}</aside>}
     {children}
   </>;
 }

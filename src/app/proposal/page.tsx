@@ -35,8 +35,8 @@ import '@/components/export/document.css';
 
 type ActiveTab = 'proposal' | 'plan' | 'tcas' | 'pitch' | 'advisor';
 const documentTabs: { id: ActiveTab; label: string }[] = [
-  { id: 'proposal', label: '📑 Proposal' }, { id: 'plan', label: '🗓️ Plan รายสัปดาห์' },
-  { id: 'tcas', label: '🎓 พอร์ต TCAS' }, { id: 'pitch', label: '🎙️ Abstract & Pitch' }, { id: 'advisor', label: '✍️ ครูตรวจ' },
+  { id: 'proposal', label: 'Proposal' }, { id: 'plan', label: 'Plan รายสัปดาห์' },
+  { id: 'tcas', label: 'พอร์ต TCAS' }, { id: 'pitch', label: 'Abstract & Pitch' }, { id: 'advisor', label: 'ครูตรวจ' },
 ];
 
 function ProposalContent() {
@@ -300,13 +300,13 @@ function ProposalContent() {
     setTimeout(() => setIsSaving(false), 300);
   };
 
-  if (wiped) return <p role="status" className="max-w-2xl mx-auto px-4 py-12 text-center text-sm">ลบข้อมูลแล้ว กรุณาโหลดหน้าใหม่ก่อนเริ่มโครงงาน</p>;
+  if (wiped) return <p role="status" className="max-w-2xl mx-auto px-4 py-12 text-center text-callout">ลบข้อมูลแล้ว กรุณาโหลดหน้าใหม่ก่อนเริ่มโครงงาน</p>;
 
   if (!mounted) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-12 text-center">
-        <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-xs text-slate-500 font-medium font-prompt">
+        <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-caption text-ink-3 font-medium">
           กำลังโหลดพื้นที่ทำงานโครงงาน...
         </p>
       </div>
@@ -319,23 +319,23 @@ function ProposalContent() {
       <div className="flex items-center justify-between gap-2">
         <Link
           href={activeProject?.ideaId ? `/evaluation?ideaId=${activeProject.ideaId}` : '/idea'}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-indigo-600 transition min-h-[40px] px-2"
+          className="inline-flex items-center gap-1.5 text-caption font-semibold text-ink-2 hover:text-accent-text transition min-h-[40px] px-2"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>กลับไปหน้าประเมิน / ไอเดีย</span>
         </Link>
 
-        <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+        <span className="text-caption font-medium text-ink-3 bg-surface-2 px-2.5 py-1 rounded-full">
           ม.ต้น & ม.ปลาย
         </span>
       </div>
 
       {/* Page Title & Mission */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-prompt">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-ink">
           Proposal, พอร์ต & ครูอนุมัติ
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+        <p className="text-caption sm:text-callout text-ink-2 mt-1 leading-relaxed">
           จัดเอกสารจากคำตอบจริงของผู้เรียน: Proposal + Plan • พอร์ต TCAS • Abstract & Pitch • ส่งครูตรวจ
         </p>
       </div>
@@ -352,9 +352,9 @@ function ProposalContent() {
         onDeleteProject={handleDeleteProject}
       />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 p-1.5 bg-slate-100 rounded-2xl gap-1" aria-label="ประเภทเอกสาร">
+      <div className="grid grid-cols-2 sm:grid-cols-3 p-1.5 bg-surface-2 rounded-2xl gap-1" aria-label="ประเภทเอกสาร">
         {documentTabs.map(tab => <button key={tab.id} type="button" aria-pressed={activeTab === tab.id}
-          onClick={() => setActiveTab(tab.id)} className={`min-h-11 rounded-xl p-3 text-xs sm:text-sm font-bold transition ${activeTab === tab.id ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-600 hover:bg-white/60'}`}>{tab.label}</button>)}
+          onClick={() => setActiveTab(tab.id)} className={`min-h-11 rounded-xl p-3 text-caption sm:text-callout font-bold transition ${activeTab === tab.id ? 'bg-surface text-accent-text shadow-e1' : 'text-ink-2 hover:bg-surface'}`}>{tab.label}</button>)}
       </div>
 
       {/* Tab Panels */}
@@ -378,9 +378,9 @@ function ProposalContent() {
           />
         ) : null
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-8 text-center space-y-3">
-          <p className="text-sm text-slate-500">ยังไม่ได้เลือกโครงงาน</p>
-          {quotaStatus?.ownerChanged && <p role="alert" className="text-sm text-amber-900">{quotaStatus.messageTh}</p>}
+        <div className="bg-surface rounded-3xl border border-separator p-8 text-center space-y-3">
+          <p className="text-callout text-ink-3">ยังไม่ได้เลือกโครงงาน</p>
+          {quotaStatus?.ownerChanged && <p role="alert" className="text-callout text-caution">{quotaStatus.messageTh}</p>}
         </div>
       )}
       {activeProject && <ProjectDeliverables key={`${activeProject.id}:${activeProject.updatedAt}`} project={activeProject} view={activeTab} />}
@@ -393,8 +393,8 @@ export default function ProposalPage() {
     <Suspense
       fallback={
         <div className="max-w-2xl mx-auto px-4 py-12 text-center">
-          <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-xs text-slate-500 font-medium font-prompt">
+          <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-caption text-ink-3 font-medium">
             กำลังโหลดข้อมูลข้อเสนอโครงงาน...
           </p>
         </div>
