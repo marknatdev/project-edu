@@ -85,7 +85,7 @@ jobs:
         run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
 
       - name: Push migrations
-        run: supabase db push --password "$SUPABASE_DB_PASSWORD"
+        run: supabase db push --remote --password "$SUPABASE_DB_PASSWORD" --include-all --yes
 
   deploy-vercel:
     name: Deploy to Vercel (Production)
