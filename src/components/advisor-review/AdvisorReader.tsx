@@ -27,13 +27,13 @@ export function AdvisorReader() {
     return () => { cancelled = true; window.removeEventListener('hashchange', load); };
   }, []);
   return <main className="document-reader mx-auto max-w-4xl px-4 py-6 sm:p-8 space-y-5">
-    <header className="print-controls rounded-3xl bg-indigo-600 p-5 text-white space-y-2">
-      <p className="text-xs font-bold text-indigo-100">ADVISOR REVIEW · ไม่ต้องล็อกอิน</p>
-      <h1 className="text-xl font-bold">สำเนาอ่านอย่างเดียวสำหรับครูที่ปรึกษา</h1>
-      <p className="text-sm leading-relaxed">Proposal + Plan และเทมเพลต ณ ตอนส่งตรวจ แก้ไขไม่ได้ ไม่เชื่อมกับพื้นที่ทำงาน ไม่มีระบบส่งผลอัตโนมัติหรือยืนยันตัวตน ใครที่มีลิงก์ก็อ่านและสร้างผลตอบกลับได้ ไม่ใช่อนุมัติความปลอดภัยหรือเกณฑ์การแข่งขัน</p>
+    <header className="print-controls rounded-3xl bg-accent p-5 text-white space-y-2">
+      <p className="text-caption font-bold text-accent-tint">สำหรับครูที่ปรึกษา · ไม่ต้องเข้าสู่ระบบ</p>
+      <h1 className="text-headline font-bold">สำเนาอ่านอย่างเดียวสำหรับครูที่ปรึกษา</h1>
+      <p className="text-body">ข้อเสนอโครงงานและแผนงาน และเทมเพลต ณ ตอนส่งตรวจ แก้ไขไม่ได้ ไม่เชื่อมกับพื้นที่ทำงาน ไม่มีระบบส่งผลอัตโนมัติหรือยืนยันตัวตน ใครที่มีลิงก์ก็อ่านและสร้างผลตอบกลับได้ ไม่ใช่อนุมัติความปลอดภัยหรือเกณฑ์การแข่งขัน</p>
     </header>
     {loading && <p role="status">กำลังเปิดสำเนาเอกสาร…</p>}
-    {error && <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-950">{error}</p>}
+    {error && <p role="alert" className="rounded-xl bg-caution-tint p-4 text-callout text-caution">{error}</p>}
     {request && <><ProposalDocument snapshot={request.snapshot} /><AdvisorDecisionForm key={request.requestId} request={request} /></>}
   </main>;
 }

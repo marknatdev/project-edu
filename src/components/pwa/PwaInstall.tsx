@@ -29,9 +29,9 @@ export function PwaInstall() {
   }, []);
 
   if (!prompt) return null;
-  return <aside className="print-controls flex flex-wrap justify-center items-center gap-2 bg-indigo-50 border-b border-indigo-100 p-2 text-xs">
+  return <aside className="print-controls flex flex-wrap justify-center items-center gap-2 bg-accent-tint border-b border-accent/30 p-2 text-caption">
     <span>เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)</span>
-    <button className="min-h-[44px] px-4 rounded-xl bg-indigo-600 text-white font-semibold" onClick={async () => {
+    <button className="min-h-[44px] px-4 rounded-xl bg-accent text-white font-semibold" onClick={async () => {
       try { await prompt.prompt(); await prompt.userChoice; }
       catch { /* Browser menu remains available if the prompt is unavailable. */ }
       finally { setPrompt(null); }

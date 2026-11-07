@@ -11,7 +11,7 @@ import { PresentationDocument } from '@/components/export/PresentationDocument';
 import { AdvisorReviewPanel } from '@/components/advisor-review/AdvisorReviewPanel';
 import { PresentationNotesEditor } from './PresentationNotesEditor';
 
-export function ProjectDeliverables({ project, view }: { project: Project; view: 'proposal' | 'plan' | 'tcas' | 'pitch' | 'advisor' }) {
+export function ProjectDeliverables({ project, view }: { project: Project; view: 'proposal' | 'plan' | 'export' | 'tcas' | 'pitch' | 'advisor' }) {
   const [notes, setNotes] = useState<PresentationNotes | null>(null);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState('');
@@ -54,7 +54,7 @@ export function ProjectDeliverables({ project, view }: { project: Project; view:
   }, []);
 
   if (wiped) return <p role="status">ลบข้อมูลแล้ว กรุณาเปิดโครงงานใหม่ก่อนแก้ไขหรือส่งออก</p>;
-  if (error) return <p role="alert" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-950">{error}</p>;
+  if (error) return <p role="alert" className="rounded-xl bg-caution-tint p-4 text-callout text-caution">{error}</p>;
   if (!ready || !context || context.projectId !== project.id) return <p role="status">กำลังโหลดเอกสาร…</p>;
   return <div className="space-y-5 min-w-0">
     {(view === 'tcas' || view === 'pitch') && <>
@@ -67,6 +67,6 @@ export function ProjectDeliverables({ project, view }: { project: Project; view:
       <div className="proposal-document"><PresentationDocument input={{ ...project, ...(notes ? { presentationNotes: notes } : {}) }} view={view} /></div>
     </>}
     {view === 'advisor' && <AdvisorReviewPanel project={project} />}
-    <ExportPanel key={`${project.id}:${project.updatedAt}:${JSON.stringify(notes)}`} project={project} presentationNotes={notes ?? undefined} />
+    {view !== 'proposal' && view !== 'plan' && <ExportPanel key={`${project.id}:${project.updatedAt}:${JSON.stringify(notes)}`} project={project} presentationNotes={notes ?? undefined} />}
   </div>;
 }

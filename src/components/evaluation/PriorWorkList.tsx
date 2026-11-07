@@ -11,12 +11,12 @@ export interface PriorWorkListProps {
 export function PriorWorkList({ priorWork }: PriorWorkListProps) {
   if (priorWork.length === 0) {
     return (
-      <div className="rounded-3xl border border-slate-200 bg-white p-5 text-center space-y-2 shadow-xs">
-        <BookOpen className="w-8 h-8 text-slate-300 mx-auto" />
-        <h4 className="text-sm font-bold text-slate-700 font-prompt">
+      <div className="rounded-3xl border border-separator bg-surface p-5 text-center space-y-2 shadow-e1">
+        <BookOpen className="w-8 h-8 text-ink-3 mx-auto" />
+        <h4 className="text-callout font-bold text-ink-2">
           ยังไม่พบผลงานอ้างอิงที่ตรงกันโดยตรงในคลังข้อมูล
         </h4>
-        <p className="text-xs text-slate-500 font-prompt max-w-md mx-auto">
+        <p className="text-caption text-ink-3 max-w-md mx-auto">
           ระบบคัดเลือกเฉพาะโครงงานจริงจากเวทีประกวดไทย (YSC, NSC, ISEF) และวารสารวิจัย ThaiJO ที่มี URL ตรวจสอบได้เท่านั้น ห้าม AI แต่งอ้างอิงเองเด็ดขาด
         </p>
       </div>
@@ -28,15 +28,15 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
       {/* Header Note */}
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h3 className="text-base sm:text-lg font-bold text-slate-900 font-prompt flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-indigo-600" />
-            <span>งานวิจัยและโครงงานเดิมที่ใกล้เคียง (Verified Prior Work)</span>
+          <h3 className="text-body sm:text-headline font-bold text-ink flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-accent-text" />
+            <span>งานวิจัยและโครงงานเดิมที่ใกล้เคียง</span>
           </h3>
-          <p className="text-xs text-slate-500 font-prompt mt-0.5">
+          <p className="text-caption text-ink-3 mt-0.5">
             คัดสรรจากฐานข้อมูลโครงงานประกวดจริงและวารสารวิจัยไทย • มีลิงก์ตรวจสอบได้ทุกชิ้น
           </p>
         </div>
-        <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold font-prompt border border-indigo-100">
+        <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent-tint text-accent-text text-caption font-bold border border-accent/30">
           <CheckCircle className="w-3.5 h-3.5" />
           <span>{priorWork.length} ผลงาน</span>
         </span>
@@ -47,38 +47,38 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
         {priorWork.map((item) => (
           <div
             key={item.id}
-            className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs space-y-3 hover:border-indigo-200 transition-all"
+            className="rounded-3xl border border-separator bg-surface p-4 sm:p-5 shadow-e1 space-y-3 hover:border-accent/30 transition-all"
           >
             {/* Top row: Venue badge and Year */}
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-800 text-[11px] font-bold font-prompt">
-                <Award className="w-3.5 h-3.5 text-indigo-600" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent-tint border border-accent/30 text-accent-text text-caption font-bold">
+                <Award className="w-3.5 h-3.5 text-accent-text" />
                 <span>{item.competitionOrVenue}</span>
               </div>
-              <span className="text-xs text-slate-400 font-mono font-medium">
+              <span className="text-caption text-ink-3 font-mono font-medium">
                 ปี {item.year}
               </span>
             </div>
 
             {/* Title */}
             <div>
-              <h4 className="text-sm sm:text-base font-bold text-slate-900 font-prompt leading-snug">
+              <h4 className="text-callout sm:text-body font-bold text-ink leading-snug">
                 {item.title}
               </h4>
-              <p className="text-xs text-slate-500 font-prompt mt-1">
+              <p className="text-caption text-ink-3 mt-1">
                 <strong>คณะผู้จัดทำ:</strong> {item.authors}
               </p>
             </div>
 
             {/* Summary & Difference */}
-            <div className="space-y-1.5 text-xs sm:text-sm font-prompt bg-slate-50 p-3 rounded-2xl border border-slate-100">
-              <p className="text-slate-700 leading-relaxed">
-                <strong className="text-slate-900">สรุปผลงาน: </strong>
+            <div className="space-y-1.5 text-caption sm:text-callout bg-surface-2 p-3 rounded-2xl border border-separator">
+              <p className="text-ink-2 leading-relaxed">
+                <strong className="text-ink">สรุปผลงาน: </strong>
                 {item.summary}
               </p>
               {item.difference && (
-                <p className="text-indigo-900 leading-relaxed pt-1 border-t border-slate-200/60">
-                  <strong className="text-indigo-950">จุดที่โครงงานนี้พัฒนาต่อ/แตกต่าง: </strong>
+                <p className="text-accent-text leading-relaxed pt-1 border-t border-separator">
+                  <strong className="text-ink">จุดที่โครงงานนี้พัฒนาต่อ/แตกต่าง: </strong>
                   {item.difference}
                 </p>
               )}
@@ -90,10 +90,10 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 font-bold font-prompt text-xs sm:text-sm border border-slate-200 hover:border-indigo-200 transition-all w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-2xl bg-surface-2 hover:bg-accent-tint text-ink-2 hover:text-accent-text font-bold text-caption sm:text-callout border border-separator hover:border-accent/30 transition-all w-full sm:w-auto"
                 aria-label={`เปิดอ่านผลงาน ${item.title} บนหน้าเว็บต้นทาง`}
               >
-                <span>เปิดดูหลักฐานผลงานต้นฉบับ (Verifiable URL)</span>
+                <span>เปิดดูหลักฐานผลงานต้นฉบับ</span>
                 <ExternalLink className="w-4 h-4 shrink-0" />
               </a>
             </div>

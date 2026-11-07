@@ -1,22 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Prompt, Plus_Jakarta_Sans } from "next/font/google";
+import { IBM_Plex_Sans_Thai, IBM_Plex_Sans_Thai_Looped } from "next/font/google";
 import "./globals.css";
 import { PwaInstall } from '@/components/pwa/PwaInstall';
 import { WorkspaceBoundary } from '@/components/auth/WorkspaceBoundary';
 
-const prompt = Prompt({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["thai", "latin"],
-  variable: "--font-prompt",
-  display: "swap",
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  weight: ["500", "600", "700", "800"],
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-  display: "swap",
-});
+// Design System v2: loopless face for headings, looped face for reading text (Thai readers favour looped body text).
+const head = IBM_Plex_Sans_Thai({ weight: ["500", "600", "700"], subsets: ["thai", "latin"], variable: "--font-head", display: "swap" });
+const body = IBM_Plex_Sans_Thai_Looped({ weight: ["400", "500", "600"], subsets: ["thai", "latin"], variable: "--font-body", display: "swap" });
 
 export const metadata: Metadata = {
   manifest: '/manifest.json',
@@ -27,7 +17,7 @@ export const metadata: Metadata = {
   description: "แอปช่วยนักเรียน ม.ต้น/ม.ปลาย เริ่มต้นโครงงาน ตั้งแต่หาหัวข้อจนได้ข้อเสนอโครงงาน",
 };
 
-export const viewport: Viewport = { themeColor: '#4F46E5', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#F6F6F3', width: 'device-width', initialScale: 1 };
 
 export default function RootLayout({
   children,
@@ -35,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th" className={`${prompt.variable} ${plusJakartaSans.variable}`}>
+    <html lang="th" className={`${head.variable} ${body.variable}`}>
       <body className="font-sans antialiased"><PwaInstall /><WorkspaceBoundary>{children}</WorkspaceBoundary></body>
     </html>
   );

@@ -12,7 +12,7 @@ import { FreshDiscovery } from '@/components/discovery/FreshDiscovery';
 export default function DiscoveryPage() {
   return (
     <AppShell>
-      <Suspense fallback={<div className="p-8 text-center font-prompt text-sm text-slate-500">กำลังโหลดการค้นหาเรื่องที่อยากทำ…</div>}>
+      <Suspense fallback={<div className="p-8 text-center text-callout text-ink-3">กำลังโหลดการค้นหาเรื่องที่อยากทำ…</div>}>
         <FreshDiscovery />
       </Suspense>
     </AppShell>

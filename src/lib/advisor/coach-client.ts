@@ -38,7 +38,7 @@ async function sendCoachTurn(params: CoachApiRequest): Promise<CoachApiResponse>
     if (!parsed.success) return { success: false, error: 'ข้อมูลบทสนทนาจากเซิร์ฟเวอร์ไม่สมบูรณ์ ข้อความของคุณยังอยู่' };
     return { success: true, data: parsed.data.turn, conversation: parsed.data.conversation };
   } catch {
-    return { success: false, error: 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ เก็บข้อความเป็นฉบับร่างแล้ว ยังไม่ปลดล็อกระดับคำแนะนำ' };
+    return { success: false, error: 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ เก็บข้อความเป็นฉบับร่างแล้ว' };
   }
 }
 export async function deleteServerCoaching(): Promise<void> {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { Project } from '@/types/domain';
 import { advisorReviewMatches, beginAdvisorReview, importAdvisorDecision, readAdvisorReview, type AdvisorReviewRecord } from '@/lib/advisor-review/review-store';
 
-const button = 'min-h-11 rounded-xl px-4 py-3 text-sm font-semibold disabled:opacity-50';
+const button = 'min-h-11 rounded-xl px-4 py-3 text-callout font-semibold disabled:opacity-50';
 
 export function AdvisorReviewPanel({ project }: { project: Project }) {
   const [record, setRecord] = useState<AdvisorReviewRecord | null>(null);
@@ -52,34 +52,34 @@ export function AdvisorReviewPanel({ project }: { project: Project }) {
     } catch (e) { setError(e instanceof Error ? e.message : 'นำเข้าผลไม่สำเร็จ โปรดลองใหม่'); }
     finally { setBusy(false); }
   }
-  return <section aria-labelledby="advisor-heading" className="rounded-3xl border border-indigo-100 bg-white p-5 space-y-4 min-w-0">
-    <h2 id="advisor-heading" className="text-lg font-bold">ครูที่ปรึกษาตรวจ & ส่งผลกลับ</h2>
-    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950">
+  return <section aria-labelledby="advisor-heading" className="rounded-3xl border border-accent/30 bg-surface p-5 space-y-4 min-w-0">
+    <h2 id="advisor-heading" className="text-headline font-bold">ครูที่ปรึกษาตรวจ & ส่งผลกลับ</h2>
+    <div className="rounded-2xl border border-caution/30 bg-caution-tint p-4 text-callout leading-relaxed text-caution">
       <p className="font-bold">ไม่มีระบบหลังบ้าน · ไม่ยืนยันตัวตน · ไม่ใช่ลายเซ็นดิจิทัล</p>
       <p>ครูเปิดสำเนาอ่านอย่างเดียวโดยไม่ล็อกอิน ให้ความเห็นแล้วส่งรหัส/ลิงก์กลับ นักเรียนต้องวางรหัสที่นี่จึงบันทึกผลได้ ไม่ซิงก์อัตโนมัติ และใครที่มีลิงก์ก็สร้างผลตอบกลับได้</p>
       <p className="mt-2">“อนุมัติ” หมายถึงผลตอบกลับต่อเอกสารฉบับนี้เท่านั้น ไม่ใช่อนุมัติความปลอดภัย SRC/IRB หรือรับรองการสมัครแข่งขัน ต้องยืนยันกับครูจริงก่อนลงมือทดลอง</p>
     </div>
-    <div className="rounded-2xl bg-slate-50 p-4 text-sm" aria-live="polite">
+    <div className="rounded-2xl bg-surface-2 p-4 text-callout" aria-live="polite">
       <p className="font-bold">สถานะ: {!ready ? 'กำลังโหลด…' : !record ? 'ยังไม่ได้ส่งตรวจ' : !matches ? 'เอกสารเปลี่ยนแล้ว — ต้องส่งตรวจใหม่' : !record.decision ? 'รอวางรหัสส่งกลับจากครู' : record.decision.decision === 'approved' ? 'ได้รับผล “อนุมัติ” (ไม่ยืนยันตัวตน)' : 'ได้รับผล “ขอให้แก้ไข” (ไม่ยืนยันตัวตน)'}</p>
       {record?.decision && <div className="mt-2 space-y-1 break-words">
         {!matches && <p>ผลเก่าด้านล่างไม่ครอบคลุมฉบับปัจจุบัน</p>}
         <p className="whitespace-pre-wrap">ความเห็น: {record.decision.comment || '(ไม่มีความเห็น)'}</p>
-        <p className="text-xs text-slate-500">เวลาที่ผู้ตอบระบุ: {new Date(record.decision.decidedAt).toLocaleString('th-TH')} (ไม่ได้ตรวจสอบ)</p>
+        <p className="text-caption text-ink-3">เวลาที่ผู้ตอบระบุ: {new Date(record.decision.decidedAt).toLocaleString('th-TH')} (ไม่ได้ตรวจสอบ)</p>
       </div>}
     </div>
-    <label className="flex min-h-11 gap-3 items-start text-sm cursor-pointer leading-relaxed">
+    <label className="flex min-h-11 gap-3 items-start text-callout cursor-pointer leading-relaxed">
       <input className="mt-1 h-5 w-5 shrink-0 accent-indigo-600" type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />
-      <span>ตรวจแล้วว่า Proposal + Plan และเทมเพลตไม่มีชื่อจริง โรงเรียน หรือข้อมูลส่วนตัว ทุกคนที่มีลิงก์อ่านและส่งต่อได้ เป็นสำเนาไม่อัปเดตและเรียกคืนไม่ได้ เนื้อหาอยู่ใน # ของ URL ไม่ส่งให้เซิร์ฟเวอร์ การสร้างคำขอใหม่แทนคำขอเดิม</span>
+      <span>ตรวจแล้วว่า ข้อเสนอโครงงานและแผนงาน และเทมเพลตไม่มีชื่อจริง โรงเรียน หรือข้อมูลส่วนตัว ทุกคนที่มีลิงก์อ่านและส่งต่อได้ เป็นสำเนาไม่อัปเดตและเรียกคืนไม่ได้ เนื้อหาอยู่ใน # ของ URL ไม่ส่งให้เซิร์ฟเวอร์ การสร้างคำขอใหม่แทนคำขอเดิม</span>
     </label>
-    <button className={`${button} w-full bg-indigo-600 text-white`} disabled={busy || !consent || !ready} onClick={share}>สร้างลิงก์ส่งครูตรวจฉบับที่บันทึกแล้ว</button>
-    {shareUrl && <label className="block text-xs font-semibold">ลิงก์ส่งครูตรวจ (เลือกทั้งหมดเพื่อคัดลอก)
-      <textarea aria-label="ลิงก์ส่งครูตรวจ" readOnly rows={3} className="mt-2 w-full min-w-0 rounded-xl border p-3 text-xs break-all" value={shareUrl} onFocus={e => e.target.select()} />
+    <button className={`${button} w-full bg-accent text-white`} disabled={busy || !consent || !ready} onClick={share}>สร้างลิงก์ส่งครูตรวจฉบับที่บันทึกแล้ว</button>
+    {shareUrl && <label className="block text-caption font-semibold">ลิงก์ส่งครูตรวจ (เลือกทั้งหมดเพื่อคัดลอก)
+      <textarea aria-label="ลิงก์ส่งครูตรวจ" readOnly rows={3} className="mt-2 w-full min-w-0 rounded-xl border p-3 text-caption break-all" value={shareUrl} onFocus={e => e.target.select()} />
     </label>}
-    <label className="block text-sm font-semibold">วางรหัส / ลิงก์ที่ครูส่งกลับ
-      <textarea aria-label="รหัสส่งกลับจากครู" rows={3} maxLength={12000} className="mt-2 w-full min-w-0 rounded-xl border p-3 text-xs break-all" value={returnCode} onChange={e => setReturnCode(e.target.value)} placeholder="วางรหัสในโครงงานที่ส่งตรวจนี้เท่านั้น" />
+    <label className="block text-callout font-semibold">วางรหัส / ลิงก์ที่ครูส่งกลับ
+      <textarea aria-label="รหัสส่งกลับจากครู" rows={3} maxLength={12000} className="mt-2 w-full min-w-0 rounded-xl border p-3 text-caption break-all" value={returnCode} onChange={e => setReturnCode(e.target.value)} placeholder="วางรหัสในโครงงานที่ส่งตรวจนี้เท่านั้น" />
     </label>
-    <button className={`${button} w-full bg-emerald-600 text-white`} disabled={busy || !returnCode.trim() || !ready} onClick={receive}>ตรวจฉบับ & บันทึกผลตอบกลับ</button>
-    {message && <p role="status" className="text-sm text-indigo-800">{message}</p>}
-    {error && <p role="alert" className="text-sm text-rose-700 break-words">{error}</p>}
+    <button className={`${button} w-full bg-good text-white`} disabled={busy || !returnCode.trim() || !ready} onClick={receive}>ตรวจฉบับ & บันทึกผลตอบกลับ</button>
+    {message && <p role="status" className="text-callout text-accent-text">{message}</p>}
+    {error && <p role="alert" className="text-callout text-risk break-words">{error}</p>}
   </section>;
 }

@@ -16,6 +16,7 @@
 
 import { z } from 'zod';
 import { callAiGateway } from './gateway';
+import { matchPriorWork, resolveMode, stripLinks } from './coach-modes';
 
 export * from '@/lib/advisor/coach-contract';
 import { COACH_ASPECTS, FALLBACK_PROMPTS, type CoachAspect, type CoachingTier, type CoachSessionState, type CoachTurnRequest, type CoachTurnResult, type CoachTurnHistory } from '@/lib/advisor/coach-contract';
@@ -46,6 +47,8 @@ export async function nextCoachTurn(
       }
     }
   }
+
+  if (request.mode) return modeTurn(state, request);
 
   // 2. Check completion: if all 4 aspects are complete OR cap of 8 reached
   const allAspectsCovered =
@@ -176,4 +179,64 @@ export async function nextCoachTurn(
     examples: finalExamples,
     state,
   };
+}
+
+const RESEARCH_FALLBACK = {
+  content: 'ลองตั้งคำค้นจากสิ่งที่คุณจะเปลี่ยนและสิ่งที่คุณจะวัด แล้วอ่านว่างานที่ใกล้เคียงทำอะไรไปแล้ว เรื่องของคุณต่างตรงไหน',
+  lenses: [
+    'คำค้น: นำชื่อตัวแปรต้นกับตัวแปรตามมาต่อกัน เช่น “แสงไฟ LED การเจริญเติบโตของพืช”',
+    'แหล่งค้น: ThaiJO, คลังโครงงาน NSC/YSC และเว็บไซต์ของ สวทช. แล้วจดชื่อเรื่องกับปีที่ทำ',
+  ],
+};
+const NO_PRIOR_WORK = 'ยังไม่มีงานในคลังที่ทีมคัดไว้ซึ่งใกล้เคียงเรื่องนี้ ลองค้นเองตามคำค้นด้านล่าง แล้วจดชื่อเรื่องกับแหล่งที่มาไว้';
+
+/**
+ * ADR 0004 mode turn: the learner picks ask / research / ideate (or auto) at any
+ * time; no tier unlock is checked. Research cites curated PRIOR_WORK ids only,
+ * ideate returns starting points that still go through the own-words rewrite.
+ */
+async function modeTurn(state: CoachSessionState, request: CoachTurnRequest): Promise<CoachTurnResult> {
+  const mode = resolveMode(request.mode, request.learnerResponse);
+  const all = COACH_ASPECTS.every(a => state.aspectProgress[a]);
+  if (mode === 'ask' && (all || state.turnCount >= 8)) {
+    state.isComplete = true;
+    return { source: 'fallback', tier: 1, mode, aspect: 'completed', content: COMPLETION_SUMMARY_THAI, state };
+  }
+  const aspect: CoachAspect = request.targetAspect && !state.aspectProgress[request.targetAspect]
+    ? request.targetAspect : COACH_ASPECTS.find(a => !state.aspectProgress[a]) ?? 'problem';
+  const tier: CoachingTier = mode === 'ask' ? 1 : mode === 'research' ? 2 : 3;
+  if (!state.unlockedTiers.includes(tier)) state.unlockedTiers.push(tier);
+  if (mode === 'ask') state.turnCount += 1;
+  if (state.turnCount >= 8) state.isComplete = true;
+
+  const prompts = FALLBACK_PROMPTS[aspect];
+  const ctx = request.ideaContext;
+  const priorWorkIds = mode === 'research'
+    ? matchPriorWork({ text: [ctx?.title, ctx?.description, request.learnerResponse].filter(Boolean).join(' '), subfieldId: ctx?.subfieldId })
+    : undefined;
+  const fallback = mode === 'ask'
+    ? { content: ctx?.title && state.history.length === 0 ? `หัวข้อ: ${ctx.title}\n${prompts.tier1}` : prompts.tier1 }
+    : mode === 'research'
+      ? { content: priorWorkIds?.length ? RESEARCH_FALLBACK.content : NO_PRIOR_WORK, lenses: RESEARCH_FALLBACK.lenses }
+      : { content: 'จุดตั้งต้นให้คุณคิดต่อ (เลือกหนึ่งแนวแล้วเขียนใหม่ด้วยภาษาของคุณ):', examples: prompts.tier3.examples };
+
+  const systemPrompt = `คุณคือครูที่ปรึกษาโครงงานวิทยาศาสตร์ คอมพิวเตอร์ และคณิตศาสตร์ ของนักเรียนมัธยม (ADR 0004)
+โหมดปัจจุบัน: ${mode === 'ask' ? 'ถาม — ตอบด้วยคำถามชวนคิดหนึ่งคำถาม ไม่เขียนโครงงานแทน' : mode === 'research'
+    ? 'ค้นคว้า — สอนว่าจะค้นอะไร ที่ไหน อ่านอย่างไร ให้คำค้น 2 ข้อใน lenses ห้ามใส่ลิงก์ ชื่อเว็บไซต์เฉพาะเจาะจงของงานวิจัย หรือชื่องานวิจัยที่แต่งขึ้น'
+    : 'คิดไอเดีย — ชวนระดมความคิด และเสนอทิศทางสั้น ๆ 2 ข้อใน examples เป็นจุดตั้งต้น ไม่ใช่โครงงานสำเร็จรูป'}
+ตอบเป็นภาษาไทยที่เป็นมิตร กระชับ เหมาะกับนักเรียนมัธยม`;
+  const userPrompt = `หัวข้อ: ${ctx?.title ?? 'โครงงานของนักเรียน'}
+คำอธิบาย: ${ctx?.description ?? 'ยังไม่มีรายละเอียด'}
+ระดับชั้น: ${ctx?.gradeLevel ?? 'ไม่ระบุ'} · เป้าหมาย: ${ctx?.goal ?? 'curiosity'}
+ข้อจำกัดที่ทราบแล้ว (ไม่ถามซ้ำ): ${JSON.stringify(ctx?.constraints ?? {})}
+ประเด็นที่ยังขาด: ${aspect}
+ข้อความล่าสุดของนักเรียน: ${request.learnerResponse ?? 'เพิ่งเริ่มคุย'}
+ตอบในรูปแบบ JSON ตาม Schema`;
+  const result = await callAiGateway({ schema: AiCoachResponseSchema, prompt: userPrompt, systemPrompt, fallback: () => fallback });
+  const content = stripLinks(result.data.content || fallback.content) || fallback.content;
+  const lenses = mode === 'research' ? (result.data.lenses?.length ? result.data.lenses.map(stripLinks).filter(Boolean) : fallback.lenses) : undefined;
+  const examples = mode === 'ideate' ? (result.data.examples?.length ? result.data.examples.map(stripLinks).filter(Boolean) : fallback.examples) : undefined;
+  state.history.push({ turnIndex: state.history.length + 1, tier, mode, aspect, content, lenses, examples,
+    ...(priorWorkIds ? { priorWorkIds } : {}), timestamp: new Date().toISOString(), source: result.source });
+  return { source: result.source, tier, mode, aspect, content, lenses, examples, ...(priorWorkIds ? { priorWorkIds } : {}), state };
 }

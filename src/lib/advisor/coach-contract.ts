@@ -18,9 +18,18 @@ export interface CoachAspectProgress {
 
 export type CoachingTier = 1 | 2 | 3;
 
+/** ADR 0004 chat modes. `auto` is resolved to one of the other three per turn. */
+export const COACH_MODES = ['auto', 'ask', 'research', 'ideate'] as const;
+export type CoachMode = (typeof COACH_MODES)[number];
+export type ResolvedCoachMode = Exclude<CoachMode, 'auto'>;
+
 export interface CoachTurnHistory {
   turnIndex: number;
   tier: CoachingTier;
+  /** Set for ADR 0004 mode turns; legacy rows have only `tier`. */
+  mode?: ResolvedCoachMode;
+  /** Research mode: ids from src/data/prior-work.ts only. */
+  priorWorkIds?: string[];
   aspect?: CoachAspect;
   content: string;
   lenses?: string[];
@@ -41,7 +50,9 @@ export interface CoachSessionState {
 }
 
 export interface CoachTurnRequest {
-  requestedTier?: CoachingTier; // default 1
+  /** ADR 0004: when set, the turn follows the chat mode and the tier ladder is not used. */
+  mode?: CoachMode;
+  requestedTier?: CoachingTier; // legacy ladder, default 1
   learnerResponse?: string; // response to the previous turn
   targetAspect?: CoachAspect; // optional explicit target
   ideaContext?: {
@@ -58,6 +69,8 @@ export interface CoachTurnResult {
   source: 'ai' | 'fallback';
   tier: CoachingTier;
   tierDowngraded?: boolean;
+  mode?: ResolvedCoachMode;
+  priorWorkIds?: string[];
   aspect: CoachAspect | 'completed';
   content: string;
   lenses?: string[];

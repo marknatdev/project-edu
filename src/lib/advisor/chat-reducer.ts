@@ -3,6 +3,7 @@ import {
   type CoachAspect,
   type CoachAspectProgress,
   type CoachingTier,
+  type ResolvedCoachMode,
 } from '@/lib/advisor/coach-contract';
 import { IdeaSchema, IdeaVariablesLiteSchema } from '@/lib/schemas';
 import { saveIdea } from '@/lib/storage/store';
@@ -19,7 +20,7 @@ import type { CoachConversation, CoachLocalWork } from './coach-dto';
 export type ChatPhase = 'chatting' | 'rewrite' | 'variables' | 'done';
 export interface ChatMessage {
   id: string; role: 'coach' | 'student'; content: string;
-  tier?: CoachingTier; aspect?: CoachAspect; lenses?: string[]; examples?: string[];
+  tier?: CoachingTier; mode?: ResolvedCoachMode; priorWorkIds?: string[]; aspect?: CoachAspect; lenses?: string[]; examples?: string[];
   timestamp: string; source?: 'ai' | 'fallback'; unverified?: boolean;
 }
 export interface ChatState {
@@ -27,6 +28,8 @@ export interface ChatState {
   messages: ChatMessage[]; drafts: ChatMessage[]; questionCount: number;
   aspectProgress: CoachAspectProgress; unlockedTiers: CoachingTier[]; currentTier: CoachingTier;
   phase: ChatPhase; pendingTier3Example: string | null; studentRewrite: string | null;
+  /** An AI starting point the learner chose to set aside for now; still required before saving an idea. */
+  deferredExample?: string | null;
   variablesDraft: Partial<IdeaVariablesLite>; savedIdea: Idea | null;
   isWaitingForResponse: boolean; isOffline: boolean; error: string | null;
   conversation: CoachConversation | null; serverVerified: boolean;
@@ -39,6 +42,7 @@ export type ChatAction =
   | { type: 'COACH_RESPONSE_FAILURE'; error?: string }
   | { type: 'REQUEST_TIER'; tier: CoachingTier }
   | { type: 'SUBMIT_REWRITE'; rewrittenText: string }
+  | { type: 'DEFER_REWRITE' }
   | { type: 'GO_TO_VARIABLES' }
   | { type: 'SET_VARIABLES'; variables: IdeaVariablesLite }
   | { type: 'FINALIZE_IDEA'; learnerId: string };
@@ -242,20 +246,20 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
       const messages: ChatMessage[] = [];
       for (const h of conversation.state.history) {
         messages.push({ id: `coach-${conversation.id}-${h.turnIndex}`, role: 'coach', content: h.content,
-          tier: h.tier, aspect: h.aspect, lenses: h.lenses, examples: h.examples, timestamp: h.timestamp, source: h.source });
+          tier: h.tier, mode: h.mode, priorWorkIds: h.priorWorkIds, aspect: h.aspect, lenses: h.lenses, examples: h.examples, timestamp: h.timestamp, source: h.source });
         if (h.learnerResponse) messages.push({ id: `answer-${conversation.id}-${h.turnIndex}`, role: 'student', content: h.learnerResponse, timestamp: h.timestamp });
       }
       if (conversation.turn.aspect === 'completed') messages.push({ id: `complete-${conversation.revision}`, role: 'coach', content: conversation.turn.content, timestamp: new Date().toISOString() });
       const example = [...conversation.state.history].reverse().find(h => h.tier === 3 && h.examples?.length)?.examples?.[0] ?? null;
       const rewrite = example === base.pendingTier3Example ? base.studentRewrite : null;
-      const phase = example && !rewrite ? 'rewrite' : base.phase === 'done' || base.phase === 'variables'
+      const phase = example && !rewrite && example !== base.deferredExample ? 'rewrite' : base.phase === 'done' || base.phase === 'variables'
         ? base.phase : conversation.state.isComplete ? 'variables' : 'chatting';
       return { ...base, ...conversation.context, topicCard: conversation.context.topicCard ?? null,
         conversation, serverVerified: true, messages,
         drafts: base.drafts.filter(d => d.id !== action.acknowledgedDraftId),
         questionCount: conversation.state.turnCount, aspectProgress: { ...conversation.state.aspectProgress },
         unlockedTiers: [...conversation.state.unlockedTiers], currentTier: conversation.turn.tier,
-        pendingTier3Example: example, studentRewrite: rewrite, phase, isWaitingForResponse: false, isOffline: false, error: changed ? 'บทสนทนาเปลี่ยนแล้ว ข้อความเดิมเก็บเป็นฉบับร่างที่ยังไม่ยืนยัน ไม่ใช้ปลดล็อกระดับคำแนะนำ' : null };
+        pendingTier3Example: example, studentRewrite: rewrite, phase, isWaitingForResponse: false, isOffline: false, error: changed ? 'บทสนทนาเปลี่ยนแล้ว ข้อความเดิมเก็บเป็นฉบับร่างที่ยังไม่ได้ส่ง' : null };
     }
     case 'STUDENT_SEND_MESSAGE': {
       if (!action.content.trim()) return state;
@@ -264,7 +268,7 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
     }
     case 'REQUEST_STARTED': return { ...state, isWaitingForResponse: true, error: null };
     case 'COACH_RESPONSE_FAILURE': return { ...state, isWaitingForResponse: false, isOffline: true, serverVerified: false,
-      error: action.error ?? 'ยังไม่ยืนยันกับเซิร์ฟเวอร์ เก็บข้อความเป็นฉบับร่างแล้ว กรุณาเชื่อมต่อเพื่อรับคำถามและส่งคำตอบก่อนขอคำใบ้' };
+      error: action.error ?? 'ยังเชื่อมต่อเซิร์ฟเวอร์ไม่ได้ เก็บข้อความเป็นฉบับร่างแล้ว กดเชื่อมต่อใหม่แล้วส่งอีกครั้ง' };
     case 'REQUEST_TIER': {
       const check = canRequestTier(state, action.tier);
       return check.allowed ? { ...state, currentTier: action.tier, error: null } : { ...state, error: check.reasonTh ?? null };
@@ -276,6 +280,7 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
       if (!check.acceptable) return { ...state, error: check.reasonTh ?? null };
       return { ...state, studentRewrite: action.rewrittenText.trim(), phase: state.conversation?.state.isComplete ? 'variables' : 'chatting', error: null };
     }
+    case 'DEFER_REWRITE': return state.phase === 'rewrite' ? { ...state, deferredExample: state.pendingTier3Example, phase: 'chatting', error: null } : state;
     case 'GO_TO_VARIABLES': return state.pendingTier3Example && !state.studentRewrite ? state : { ...state, phase: 'variables' };
     case 'SET_VARIABLES': return validateVariablesLite(action.variables).valid
       ? { ...state, variablesDraft: action.variables, error: null } : { ...state, error: 'กรุณากรอกข้อมูลตัวแปรให้ครบถ้วนและถูกต้อง' };

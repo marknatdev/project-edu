@@ -205,7 +205,7 @@ async function run() {
       };
       seed();
       await mount(<InterviewWizard />);
-      for (let n = 0; n < 3; n++) await click('ถัดไป');
+      for (let n = 0; n < 4; n++) await click('ถัดไป');
       equal(hasButton('บันทึกและเริ่มต้นโครงงาน'), true, 'reached submit');
       wipeAllLearnerData();
       await click('บันทึกและเริ่มต้นโครงงาน');
@@ -219,7 +219,7 @@ async function run() {
       await unmount();
       seed();
       await mount(<InterviewWizard />);
-      for (let n = 0; n < 3; n++) await click('ถัดไป');
+      for (let n = 0; n < 4; n++) await click('ถัดไป');
       await click('บันทึกและเริ่มต้นโครงงาน');
       equal(getInterview() !== null, true, 'fresh submit saves');
     });

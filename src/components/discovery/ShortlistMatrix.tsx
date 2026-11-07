@@ -87,7 +87,7 @@ export function ShortlistMatrix({
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (score / 100) * circumference;
     const strokeColor =
-      score >= 80 ? 'text-emerald-500' : score >= 60 ? 'text-amber-500' : 'text-slate-400';
+      score >= 80 ? 'text-good' : score >= 60 ? 'text-caution' : 'text-ink-3';
 
     return (
       <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
@@ -96,7 +96,7 @@ export function ShortlistMatrix({
             cx="24"
             cy="24"
             r={radius}
-            className="text-slate-100"
+            className="text-separator"
             strokeWidth="4"
             stroke="currentColor"
             fill="transparent"
@@ -115,10 +115,10 @@ export function ShortlistMatrix({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="text-xs font-black font-prompt text-slate-800 leading-none">
+          <span className="text-caption font-semibold text-ink leading-none">
             {score}
           </span>
-          <span className="text-[8px] font-semibold text-slate-400">FIT</span>
+          <span className="text-[8px] font-semibold text-ink-3">FIT</span>
         </div>
       </div>
     );
@@ -126,22 +126,22 @@ export function ShortlistMatrix({
 
   if (cards.length === 0) {
     return (
-      <div className="w-full max-w-md mx-auto bg-white border border-slate-200/90 rounded-3xl p-8 text-center space-y-4 shadow-xs">
-        <div className="w-16 h-16 rounded-3xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto text-3xl">
-          🃏
+      <div className="w-full max-w-md mx-auto bg-surface border border-separator rounded-3xl p-8 text-center space-y-4 shadow-e1">
+        <div className="w-16 h-16 rounded-3xl bg-accent-tint text-accent-text flex items-center justify-center mx-auto text-large-title">
+          
         </div>
         <div className="space-y-1">
-          <h3 className="font-bold text-lg text-slate-900 font-prompt">
-            ยังไม่มีหัวข้อใน Shortlist
+          <h3 className="font-bold text-headline text-ink">
+            ยังไม่มีหัวข้อใน รายการที่สนใจ
           </h3>
-          <p className="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
+          <p className="text-caption text-ink-3 max-w-xs mx-auto leading-relaxed">
             ปัดขวา (สนใจ) หรือปัดขึ้น (อยากทำเลย) เพื่อสะสมหัวข้อโครงงานที่น่าสนใจให้ครบ 5 ใบ
           </p>
         </div>
         <button
           type="button"
           onClick={onBackToDeck}
-          className="min-h-[44px] px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs font-prompt shadow-xs inline-flex items-center gap-2 cursor-pointer transition-all"
+          className="min-h-[44px] px-6 py-2.5 rounded-xl bg-accent hover:bg-accent-press text-white font-bold text-caption shadow-e1 inline-flex items-center gap-2 cursor-pointer transition-all"
         >
           <span>ไปปัดการ์ดหัวข้อ</span>
           <span>→</span>
@@ -155,13 +155,13 @@ export function ShortlistMatrix({
       {/* 1. Header & Count */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-black text-slate-900 font-prompt flex items-center gap-2">
-            <span>📊 Shortlist เปรียบเทียบ</span>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
+          <h2 className="text-headline sm:text-headline font-semibold text-ink flex items-center gap-2">
+            <span>รายการที่สนใจ เปรียบเทียบ</span>
+            <span className="text-caption font-bold px-2 py-0.5 rounded-full bg-accent-tint text-accent-text">
               {cards.length} ใบ
             </span>
           </h2>
-          <p className="text-[11px] text-slate-500">
+          <p className="text-caption text-ink-3">
             แตะ ☐ เทียบ 2 หัวข้อเพื่อดูเคียงข้างกัน หรือเลือกหัวข้อที่ดีที่สุดไปต่อ
           </p>
         </div>
@@ -169,7 +169,7 @@ export function ShortlistMatrix({
         <button
           type="button"
           onClick={onBackToDeck}
-          className="min-h-[38px] px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center gap-1 transition-all"
+          className="min-h-11 px-3 py-1.5 rounded-xl border border-separator bg-surface hover:bg-surface-2 text-caption font-semibold text-ink-2 flex items-center gap-1 transition-all"
         >
           <Layers className="w-3.5 h-3.5" />
           <span>ปัดเพิ่ม</span>
@@ -178,31 +178,31 @@ export function ShortlistMatrix({
 
       {/* 2. Top-1 Recommendation Hero Banner */}
       {recommendation && (
-        <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-4 sm:p-5 shadow-lg border border-indigo-700/40 space-y-3 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="text-white rounded-3xl p-4 sm:p-5 shadow-e2 border border-accent space-y-3 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-accent rounded-full blur-2xl pointer-events-none" />
 
           <div className="flex items-center justify-between">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-bold">
-              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-caution text-amber-300 border border-caution/30 text-caption font-bold">
+              <Trophy className="w-3.5 h-3.5 text-caution" />
               <span>หัวข้อแนะนำอันดับ 1 สำหรับคุณ</span>
             </span>
-            <span className="text-xs font-bold text-indigo-200 font-prompt">
+            <span className="text-caption font-bold text-accent-tint">
               Fit {recommendation.item.fitScore.score}%
             </span>
           </div>
 
           <div>
-            <h3 className="font-bold text-sm sm:text-base text-white font-prompt leading-snug">
-              {recommendation.item.superLiked && '🌟 '}
+            <h3 className="font-bold text-callout sm:text-body text-white leading-snug">
+              {recommendation.item.superLiked && ''}
               {recommendation.item.card.title}
             </h3>
-            <p className="text-[11px] text-indigo-200/90 leading-relaxed mt-1 line-clamp-2">
+            <p className="text-caption text-indigo-200/90 leading-relaxed mt-1 line-clamp-2">
               {recommendation.reason}
             </p>
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <div className="text-[10px] text-indigo-300 flex items-center gap-3">
+            <div className="text-caption text-indigo-300 flex items-center gap-3">
               <span>~{recommendation.item.card.estimatedWeeks} สัปดาห์</span>
               <span>•</span>
               <span>~{recommendation.item.card.estimatedBudgetBaht.toLocaleString()} ฿</span>
@@ -211,7 +211,7 @@ export function ShortlistMatrix({
             <button
               type="button"
               onClick={() => onSelectFinalTopic(recommendation.item.card)}
-              className="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs font-prompt shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+              className="min-h-11 px-3.5 py-1.5 rounded-xl bg-caution hover:bg-caution text-ink font-bold text-caption shadow-e1 flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <span>เลือกหัวข้อนี้</span>
               <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -221,40 +221,40 @@ export function ShortlistMatrix({
       )}
 
       {/* 3. Sorting Toolbar Tabs */}
-      <div className="flex items-center justify-between gap-1 p-1 bg-slate-100 rounded-2xl">
+      <div className="flex items-center justify-between gap-1 p-1 bg-surface-2 rounded-2xl">
         <button
           type="button"
           onClick={() => setSortKey('fit')}
-          className={`flex-1 min-h-[38px] px-2 py-1.5 rounded-xl text-xs font-bold font-prompt transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 min-h-11 px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
             sortKey === 'fit'
-              ? 'bg-white text-indigo-700 shadow-xs ring-1 ring-slate-200'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-surface text-accent-text shadow-e1 ring-1 ring-separator'
+              : 'text-ink-2 hover:text-ink'
           }`}
           aria-pressed={sortKey === 'fit'}
         >
-          <span>🎯 Fit สูง</span>
+          <span>Fit สูง</span>
         </button>
 
         <button
           type="button"
           onClick={() => setSortKey('budget')}
-          className={`flex-1 min-h-[38px] px-2 py-1.5 rounded-xl text-xs font-bold font-prompt transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 min-h-11 px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
             sortKey === 'budget'
-              ? 'bg-white text-indigo-700 shadow-xs ring-1 ring-slate-200'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-surface text-accent-text shadow-e1 ring-1 ring-separator'
+              : 'text-ink-2 hover:text-ink'
           }`}
           aria-pressed={sortKey === 'budget'}
         >
-          <span>💰 ประหยัด</span>
+          <span>ประหยัด</span>
         </button>
 
         <button
           type="button"
           onClick={() => setSortKey('weeks')}
-          className={`flex-1 min-h-[38px] px-2 py-1.5 rounded-xl text-xs font-bold font-prompt transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 min-h-11 px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
             sortKey === 'weeks'
-              ? 'bg-white text-indigo-700 shadow-xs ring-1 ring-slate-200'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-surface text-accent-text shadow-e1 ring-1 ring-separator'
+              : 'text-ink-2 hover:text-ink'
           }`}
           aria-pressed={sortKey === 'weeks'}
         >
@@ -276,22 +276,22 @@ export function ShortlistMatrix({
           return (
             <div
               key={item.card.id}
-              className={`bg-white rounded-3xl p-4 sm:p-5 border transition-all space-y-3 shadow-xs ${
+              className={`bg-surface rounded-3xl p-4 sm:p-5 border transition-all space-y-3 shadow-e1 ${
                 isSelected
-                  ? 'border-indigo-500 ring-2 ring-indigo-500/20 bg-indigo-50/20'
+                  ? 'border-accent ring-2 ring-accent bg-accent-tint'
                   : isTop
-                    ? 'border-indigo-200 bg-gradient-to-b from-indigo-50/20 to-white'
-                    : 'border-slate-200/90 hover:border-slate-300'
+                    ? 'border-accent/30   to-white'
+                    : 'border-separator hover:border-control'
               }`}
             >
               {/* Card Header: Rank, Fit Ring, Title & Subfield */}
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-2.5 flex-1 min-w-0">
                   <span
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-caption font-bold shrink-0 mt-0.5 ${
                       isTop
-                        ? 'bg-amber-400 text-slate-950 font-black'
-                        : 'bg-slate-100 text-slate-600'
+                        ? 'bg-caution text-ink font-semibold'
+                        : 'bg-surface-2 text-ink-2'
                     }`}
                   >
                     {index + 1}
@@ -299,17 +299,17 @@ export function ShortlistMatrix({
 
                   <div className="space-y-0.5 min-w-0 flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[10px] font-bold text-indigo-600 uppercase">
+                      <span className="text-caption font-bold text-accent-text uppercase">
                         {getSubfieldName(item.card.subfieldId)}
                       </span>
                       {item.superLiked && (
-                        <span className="inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">
-                          <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
+                        <span className="inline-flex items-center gap-0.5 text-caption font-bold px-1.5 py-0.2 rounded-full bg-caution-tint text-caution">
+                          <Star className="w-2.5 h-2.5 fill-amber-500 text-caution" />
                           <span>อยากทำเลย</span>
                         </span>
                       )}
                     </div>
-                    <h3 className="font-bold text-sm sm:text-base text-slate-900 font-prompt leading-snug">
+                    <h3 className="font-bold text-callout sm:text-body text-ink leading-snug">
                       {item.card.title}
                     </h3>
                   </div>
@@ -320,22 +320,22 @@ export function ShortlistMatrix({
               </div>
 
               {/* Progress Meters (Time & Budget vs Learner's Constraints) */}
-              <div className="grid grid-cols-2 gap-2 bg-slate-50/80 p-2.5 rounded-2xl border border-slate-100 text-xs">
+              <div className="grid grid-cols-2 gap-2 bg-surface-2 p-2.5 rounded-2xl border border-separator text-caption">
                 {/* Time meter */}
                 <div className="space-y-1">
-                  <div className="flex items-center justify-between text-[11px] text-slate-600">
+                  <div className="flex items-center justify-between text-caption text-ink-2">
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-slate-400" />
+                      <Clock className="w-3 h-3 text-ink-3" />
                       <span>ระยะเวลา</span>
                     </span>
-                    <span className="font-bold text-slate-800">
+                    <span className="font-bold text-ink">
                       {item.card.estimatedWeeks}/{constraints.timeWeeks} สัปดาห์
                     </span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-separator rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${
-                        item.timeRatio <= 1 ? 'bg-emerald-500' : 'bg-rose-500'
+                        item.timeRatio <= 1 ? 'bg-good' : 'bg-risk'
                       }`}
                       style={{ width: `${Math.min(100, item.timeRatio * 100)}%` }}
                     />
@@ -344,19 +344,19 @@ export function ShortlistMatrix({
 
                 {/* Budget meter */}
                 <div className="space-y-1">
-                  <div className="flex items-center justify-between text-[11px] text-slate-600">
+                  <div className="flex items-center justify-between text-caption text-ink-2">
                     <span className="flex items-center gap-1">
-                      <Coins className="w-3 h-3 text-slate-400" />
+                      <Coins className="w-3 h-3 text-ink-3" />
                       <span>งบประมาณ</span>
                     </span>
-                    <span className="font-bold text-slate-800">
+                    <span className="font-bold text-ink">
                       {item.card.estimatedBudgetBaht.toLocaleString()}/{constraints.budgetBaht.toLocaleString()} ฿
                     </span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-separator rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${
-                        item.budgetRatio <= 1 ? 'bg-emerald-500' : 'bg-rose-500'
+                        item.budgetRatio <= 1 ? 'bg-good' : 'bg-risk'
                       }`}
                       style={{ width: `${Math.min(100, item.budgetRatio * 100)}%` }}
                     />
@@ -368,20 +368,20 @@ export function ShortlistMatrix({
               <div className="flex items-center justify-between flex-wrap gap-1.5 pt-0.5">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   {hasSafetyFlag ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-semibold">
-                      <AlertTriangle className="w-3 h-3 text-amber-600" />
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-caution-tint text-caution border border-caution/30 text-caption font-semibold">
+                      <AlertTriangle className="w-3 h-3 text-caution" />
                       <span>มีประเด็น SRC</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold">
-                      <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-good-tint text-good border border-good/30 text-caption font-semibold">
+                      <ShieldCheck className="w-3 h-3 text-good" />
                       <span>ปลอดภัย</span>
                     </span>
                   )}
 
                   {item.pros[0] && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 line-clamp-1 max-w-[180px]">
-                      👍 {item.pros[0]}
+                    <span className="text-caption px-2 py-0.5 rounded-full bg-accent-tint text-accent-text line-clamp-1 max-w-[180px]">
+                      {item.pros[0]}
                     </span>
                   )}
                 </div>
@@ -390,7 +390,7 @@ export function ShortlistMatrix({
                 <button
                   type="button"
                   onClick={() => toggleReasonExpand(item.card.id)}
-                  className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 cursor-pointer py-1"
+                  className="text-caption font-semibold text-accent-text hover:text-accent-text flex items-center gap-0.5 cursor-pointer py-1"
                 >
                   <span>ทำไมได้ Fit นี้?</span>
                   {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -399,46 +399,46 @@ export function ShortlistMatrix({
 
               {/* Expanded "ทำไมได้ Fit นี้" & Pros/Cons */}
               {isExpanded && (
-                <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100 text-xs space-y-2 animate-fade-in">
+                <div className="bg-surface-2 rounded-2xl p-3 border border-separator text-caption space-y-2 animate-fade-in">
                   <div className="space-y-1">
-                    <div className="font-bold text-[11px] text-slate-700">เหตุผลความเข้ากัน (Fit Breakdown):</div>
-                    <ul className="space-y-1 text-slate-600 text-[11px] pl-3 list-disc">
+                    <div className="font-bold text-caption text-ink-2">เหตุผลความเข้ากัน:</div>
+                    <ul className="space-y-1 text-ink-2 text-caption pl-3 list-disc">
                       {item.reasons.map((reason, rIdx) => (
                         <li key={rIdx}>{reason}</li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="pt-1 border-t border-slate-200/60 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
-                    <div className="space-y-0.5 text-emerald-900 bg-emerald-50/60 p-2 rounded-xl">
+                  <div className="pt-1 border-t border-separator grid grid-cols-1 sm:grid-cols-2 gap-2 text-caption">
+                    <div className="space-y-0.5 text-good bg-good-tint p-2 rounded-xl">
                       <div className="font-bold">✨ จุดเด่น / ข้อดี:</div>
-                      <div className="text-emerald-700 leading-relaxed">{item.pros.join(' • ')}</div>
+                      <div className="text-good leading-relaxed">{item.pros.join(' • ')}</div>
                     </div>
-                    <div className="space-y-0.5 text-amber-900 bg-amber-50/60 p-2 rounded-xl">
-                      <div className="font-bold">⚠️ ข้อควรระวัง:</div>
-                      <div className="text-amber-700 leading-relaxed">{item.cons.join(' • ')}</div>
+                    <div className="space-y-0.5 text-caution bg-caution-tint p-2 rounded-xl">
+                      <div className="font-bold">ข้อควรระวัง:</div>
+                      <div className="text-caution leading-relaxed">{item.cons.join(' • ')}</div>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Card Footer: Compare Checkbox & Select Topic Button */}
-              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+              <div className="flex items-center justify-between pt-2 border-t border-separator">
                 {/* Compare Checkbox */}
                 <button
                   type="button"
                   onClick={() => handleToggleCompare(item.card.id)}
-                  className={`min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-bold font-prompt transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`min-h-11 px-3 py-1.5 rounded-xl border text-caption font-bold  transition-all flex items-center gap-1.5 cursor-pointer ${
                     isSelected
-                      ? 'bg-indigo-600 text-white border-indigo-600'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                      ? 'bg-accent text-white border-accent'
+                      : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
                   }`}
                   aria-pressed={isSelected}
                 >
                   {isSelected ? (
                     <CheckSquare className="w-3.5 h-3.5" />
                   ) : (
-                    <Square className="w-3.5 h-3.5 text-slate-400" />
+                    <Square className="w-3.5 h-3.5 text-ink-3" />
                   )}
                   <span>เทียบ</span>
                 </button>
@@ -447,7 +447,7 @@ export function ShortlistMatrix({
                 <button
                   type="button"
                   onClick={() => onSelectFinalTopic(item.card)}
-                  className="min-h-[38px] px-4 py-1.5 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-xs font-prompt shadow-2xs flex items-center gap-1 transition-all cursor-pointer active:scale-95"
+                  className="min-h-11 px-4 py-1.5 rounded-xl bg-accent hover:bg-accent-press text-accent-on font-medium text-caption flex items-center gap-1 transition-all cursor-pointer active:scale-95"
                 >
                   <span>เลือกหัวข้อนี้</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -460,17 +460,17 @@ export function ShortlistMatrix({
 
       {/* 5. Sticky Bottom Compare Bar */}
       {selectedForCompare.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-3">
-          <div className="bg-slate-900 text-white rounded-2xl p-3 shadow-2xl flex items-center justify-between gap-2 border border-slate-700">
-            <span className="text-xs font-bold text-slate-200 font-prompt">
-              เลือกเทียบแล้ว <b className="text-amber-400">{selectedForCompare.length}</b>/2 หัวข้อ
+        <div className="fixed bottom-[92px] md:bottom-6 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-3">
+          <div className="bg-surface text-ink rounded-2xl p-3 shadow-e3 flex items-center justify-between gap-2">
+            <span className="text-caption font-medium text-ink">
+              เลือกเทียบแล้ว <b className="text-accent-text">{selectedForCompare.length}</b>/2 หัวข้อ
             </span>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={clearCompare}
-                className="min-h-[36px] px-2.5 py-1 rounded-xl border border-slate-600 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-all"
+                className="min-h-11 px-2.5 py-1 rounded-xl bg-surface-2 text-caption font-medium text-ink hover:bg-separator transition-all"
               >
                 ล้าง
               </button>
@@ -479,7 +479,7 @@ export function ShortlistMatrix({
                 type="button"
                 disabled={selectedForCompare.length < 2}
                 onClick={() => setCompareSheetOpen(true)}
-                className="min-h-[36px] px-3.5 py-1 rounded-xl bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold font-prompt transition-all shadow-xs flex items-center gap-1"
+                className="min-h-11 px-3.5 py-1 rounded-xl bg-accent hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-caption font-bold transition-all shadow-e1 flex items-center gap-1"
               >
                 <span>เทียบ 2 หัวข้อ</span>
                 <span>→</span>

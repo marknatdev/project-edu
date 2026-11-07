@@ -75,11 +75,11 @@ export function SwipeDeck({
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         onSwipe('interested');
-        showToast(`สนใจ! เพิ่มเข้า Shortlist (${Math.min(shortlistCount + 1, 5)}/5)`);
+        showToast(`สนใจ! เพิ่มเข้า รายการที่สนใจ (${Math.min(shortlistCount + 1, 5)}/5)`);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         onSwipe('do_it_now');
-        showToast(`🌟 อยากทำเลย! ปักหมุดพิเศษ (${Math.min(shortlistCount + 1, 5)}/5)`);
+        showToast(`อยากทำเลย! ปักหมุดพิเศษ (${Math.min(shortlistCount + 1, 5)}/5)`);
       } else if (e.key === 'z' || e.key === 'Backspace') {
         if (canUndo) {
           e.preventDefault();
@@ -99,9 +99,9 @@ export function SwipeDeck({
     if (direction === 'skip') {
       showToast('ข้ามการ์ด');
     } else if (direction === 'interested') {
-      showToast(`สนใจ! เพิ่มเข้า Shortlist (${Math.min(shortlistCount + 1, 5)}/5)`);
+      showToast(`สนใจ! เพิ่มเข้า รายการที่สนใจ (${Math.min(shortlistCount + 1, 5)}/5)`);
     } else if (direction === 'do_it_now') {
-      showToast(`🌟 อยากทำเลย! ปักหมุดพิเศษ (${Math.min(shortlistCount + 1, 5)}/5)`);
+      showToast(`อยากทำเลย! ปักหมุดพิเศษ (${Math.min(shortlistCount + 1, 5)}/5)`);
     }
   };
 
@@ -114,19 +114,19 @@ export function SwipeDeck({
     switch (level) {
       case 'beginner':
         return (
-          <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
+          <span className="px-2 py-0.5 rounded-full bg-good-tint text-good border border-good/30 text-caption font-semibold">
             ระดับเริ่มต้น
           </span>
         );
       case 'intermediate':
         return (
-          <span className="px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 text-[11px] font-semibold">
+          <span className="px-2 py-0.5 rounded-full bg-accent-tint text-accent-text border border-accent/30 text-caption font-semibold">
             ระดับปานกลาง
           </span>
         );
       case 'advanced':
         return (
-          <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-semibold">
+          <span className="px-2 py-0.5 rounded-full bg-accent-tint text-accent-text border border-accent/30 text-caption font-semibold">
             ระดับสูง
           </span>
         );
@@ -143,14 +143,14 @@ export function SwipeDeck({
           <button
             type="button"
             onClick={onBackToFilter}
-            className="min-h-[40px] px-3 py-1.5 rounded-xl border border-slate-200/90 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center gap-1 transition-all"
+            className="min-h-11 px-3 py-1.5 rounded-xl border border-separator bg-surface hover:bg-surface-2 text-caption font-semibold text-ink-2 flex items-center gap-1 transition-all"
             aria-label="ย้อนกลับไปเปลี่ยนสาขา"
           >
             <span>← สาขาวิชา</span>
           </button>
         ) : (
-          <div className="text-xs font-bold text-slate-700 font-prompt">
-            🃏 สำรวจหัวข้อ ({deck.length} ใบในสำรับ)
+          <div className="text-caption font-bold text-ink-2">
+            สำรวจหัวข้อ ({deck.length} ใบในสำรับ)
           </div>
         )}
 
@@ -160,14 +160,14 @@ export function SwipeDeck({
             type="button"
             onClick={onGenerateAiCard}
             disabled={isAiGenerating}
-            className="min-h-[40px] px-3 py-1.5 rounded-xl bg-linear-to-r from-amber-500 to-indigo-600 hover:from-amber-600 hover:to-indigo-700 text-white text-xs font-bold font-prompt transition-all shadow-xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="min-h-11 px-3 py-1.5 rounded-xl bg-linear-to-r text-white text-caption font-bold transition-all shadow-e1 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             title="ให้ AI ช่วยสร้างการ์ดใหม่ตามข้อจำกัด"
             aria-label="สร้างการ์ด AI เพิ่ม"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-200 animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-caution animate-pulse" />
             <span>{isAiGenerating ? 'กำลังสร้าง...' : 'การ์ด AI'}</span>
             {typeof aiRemainingQuota === 'number' && (
-              <span className="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">
+              <span className="text-caption bg-surface px-1.5 py-0.2 rounded-full">
                 {aiRemainingQuota}
               </span>
             )}
@@ -177,17 +177,17 @@ export function SwipeDeck({
           <button
             type="button"
             onClick={onGoToShortlist}
-            className={`min-h-[40px] px-3 py-1.5 rounded-xl font-bold font-prompt text-xs transition-all flex items-center gap-1.5 ${
+            className={`min-h-11 px-3 py-1.5 rounded-xl font-bold  text-caption transition-all flex items-center gap-1.5 ${
               shortlistCount >= 5
-                ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 animate-pulse'
-                : 'bg-white border border-slate-200 text-slate-800 hover:bg-slate-50'
+                ? 'bg-good text-white ring-2 ring-emerald-400 animate-pulse'
+                : 'bg-surface border border-separator text-ink hover:bg-surface-2'
             }`}
-            aria-label={`ไปหน้า Shortlist มีอยู่ ${shortlistCount} จาก 5 ใบ`}
+            aria-label={`ไปหน้า รายการที่สนใจ มีอยู่ ${shortlistCount} จาก 5 ใบ`}
           >
-            <span>📊 Shortlist</span>
+            <span>Shortlist</span>
             <span
-              className={`px-1.5 py-0.5 rounded-full text-[11px] ${
-                shortlistCount >= 5 ? 'bg-white text-emerald-700 font-black' : 'bg-slate-100 text-slate-700'
+              className={`px-1.5 py-0.5 rounded-full text-caption ${
+                shortlistCount >= 5 ? 'bg-surface text-good font-semibold' : 'bg-surface-2 text-ink-2'
               }`}
             >
               {shortlistCount}/5
@@ -203,14 +203,14 @@ export function SwipeDeck({
             {/* Background Preview Card (Next Card) */}
             {nextCard && (
               <div
-                className="absolute inset-0 bg-white/70 border border-slate-200/70 rounded-3xl p-5 shadow-xs transform scale-[0.95] translate-y-3 pointer-events-none transition-all duration-300 opacity-60"
+                className="absolute inset-0 bg-surface border border-separator rounded-3xl p-5 shadow-e1 transform scale-[0.95] translate-y-3 pointer-events-none transition-all duration-300 opacity-60"
                 aria-hidden="true"
               >
-                <div className="flex items-center justify-between text-xs text-slate-400">
+                <div className="flex items-center justify-between text-caption text-ink-3">
                   <span>{getSubfieldName(nextCard.subfieldId)}</span>
                   <span>ถัดไป</span>
                 </div>
-                <div className="mt-3 font-bold text-base text-slate-700 line-clamp-2">
+                <div className="mt-3 font-bold text-body text-ink-2 line-clamp-2">
                   {nextCard.title}
                 </div>
               </div>
@@ -255,26 +255,26 @@ export function SwipeDeck({
                   transition: { duration: 0.2 },
                 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                className="absolute inset-0 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-6 shadow-md flex flex-col justify-between cursor-grab active:cursor-grabbing overflow-hidden"
+                className="absolute inset-0 bg-surface border border-separator rounded-3xl p-5 sm:p-6 shadow-e2 flex flex-col justify-between cursor-grab active:cursor-grabbing overflow-hidden"
               >
                 {/* Drag Indicator Overlay */}
                 {dragDirection && (
                   <div
                     className={`absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all ${
                       dragDirection === 'interested'
-                        ? 'bg-emerald-500/15 border-4 border-emerald-500/60 rounded-3xl'
+                        ? 'bg-good border-4 border-good/30 rounded-3xl'
                         : dragDirection === 'do_it_now'
-                          ? 'bg-amber-500/15 border-4 border-amber-500/60 rounded-3xl'
-                          : 'bg-rose-500/15 border-4 border-rose-500/60 rounded-3xl'
+                          ? 'bg-caution border-4 border-caution/30 rounded-3xl'
+                          : 'bg-risk border-4 border-risk/40 rounded-3xl'
                     }`}
                   >
                     <div
-                      className={`px-4 py-2 rounded-2xl text-lg font-black font-prompt shadow-lg ${
+                      className={`px-4 py-2 rounded-2xl text-headline font-semibold  shadow-e2 ${
                         dragDirection === 'interested'
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-good text-white'
                           : dragDirection === 'do_it_now'
-                            ? 'bg-amber-600 text-white'
-                            : 'bg-rose-600 text-white'
+                            ? 'bg-caution text-white'
+                            : 'bg-risk text-white'
                       }`}
                     >
                       {dragDirection === 'interested'
@@ -289,7 +289,7 @@ export function SwipeDeck({
                 {/* Card Top: Badges & Subfield & Report */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-1">
-                    <span className="text-[11px] font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-lg line-clamp-1">
+                    <span className="text-caption font-bold text-accent-text uppercase tracking-wider bg-accent-tint px-2.5 py-1 rounded-lg line-clamp-1">
                       {getSubfieldName(activeCard.subfieldId)}
                     </span>
 
@@ -302,7 +302,7 @@ export function SwipeDeck({
                           e.stopPropagation();
                           setReportModalOpen(true);
                         }}
-                        className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                        className="p-1 rounded-lg text-ink-3 hover:text-ink-2 hover:bg-surface-2 transition-colors"
                         title="รายงานปัญหาการ์ดใบนี้"
                         aria-label="รายงานปัญหาการ์ดใบนี้"
                       >
@@ -312,54 +312,54 @@ export function SwipeDeck({
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 font-prompt leading-snug pt-1">
+                  <h3 className="text-body sm:text-headline font-bold text-ink leading-snug pt-1">
                     {activeCard.title}
                   </h3>
                 </div>
 
                 {/* Card Middle: Phenomenon & Curiosity Hook */}
                 <div className="space-y-3 py-2">
-                  <div className="bg-slate-50/90 rounded-2xl p-3 border border-slate-100 space-y-1">
-                    <div className="text-[11px] font-semibold text-slate-500 flex items-center gap-1">
-                      <BookOpen className="w-3.5 h-3.5 text-indigo-500" />
+                  <div className="bg-surface-2 rounded-2xl p-3 border border-separator space-y-1">
+                    <div className="text-caption font-semibold text-ink-3 flex items-center gap-1">
+                      <BookOpen className="w-3.5 h-3.5 text-accent-text" />
                       <span>ปรากฏการณ์ชวนสังเกต</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    <p className="text-caption sm:text-callout text-ink-2 leading-relaxed">
                       {activeCard.phenomenon}
                     </p>
                   </div>
 
-                  <div className="bg-indigo-50/70 rounded-2xl p-3 border border-indigo-100/80 space-y-1">
-                    <div className="text-[11px] font-bold text-indigo-700 flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>จุดประกายความคิด (Curiosity Hook)</span>
+                  <div className="bg-accent-tint rounded-2xl p-3 border border-accent/30 space-y-1">
+                    <div className="text-caption font-bold text-accent-text flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-accent-text" />
+                      <span>จุดประกายความคิด</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-indigo-950 font-medium leading-relaxed">
+                    <p className="text-caption sm:text-callout text-ink font-medium leading-relaxed">
                       &ldquo;{activeCard.curiosityHook}&rdquo;
                     </p>
                   </div>
                 </div>
 
                 {/* Card Bottom: Metadata Badges (Weeks, Budget, Team, Equipment) */}
-                <div className="pt-2 border-t border-slate-100 space-y-2">
-                  <div className="grid grid-cols-3 gap-1 text-[11px] text-slate-600 font-medium">
-                    <div className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-lg">
-                      <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <div className="pt-2 border-t border-separator space-y-2">
+                  <div className="grid grid-cols-3 gap-1 text-caption text-ink-2 font-medium">
+                    <div className="flex items-center gap-1 bg-surface-2 p-1.5 rounded-lg">
+                      <Clock className="w-3.5 h-3.5 text-ink-3 shrink-0" />
                       <span>~{activeCard.estimatedWeeks} สัปดาห์</span>
                     </div>
-                    <div className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-lg">
-                      <Coins className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1 bg-surface-2 p-1.5 rounded-lg">
+                      <Coins className="w-3.5 h-3.5 text-ink-3 shrink-0" />
                       <span>~{activeCard.estimatedBudgetBaht.toLocaleString()} ฿</span>
                     </div>
-                    <div className="flex items-center gap-1 bg-slate-50 p-1.5 rounded-lg">
-                      <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1 bg-surface-2 p-1.5 rounded-lg">
+                      <Users className="w-3.5 h-3.5 text-ink-3 shrink-0" />
                       <span>{activeCard.minTeamSize}-{activeCard.maxTeamSize} คน</span>
                     </div>
                   </div>
 
                   {activeCard.requiredEquipment && activeCard.requiredEquipment.length > 0 && (
-                    <div className="flex items-center gap-1 text-[10px] text-slate-500">
-                      <Wrench className="w-3 h-3 text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1 text-caption text-ink-3">
+                      <Wrench className="w-3 h-3 text-ink-3 shrink-0" />
                       <span className="line-clamp-1">
                         อุปกรณ์: {activeCard.requiredEquipment.join(', ')}
                       </span>
@@ -371,17 +371,17 @@ export function SwipeDeck({
           </div>
         ) : (
           /* Empty Deck State */
-          <div className="w-full h-full bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs flex flex-col items-center justify-center text-center space-y-4">
-            <div className="w-14 h-14 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl">
-              🎉
+          <div className="w-full h-full bg-surface border border-separator rounded-3xl p-6 shadow-e1 flex flex-col items-center justify-center text-center space-y-4">
+            <div className="w-14 h-14 rounded-full bg-accent-tint text-accent-text flex items-center justify-center text-title">
+              
             </div>
             <div className="space-y-1">
-              <h3 className="font-bold text-base text-slate-900 font-prompt">
+              <h3 className="font-bold text-body text-ink">
                 สำรวจการ์ดในหมวดนี้ครบแล้ว!
               </h3>
-              <p className="text-xs text-slate-500 max-w-xs mx-auto">
+              <p className="text-caption text-ink-3 max-w-xs mx-auto">
                 {shortlistCount > 0
-                  ? `คุณเลือกการ์ดที่สนใจไว้ ${shortlistCount} ใบ ไปดูการเปรียบเทียบใน Shortlist ได้เลย`
+                  ? `คุณเลือกการ์ดที่สนใจไว้ ${shortlistCount} ใบ ไปดูการเปรียบเทียบใน รายการที่สนใจ ได้เลย`
                   : 'ยังไม่มีการ์ดที่เลือก สามารถกดปุ่มย้อนกลับหรือเปลี่ยนหมวดวิชาเพื่อสำรวจใหม่'}
               </p>
             </div>
@@ -391,9 +391,9 @@ export function SwipeDeck({
                 <button
                   type="button"
                   onClick={onGoToShortlist}
-                  className="min-h-[44px] px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-700 shadow-xs flex items-center justify-center gap-1"
+                  className="min-h-[44px] px-4 py-2 rounded-xl bg-accent text-white font-bold text-caption hover:bg-accent-press shadow-e1 flex items-center justify-center gap-1"
                 >
-                  <span>ไปดูตาราง Shortlist ({shortlistCount})</span>
+                  <span>ไปดูตาราง รายการที่สนใจ ({shortlistCount})</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               )}
@@ -401,7 +401,7 @@ export function SwipeDeck({
                 <button
                   type="button"
                   onClick={onUndo}
-                  className="min-h-[44px] px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50 flex items-center justify-center gap-1.5"
+                  className="min-h-[44px] px-4 py-2 rounded-xl border border-separator text-ink-2 font-semibold text-caption hover:bg-surface-2 flex items-center justify-center gap-1.5"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>ย้อนกลับการ์ดล่าสุด</span>
@@ -411,7 +411,7 @@ export function SwipeDeck({
                 <button
                   type="button"
                   onClick={onBackToFilter}
-                  className="min-h-[44px] px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-medium text-xs hover:bg-slate-200"
+                  className="min-h-[44px] px-4 py-2 rounded-xl bg-surface-2 text-ink-2 font-medium text-caption hover:bg-separator"
                 >
                   เลือกสาขาวิชาอื่น
                 </button>
@@ -428,7 +428,7 @@ export function SwipeDeck({
           type="button"
           onClick={onUndo}
           disabled={!canUndo}
-          className="min-w-[44px] min-h-[44px] p-2.5 rounded-2xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center shadow-2xs active:scale-95"
+          className="min-w-[44px] min-h-[44px] p-2.5 rounded-2xl border border-separator bg-surface text-ink-2 hover:text-ink hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center shadow-2xs active:scale-95"
           title="ย้อนกลับการ์ดก่อนหน้า (z / Backspace)"
           aria-label="ย้อนกลับการ์ดก่อนหน้า"
         >
@@ -440,10 +440,10 @@ export function SwipeDeck({
           type="button"
           onClick={() => handleActionClick('skip')}
           disabled={!activeCard}
-          className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl border border-slate-200/90 bg-white hover:bg-rose-50 hover:border-rose-300 text-slate-700 hover:text-rose-700 disabled:opacity-40 transition-all font-bold text-xs sm:text-sm font-prompt flex items-center justify-center gap-2 shadow-2xs active:scale-95 cursor-pointer"
+          className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl border border-separator bg-surface hover:bg-risk-tint hover:border-risk/40 text-ink-2 hover:text-risk disabled:opacity-40 transition-all font-bold text-caption sm:text-callout flex items-center justify-center gap-2 shadow-2xs active:scale-95 cursor-pointer"
           aria-label="ข้ามการ์ดนี้ (ปัดซ้าย)"
         >
-          <X className="w-4 h-4 text-rose-500 stroke-[2.5]" />
+          <X className="w-4 h-4 text-risk stroke-[2.5]" />
           <span>ข้าม</span>
         </button>
 
@@ -452,10 +452,10 @@ export function SwipeDeck({
           type="button"
           onClick={() => handleActionClick('do_it_now')}
           disabled={!activeCard}
-          className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white disabled:opacity-40 transition-all font-bold text-xs sm:text-sm font-prompt flex items-center justify-center gap-2 shadow-sm active:scale-95 cursor-pointer"
+          className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl text-white disabled:opacity-40 transition-all font-bold text-caption sm:text-callout flex items-center justify-center gap-2 shadow-e1 active:scale-95 cursor-pointer"
           aria-label="อยากทำเลย (ปัดขึ้น)"
         >
-          <Star className="w-4 h-4 fill-amber-200 text-amber-200" />
+          <Star className="w-4 h-4 fill-amber-200 text-caution" />
           <span>อยากทำเลย</span>
         </button>
 
@@ -464,8 +464,8 @@ export function SwipeDeck({
           type="button"
           onClick={() => handleActionClick('interested')}
           disabled={!activeCard}
-          className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white disabled:opacity-40 transition-all font-bold text-xs sm:text-sm font-prompt flex items-center justify-center gap-2 shadow-sm active:scale-95 cursor-pointer"
-          aria-label="สนใจ เก็บเข้า Shortlist (ปัดขวา)"
+          className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl text-white disabled:opacity-40 transition-all font-bold text-caption sm:text-callout flex items-center justify-center gap-2 shadow-e1 active:scale-95 cursor-pointer"
+          aria-label="สนใจ เก็บเข้า รายการที่สนใจ (ปัดขวา)"
         >
           <Heart className="w-4 h-4 fill-white text-white" />
           <span>สนใจ</span>
@@ -473,8 +473,8 @@ export function SwipeDeck({
       </div>
 
       {/* Swipe Hint */}
-      <p className="text-center text-[11px] text-slate-600 pt-0.5">
-        👆 ใช้นิ้วลากการ์ด (← ข้าม • ↑ อยากทำเลย • → สนใจ) หรือกดปุ่มด้านบน
+      <p className="text-center text-caption text-ink-2 pt-0.5">
+        ใช้นิ้วลากการ์ด (← ข้าม • ↑ อยากทำเลย • → สนใจ) หรือกดปุ่มด้านบน
       </p>
 
       {/* Toast Notification */}
@@ -482,7 +482,7 @@ export function SwipeDeck({
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-2xl bg-slate-900/90 text-white text-xs font-semibold shadow-xl backdrop-blur-md pointer-events-none transition-all animate-fade-in"
+          className="fixed bottom-[100px] md:bottom-8 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-2xl bg-ink text-white text-caption font-semibold shadow-e3 backdrop-blur-md pointer-events-none transition-all animate-fade-in"
         >
           {toastMessage}
         </div>
