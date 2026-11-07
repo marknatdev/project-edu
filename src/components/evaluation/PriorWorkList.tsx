@@ -30,7 +30,7 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
         <div>
           <h3 className="text-body sm:text-headline font-bold text-ink flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-accent-text" />
-            <span>งานวิจัยและโครงงานเดิมที่ใกล้เคียง (Verified Prior Work)</span>
+            <span>งานวิจัยและโครงงานเดิมที่ใกล้เคียง</span>
           </h3>
           <p className="text-caption text-ink-3 mt-0.5">
             คัดสรรจากฐานข้อมูลโครงงานประกวดจริงและวารสารวิจัยไทย • มีลิงก์ตรวจสอบได้ทุกชิ้น
@@ -93,7 +93,7 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
                 className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-2xl bg-surface-2 hover:bg-accent-tint text-ink-2 hover:text-accent-text font-bold text-caption sm:text-callout border border-separator hover:border-accent/30 transition-all w-full sm:w-auto"
                 aria-label={`เปิดอ่านผลงาน ${item.title} บนหน้าเว็บต้นทาง`}
               >
-                <span>เปิดดูหลักฐานผลงานต้นฉบับ (Verifiable URL)</span>
+                <span>เปิดดูหลักฐานผลงานต้นฉบับ</span>
                 <ExternalLink className="w-4 h-4 shrink-0" />
               </a>
             </div>

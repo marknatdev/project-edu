@@ -196,13 +196,13 @@ export function PivotWorkshop({
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-risk-tint text-risk text-caption font-bold">
             <Sparkles className="w-3.5 h-3.5 text-risk" />
-            <span>Socratic Pivot Workshop (AC-8)</span>
+            <span>หามุมใหม่ให้ไอเดีย</span>
           </div>
           <h3 className="text-body sm:text-headline font-semibold text-ink">
-            ห้องทดลองปรับมุมมองใหม่ สำหรับจุดที่ต้องพัฒนา (Red Axes)
+            ห้องทดลองปรับมุมมองใหม่ สำหรับจุดที่ต้องพัฒนา
           </h3>
           <p className="text-caption text-ink-2">
-            ช่วยวิเคราะห์และปรับมุมมองโครงงานตามลำดับ 3 ระดับ (ADR 0002) โดยไม่ตัดสิทธิ์การเขียนข้อเสนอโครงงาน
+            ช่วยวิเคราะห์และปรับมุมมองโครงงานตามลำดับ 3 ระดับ โดยไม่ตัดสิทธิ์การเขียนข้อเสนอโครงงาน
           </p>
         </div>
 
@@ -366,7 +366,7 @@ export function PivotWorkshop({
                 disabled={isSubmitting || !tier1Answer.trim()}
                 className="w-full sm:w-auto min-h-[44px] px-4 py-2 rounded-xl bg-accent hover:bg-accent-press disabled:opacity-50 text-white text-caption font-bold transition-all shadow-e1 flex items-center justify-center gap-1.5 shrink-0"
               >
-                <span>{isSubmitting ? 'กำลังส่ง...' : 'ส่งคำตอบและขอกรอบความคิด (Tier 2) →'}</span>
+                <span>{isSubmitting ? 'กำลังส่ง...' : 'ส่งคำตอบและขอกรอบความคิด →'}</span>
               </button>
             </div>
           </form>
@@ -378,7 +378,7 @@ export function PivotWorkshop({
         <div className="rounded-2xl bg-caution-tint border border-caution/30 p-4 sm:p-5 space-y-3">
           <div className="flex items-center gap-2 text-caution font-bold text-caption sm:text-callout">
             <Compass className="w-4 h-4 text-caution shrink-0" />
-            <span>กรอบความคิดและคำใบ้เพื่อปรับปรุง (Thinking Lenses):</span>
+            <span>กรอบความคิดและคำใบ้เพื่อปรับปรุง:</span>
           </div>
 
           <div className="space-y-2">
@@ -395,7 +395,7 @@ export function PivotWorkshop({
 
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-caution/30">
             <span className="text-caption text-ink-3">
-              ลองนำกรอบความคิดด้านบนไปปรับแผน หากติดตันจริง ๆ สามารถขอตัวอย่างมุมมองใหม่ (Last Resort)
+              ลองนำกรอบความคิดด้านบนไปปรับแผน หากติดตันจริง ๆ สามารถขอตัวอย่างมุมมองใหม่
             </span>
             <button
               type="button"
@@ -409,7 +409,7 @@ export function PivotWorkshop({
                   <span>กำลังประมวลผล...</span>
                 </>
               ) : (
-                <span>ขอมุมมองใหม่ตัวอย่าง (Tier 3 Last Resort) →</span>
+                <span>ขอมุมมองใหม่ตัวอย่าง →</span>
               )}
             </button>
           </div>
@@ -421,7 +421,7 @@ export function PivotWorkshop({
         <div className="rounded-2xl bg-risk-tint border border-risk/40 p-4 sm:p-5 space-y-4">
           <div className="flex items-center gap-2 text-rose-950 font-bold text-caption sm:text-callout">
             <Lightbulb className="w-4 h-4 text-risk shrink-0" />
-            <span>ทางเลือกมุมมองใหม่ 2–3 แนวทาง (Pivot Angles):</span>
+            <span>ทางเลือกมุมมองใหม่ 2–3 แนวทาง:</span>
           </div>
 
           <div className="grid grid-cols-1 gap-2.5">
@@ -471,7 +471,7 @@ export function PivotWorkshop({
               <div className="p-4 rounded-2xl bg-surface border-2 border-risk/40 shadow-e1 space-y-3">
                 <div className="flex items-center gap-2 text-caption font-bold text-risk">
                   <PenTool className="w-4 h-4 text-risk shrink-0" />
-                  <span>ด่านเรียบเรียงไอเดียด้วยภาษาของตนเอง (Rewrite Gate):</span>
+                  <span>ด่านเรียบเรียงไอเดียด้วยภาษาของตนเอง:</span>
                 </div>
                 <p className="text-caption text-ink-2">
                   เพื่อป้องกันการคัดลอก กรุณาเขียนสรุปแนวทางนี้ด้วยภาษาและความเข้าใจของคุณเอง (อย่างน้อย 15 ตัวอักษร)
@@ -523,14 +523,14 @@ export function PivotWorkshop({
                 <span>บันทึกการปรับปรุงมุมมองใหม่ลงในโครงงานเรียบร้อยแล้ว!</span>
               </div>
               <p className="text-caption text-good">
-                คุณสามารถประเมินโครงงานใหม่อีกครั้งเพื่อดูคะแนนที่อัปเดต หรือเดินทางต่อไปยังหน้าข้อเสนอโครงงาน (Proposal) ได้ทันที
+                คุณสามารถประเมินโครงงานใหม่อีกครั้งเพื่อดูคะแนนที่อัปเดต หรือเดินทางต่อไปยังหน้าข้อเสนอโครงงาน ได้ทันที
               </p>
               <div className="pt-1 flex flex-wrap gap-2">
                 <Link
                   href={`/proposal?ideaId=${state.originalIdea.id}`}
                   className="min-h-11 px-4 py-2 rounded-xl bg-good hover:bg-good text-white font-bold text-caption transition-all shadow-e1 inline-flex items-center gap-1.5"
                 >
-                  <span>ไปเขียนข้อเสนอโครงงานต่อ (Proposal) →</span>
+                  <span>ไปเขียนข้อเสนอโครงงานต่อ →</span>
                 </Link>
               </div>
             </div>

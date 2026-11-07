@@ -40,6 +40,9 @@ import {
 import { useWipeInvalidation } from '@/lib/storage/use-wipe-invalidation';
 
 export function InterviewWizard() {
+  const [showAllEquipment, setShowAllEquipment] = useState(false);
+  const [showAllSkills, setShowAllSkills] = useState(false);
+  const [showAllGoals, setShowAllGoals] = useState(false);
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
   const [consentAccepted, setConsentAccepted] = useState<boolean>(false);
@@ -322,12 +325,13 @@ export function InterviewWizard() {
               </p>
             </div>
 
-            <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
-              {GOAL_OPTIONS.map((opt) => (
+            <div className="space-y-2.5">
+              {GOAL_OPTIONS.filter((opt, i) => showAllGoals || i < 5 || opt.value === goal).map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => setGoal(opt.value)}
+                  aria-pressed={goal === opt.value}
                   className={`w-full p-4 rounded-2xl border-2 text-left transition flex items-start justify-between gap-3 min-h-[64px] ${
                     goal === opt.value
                       ? 'border-accent bg-accent-tint shadow-e1'
@@ -352,6 +356,7 @@ export function InterviewWizard() {
                   )}
                 </button>
               ))}
+              {!showAllGoals && GOAL_OPTIONS.length > 5 && <button type="button" onClick={() => setShowAllGoals(true)} className="min-h-11 w-full rounded-xl px-3 font-medium text-accent-text hover:bg-surface-2">ดูเป้าหมายอื่นอีก {GOAL_OPTIONS.length - 5} แบบ</button>}
             </div>
           </div>
         )}
@@ -370,12 +375,12 @@ export function InterviewWizard() {
 
             {/* Time weeks */}
             <div className="space-y-2">
-              <label className="flex items-center gap-1.5 text-caption font-bold text-ink-2">
+              <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Clock className="w-4 h-4 text-accent-text" />
                 <span>เวลาที่มีจนถึงวันส่งงาน / วันแข่งขัน: {timeWeeks} สัปดาห์</span>
-              </label>
+              </p>
               <div className="flex flex-wrap gap-2">
-                {[2, 4, 8, 12, 16, 24].map((w) => (
+                {[...new Set([4, 8, 12, 16, 24, timeWeeks])].sort((a, b) => a - b).map((w) => (
                   <button
                     key={w}
                     type="button"
@@ -394,10 +399,10 @@ export function InterviewWizard() {
 
             {/* Budget Baht */}
             <div className="space-y-2">
-              <label className="flex items-center gap-1.5 text-caption font-bold text-ink-2">
+              <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Wallet className="w-4 h-4 text-accent-text" />
                 <span>งบประมาณที่มี: {budgetBaht.toLocaleString('th-TH')} บาท</span>
-              </label>
+              </p>
               <div className="flex flex-wrap gap-2">
                 {[0, 500, 1000, 2500, 5000].map((b) => (
                   <button
@@ -418,10 +423,10 @@ export function InterviewWizard() {
 
             {/* Team Size */}
             <div className="space-y-2">
-              <label className="flex items-center gap-1.5 text-caption font-bold text-ink-2">
+              <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Users className="w-4 h-4 text-accent-text" />
                 <span>จำนวนสมาชิกในกลุ่ม: {teamSize} คน</span>
-              </label>
+              </p>
               <div className="flex flex-wrap gap-2">
                 {[1, 2, 3, 4, 5].map((s) => (
                   <button
@@ -442,18 +447,19 @@ export function InterviewWizard() {
 
             {/* Equipment Multi-select */}
             <div className="space-y-2">
-              <label className="flex items-center gap-1.5 text-caption font-bold text-ink-2">
+              <p className="flex items-center gap-1.5 font-medium text-ink">
                 <Wrench className="w-4 h-4 text-accent-text" />
                 <span>อุปกรณ์ที่สามารถเข้าถึงได้ (เลือกได้หลายข้อ)</span>
-              </label>
+              </p>
               <div className="flex flex-wrap gap-2">
-                {EQUIPMENT_OPTIONS.map((item) => {
+                {EQUIPMENT_OPTIONS.filter((item, i) => showAllEquipment || i < 5 || equipment.includes(item.id)).map((item) => {
                   const selected = equipment.includes(item.id);
                   return (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => toggleEquipment(item.id)}
+                      aria-pressed={selected}
                       className={`px-3 py-2 rounded-xl text-caption font-medium border transition min-h-11 flex items-center gap-1.5 ${
                         selected
                           ? 'bg-accent-tint border-accent text-accent-text'
@@ -465,23 +471,25 @@ export function InterviewWizard() {
                     </button>
                   );
                 })}
+                {!showAllEquipment && EQUIPMENT_OPTIONS.length > 5 && <button type="button" onClick={() => setShowAllEquipment(true)} className="min-h-11 rounded-xl px-3 text-caption font-medium text-accent-text hover:bg-surface-2">ดูเพิ่มอีก {EQUIPMENT_OPTIONS.length - 5} ข้อ</button>}
               </div>
             </div>
 
             {/* Skills Multi-select */}
             <div className="space-y-2">
-              <label className="flex items-center gap-1.5 text-caption font-bold text-ink-2">
+              <p className="flex items-center gap-1.5 font-medium text-ink">
                 <BookOpen className="w-4 h-4 text-accent-text" />
                 <span>ทักษะและความถนัดของทีม (เลือกได้หลายข้อ)</span>
-              </label>
+              </p>
               <div className="flex flex-wrap gap-2">
-                {SKILL_OPTIONS.map((item) => {
+                {SKILL_OPTIONS.filter((item, i) => showAllSkills || i < 5 || skills.includes(item.id)).map((item) => {
                   const selected = skills.includes(item.id);
                   return (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => toggleSkill(item.id)}
+                      aria-pressed={selected}
                       className={`px-3 py-2 rounded-xl text-caption font-medium border transition min-h-11 flex items-center gap-1.5 ${
                         selected
                           ? 'bg-accent-tint border-accent/30 text-accent-text'
@@ -493,6 +501,7 @@ export function InterviewWizard() {
                     </button>
                   );
                 })}
+                {!showAllSkills && SKILL_OPTIONS.length > 5 && <button type="button" onClick={() => setShowAllSkills(true)} className="min-h-11 rounded-xl px-3 text-caption font-medium text-accent-text hover:bg-surface-2">ดูเพิ่มอีก {SKILL_OPTIONS.length - 5} ข้อ</button>}
               </div>
             </div>
           </div>
@@ -537,7 +546,7 @@ export function InterviewWizard() {
                     )}
                   </div>
                   <p className="text-caption text-ink-2 leading-relaxed">
-                    คุณมีประเด็นที่สนใจอยากทำอยู่แล้ว ให้ครูที่ปรึกษา AI (Socratic Advisor) ชวนคิด ถามคำถามเจาะลึก 4 ด้าน และประเมินโครงงานทันที
+                    คุณมีประเด็นที่สนใจอยากทำอยู่แล้ว ให้ครูที่ปรึกษา AI ชวนคิด ถามคำถามเจาะลึก 4 ด้าน และประเมินโครงงานทันที
                   </p>
                 </div>
               </button>

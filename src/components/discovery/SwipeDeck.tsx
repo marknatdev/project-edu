@@ -332,7 +332,7 @@ export function SwipeDeck({
                   <div className="bg-accent-tint rounded-2xl p-3 border border-accent/30 space-y-1">
                     <div className="text-caption font-bold text-accent-text flex items-center gap-1">
                       <Sparkles className="w-3.5 h-3.5 text-accent-text" />
-                      <span>จุดประกายความคิด (Curiosity Hook)</span>
+                      <span>จุดประกายความคิด</span>
                     </div>
                     <p className="text-caption sm:text-callout text-ink font-medium leading-relaxed">
                       &ldquo;{activeCard.curiosityHook}&rdquo;

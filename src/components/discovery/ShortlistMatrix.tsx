@@ -401,7 +401,7 @@ export function ShortlistMatrix({
               {isExpanded && (
                 <div className="bg-surface-2 rounded-2xl p-3 border border-separator text-caption space-y-2 animate-fade-in">
                   <div className="space-y-1">
-                    <div className="font-bold text-caption text-ink-2">เหตุผลความเข้ากัน (Fit Breakdown):</div>
+                    <div className="font-bold text-caption text-ink-2">เหตุผลความเข้ากัน:</div>
                     <ul className="space-y-1 text-ink-2 text-caption pl-3 list-disc">
                       {item.reasons.map((reason, rIdx) => (
                         <li key={rIdx}>{reason}</li>

@@ -128,7 +128,7 @@ export function ProjectSwitcher({
               <div className="flex items-center gap-2">
                 <FolderKanban className="w-4 h-4 text-accent-text" />
                 <h3 className="font-bold text-ink text-callout">
-                  พื้นที่ทำงานโครงงาน (Multi-Project Workspace)
+                  พื้นที่ทำงานโครงงาน
                 </h3>
               </div>
               <button
@@ -295,7 +295,7 @@ export function ProjectSwitcher({
             <form onSubmit={handleConfirmCreate} className="space-y-4">
               <div>
                 <label className="block text-caption font-semibold text-ink-2 mb-1.5">
-                  ชื่อโครงงาน (Project Title)
+                  ชื่อโครงงาน
                 </label>
                 <input
                   type="text"

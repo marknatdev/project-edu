@@ -276,7 +276,7 @@ export function WeeklyPlanEditor({
                     </div>
                     <div>
                       <label className="block text-caption font-bold text-ink-3 mb-1">
-                        สิ่งที่จะส่งมอบ (Deliverable)
+                        สิ่งที่จะส่งมอบ
                       </label>
                       <input
                         type="text"
@@ -440,7 +440,7 @@ export function WeeklyPlanEditor({
 
               <div>
                 <label className="block text-caption font-semibold text-ink-2 mb-1">
-                  สิ่งที่จะส่งมอบ (Deliverable)
+                  สิ่งที่จะส่งมอบ
                 </label>
                 <input
                   type="text"

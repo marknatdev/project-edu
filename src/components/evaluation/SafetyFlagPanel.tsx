@@ -9,11 +9,11 @@ export interface SafetyFlagPanelProps {
 }
 
 const CATEGORY_NAMES_TH: Record<string, string> = {
-  biological_agents: 'เชื้อจุลินทรีย์ / สารชีวภาพ (Biological Agents)',
-  hazardous_chemicals: 'สารเคมีอันตราย / วัตถุไวไฟ (Hazardous Chemicals)',
-  human_subjects: 'อาสาสมัครมนุษย์ (Human Subjects)',
-  vertebrate_animals: 'สัตว์มีกระดูกสันหลัง (Vertebrate Animals)',
-  high_voltage_radiation: 'ไฟฟ้าแรงสูง / รังสี / เลเซอร์ (High Voltage & Radiation)',
+  biological_agents: 'เชื้อจุลินทรีย์ / สารชีวภาพ',
+  hazardous_chemicals: 'สารเคมีอันตราย / วัตถุไวไฟ',
+  human_subjects: 'อาสาสมัครมนุษย์',
+  vertebrate_animals: 'สัตว์มีกระดูกสันหลัง',
+  high_voltage_radiation: 'ไฟฟ้าแรงสูง / รังสี / เลเซอร์',
 };
 
 export function SafetyFlagPanel({ safetyFlags }: SafetyFlagPanelProps) {
@@ -47,7 +47,7 @@ export function SafetyFlagPanel({ safetyFlags }: SafetyFlagPanelProps) {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-caution-tint text-caution text-caption font-bold">
             <span>คำเตือนความปลอดภัย (SRC/ISEF Advisory)</span>
-            <span>• ไม่ปิดกั้น (Non-blocking)</span>
+            <span>• ไม่ปิดกั้น</span>
           </div>
           <h3 className="text-callout sm:text-body font-semibold text-caution">
             พบประเด็นที่ต้องขออนุมัติล่วงหน้าหรือระมัดระวังเป็นพิเศษ

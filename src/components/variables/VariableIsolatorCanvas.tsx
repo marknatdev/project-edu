@@ -49,16 +49,16 @@ export function VariableIsolatorCanvas({ idea, onSave }: { idea: Idea; onSave: (
               <Field label="ตัวแปรตาม (DV)" value={science.dependent} onChange={(dependent) => updateScience({ dependent })} hint="จะสังเกตหรือวัดผลอะไร?" />
               <Field label="ตัวแปรควบคุม (หนึ่งรายการต่อบรรทัด)" value={science.controlled.join('\n')} onChange={(value) => updateScience({ controlled: value.split('\n') })} hint="ต้องคงเงื่อนไขใดให้เหมือนกันทุกชุด?" />
             </> : <>
-              <Field label="ข้อมูลนำเข้า (Input)" value={computing.input} onChange={(input) => updateComputing({ input })} hint="ระบบรับข้อมูลใด? ไม่ใส่ข้อมูลส่วนตัวของอาสาสมัคร" />
-              <Field label="ผลลัพธ์ (Output)" value={computing.output} onChange={(output) => updateComputing({ output })} hint="ระบบควรส่งผลอะไรออกมา?" />
-              <Field label="ตัวชี้วัด (Metric)" value={computing.metric} onChange={(metric) => updateComputing({ metric })} hint="จะวัดความสำเร็จหรือความผิดพลาดด้วยอะไร?" />
-              <Field label="การแบ่งข้อมูล (Data split)" value={computing.dataSplit} onChange={(dataSplit) => updateComputing({ dataSplit })} hint="แยกฝึก / ตรวจสอบ / ทดสอบอย่างไร ไม่ให้ข้อมูลซ้ำหรือรั่ว?" />
+              <Field label="ข้อมูลนำเข้า" value={computing.input} onChange={(input) => updateComputing({ input })} hint="ระบบรับข้อมูลใด? ไม่ใส่ข้อมูลส่วนตัวของอาสาสมัคร" />
+              <Field label="ผลลัพธ์" value={computing.output} onChange={(output) => updateComputing({ output })} hint="ระบบควรส่งผลอะไรออกมา?" />
+              <Field label="ตัวชี้วัด" value={computing.metric} onChange={(metric) => updateComputing({ metric })} hint="จะวัดความสำเร็จหรือความผิดพลาดด้วยอะไร?" />
+              <Field label="การแบ่งข้อมูล" value={computing.dataSplit} onChange={(dataSplit) => updateComputing({ dataSplit })} hint="แยกฝึก / ตรวจสอบ / ทดสอบอย่างไร ไม่ให้ข้อมูลซ้ำหรือรั่ว?" />
             </>}
           </div>
           <div className="min-w-0 rounded-3xl border border-accent/30 bg-accent-tint p-4 sm:p-6 space-y-4">
             {design.preset === 'science'
               ? <Field label="ชุดควบคุม / กลุ่มเปรียบเทียบ" value={science.controlGroup} onChange={(controlGroup) => updateScience({ controlGroup })} hint="เมื่อไม่เปลี่ยนตัวแปรต้น ผลควรเป็นอย่างไร?" />
-              : <Field label="วิธีเปรียบเทียบ (Baseline)" value={computing.baseline} onChange={(baseline) => updateComputing({ baseline })} hint="จะเปรียบเทียบกับวิธีเดิมใดโดยใช้ข้อมูลทดสอบเดียวกัน?" />}
+              : <Field label="วิธีเปรียบเทียบ" value={computing.baseline} onChange={(baseline) => updateComputing({ baseline })} hint="จะเปรียบเทียบกับวิธีเดิมใดโดยใช้ข้อมูลทดสอบเดียวกัน?" />}
             <label className="block text-callout font-semibold text-ink">หน่วยวัดเชิงปริมาณ
               <input list="quantitative-units" className={inputClass} value={design.unit} placeholder="เลือกหรือพิมพ์หน่วย เช่น °C, Ω, mg/L" onChange={(event) => preset === 'science' ? updateScience({ unit: event.target.value, customUnitConfirmed: false }) : updateComputing({ unit: event.target.value, customUnitConfirmed: false })} />
               <datalist id="quantitative-units">{QUANTITATIVE_UNITS.map((unit) => <option key={unit} value={unit} />)}</datalist>

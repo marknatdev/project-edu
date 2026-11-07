@@ -196,7 +196,7 @@ export function ProposalEditor({
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               2
             </span>
-            <span>วัตถุประสงค์ (Objectives)</span>
+            <span>วัตถุประสงค์</span>
           </h3>
           <button
             type="button"
@@ -247,7 +247,7 @@ export function ProposalEditor({
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               3
             </span>
-            <span>สมมติฐานการทดลอง/การศึกษา (Hypothesis)</span>
+            <span>สมมติฐานการทดลอง/การศึกษา</span>
           </h3>
         </div>
         <textarea
@@ -265,14 +265,14 @@ export function ProposalEditor({
           <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
             4
           </span>
-          <span>ตัวแปรในการทดลอง/การพัฒนา (Variables)</span>
+          <span>ตัวแปรในการทดลอง/การพัฒนา</span>
         </h3>
 
         {/* 4.1 ตัวแปรต้น */}
         <div className="p-3.5 rounded-2xl bg-surface-2 border border-separator space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-caption font-bold text-ink-2">
-              ตัวแปรต้น (Independent Variables)
+              ตัวแปรต้น
             </span>
             <button
               type="button"
@@ -311,7 +311,7 @@ export function ProposalEditor({
         <div className="p-3.5 rounded-2xl bg-surface-2 border border-separator space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-caption font-bold text-ink-2">
-              ตัวแปรตาม (Dependent Variables)
+              ตัวแปรตาม
             </span>
             <button
               type="button"
@@ -350,7 +350,7 @@ export function ProposalEditor({
         <div className="p-3.5 rounded-2xl bg-surface-2 border border-separator space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-caption font-bold text-ink-2">
-              ตัวแปรควบคุม (Controlled Variables)
+              ตัวแปรควบคุม
             </span>
             <button
               type="button"
@@ -393,7 +393,7 @@ export function ProposalEditor({
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               5
             </span>
-            <span>วิธีดำเนินการ / ขั้นตอนการทดลอง (Methodology)</span>
+            <span>วิธีดำเนินการ / ขั้นตอนการทดลอง</span>
           </h3>
           <span className="text-caption text-ink-3">
             {proposal.methodology.length} ตัวอักษร

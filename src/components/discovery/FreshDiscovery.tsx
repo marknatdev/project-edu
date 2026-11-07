@@ -71,7 +71,7 @@ function CardDetails({ card }: { card: TopicCard }) {
   const s = card.starter;
   return (
     <div className="min-w-0 space-y-2 break-words">
-      <p className="rounded-lg bg-accent-tint px-2 py-1 text-caption font-semibold text-accent-text">ที่มา: AI สร้างใหม่จากคำตอบของคุณ · {subfieldName(card.subfieldId)} · ยังไม่ตรวจความใหม่ (Prior Work)</p>
+      <p className="rounded-lg bg-accent-tint px-2 py-1 text-caption font-semibold text-accent-text">ที่มา: AI สร้างใหม่จากคำตอบของคุณ · {subfieldName(card.subfieldId)} · ยังไม่ตรวจความใหม่</p>
       <h2 className="text-headline font-semibold leading-snug text-ink">{card.title}</h2>
       <p className="text-caption font-bold text-accent-text">ปัญหาที่ชวนสำรวจ</p>
       <p className="text-callout text-ink">{s?.problem ?? card.phenomenon}</p>
@@ -454,7 +454,7 @@ export function FreshDiscovery() {
       <header className={`${panel} flex flex-wrap items-center gap-3`}>
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-good-tint text-good"><Compass aria-hidden className="h-5 w-5" /></div>
         <div className="min-w-0 flex-1">
-          <p className="text-body font-semibold text-ink sm:text-headline">ค้นหาเรื่องที่อยากทำ (Discovery)</p>
+          <p className="text-body font-semibold text-ink sm:text-headline">ค้นหาเรื่องที่อยากทำ</p>
           <p className="text-caption text-ink-2">คุยสั้น ๆ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณ ครั้งละ 5 ใบ · บันทึกในเบราว์เซอร์นี้ รีเฟรชแล้วทำต่อได้</p>
         </div>
       </header>

@@ -25,7 +25,7 @@ export function ModePicker({ value, onChange, disabled }: { value: CoachMode; on
       {OPTIONS.map(({ mode, label, hint, icon: Icon }, i) => {
         const on = mode === value;
         return (
-          <button key={mode} ref={el => { refs.current[i] = el; }} type="button" role="radio" aria-checked={on} title={hint}
+          <button key={mode} ref={el => { refs.current[i] = el; }} type="button" role="radio" aria-checked={on} aria-label={label} title={hint}
             tabIndex={on ? 0 : -1} disabled={disabled} onClick={() => onChange(mode)}
             onKeyDown={e => {
               if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); move(current + 1); }

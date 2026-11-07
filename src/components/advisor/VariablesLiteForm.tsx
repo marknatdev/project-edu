@@ -91,7 +91,7 @@ export function VariablesLiteForm({
         </div>
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent-tint text-accent-text text-caption font-bold">
-            <span>ตัวแปรและชุดควบคุม (Variables Step Lite)</span>
+            <span>ตัวแปรและชุดควบคุม</span>
           </div>
           <h2 className="text-headline sm:text-headline font-semibold text-ink mt-1">
             ระบุตัวแปรและระเบียบวิธีวิจัย
@@ -200,13 +200,13 @@ export function VariablesLiteForm({
           )}
         </div>
 
-        {/* 4. ชุดควบคุม (Control Group) */}
+        {/* 4. ชุดควบคุม */}
         <div>
           <label
             htmlFor="inp-control-group"
             className="block text-caption font-bold text-ink mb-1"
           >
-            4. ชุดควบคุม (Control Group / Baseline Comparison) <span className="text-risk">*</span>
+            4. ชุดควบคุม <span className="text-risk">*</span>
           </label>
           <input
             id="inp-control-group"
@@ -226,14 +226,14 @@ export function VariablesLiteForm({
           )}
         </div>
 
-        {/* 5. จำนวนซ้ำ (Replicates n) */}
+        {/* 5. จำนวนซ้ำ */}
         <div>
           <div className="flex items-center justify-between mb-1">
             <label
               htmlFor="inp-replicates"
               className="text-caption font-bold text-ink"
             >
-              5. จำนวนซ้ำในการทดลอง (Replicates n) <span className="text-risk">*</span>
+              5. จำนวนซ้ำในการทดลอง <span className="text-risk">*</span>
             </label>
             <span className="text-caption text-accent-text bg-accent-tint px-2 py-0.5 rounded-full font-semibold">
               แนะนำ n ≥ 3 หรือ n ≥ 5 สำหรับโครงงานวิจัย
