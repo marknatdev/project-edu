@@ -2,8 +2,7 @@
 
 import React, { Suspense, useEffect, useState, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { AppShell } from '@/components/shell/AppShell';
 import {
   getProjects,
   getProject,
@@ -27,15 +26,15 @@ import { assembleProposal } from '@/lib/proposal/assemble';
 import { generateWeeklyPlan } from '@/lib/plan/weekly-plan';
 import { checkProposalQuota, consumeProposalQuota, type ProposalQuotaStatus } from '@/lib/proposal/quota-client';
 import { ProjectSwitcher } from '@/components/project/ProjectSwitcher';
-import { ProjectToolLinks } from '@/components/project/ProjectToolLinks';
+import { DocsNav } from '@/components/project/DocsNav';
 import { ProposalEditor } from '@/components/proposal/ProposalEditor';
 import { WeeklyPlanEditor } from '@/components/proposal/WeeklyPlanEditor';
 import { ProjectDeliverables } from '@/components/presentation/ProjectDeliverables';
 import '@/components/export/document.css';
 
-type ActiveTab = 'proposal' | 'plan' | 'tcas' | 'pitch' | 'advisor';
+type ActiveTab = 'proposal' | 'plan' | 'export' | 'tcas' | 'pitch' | 'advisor';
 const documentTabs: { id: ActiveTab; label: string }[] = [
-  { id: 'proposal', label: 'Proposal' }, { id: 'plan', label: 'Plan รายสัปดาห์' },
+  { id: 'proposal', label: 'ข้อเสนอ' }, { id: 'plan', label: 'แผนงาน' }, { id: 'export', label: 'ส่งออก' },
   { id: 'tcas', label: 'พอร์ต TCAS' }, { id: 'pitch', label: 'Abstract & Pitch' }, { id: 'advisor', label: 'ครูตรวจ' },
 ];
 
@@ -314,34 +313,8 @@ function ProposalContent() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6 sm:py-8 space-y-6">
-      {/* Top Breadcrumb & Navigation */}
-      <div className="flex items-center justify-between gap-2">
-        <Link
-          href={activeProject?.ideaId ? `/evaluation?ideaId=${activeProject.ideaId}` : '/idea'}
-          className="inline-flex items-center gap-1.5 text-caption font-semibold text-ink-2 hover:text-accent-text transition min-h-[40px] px-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>กลับไปหน้าประเมิน / ไอเดีย</span>
-        </Link>
-
-        <span className="text-caption font-medium text-ink-3 bg-surface-2 px-2.5 py-1 rounded-full">
-          ม.ต้น & ม.ปลาย
-        </span>
-      </div>
-
-      {/* Page Title & Mission */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-semibold text-ink">
-          Proposal, พอร์ต & ครูอนุมัติ
-        </h1>
-        <p className="text-caption sm:text-callout text-ink-2 mt-1 leading-relaxed">
-          จัดเอกสารจากคำตอบจริงของผู้เรียน: Proposal + Plan • พอร์ต TCAS • Abstract & Pitch • ส่งครูตรวจ
-        </p>
-      </div>
-
-      {/* Multi-Project Workspace Switcher */}
-      <ProjectToolLinks projectId={activeProject?.id} />
+    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+      <DocsNav current={activeTab} projectId={activeProject?.id} />
       <ProjectSwitcher
         projects={projects}
         activeProject={activeProject}
@@ -351,11 +324,6 @@ function ProposalContent() {
         onRenameProject={handleRenameProject}
         onDeleteProject={handleDeleteProject}
       />
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 p-1.5 bg-surface-2 rounded-2xl gap-1" aria-label="ประเภทเอกสาร">
-        {documentTabs.map(tab => <button key={tab.id} type="button" aria-pressed={activeTab === tab.id}
-          onClick={() => setActiveTab(tab.id)} className={`min-h-11 rounded-xl p-3 text-caption sm:text-callout font-bold transition ${activeTab === tab.id ? 'bg-surface text-accent-text shadow-e1' : 'text-ink-2 hover:bg-surface'}`}>{tab.label}</button>)}
-      </div>
 
       {/* Tab Panels */}
       {activeProject ? (
@@ -378,8 +346,8 @@ function ProposalContent() {
           />
         ) : null
       ) : (
-        <div className="bg-surface rounded-3xl border border-separator p-8 text-center space-y-3">
-          <p className="text-callout text-ink-3">ยังไม่ได้เลือกโครงงาน</p>
+        <div className="flex flex-col gap-3 rounded-3xl bg-surface p-8 text-center shadow-e1">
+          <p className="text-ink-2">ยังไม่ได้เลือกโครงงาน สร้างโครงงานจากไอเดียที่บันทึกไว้ด้านบน</p>
           {quotaStatus?.ownerChanged && <p role="alert" className="text-callout text-caution">{quotaStatus.messageTh}</p>}
         </div>
       )}
@@ -390,6 +358,7 @@ function ProposalContent() {
 
 export default function ProposalPage() {
   return (
+    <AppShell>
     <Suspense
       fallback={
         <div className="max-w-2xl mx-auto px-4 py-12 text-center">
@@ -402,5 +371,6 @@ export default function ProposalPage() {
     >
       <ProposalContent />
     </Suspense>
+    </AppShell>
   );
 }

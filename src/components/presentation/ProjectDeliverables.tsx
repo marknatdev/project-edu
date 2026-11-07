@@ -11,7 +11,7 @@ import { PresentationDocument } from '@/components/export/PresentationDocument';
 import { AdvisorReviewPanel } from '@/components/advisor-review/AdvisorReviewPanel';
 import { PresentationNotesEditor } from './PresentationNotesEditor';
 
-export function ProjectDeliverables({ project, view }: { project: Project; view: 'proposal' | 'plan' | 'tcas' | 'pitch' | 'advisor' }) {
+export function ProjectDeliverables({ project, view }: { project: Project; view: 'proposal' | 'plan' | 'export' | 'tcas' | 'pitch' | 'advisor' }) {
   const [notes, setNotes] = useState<PresentationNotes | null>(null);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState('');
@@ -67,6 +67,6 @@ export function ProjectDeliverables({ project, view }: { project: Project; view:
       <div className="proposal-document"><PresentationDocument input={{ ...project, ...(notes ? { presentationNotes: notes } : {}) }} view={view} /></div>
     </>}
     {view === 'advisor' && <AdvisorReviewPanel project={project} />}
-    <ExportPanel key={`${project.id}:${project.updatedAt}:${JSON.stringify(notes)}`} project={project} presentationNotes={notes ?? undefined} />
+    {view !== 'proposal' && view !== 'plan' && <ExportPanel key={`${project.id}:${project.updatedAt}:${JSON.stringify(notes)}`} project={project} presentationNotes={notes ?? undefined} />}
   </div>;
 }

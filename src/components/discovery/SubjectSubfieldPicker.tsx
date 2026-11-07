@@ -167,11 +167,11 @@ export function SubjectSubfieldPicker({
       </div>
 
       {/* 4. Action Banner */}
-      <div className="sticky bottom-4 z-10 bg-ink text-white rounded-2xl p-4 shadow-e3 flex items-center justify-between gap-3">
+      <div className="sticky bottom-[92px] md:bottom-6 z-10 bg-surface/95 backdrop-blur-xl text-ink rounded-2xl p-4 shadow-e3 flex items-center justify-between gap-3">
         <div>
           <div className="text-caption text-ink-3">พร้อมสำรวจหัวข้อ</div>
-          <div className="text-callout font-bold text-white flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-caution" />
+          <div className="text-callout font-medium text-ink flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-accent-text" aria-hidden />
             <span>พบการ์ดหัวข้อ {matchingCardCount} ใบ</span>
           </div>
         </div>
@@ -182,8 +182,7 @@ export function SubjectSubfieldPicker({
           disabled={matchingCardCount === 0}
           className="min-h-[44px] px-5 py-2.5 rounded-xl bg-accent hover:bg-accent disabled:opacity-50 text-white text-callout font-bold transition-all shadow-e2 flex items-center gap-2 cursor-pointer active:scale-95"
         >
-          <span>เริ่มปัดการ์ด</span>
-          <span>→</span>
+          <span>เริ่มดูการ์ด</span>
         </button>
       </div>
     </div>

@@ -482,7 +482,7 @@ export function SwipeDeck({
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-2xl bg-ink text-white text-caption font-semibold shadow-e3 backdrop-blur-md pointer-events-none transition-all animate-fade-in"
+          className="fixed bottom-[100px] md:bottom-8 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-2xl bg-ink text-white text-caption font-semibold shadow-e3 backdrop-blur-md pointer-events-none transition-all animate-fade-in"
         >
           {toastMessage}
         </div>

@@ -379,7 +379,7 @@ export function WeeklyPlanEditor({
 
       {/* Add Milestone Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl border border-separator p-6 max-w-md w-full shadow-e3 animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-3 border-b border-separator mb-4">
               <h3 className="font-bold text-ink text-base">
@@ -473,7 +473,7 @@ export function WeeklyPlanEditor({
 
       {/* Regenerate Plan Modal */}
       {showRegenerateConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl border border-separator p-6 max-w-sm w-full shadow-e3 animate-in zoom-in-95 duration-150">
             <div className="w-10 h-10 rounded-2xl bg-accent-tint text-accent-text flex items-center justify-center mb-3">
               <RefreshCw className="w-5 h-5" />

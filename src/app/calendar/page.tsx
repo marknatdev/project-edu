@@ -7,9 +7,8 @@ import { CompetitionCalendar } from '@/components/calendar/CompetitionCalendar';
 import { AppShell } from '@/components/shell/AppShell';
 
 export default function CalendarPage() {
-  return <AppShell><div className="mx-auto max-w-3xl space-y-5">
-    <header><p className="text-caption font-semibold text-accent-text">เตรียมแข่ง • วางแผนล่วงหน้า</p><h1 className="mt-1 text-2xl font-semibold">ปฏิทินแข่ง & แผนรายสัปดาห์</h1><p className="mt-2 text-callout text-ink-2">สำรวจช่วงของแต่ละเวที แล้วกลับไปจัดแผนงานของโครงงานตามวันส่งที่ตรวจสอบแล้ว</p></header>
-    <Suspense fallback={<p>กำลังโหลดโครงงาน…</p>}><ProjectToolWorkspace>{({ project }) => <>
+  return <AppShell><div className="mx-auto max-w-2xl">
+    <Suspense fallback={<p>กำลังโหลดโครงงาน…</p>}><ProjectToolWorkspace view="calendar" intro="ดูช่วงเวลาของแต่ละเวที แล้วจัดแผนงานให้ทันวันส่ง">{({ project }) => <>
       {project && <section className="rounded-2xl border border-good/30 bg-good-tint p-4 space-y-3">
         <h2 className="font-bold text-good break-words">แผนงานของ {project.title}</h2>
         <p className="text-callout text-good">{project.plan.totalWeeks} สัปดาห์ • เสร็จแล้ว {project.plan.milestones.filter((m) => m.completed).length}/{project.plan.milestones.length} งาน</p>

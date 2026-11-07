@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { getProjects, getActiveProjectId, getInterview, setActiveProjectId, loadState } from '@/lib/storage/store';
 import type { Project } from '@/types/domain';
-import { ProjectToolLinks } from './ProjectToolLinks';
+import { DocsNav, type DocsView } from './DocsNav';
 
 interface ToolContext {
   project: Project | null;
@@ -14,7 +14,7 @@ interface ToolContext {
 }
 
 /** Read existing Projects only. Missing URL IDs must not edit a different Project. */
-export function ProjectToolWorkspace({ children }: { children: (context: ToolContext) => ReactNode }) {
+export function ProjectToolWorkspace({ view, intro, children }: { view: DocsView; intro?: string; children: (context: ToolContext) => ReactNode }) {
   const params = useSearchParams();
   const requestedId = params.get('projectId');
   const [ready, setReady] = useState(false);
@@ -38,8 +38,9 @@ export function ProjectToolWorkspace({ children }: { children: (context: ToolCon
 
   const project = projects.find((p) => p.id === selectedId) ?? null;
   return (
-    <div className="space-y-5">
-      <ProjectToolLinks projectId={project?.id} />
+    <div className="flex flex-col gap-5">
+      <DocsNav current={view} projectId={project?.id} />
+      {intro && <p className="-mt-1 text-ink-2">{intro}</p>}
       {!ready ? <p role="status">กำลังโหลดโครงงาน…</p> : <>
         {projects.length > 0 && <label className="block text-callout font-semibold text-ink-2">
           โครงงาน (Project)

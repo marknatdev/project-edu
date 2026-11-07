@@ -469,7 +469,7 @@ function EvaluationContent() {
       <PriorWorkList priorWork={viewModel.priorWork} />
 
       {/* Fixed Bottom Action Floating Bar */}
-      <div className="fixed bottom-16 md:bottom-0 left-0 right-0 p-3 sm:p-4 bg-surface backdrop-blur-md border-t border-separator shadow-e2 z-20">
+      <div className="fixed bottom-[92px] md:bottom-0 left-0 right-0 md:left-[248px] p-3 sm:p-4 bg-surface/95 backdrop-blur-xl border-t border-separator z-20">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="hidden sm:block text-caption text-ink-3">
             {viewModel.hasRedAxes ? (

@@ -119,7 +119,7 @@ export function ProjectSwitcher({
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-ink backdrop-blur-xs md:hidden"
+            className="fixed inset-0 z-40 bg-ink/40 backdrop-blur-sm md:hidden"
             onClick={() => setIsOpen(false)}
           />
           <div className="fixed inset-x-0 bottom-0 z-50 md:absolute md:inset-auto md:top-full md:left-0 md:right-0 md:mt-2 bg-surface rounded-t-3xl md:rounded-2xl border border-separator shadow-e3 max-h-[80vh] md:max-h-96 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
@@ -276,7 +276,7 @@ export function ProjectSwitcher({
 
       {/* Create New Project Modal */}
       {showNewModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl border border-separator p-6 max-w-md w-full shadow-e3 animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-3 border-b border-separator mb-4">
               <div className="flex items-center gap-2 text-accent-text">
@@ -350,7 +350,7 @@ export function ProjectSwitcher({
 
       {/* Confirm Delete Modal */}
       {confirmDeleteId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl border border-separator p-6 max-w-sm w-full shadow-e3 animate-in zoom-in-95 duration-150">
             <div className="w-10 h-10 rounded-2xl bg-risk-tint text-risk flex items-center justify-center mb-3">
               <Trash2 className="w-5 h-5" />

@@ -8,7 +8,6 @@ import {
   Trash2,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
 } from 'lucide-react';
 import type { Proposal, ProposalVariables } from '@/types/domain';
 import { updateProposalSection } from '@/lib/proposal/assemble';
@@ -138,38 +137,10 @@ export function ProposalEditor({
 
   return (
     <div className="space-y-6">
-      {/* ADR 0002 Provenance Banner */}
-      <div className="p-3.5 rounded-2xl bg-good-tint border border-good/30 flex items-start gap-2.5 shadow-e1">
-        <Sparkles className="w-4 h-4 text-good mt-0.5 shrink-0" />
-        <div className="text-caption text-good leading-relaxed">
-          <span className="font-bold">
-            ข้อเสนอโครงงานฉบับร่วมสร้าง (Co-created 1-Page Proposal):
-          </span>{' '}
-          เนื้อหาทุกส่วนรวบรวมจากคำตอบและความคิดของคุณเอง 100% โดยไม่มีข้อความแต่งเติมจาก AI
-          (ตามหลักการ ADR 0002) และคุณสามารถแก้ไขปรับปรุงได้อย่างอิสระ
-        </div>
-      </div>
-
-      {/* Quota Tracker Bar */}
-      {quotaStatus && (
-        <div className="p-3 rounded-2xl bg-surface border border-separator flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-caption shadow-e1">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-ink-2">โควตาสร้างข้อเสนอวันนี้:</span>
-            <span
-              className={`px-2 py-0.5 rounded-full font-bold ${
-                quotaStatus.remaining > 0
-                  ? 'bg-accent-tint text-accent-text'
-                  : 'bg-risk-tint text-risk'
-              }`}
-            >
-              เหลือ {quotaStatus.remaining} / {quotaStatus.limit} ครั้ง
-            </span>
-          </div>
-          <div className="text-ink-3 text-caption">
-            (การบันทึกแก้ไขด้วยตนเองทำได้ไม่จำกัดและไม่เสียโควตา)
-          </div>
-        </div>
-      )}
+      <p className="text-callout text-ink-2">
+        ทุกส่วนเรียบเรียงจากคำตอบของคุณเอง แก้ไขได้อิสระ
+        {quotaStatus && <> · สร้างใหม่จากคำตอบได้อีก {quotaStatus.remaining} จาก {quotaStatus.limit} ครั้งวันนี้ (การแก้ไขเองไม่เสียโควตา)</>}
+      </p>
 
       {/* Quota Exceeded Alert if exhausted */}
       {isQuotaExhausted && quotaStatus?.messageTh && (
@@ -184,8 +155,8 @@ export function ProposalEditor({
 
       {/* Project Title Card */}
       <div className="bg-surface rounded-3xl border border-separator p-5 sm:p-6 shadow-e1 space-y-2">
-        <label className="block text-caption font-bold text-ink-2 uppercase tracking-wide">
-          ชื่อโครงงาน (Project Title)
+        <label className="block font-medium text-ink">
+          ชื่อโครงงาน
         </label>
         <input
           type="text"
@@ -438,7 +409,7 @@ export function ProposalEditor({
       </div>
 
       {/* Bottom Action Bar */}
-      <div className="sticky bottom-20 z-10 p-3 bg-surface backdrop-blur-md rounded-2xl border border-accent/30 shadow-e2 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="sticky bottom-[92px] md:bottom-6 z-10 p-3 bg-surface/95 backdrop-blur-xl rounded-2xl shadow-e2 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           {saveSuccess && (
             <span className="text-caption font-semibold text-good flex items-center gap-1 animate-in fade-in">
@@ -482,7 +453,7 @@ export function ProposalEditor({
 
       {/* Reassemble Confirmation Modal */}
       {showReassembleConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl border border-separator p-6 max-w-sm w-full shadow-e3 animate-in zoom-in-95 duration-150">
             <div className="w-10 h-10 rounded-2xl bg-accent-tint text-accent-text flex items-center justify-center mb-3">
               <RefreshCw className="w-5 h-5" />

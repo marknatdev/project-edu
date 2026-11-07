@@ -460,17 +460,17 @@ export function ShortlistMatrix({
 
       {/* 5. Sticky Bottom Compare Bar */}
       {selectedForCompare.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-3">
-          <div className="bg-ink text-white rounded-2xl p-3 shadow-e3 flex items-center justify-between gap-2 border border-slate-700">
-            <span className="text-caption font-bold text-accent-on">
-              เลือกเทียบแล้ว <b className="text-caution">{selectedForCompare.length}</b>/2 หัวข้อ
+        <div className="fixed bottom-[92px] md:bottom-6 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-3">
+          <div className="bg-surface text-ink rounded-2xl p-3 shadow-e3 flex items-center justify-between gap-2">
+            <span className="text-caption font-medium text-ink">
+              เลือกเทียบแล้ว <b className="text-accent-text">{selectedForCompare.length}</b>/2 หัวข้อ
             </span>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={clearCompare}
-                className="min-h-[36px] px-2.5 py-1 rounded-xl border border-slate-600 text-caption font-semibold text-ink-3 hover:bg-ink transition-all"
+                className="min-h-[36px] px-2.5 py-1 rounded-xl bg-surface-2 text-caption font-medium text-ink hover:bg-separator transition-all"
               >
                 ล้าง
               </button>

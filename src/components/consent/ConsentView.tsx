@@ -242,7 +242,7 @@ export function ConsentView() {
 
       {/* Wipe Confirmation Modal */}
       {showWipeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-e3 border border-separator space-y-5 animate-in fade-in zoom-in-95">
             <div className="w-12 h-12 rounded-2xl bg-risk-tint text-risk flex items-center justify-center mx-auto">
               <AlertTriangle className="w-6 h-6" />
