@@ -69,19 +69,34 @@ jobs:
       - name: Sync Capacitor iOS
         run: npx cap sync ios
 
-      - name: Build iOS project (unsigned)
+      - name: Build iOS IPA (unsigned for sideloading)
         run: |
-          xcodebuild -project ios/App/App.xcodeproj \
+          mkdir -p build
+          xcodebuild archive \
+            -project ios/App/App.xcodeproj \
             -scheme App \
+            -configuration Release \
             -destination 'generic/platform=iOS' \
-            clean build \
+            -archivePath build/App.xcarchive \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
 
-      - name: Upload iOS Xcode Project Artifact
+          mkdir -p build/Payload
+          APP_PATH=$(find build/App.xcarchive -name "*.app" -type d | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "Searching DerivedData..."
+            APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "*.app" -type d | head -n 1)
+          fi
+          echo "Found app at: $APP_PATH"
+          cp -r "$APP_PATH" build/Payload/
+          cd build
+          zip -r -q project-edu.ipa Payload
+          ls -lh project-edu.ipa
+
+      - name: Upload iOS IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: project-edu-ios-project
-          path: ios/
+          name: project-edu-ios-ipa
+          path: build/project-edu.ipa
           retention-days: 14
