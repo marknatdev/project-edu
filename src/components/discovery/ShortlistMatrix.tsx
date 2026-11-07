@@ -127,12 +127,12 @@ export function ShortlistMatrix({
   if (cards.length === 0) {
     return (
       <div className="w-full max-w-md mx-auto bg-surface border border-separator rounded-3xl p-8 text-center space-y-4 shadow-e1">
-        <div className="w-16 h-16 rounded-3xl bg-accent-tint text-accent-text flex items-center justify-center mx-auto text-3xl">
+        <div className="w-16 h-16 rounded-3xl bg-accent-tint text-accent-text flex items-center justify-center mx-auto text-large-title">
           
         </div>
         <div className="space-y-1">
-          <h3 className="font-bold text-lg text-ink">
-            ยังไม่มีหัวข้อใน Shortlist
+          <h3 className="font-bold text-headline text-ink">
+            ยังไม่มีหัวข้อใน รายการที่สนใจ
           </h3>
           <p className="text-caption text-ink-3 max-w-xs mx-auto leading-relaxed">
             ปัดขวา (สนใจ) หรือปัดขึ้น (อยากทำเลย) เพื่อสะสมหัวข้อโครงงานที่น่าสนใจให้ครบ 5 ใบ
@@ -155,8 +155,8 @@ export function ShortlistMatrix({
       {/* 1. Header & Count */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-ink flex items-center gap-2">
-            <span>Shortlist เปรียบเทียบ</span>
+          <h2 className="text-headline sm:text-headline font-semibold text-ink flex items-center gap-2">
+            <span>รายการที่สนใจ เปรียบเทียบ</span>
             <span className="text-caption font-bold px-2 py-0.5 rounded-full bg-accent-tint text-accent-text">
               {cards.length} ใบ
             </span>
@@ -169,7 +169,7 @@ export function ShortlistMatrix({
         <button
           type="button"
           onClick={onBackToDeck}
-          className="min-h-[38px] px-3 py-1.5 rounded-xl border border-separator bg-surface hover:bg-surface-2 text-caption font-semibold text-ink-2 flex items-center gap-1 transition-all"
+          className="min-h-11 px-3 py-1.5 rounded-xl border border-separator bg-surface hover:bg-surface-2 text-caption font-semibold text-ink-2 flex items-center gap-1 transition-all"
         >
           <Layers className="w-3.5 h-3.5" />
           <span>ปัดเพิ่ม</span>
@@ -192,7 +192,7 @@ export function ShortlistMatrix({
           </div>
 
           <div>
-            <h3 className="font-bold text-callout sm:text-base text-white leading-snug">
+            <h3 className="font-bold text-callout sm:text-body text-white leading-snug">
               {recommendation.item.superLiked && ''}
               {recommendation.item.card.title}
             </h3>
@@ -211,7 +211,7 @@ export function ShortlistMatrix({
             <button
               type="button"
               onClick={() => onSelectFinalTopic(recommendation.item.card)}
-              className="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-caution hover:bg-caution text-ink font-bold text-caption shadow-e1 flex items-center gap-1.5 transition-all cursor-pointer"
+              className="min-h-11 px-3.5 py-1.5 rounded-xl bg-caution hover:bg-caution text-ink font-bold text-caption shadow-e1 flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <span>เลือกหัวข้อนี้</span>
               <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -225,7 +225,7 @@ export function ShortlistMatrix({
         <button
           type="button"
           onClick={() => setSortKey('fit')}
-          className={`flex-1 min-h-[38px] px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 min-h-11 px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
             sortKey === 'fit'
               ? 'bg-surface text-accent-text shadow-e1 ring-1 ring-separator'
               : 'text-ink-2 hover:text-ink'
@@ -238,7 +238,7 @@ export function ShortlistMatrix({
         <button
           type="button"
           onClick={() => setSortKey('budget')}
-          className={`flex-1 min-h-[38px] px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 min-h-11 px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
             sortKey === 'budget'
               ? 'bg-surface text-accent-text shadow-e1 ring-1 ring-separator'
               : 'text-ink-2 hover:text-ink'
@@ -251,7 +251,7 @@ export function ShortlistMatrix({
         <button
           type="button"
           onClick={() => setSortKey('weeks')}
-          className={`flex-1 min-h-[38px] px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 min-h-11 px-2 py-1.5 rounded-xl text-caption font-bold  transition-all flex items-center justify-center gap-1 ${
             sortKey === 'weeks'
               ? 'bg-surface text-accent-text shadow-e1 ring-1 ring-separator'
               : 'text-ink-2 hover:text-ink'
@@ -309,7 +309,7 @@ export function ShortlistMatrix({
                         </span>
                       )}
                     </div>
-                    <h3 className="font-bold text-callout sm:text-base text-ink leading-snug">
+                    <h3 className="font-bold text-callout sm:text-body text-ink leading-snug">
                       {item.card.title}
                     </h3>
                   </div>
@@ -428,7 +428,7 @@ export function ShortlistMatrix({
                 <button
                   type="button"
                   onClick={() => handleToggleCompare(item.card.id)}
-                  className={`min-h-[38px] px-3 py-1.5 rounded-xl border text-caption font-bold  transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`min-h-11 px-3 py-1.5 rounded-xl border text-caption font-bold  transition-all flex items-center gap-1.5 cursor-pointer ${
                     isSelected
                       ? 'bg-accent text-white border-accent'
                       : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
@@ -447,7 +447,7 @@ export function ShortlistMatrix({
                 <button
                   type="button"
                   onClick={() => onSelectFinalTopic(item.card)}
-                  className="min-h-[38px] px-4 py-1.5 rounded-xl bg-ink hover:bg-accent text-white font-bold text-caption shadow-2xs flex items-center gap-1 transition-all cursor-pointer active:scale-95"
+                  className="min-h-11 px-4 py-1.5 rounded-xl bg-ink hover:bg-accent text-white font-bold text-caption shadow-2xs flex items-center gap-1 transition-all cursor-pointer active:scale-95"
                 >
                   <span>เลือกหัวข้อนี้</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -470,7 +470,7 @@ export function ShortlistMatrix({
               <button
                 type="button"
                 onClick={clearCompare}
-                className="min-h-[36px] px-2.5 py-1 rounded-xl bg-surface-2 text-caption font-medium text-ink hover:bg-separator transition-all"
+                className="min-h-11 px-2.5 py-1 rounded-xl bg-surface-2 text-caption font-medium text-ink hover:bg-separator transition-all"
               >
                 ล้าง
               </button>
@@ -479,7 +479,7 @@ export function ShortlistMatrix({
                 type="button"
                 disabled={selectedForCompare.length < 2}
                 onClick={() => setCompareSheetOpen(true)}
-                className="min-h-[36px] px-3.5 py-1 rounded-xl bg-accent hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-caption font-bold transition-all shadow-e1 flex items-center gap-1"
+                className="min-h-11 px-3.5 py-1 rounded-xl bg-accent hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-caption font-bold transition-all shadow-e1 flex items-center gap-1"
               >
                 <span>เทียบ 2 หัวข้อ</span>
                 <span>→</span>

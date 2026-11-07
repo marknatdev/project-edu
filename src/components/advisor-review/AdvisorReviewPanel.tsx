@@ -53,7 +53,7 @@ export function AdvisorReviewPanel({ project }: { project: Project }) {
     finally { setBusy(false); }
   }
   return <section aria-labelledby="advisor-heading" className="rounded-3xl border border-accent/30 bg-surface p-5 space-y-4 min-w-0">
-    <h2 id="advisor-heading" className="text-lg font-bold">ครูที่ปรึกษาตรวจ & ส่งผลกลับ</h2>
+    <h2 id="advisor-heading" className="text-headline font-bold">ครูที่ปรึกษาตรวจ & ส่งผลกลับ</h2>
     <div className="rounded-2xl border border-caution/30 bg-caution-tint p-4 text-callout leading-relaxed text-caution">
       <p className="font-bold">ไม่มีระบบหลังบ้าน · ไม่ยืนยันตัวตน · ไม่ใช่ลายเซ็นดิจิทัล</p>
       <p>ครูเปิดสำเนาอ่านอย่างเดียวโดยไม่ล็อกอิน ให้ความเห็นแล้วส่งรหัส/ลิงก์กลับ นักเรียนต้องวางรหัสที่นี่จึงบันทึกผลได้ ไม่ซิงก์อัตโนมัติ และใครที่มีลิงก์ก็สร้างผลตอบกลับได้</p>

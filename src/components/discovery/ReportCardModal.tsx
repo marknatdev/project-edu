@@ -56,7 +56,7 @@ export function ReportCardModal({
             <div className="w-8 h-8 rounded-full bg-caution-tint text-caution flex items-center justify-center">
               <Flag className="w-4 h-4" />
             </div>
-            <h3 id="report-dialog-title" className="text-base font-bold text-ink">
+            <h3 id="report-dialog-title" className="text-body font-bold text-ink">
               รายงานปัญหาการ์ดหัวข้อ
             </h3>
           </div>
@@ -74,7 +74,7 @@ export function ReportCardModal({
         {submitted ? (
           <div className="py-6 text-center space-y-3">
             <CheckCircle className="w-12 h-12 text-good mx-auto animate-bounce" />
-            <div className="text-base font-bold text-ink">
+            <div className="text-body font-bold text-ink">
               ขอบคุณสำหรับการรายงาน
             </div>
             <p className="text-caption text-ink-3 leading-relaxed">
@@ -124,13 +124,13 @@ export function ReportCardModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 min-h-[42px] px-4 py-2 rounded-xl border border-separator text-ink-2 text-caption font-semibold hover:bg-surface-2"
+                className="flex-1 min-h-11 px-4 py-2 rounded-xl border border-separator text-ink-2 text-caption font-semibold hover:bg-surface-2"
               >
                 ยกเลิก
               </button>
               <button
                 type="submit"
-                className="flex-1 min-h-[42px] px-4 py-2 rounded-xl bg-caution hover:bg-caution text-white text-caption font-bold shadow-e1"
+                className="flex-1 min-h-11 px-4 py-2 rounded-xl bg-caution hover:bg-caution text-white text-caption font-bold shadow-e1"
               >
                 ยืนยันการรายงาน
               </button>

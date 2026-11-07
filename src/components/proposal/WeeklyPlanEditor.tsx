@@ -164,7 +164,7 @@ export function WeeklyPlanEditor({
                 ปฏิทินและแผนงานรายสัปดาห์
               </span>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-ink flex items-center gap-2">
+            <h2 className="text-headline sm:text-headline font-bold text-ink flex items-center gap-2">
               <span>แผนงาน {plan.totalWeeks} สัปดาห์</span>
               {isSaving && (
                 <span className="text-caption text-accent-text font-semibold animate-pulse">
@@ -178,7 +178,7 @@ export function WeeklyPlanEditor({
             <button
               type="button"
               onClick={() => setShowRegenerateConfirm(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-2 hover:bg-separator text-ink-2 text-caption font-semibold transition min-h-[40px]"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-2 hover:bg-separator text-ink-2 text-caption font-semibold transition min-h-11"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>ปรับสัปดาห์ / สร้างแผนใหม่</span>
@@ -189,7 +189,7 @@ export function WeeklyPlanEditor({
                 setNewWeek(plan.milestones.length + 1);
                 setShowAddModal(true);
               }}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-accent hover:bg-accent-press text-white text-caption font-semibold shadow-e1 transition min-h-[40px]"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-accent hover:bg-accent-press text-white text-caption font-semibold shadow-e1 transition min-h-11"
             >
               <Plus className="w-4 h-4" />
               <span>เพิ่มขั้นตอน</span>
@@ -230,7 +230,7 @@ export function WeeklyPlanEditor({
             <button
               type="button"
               onClick={() => setShowRegenerateConfirm(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press transition min-h-[40px]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press transition min-h-11"
             >
               <Sparkles className="w-4 h-4" />
               <span>สร้างแผนงานอัตโนมัติตามสัปดาห์</span>
@@ -259,7 +259,7 @@ export function WeeklyPlanEditor({
                         type="text"
                         value={editTitle}
                         onChange={(e) => setEditTitle(e.target.value)}
-                        className="w-full text-caption sm:text-callout font-bold text-ink px-3 py-2 rounded-xl border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                        className="w-full text-caption sm:text-callout font-bold text-ink px-3 py-2 rounded-xl border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                         autoFocus
                       />
                     </div>
@@ -282,7 +282,7 @@ export function WeeklyPlanEditor({
                         type="text"
                         value={editDeliverable}
                         onChange={(e) => setEditDeliverable(e.target.value)}
-                        className="w-full text-caption text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                        className="w-full text-caption text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                       />
                     </div>
 
@@ -290,14 +290,14 @@ export function WeeklyPlanEditor({
                       <button
                         type="button"
                         onClick={() => setEditingIndex(null)}
-                        className="px-3 py-2 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 min-h-[40px]"
+                        className="px-3 py-2 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 min-h-11"
                       >
                         ยกเลิก
                       </button>
                       <button
                         type="button"
                         onClick={() => handleSaveEdit(idx)}
-                        className="px-4 py-2 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press min-h-[40px]"
+                        className="px-4 py-2 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press min-h-11"
                       >
                         บันทึก
                       </button>
@@ -309,7 +309,7 @@ export function WeeklyPlanEditor({
                     <button
                       type="button"
                       onClick={() => handleToggle(idx)}
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition min-h-[40px] min-w-[40px] ${
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition min-h-11 min-w-[40px] ${
                         milestone.completed
                           ? 'bg-good text-white shadow-e1'
                           : 'bg-surface-2 border border-control text-transparent hover:border-accent/30'
@@ -338,7 +338,7 @@ export function WeeklyPlanEditor({
                           <button
                             type="button"
                             onClick={() => handleStartEdit(idx, milestone)}
-                            className="p-2 text-ink-3 hover:text-accent-text rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-ink-3 hover:text-accent-text rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                             title="แก้ไขขั้นตอน"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -346,7 +346,7 @@ export function WeeklyPlanEditor({
                           <button
                             type="button"
                             onClick={() => handleRemove(idx)}
-                            className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                             title="ลบขั้นตอนนี้"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -382,13 +382,13 @@ export function WeeklyPlanEditor({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm">
           <div className="bg-surface rounded-3xl border border-separator p-6 max-w-md w-full shadow-e3 animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-3 border-b border-separator mb-4">
-              <h3 className="font-bold text-ink text-base">
+              <h3 className="font-bold text-ink text-body">
                 เพิ่มขั้นตอนในแผนงาน
               </h3>
               <button
                 type="button"
                 onClick={() => setShowAddModal(false)}
-                className="text-ink-3 hover:text-ink-2 min-h-[40px] min-w-[40px] flex items-center justify-center"
+                className="text-ink-3 hover:text-ink-2 min-h-11 min-w-[40px] flex items-center justify-center"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -405,7 +405,7 @@ export function WeeklyPlanEditor({
                   max={52}
                   value={newWeek}
                   onChange={(e) => setNewWeek(parseInt(e.target.value) || 1)}
-                  className="w-24 px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="w-24 px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                   required
                 />
               </div>
@@ -419,7 +419,7 @@ export function WeeklyPlanEditor({
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="เช่น สัปดาห์ 5: วิเคราะห์ผลและทำซ้ำ"
-                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                   required
                   autoFocus
                 />
@@ -447,7 +447,7 @@ export function WeeklyPlanEditor({
                   value={newDeliverable}
                   onChange={(e) => setNewDeliverable(e.target.value)}
                   placeholder="เช่น ตารางบันทึกค่าสถิติ n=3"
-                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="w-full px-3 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
               </div>
 
@@ -455,13 +455,13 @@ export function WeeklyPlanEditor({
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 min-h-[40px]"
+                  className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 min-h-11"
                 >
                   ยกเลิก
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 min-h-[40px]"
+                  className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 min-h-11"
                 >
                   เพิ่มขั้นตอน
                 </button>
@@ -478,7 +478,7 @@ export function WeeklyPlanEditor({
             <div className="w-10 h-10 rounded-2xl bg-accent-tint text-accent-text flex items-center justify-center mb-3">
               <RefreshCw className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-ink text-base mb-1.5">
+            <h3 className="font-bold text-ink text-body mb-1.5">
               ปรับปรุงแผนงานตามสัปดาห์
             </h3>
             <p className="text-caption text-ink-2 mb-4 leading-relaxed">
@@ -503,14 +503,14 @@ export function WeeklyPlanEditor({
               <button
                 type="button"
                 onClick={() => setShowRegenerateConfirm(false)}
-                className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 min-h-[40px]"
+                className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 min-h-11"
               >
                 ยกเลิก
               </button>
               <button
                 type="button"
                 onClick={handleRegenerate}
-                className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 min-h-[40px]"
+                className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 min-h-11"
               >
                 ยืนยันสร้างแผนใหม่
               </button>

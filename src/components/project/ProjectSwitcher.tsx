@@ -94,7 +94,7 @@ export function ProjectSwitcher({
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-1.5 px-3 py-2 text-caption font-semibold text-accent-text bg-accent-tint hover:bg-accent-tint rounded-xl transition min-h-[40px]"
+            className="flex items-center gap-1.5 px-3 py-2 text-caption font-semibold text-accent-text bg-accent-tint hover:bg-accent-tint rounded-xl transition min-h-11"
             aria-expanded={isOpen}
             aria-label="สลับหรือจัดการโครงงาน"
           >
@@ -106,7 +106,7 @@ export function ProjectSwitcher({
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="flex items-center justify-center w-10 h-10 rounded-xl bg-accent text-white hover:bg-accent-press transition shadow-e1"
+            className="flex items-center justify-center w-11 h-11 rounded-xl bg-accent text-white hover:bg-accent-press transition shadow-e1"
             aria-label="สร้างโครงงานใหม่"
             title="สร้างโครงงานใหม่"
           >
@@ -134,7 +134,7 @@ export function ProjectSwitcher({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-3 hover:text-ink-2 hover:bg-surface-2 min-h-[40px] min-w-[40px]"
+                className="w-11 h-11 rounded-lg flex items-center justify-center text-ink-3 hover:text-ink-2 hover:bg-surface-2 min-h-11 min-w-[40px]"
                 aria-label="ปิดหน้าต่างสลับโครงงาน"
               >
                 <X className="w-4 h-4" />
@@ -149,7 +149,7 @@ export function ProjectSwitcher({
                   <button
                     type="button"
                     onClick={handleOpenCreate}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-white text-caption font-semibold hover:bg-accent-press transition min-h-[40px]"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-white text-caption font-semibold hover:bg-accent-press transition min-h-11"
                   >
                     <Plus className="w-4 h-4" />
                     <span>สร้างโครงงานแรก</span>
@@ -185,7 +185,7 @@ export function ProjectSwitcher({
                           <button
                             type="button"
                             onClick={() => handleSaveRename(project.id)}
-                            className="p-2 text-good hover:bg-good-tint rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-good hover:bg-good-tint rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                             title="บันทึกชื่อ"
                           >
                             <Check className="w-4 h-4" />
@@ -193,7 +193,7 @@ export function ProjectSwitcher({
                           <button
                             type="button"
                             onClick={() => setEditingProjectId(null)}
-                            className="p-2 text-ink-3 hover:bg-surface-2 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                            className="p-2 text-ink-3 hover:bg-surface-2 rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                             title="ยกเลิก"
                           >
                             <X className="w-4 h-4" />
@@ -207,7 +207,7 @@ export function ProjectSwitcher({
                               onSelectProject(project.id);
                               setIsOpen(false);
                             }}
-                            className="flex items-center gap-2.5 min-w-0 flex-1 text-left min-h-[40px]"
+                            className="flex items-center gap-2.5 min-w-0 flex-1 text-left min-h-11"
                           >
                             <div
                               className={`w-3.5 h-3.5 rounded-full flex items-center justify-center border ${
@@ -235,7 +235,7 @@ export function ProjectSwitcher({
                             <button
                               type="button"
                               onClick={() => handleStartRename(project)}
-                              className="p-2 text-ink-3 hover:text-ink-2 hover:bg-surface-2 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                              className="p-2 text-ink-3 hover:text-ink-2 hover:bg-surface-2 rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                               title="เปลี่ยนชื่อ"
                               aria-label={`เปลี่ยนชื่อ ${project.title}`}
                             >
@@ -244,7 +244,7 @@ export function ProjectSwitcher({
                             <button
                               type="button"
                               onClick={() => setConfirmDeleteId(project.id)}
-                              className="p-2 text-risk hover:text-risk hover:bg-risk-tint rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                              className="p-2 text-risk hover:text-risk hover:bg-risk-tint rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                               title="ลบโครงงาน"
                               aria-label={`ลบโครงงาน ${project.title}`}
                             >
@@ -264,7 +264,7 @@ export function ProjectSwitcher({
               <button
                 type="button"
                 onClick={handleOpenCreate}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-accent text-white font-bold text-caption hover:bg-accent-press transition min-h-[40px]"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-accent text-white font-bold text-caption hover:bg-accent-press transition min-h-11"
               >
                 <Plus className="w-4 h-4" />
                 <span>เพิ่มโครงงานใหม่ (+ Project)</span>
@@ -281,12 +281,12 @@ export function ProjectSwitcher({
             <div className="flex items-center justify-between pb-3 border-b border-separator mb-4">
               <div className="flex items-center gap-2 text-accent-text">
                 <Sparkles className="w-5 h-5" />
-                <h3 className="font-bold text-ink text-base">สร้างโครงงานใหม่</h3>
+                <h3 className="font-bold text-ink text-body">สร้างโครงงานใหม่</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowNewModal(false)}
-                className="text-ink-3 hover:text-ink-2 p-1 min-h-[40px] min-w-[40px] flex items-center justify-center"
+                className="text-ink-3 hover:text-ink-2 p-1 min-h-11 min-w-[40px] flex items-center justify-center"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -316,7 +316,7 @@ export function ProjectSwitcher({
                   <select
                     value={selectedIdeaId}
                     onChange={(e) => setSelectedIdeaId(e.target.value)}
-                    className="w-full px-3.5 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent bg-surface font-medium min-h-[40px]"
+                    className="w-full px-3.5 py-2 text-caption rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent bg-surface font-medium min-h-11"
                   >
                     <option value="">-- เริ่มต้นเป็นโครงงานว่าง --</option>
                     {ideas.map((idea) => (
@@ -332,13 +332,13 @@ export function ProjectSwitcher({
                 <button
                   type="button"
                   onClick={() => setShowNewModal(false)}
-                  className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 transition min-h-[40px]"
+                  className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 transition min-h-11"
                 >
                   ยกเลิก
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 transition min-h-[40px]"
+                  className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 transition min-h-11"
                 >
                   ยืนยันสร้างโครงงาน
                 </button>
@@ -355,7 +355,7 @@ export function ProjectSwitcher({
             <div className="w-10 h-10 rounded-2xl bg-risk-tint text-risk flex items-center justify-center mb-3">
               <Trash2 className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-ink text-base mb-1.5">ยืนยันการลบโครงงาน?</h3>
+            <h3 className="font-bold text-ink text-body mb-1.5">ยืนยันการลบโครงงาน?</h3>
             <p className="text-caption text-ink-2 mb-4 leading-relaxed">
               โครงงานนี้และเอกสาร Proposal / แผนงานจะถูกลบออกจากพื้นที่ทำงานในเบราว์เซอร์นี้
             </p>
@@ -363,7 +363,7 @@ export function ProjectSwitcher({
               <button
                 type="button"
                 onClick={() => setConfirmDeleteId(null)}
-                className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 transition min-h-[40px]"
+                className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 transition min-h-11"
               >
                 ยกเลิก
               </button>
@@ -373,7 +373,7 @@ export function ProjectSwitcher({
                   onDeleteProject(confirmDeleteId);
                   setConfirmDeleteId(null);
                 }}
-                className="px-4 py-2.5 rounded-xl bg-risk text-white text-caption font-bold hover:bg-risk shadow-e1 transition min-h-[40px]"
+                className="px-4 py-2.5 rounded-xl bg-risk text-white text-caption font-bold hover:bg-risk shadow-e1 transition min-h-11"
               >
                 ลบโครงงาน
               </button>

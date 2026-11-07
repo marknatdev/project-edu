@@ -198,7 +198,7 @@ export function PivotWorkshop({
             <Sparkles className="w-3.5 h-3.5 text-risk" />
             <span>Socratic Pivot Workshop (AC-8)</span>
           </div>
-          <h3 className="text-base sm:text-lg font-semibold text-ink">
+          <h3 className="text-body sm:text-headline font-semibold text-ink">
             ห้องทดลองปรับมุมมองใหม่ สำหรับจุดที่ต้องพัฒนา (Red Axes)
           </h3>
           <p className="text-caption text-ink-2">
@@ -231,7 +231,7 @@ export function PivotWorkshop({
                   type="button"
                   onClick={() => handleSwitchAxis(axis)}
                   disabled={isSubmitting}
-                  className={`min-h-[40px] px-3.5 py-1.5 rounded-2xl text-caption font-bold  transition-all flex items-center gap-1.5 ${
+                  className={`min-h-11 px-3.5 py-1.5 rounded-2xl text-caption font-bold  transition-all flex items-center gap-1.5 ${
                     isSelected
                       ? 'bg-risk text-white shadow-e1'
                       : 'bg-risk-tint text-risk hover:bg-risk-tint border border-risk/40'
@@ -341,7 +341,7 @@ export function PivotWorkshop({
             <HelpCircle className="w-4 h-4 text-accent-text shrink-0" />
             <span>คำถามชวนคิดสำหรับด้าน {activeAxisMeta.nameTh}:</span>
           </div>
-          <p className="text-ink text-callout sm:text-base leading-relaxed bg-surface p-3.5 rounded-xl border border-accent/30">
+          <p className="text-ink text-callout sm:text-body leading-relaxed bg-surface p-3.5 rounded-xl border border-accent/30">
             {state.tier1Prompt}
           </p>
           <form onSubmit={handleSubmitTier1} className="pt-2 space-y-2">
@@ -401,7 +401,7 @@ export function PivotWorkshop({
               type="button"
               onClick={() => void handleRequestTier3()}
               disabled={isSubmitting || !serverHasTier2}
-              className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-risk hover:bg-risk text-white text-caption font-bold transition-all shadow-e1 flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
+              className="w-full sm:w-auto min-h-11 px-4 py-2 rounded-xl bg-risk hover:bg-risk text-white text-caption font-bold transition-all shadow-e1 flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
@@ -528,7 +528,7 @@ export function PivotWorkshop({
               <div className="pt-1 flex flex-wrap gap-2">
                 <Link
                   href={`/proposal?ideaId=${state.originalIdea.id}`}
-                  className="min-h-[40px] px-4 py-2 rounded-xl bg-good hover:bg-good text-white font-bold text-caption transition-all shadow-e1 inline-flex items-center gap-1.5"
+                  className="min-h-11 px-4 py-2 rounded-xl bg-good hover:bg-good text-white font-bold text-caption transition-all shadow-e1 inline-flex items-center gap-1.5"
                 >
                   <span>ไปเขียนข้อเสนอโครงงานต่อ (Proposal) →</span>
                 </Link>

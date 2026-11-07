@@ -49,7 +49,7 @@ export function SafetyFlagPanel({ safetyFlags }: SafetyFlagPanelProps) {
             <span>คำเตือนความปลอดภัย (SRC/ISEF Advisory)</span>
             <span>• ไม่ปิดกั้น (Non-blocking)</span>
           </div>
-          <h3 className="text-callout sm:text-base font-semibold text-caution">
+          <h3 className="text-callout sm:text-body font-semibold text-caution">
             พบประเด็นที่ต้องขออนุมัติล่วงหน้าหรือระมัดระวังเป็นพิเศษ
           </h3>
           <p className="text-caption text-caution leading-relaxed">

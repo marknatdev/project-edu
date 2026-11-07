@@ -48,7 +48,7 @@ export function CompareSheet({
             <div className="w-7 h-7 rounded-lg bg-accent-tint text-accent-text flex items-center justify-center">
               <Award className="w-4 h-4" />
             </div>
-            <h3 id="compare-sheet-title" className="text-base font-bold text-ink">
+            <h3 id="compare-sheet-title" className="text-body font-bold text-ink">
               เปรียบเทียบเคียงข้าง 2 หัวข้อ
             </h3>
           </div>

@@ -41,7 +41,7 @@ function VariablesContent() {
 
   if (!ready) return <p className="p-6 text-callout">กำลังโหลดไอเดีย...</p>;
   if (!idea) return <div className="mx-auto max-w-xl space-y-4 p-4">
-    <h1 className="text-xl font-bold">ยังไม่พบไอเดียสำหรับตารางแยกตัวแปร</h1>
+    <h1 className="text-headline font-bold">ยังไม่พบไอเดียสำหรับตารางแยกตัวแปร</h1>
     <Link href="/idea" className="inline-flex min-h-[44px] items-center rounded-xl bg-accent px-4 text-white">พัฒนาไอเดียกับครูที่ปรึกษา</Link>
   </div>;
 

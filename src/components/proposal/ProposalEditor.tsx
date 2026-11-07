@@ -163,14 +163,14 @@ export function ProposalEditor({
           value={proposal.title}
           onChange={(e) => handleTitleChange(e.target.value)}
           placeholder="ระบุชื่อโครงงานฉบับสมบูรณ์..."
-          className="w-full text-base sm:text-lg font-bold text-ink px-4 py-2.5 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[44px]"
+          className="w-full text-body sm:text-headline font-bold text-ink px-4 py-2.5 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[44px]"
         />
       </div>
 
       {/* 1. ที่มาและความสำคัญ (problemStatement) */}
       <div className="bg-surface rounded-3xl border border-separator p-5 sm:p-6 shadow-e1 space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-ink text-callout sm:text-base flex items-center gap-2">
+          <h3 className="font-bold text-ink text-callout sm:text-body flex items-center gap-2">
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               1
             </span>
@@ -192,7 +192,7 @@ export function ProposalEditor({
       {/* 2. วัตถุประสงค์ (objectives) */}
       <div className="bg-surface rounded-3xl border border-separator p-5 sm:p-6 shadow-e1 space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-ink text-callout sm:text-base flex items-center gap-2">
+          <h3 className="font-bold text-ink text-callout sm:text-body flex items-center gap-2">
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               2
             </span>
@@ -201,7 +201,7 @@ export function ProposalEditor({
           <button
             type="button"
             onClick={handleAddObjective}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-accent-tint text-accent-text text-caption font-semibold hover:bg-accent-tint transition min-h-[40px]"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-accent-tint text-accent-text text-caption font-semibold hover:bg-accent-tint transition min-h-11"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>เพิ่มข้อ</span>
@@ -224,12 +224,12 @@ export function ProposalEditor({
                   value={obj}
                   onChange={(e) => handleObjectiveChange(idx, e.target.value)}
                   placeholder={`เช่น เพื่อศึกษาประสิทธิภาพของ...`}
-                  className="flex-1 text-caption sm:text-callout text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="flex-1 text-caption sm:text-callout text-ink px-3 py-2 rounded-xl border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveObjective(idx)}
-                  className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk rounded-lg min-h-11 min-w-[40px] flex items-center justify-center"
                   aria-label={`ลบวัตถุประสงค์ข้อที่ ${idx + 1}`}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -243,7 +243,7 @@ export function ProposalEditor({
       {/* 3. สมมติฐาน (hypothesis) */}
       <div className="bg-surface rounded-3xl border border-separator p-5 sm:p-6 shadow-e1 space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-ink text-callout sm:text-base flex items-center gap-2">
+          <h3 className="font-bold text-ink text-callout sm:text-body flex items-center gap-2">
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               3
             </span>
@@ -261,7 +261,7 @@ export function ProposalEditor({
 
       {/* 4. ตัวแปร (variables) */}
       <div className="bg-surface rounded-3xl border border-separator p-5 sm:p-6 shadow-e1 space-y-4">
-        <h3 className="font-bold text-ink text-callout sm:text-base flex items-center gap-2">
+        <h3 className="font-bold text-ink text-callout sm:text-body flex items-center gap-2">
           <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
             4
           </span>
@@ -277,7 +277,7 @@ export function ProposalEditor({
             <button
               type="button"
               onClick={() => handleAddVariable('independent')}
-              className="text-caption text-accent-text hover:text-accent-text font-semibold flex items-center gap-1 min-h-[40px] px-2"
+              className="text-caption text-accent-text hover:text-accent-text font-semibold flex items-center gap-1 min-h-11 px-2"
             >
               <Plus className="w-3 h-3" />
               <span>เพิ่ม</span>
@@ -293,12 +293,12 @@ export function ProposalEditor({
                   value={val}
                   onChange={(e) => handleVariableChange('independent', idx, e.target.value)}
                   placeholder="เช่น ชนิดของสารเคลือบ / ความเข้มข้น"
-                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveVariable('independent', idx)}
-                  className="p-2 text-ink-3 hover:text-risk min-h-[40px] min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-[40px] flex items-center justify-center"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -316,7 +316,7 @@ export function ProposalEditor({
             <button
               type="button"
               onClick={() => handleAddVariable('dependent')}
-              className="text-caption text-accent-text hover:text-accent-text font-semibold flex items-center gap-1 min-h-[40px] px-2"
+              className="text-caption text-accent-text hover:text-accent-text font-semibold flex items-center gap-1 min-h-11 px-2"
             >
               <Plus className="w-3 h-3" />
               <span>เพิ่ม</span>
@@ -332,12 +332,12 @@ export function ProposalEditor({
                   value={val}
                   onChange={(e) => handleVariableChange('dependent', idx, e.target.value)}
                   placeholder="เช่น อัตราการสูญเสียน้ำหนัก / ความแน่นเนื้อ"
-                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveVariable('dependent', idx)}
-                  className="p-2 text-ink-3 hover:text-risk min-h-[40px] min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-[40px] flex items-center justify-center"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -355,7 +355,7 @@ export function ProposalEditor({
             <button
               type="button"
               onClick={() => handleAddVariable('controlled')}
-              className="text-caption text-accent-text hover:text-accent-text font-semibold flex items-center gap-1 min-h-[40px] px-2"
+              className="text-caption text-accent-text hover:text-accent-text font-semibold flex items-center gap-1 min-h-11 px-2"
             >
               <Plus className="w-3 h-3" />
               <span>เพิ่ม</span>
@@ -371,12 +371,12 @@ export function ProposalEditor({
                   value={val}
                   onChange={(e) => handleVariableChange('controlled', idx, e.target.value)}
                   placeholder="เช่น อุณหภูมิการเก็บรักษา / ระยะเวลา"
-                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-[40px]"
+                  className="flex-1 text-caption text-ink px-3 py-1.5 rounded-lg border border-separator focus:outline-none focus:ring-2 focus:ring-accent min-h-11"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveVariable('controlled', idx)}
-                  className="p-2 text-ink-3 hover:text-risk min-h-[40px] min-w-[40px] flex items-center justify-center"
+                  className="p-2 text-ink-3 hover:text-risk min-h-11 min-w-[40px] flex items-center justify-center"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -389,7 +389,7 @@ export function ProposalEditor({
       {/* 5. วิธีทำ / ขั้นตอนดำเนินงาน (methodology) */}
       <div className="bg-surface rounded-3xl border border-separator p-5 sm:p-6 shadow-e1 space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-ink text-callout sm:text-base flex items-center gap-2">
+          <h3 className="font-bold text-ink text-callout sm:text-body flex items-center gap-2">
             <span className="w-6 h-6 rounded-lg bg-accent-tint text-accent-text text-caption flex items-center justify-center font-semibold">
               5
             </span>
@@ -458,7 +458,7 @@ export function ProposalEditor({
             <div className="w-10 h-10 rounded-2xl bg-accent-tint text-accent-text flex items-center justify-center mb-3">
               <RefreshCw className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-ink text-base mb-1.5">
+            <h3 className="font-bold text-ink text-body mb-1.5">
               สร้างข้อเสนอใหม่จากคำตอบเดิม?
             </h3>
             <p className="text-caption text-ink-2 mb-4 leading-relaxed">
@@ -469,7 +469,7 @@ export function ProposalEditor({
               <button
                 type="button"
                 onClick={() => setShowReassembleConfirm(false)}
-                className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 transition min-h-[40px]"
+                className="px-4 py-2.5 rounded-xl text-caption font-semibold text-ink-2 hover:bg-surface-2 transition min-h-11"
               >
                 ยกเลิก
               </button>
@@ -479,7 +479,7 @@ export function ProposalEditor({
                   setShowReassembleConfirm(false);
                   onReassemble();
                 }}
-                className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 transition min-h-[40px]"
+                className="px-5 py-2.5 rounded-xl bg-accent text-white text-caption font-bold hover:bg-accent-press shadow-e1 transition min-h-11"
               >
                 ยืนยันสร้างใหม่
               </button>

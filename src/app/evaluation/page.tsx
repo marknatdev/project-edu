@@ -239,9 +239,9 @@ function EvaluationContent() {
         <div className="w-14 h-14 rounded-3xl bg-accent-tint border border-accent/30 text-accent-text flex items-center justify-center mx-auto shadow-e1">
           <BookOpen className="w-7 h-7" />
         </div>
-        <h2 className="text-xl font-bold text-ink">
+        <h1 className="text-title">
           ยังไม่พบข้อมูลโครงงานสำหรับประเมิน
-        </h2>
+        </h1>
         <p className="text-callout text-ink-2 leading-relaxed max-w-md mx-auto">
           กรุณาเริ่มต้นจากการเลือกหัวข้อในหน้าค้นหา หรือเล่าไอเดียโครงงานของคุณกับครูที่ปรึกษา AI เพื่อเริ่มการประเมิน 5 ด้าน
         </p>
@@ -251,7 +251,7 @@ function EvaluationContent() {
             className="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-2xl bg-accent hover:bg-accent-press text-white font-bold text-callout flex items-center justify-center gap-2 transition-all shadow-e1"
           >
             <Layers className="w-4 h-4" />
-            <span>ไปค้นหาไอเดีย (Discovery Track)</span>
+            <span>ไปหาหัวข้อ</span>
           </Link>
           <Link
             href="/interview"
@@ -266,7 +266,7 @@ function EvaluationContent() {
 
   if (!isLoading && !viewModel && errorMessage && idea) {
     return <section role="alert" className="max-w-xl mx-auto p-6 space-y-4">
-      <h2 className="font-bold text-ink">ยังประเมินโครงงานไม่ได้</h2>
+      <h1 className="text-title">ยังประเมินโครงงานไม่ได้</h1>
       <p className="text-callout text-caution">{errorMessage}</p>
       <p className="text-callout text-ink-2">ไอเดียและงานในเครื่องยังอยู่ คุณแก้ไขต่อหรือเขียนข้อเสนอด้วยตนเองได้</p>
       <div className="flex flex-wrap gap-3">
@@ -284,7 +284,7 @@ function EvaluationContent() {
         <div className="w-14 h-14 rounded-3xl bg-accent-tint border border-accent/30 text-accent-text flex items-center justify-center mx-auto animate-pulse">
           <RefreshCw className="w-7 h-7 animate-spin" />
         </div>
-        <h3 className="text-lg font-bold text-ink">
+        <h3 className="text-headline font-bold text-ink">
           กำลังประเมินโครงงาน 5 ด้าน...
         </h3>
         <p className="text-caption sm:text-callout text-ink-3 max-w-sm mx-auto leading-relaxed">
@@ -308,7 +308,7 @@ function EvaluationContent() {
       <div className="flex items-center justify-between gap-2 text-caption">
         <Link
           href={`/idea?ideaId=${idea.id}`}
-          className="inline-flex min-h-[40px] items-center gap-1.5 text-ink-3 hover:text-accent-text py-1 transition-colors"
+          className="inline-flex min-h-11 items-center gap-1.5 text-ink-3 hover:text-accent-text py-1 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>กลับสู่รายละเอียดไอเดีย</span>
@@ -334,7 +334,7 @@ function EvaluationContent() {
               <Sparkles className="w-3.5 h-3.5 text-accent-text" />
               <span>ผลการประเมินไอเดีย 5 ด้าน (5-Axis Evaluation Dashboard)</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-semibold text-ink">
+            <h1 className="text-headline sm:text-title font-semibold text-ink">
               {idea.title}
             </h1>
             <p className="text-caption sm:text-callout text-ink-2 line-clamp-2">
@@ -398,7 +398,7 @@ function EvaluationContent() {
               คะแนนภาพรวม (Overall Score):
             </span>
             <div
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-callout sm:text-base font-semibold ${overallBadgeClass}`}
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-callout sm:text-body font-semibold ${overallBadgeClass}`}
               aria-label={viewModel.overall.ariaLabel}
             >
               <span>{viewModel.overall.emoji}</span>
@@ -432,7 +432,7 @@ function EvaluationContent() {
       {/* 5-Axis Score Cards */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-base sm:text-lg font-bold text-ink">
+          <h2 className="text-body sm:text-headline font-bold text-ink">
             คะแนนประเมิน 5 มิติ (5 Evaluation Axes)
           </h2>
           <span className="text-caption text-ink-3">

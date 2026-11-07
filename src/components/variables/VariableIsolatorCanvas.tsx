@@ -28,7 +28,7 @@ export function VariableIsolatorCanvas({ idea, onSave }: { idea: Idea; onSave: (
       <div className="rounded-3xl border border-accent/30 bg-surface p-4 sm:p-6 space-y-4">
         <div className="space-y-2">
           <p className="text-caption font-bold text-accent-text">VARIABLE & CONTROL ISOLATOR</p>
-          <h1 className="text-xl font-bold text-ink">ตารางแยกตัวแปร & ชุดควบคุม</h1>
+          <h1 className="text-headline font-bold text-ink">ตารางแยกตัวแปร & ชุดควบคุม</h1>
           <p className="text-callout text-ink-2">คุณเป็นคนออกแบบและกรอกคำตอบเอง ใช้คำถามชวนคิดเพื่อแยกสิ่งที่เปลี่ยน สิ่งที่วัด และสิ่งที่ต้องคงเดิม</p>
         </div>
         <fieldset>

@@ -105,7 +105,7 @@ export function InterviewWizard() {
     setErrorMessages([]);
 
     if (!consentAccepted) {
-      setErrorMessages(['กรุณายินยอมเงื่อนไขการคุ้มครองข้อมูลเยาวชน (Zero-PII) ก่อนดำเนินการต่อ']);
+      setErrorMessages(['กรุณายินยอมเงื่อนไขความเป็นส่วนตัว ก่อนดำเนินการต่อ']);
       return;
     }
 
@@ -131,7 +131,7 @@ export function InterviewWizard() {
     setErrorMessages([]);
 
     if (!consentAccepted) {
-      setErrorMessages(['กรุณายินยอมเงื่อนไขการคุ้มครองข้อมูลเยาวชน (Zero-PII) ก่อนบันทึก']);
+      setErrorMessages(['กรุณายินยอมเงื่อนไขความเป็นส่วนตัว ก่อนบันทึก']);
       return;
     }
 
@@ -192,41 +192,38 @@ export function InterviewWizard() {
   if (wiped) return <p role="status" className="max-w-2xl mx-auto text-callout">ลบข้อมูลแล้ว กรุณาโหลดหน้าใหม่เพื่อเริ่มสัมภาษณ์ใหม่</p>;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+      <header><h1 className="text-large-title">หาหัวข้อ</h1><p className="text-callout text-ink-2">ตอบ 4 ข้อสั้น ๆ เพื่อเลือกเฉพาะไอเดียที่ทำได้จริง</p></header>
       {/* PDPA Consent Alert Banner if not accepted */}
       {!consentAccepted && (
-        <div className="p-4 sm:p-5 rounded-2xl bg-caution-tint border border-caution/30 text-caution shadow-e1 space-y-3">
+        <div className="flex flex-col gap-3 rounded-2xl bg-surface p-4 shadow-e1">
           <div className="flex items-start gap-3">
-            <ShieldAlert className="w-5 h-5 text-caution shrink-0 mt-0.5" />
+            <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-accent-text" aria-hidden />
             <div className="space-y-1">
-              <h4 className="font-bold text-callout">
-                การคุ้มครองความเป็นส่วนตัวเยาวชน (Zero-PII)
-              </h4>
-              <p className="text-caption text-caution leading-relaxed">
-                ระบบนี้ไม่มีการเก็บชื่อจริงหรือโรงเรียน ข้อมูลจะจัดเก็บในเบราว์เซอร์ของคุณเท่านั้น โปรดยินยอมเพื่อเริ่มการสัมภาษณ์
-              </p>
+              <h2 className="font-medium text-ink">ก่อนเริ่ม: เราไม่ถามชื่อจริงหรือโรงเรียน</h2>
+              <p className="text-callout text-ink-2">คำตอบเก็บในเบราว์เซอร์ของเครื่องนี้ กดยินยอมเพื่อเริ่ม</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <button
               type="button"
               onClick={handleQuickAcceptConsent}
-              className="px-4 py-2 rounded-xl bg-caution text-white font-semibold text-caption hover:bg-caution transition shadow-2xs min-h-[40px]"
+              className="min-h-11 rounded-xl bg-accent px-4 font-medium text-accent-on hover:bg-accent-press"
             >
               ยินยอมและดำเนินการต่อ
             </button>
             <Link
               href="/consent"
-              className="px-3 py-2 text-caption font-medium text-caution hover:underline min-h-[40px] inline-flex items-center"
+              className="inline-flex min-h-11 items-center px-3 font-medium text-accent-text"
             >
-              อ่านนโยบายความยินยอมฉบับเต็ม
+              อ่านนโยบายความเป็นส่วนตัว
             </Link>
           </div>
         </div>
       )}
 
-      {/* Wizard Header & Progress Bar */}
-      <div className="bg-surface backdrop-blur-md border border-accent/30 rounded-3xl p-5 sm:p-7 shadow-e1 space-y-4">
+      {/* Wizard Header & Progress Bar (shown after consent: one primary action at a time) */}
+      <div className={consentAccepted ? "flex flex-col gap-4" : "hidden"}>
         <div className="flex items-center justify-between text-caption text-ink-3 font-medium">
           <span className="font-bold text-accent-text">
             ขั้นตอนที่ {step} จาก 4
@@ -240,7 +237,7 @@ export function InterviewWizard() {
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full bg-surface-2 h-2.5 rounded-full overflow-hidden">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-separator" role="progressbar" aria-valuemin={1} aria-valuemax={4} aria-valuenow={step} aria-label="ความคืบหน้าการสัมภาษณ์">
           <div
             className="bg-accent h-full transition-all duration-300 ease-out rounded-full"
             style={{ width: `${(step / 4) * 100}%` }}
@@ -251,11 +248,11 @@ export function InterviewWizard() {
         {step === 1 && (
           <div className="space-y-5 pt-2 animate-in fade-in">
             <div className="space-y-1">
-              <h2 className="text-xl sm:text-2xl font-semibold text-ink">
+              <h2 className="text-headline sm:text-title font-semibold text-ink">
                 คุณกำลังศึกษาอยู่ในระดับชั้นใด?
               </h2>
               <p className="text-caption sm:text-callout text-ink-2">
-                ระดับชั้นจะช่วยให้ระบบคัดสรร Topic Cards และเกณฑ์การประเมิน (Rubrics) ที่เหมาะสมกับคุณ
+                ใช้เลือกการ์ดไอเดียและเกณฑ์ประเมินที่เหมาะกับระดับชั้นของคุณ
               </p>
             </div>
 
@@ -270,13 +267,13 @@ export function InterviewWizard() {
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl"></span>
+                  <span className="text-title"></span>
                   {gradeLevel === 'm_ton' && (
                     <CheckCircle2 className="w-5 h-5 text-accent-text" />
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-ink text-base">
+                  <div className="font-bold text-ink text-body">
                     มัธยมศึกษาตอนต้น (ม.ต้น)
                   </div>
                   <div className="text-caption text-ink-3">
@@ -295,13 +292,13 @@ export function InterviewWizard() {
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl"></span>
+                  <span className="text-title"></span>
                   {gradeLevel === 'm_plai' && (
                     <CheckCircle2 className="w-5 h-5 text-accent-text" />
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-ink text-base">
+                  <div className="font-bold text-ink text-body">
                     มัธยมศึกษาตอนปลาย (ม.ปลาย)
                   </div>
                   <div className="text-caption text-ink-3">
@@ -317,7 +314,7 @@ export function InterviewWizard() {
         {step === 2 && (
           <div className="space-y-5 pt-2 animate-in fade-in">
             <div className="space-y-1">
-              <h2 className="text-xl sm:text-2xl font-semibold text-ink">
+              <h2 className="text-headline sm:text-title font-semibold text-ink">
                 เป้าหมายหลักในการทำโครงงานครั้งนี้คืออะไร?
               </h2>
               <p className="text-caption sm:text-callout text-ink-2">
@@ -363,7 +360,7 @@ export function InterviewWizard() {
         {step === 3 && (
           <div className="space-y-6 pt-2 animate-in fade-in">
             <div className="space-y-1">
-              <h2 className="text-xl sm:text-2xl font-semibold text-ink">
+              <h2 className="text-headline sm:text-title font-semibold text-ink">
                 ข้อจำกัดและความพร้อมของผู้เรียน
               </h2>
               <p className="text-caption sm:text-callout text-ink-2">
@@ -383,7 +380,7 @@ export function InterviewWizard() {
                     key={w}
                     type="button"
                     onClick={() => setTimeWeeks(w)}
-                    className={`px-3.5 py-2 rounded-xl text-caption font-medium border transition min-h-[40px] ${
+                    className={`px-3.5 py-2 rounded-xl text-caption font-medium border transition min-h-11 ${
                       timeWeeks === w
                         ? 'bg-accent text-white border-accent shadow-2xs'
                         : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
@@ -407,7 +404,7 @@ export function InterviewWizard() {
                     key={b}
                     type="button"
                     onClick={() => setBudgetBaht(b)}
-                    className={`px-3.5 py-2 rounded-xl text-caption font-medium border transition min-h-[40px] ${
+                    className={`px-3.5 py-2 rounded-xl text-caption font-medium border transition min-h-11 ${
                       budgetBaht === b
                         ? 'bg-accent text-white border-accent shadow-2xs'
                         : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
@@ -431,7 +428,7 @@ export function InterviewWizard() {
                     key={s}
                     type="button"
                     onClick={() => setTeamSize(s)}
-                    className={`px-3.5 py-2 rounded-xl text-caption font-medium border transition min-h-[40px] ${
+                    className={`px-3.5 py-2 rounded-xl text-caption font-medium border transition min-h-11 ${
                       teamSize === s
                         ? 'bg-accent text-white border-accent shadow-2xs'
                         : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
@@ -457,7 +454,7 @@ export function InterviewWizard() {
                       key={item.id}
                       type="button"
                       onClick={() => toggleEquipment(item.id)}
-                      className={`px-3 py-2 rounded-xl text-caption font-medium border transition min-h-[40px] flex items-center gap-1.5 ${
+                      className={`px-3 py-2 rounded-xl text-caption font-medium border transition min-h-11 flex items-center gap-1.5 ${
                         selected
                           ? 'bg-accent-tint border-accent text-accent-text'
                           : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
@@ -485,7 +482,7 @@ export function InterviewWizard() {
                       key={item.id}
                       type="button"
                       onClick={() => toggleSkill(item.id)}
-                      className={`px-3 py-2 rounded-xl text-caption font-medium border transition min-h-[40px] flex items-center gap-1.5 ${
+                      className={`px-3 py-2 rounded-xl text-caption font-medium border transition min-h-11 flex items-center gap-1.5 ${
                         selected
                           ? 'bg-accent-tint border-accent/30 text-accent-text'
                           : 'bg-surface text-ink-2 border-separator hover:bg-surface-2'
@@ -505,7 +502,7 @@ export function InterviewWizard() {
         {step === 4 && (
           <div className="space-y-5 pt-2 animate-in fade-in">
             <div className="space-y-1">
-              <h2 className="text-xl sm:text-2xl font-semibold text-ink">
+              <h2 className="text-headline sm:text-title font-semibold text-ink">
                 คุณมีไอเดียโครงงานในใจแล้วหรือยัง?
               </h2>
               <p className="text-caption sm:text-callout text-ink-2">
@@ -532,8 +529,8 @@ export function InterviewWizard() {
                 </div>
                 <div className="space-y-1 flex-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-ink text-base">
-                      มีไอเดียหรือหัวข้อในใจแล้ว (Idea Track)
+                    <span className="font-bold text-ink text-body">
+                      มีไอเดียหรือหัวข้อในใจแล้ว
                     </span>
                     {hasInitialIdea === true && (
                       <CheckCircle2 className="w-5 h-5 text-accent-text" />
@@ -563,15 +560,15 @@ export function InterviewWizard() {
                 </div>
                 <div className="space-y-1 flex-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-ink text-base">
-                      ยังไม่มีไอเดีย อยากเริ่มค้นหา (Discovery Track)
+                    <span className="font-bold text-ink text-body">
+                      ยังไม่มีไอเดีย อยากเริ่มค้นหา
                     </span>
                     {hasInitialIdea === false && (
                       <CheckCircle2 className="w-5 h-5 text-accent-text" />
                     )}
                   </div>
                   <p className="text-caption text-ink-2 leading-relaxed">
-                    คุยสั้น ๆ เรื่องที่สนใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณครั้งละ 5 ใบ ปัดการ์ดเพื่อค้นหาเรื่องที่ใช่ และสร้าง Shortlist เปรียบเทียบ
+                    คุยสั้น ๆ เรื่องที่สนใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณครั้งละ 5 ใบ ปัดการ์ดเพื่อค้นหาเรื่องที่ใช่ และสร้าง รายการที่สนใจ เปรียบเทียบ
                   </p>
                 </div>
               </button>

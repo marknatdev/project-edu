@@ -19,7 +19,7 @@ export function AdvisorDecisionForm({ request }: { request: AdvisorRequest }) {
     catch { setMessage('คัดลอกอัตโนมัติไม่ได้ กรุณาเลือกรหัสด้านล่างเพื่อคัดลอกด้วยตนเอง'); }
   }
   return <section className="print-controls rounded-3xl border border-accent/30 bg-surface p-5 space-y-4" aria-label="ส่งผลตรวจกลับนักเรียน">
-    <h2 className="text-lg font-bold">ให้ความเห็นต่อเอกสารฉบับนี้</h2>
+    <h2 className="text-headline font-bold">ให้ความเห็นต่อเอกสารฉบับนี้</h2>
     <p className="text-callout text-ink-2">ไม่เก็บชื่อครูหรือโรงเรียน ไม่ยืนยันตัวตน ผลนี้ไม่ใช่ลายเซ็นดิจิทัลหรืออนุมัติ SRC/IRB ปุ่มด้านล่างสร้างรหัสเท่านั้น ไม่ส่งผลไปหานักเรียนอัตโนมัติ</p>
     <label className="block text-callout font-semibold">ความเห็น (ไม่ใส่ชื่อจริง / โรงเรียน / ข้อมูลติดต่อ)
       <textarea aria-label="ความเห็นครูที่ปรึกษา" rows={4} maxLength={1500} className="mt-2 w-full min-w-0 rounded-xl border p-3 text-callout" value={comment} onChange={e => { setComment(e.target.value); setResult(''); }} />

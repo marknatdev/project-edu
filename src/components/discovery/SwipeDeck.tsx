@@ -75,7 +75,7 @@ export function SwipeDeck({
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         onSwipe('interested');
-        showToast(`สนใจ! เพิ่มเข้า Shortlist (${Math.min(shortlistCount + 1, 5)}/5)`);
+        showToast(`สนใจ! เพิ่มเข้า รายการที่สนใจ (${Math.min(shortlistCount + 1, 5)}/5)`);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         onSwipe('do_it_now');
@@ -99,7 +99,7 @@ export function SwipeDeck({
     if (direction === 'skip') {
       showToast('ข้ามการ์ด');
     } else if (direction === 'interested') {
-      showToast(`สนใจ! เพิ่มเข้า Shortlist (${Math.min(shortlistCount + 1, 5)}/5)`);
+      showToast(`สนใจ! เพิ่มเข้า รายการที่สนใจ (${Math.min(shortlistCount + 1, 5)}/5)`);
     } else if (direction === 'do_it_now') {
       showToast(`อยากทำเลย! ปักหมุดพิเศษ (${Math.min(shortlistCount + 1, 5)}/5)`);
     }
@@ -143,7 +143,7 @@ export function SwipeDeck({
           <button
             type="button"
             onClick={onBackToFilter}
-            className="min-h-[40px] px-3 py-1.5 rounded-xl border border-separator bg-surface hover:bg-surface-2 text-caption font-semibold text-ink-2 flex items-center gap-1 transition-all"
+            className="min-h-11 px-3 py-1.5 rounded-xl border border-separator bg-surface hover:bg-surface-2 text-caption font-semibold text-ink-2 flex items-center gap-1 transition-all"
             aria-label="ย้อนกลับไปเปลี่ยนสาขา"
           >
             <span>← สาขาวิชา</span>
@@ -160,7 +160,7 @@ export function SwipeDeck({
             type="button"
             onClick={onGenerateAiCard}
             disabled={isAiGenerating}
-            className="min-h-[40px] px-3 py-1.5 rounded-xl bg-linear-to-r text-white text-caption font-bold transition-all shadow-e1 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="min-h-11 px-3 py-1.5 rounded-xl bg-linear-to-r text-white text-caption font-bold transition-all shadow-e1 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             title="ให้ AI ช่วยสร้างการ์ดใหม่ตามข้อจำกัด"
             aria-label="สร้างการ์ด AI เพิ่ม"
           >
@@ -177,12 +177,12 @@ export function SwipeDeck({
           <button
             type="button"
             onClick={onGoToShortlist}
-            className={`min-h-[40px] px-3 py-1.5 rounded-xl font-bold  text-caption transition-all flex items-center gap-1.5 ${
+            className={`min-h-11 px-3 py-1.5 rounded-xl font-bold  text-caption transition-all flex items-center gap-1.5 ${
               shortlistCount >= 5
                 ? 'bg-good text-white ring-2 ring-emerald-400 animate-pulse'
                 : 'bg-surface border border-separator text-ink hover:bg-surface-2'
             }`}
-            aria-label={`ไปหน้า Shortlist มีอยู่ ${shortlistCount} จาก 5 ใบ`}
+            aria-label={`ไปหน้า รายการที่สนใจ มีอยู่ ${shortlistCount} จาก 5 ใบ`}
           >
             <span>Shortlist</span>
             <span
@@ -210,7 +210,7 @@ export function SwipeDeck({
                   <span>{getSubfieldName(nextCard.subfieldId)}</span>
                   <span>ถัดไป</span>
                 </div>
-                <div className="mt-3 font-bold text-base text-ink-2 line-clamp-2">
+                <div className="mt-3 font-bold text-body text-ink-2 line-clamp-2">
                   {nextCard.title}
                 </div>
               </div>
@@ -269,7 +269,7 @@ export function SwipeDeck({
                     }`}
                   >
                     <div
-                      className={`px-4 py-2 rounded-2xl text-lg font-semibold  shadow-e2 ${
+                      className={`px-4 py-2 rounded-2xl text-headline font-semibold  shadow-e2 ${
                         dragDirection === 'interested'
                           ? 'bg-good text-white'
                           : dragDirection === 'do_it_now'
@@ -312,7 +312,7 @@ export function SwipeDeck({
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-base sm:text-lg font-bold text-ink leading-snug pt-1">
+                  <h3 className="text-body sm:text-headline font-bold text-ink leading-snug pt-1">
                     {activeCard.title}
                   </h3>
                 </div>
@@ -372,16 +372,16 @@ export function SwipeDeck({
         ) : (
           /* Empty Deck State */
           <div className="w-full h-full bg-surface border border-separator rounded-3xl p-6 shadow-e1 flex flex-col items-center justify-center text-center space-y-4">
-            <div className="w-14 h-14 rounded-full bg-accent-tint text-accent-text flex items-center justify-center text-2xl">
+            <div className="w-14 h-14 rounded-full bg-accent-tint text-accent-text flex items-center justify-center text-title">
               
             </div>
             <div className="space-y-1">
-              <h3 className="font-bold text-base text-ink">
+              <h3 className="font-bold text-body text-ink">
                 สำรวจการ์ดในหมวดนี้ครบแล้ว!
               </h3>
               <p className="text-caption text-ink-3 max-w-xs mx-auto">
                 {shortlistCount > 0
-                  ? `คุณเลือกการ์ดที่สนใจไว้ ${shortlistCount} ใบ ไปดูการเปรียบเทียบใน Shortlist ได้เลย`
+                  ? `คุณเลือกการ์ดที่สนใจไว้ ${shortlistCount} ใบ ไปดูการเปรียบเทียบใน รายการที่สนใจ ได้เลย`
                   : 'ยังไม่มีการ์ดที่เลือก สามารถกดปุ่มย้อนกลับหรือเปลี่ยนหมวดวิชาเพื่อสำรวจใหม่'}
               </p>
             </div>
@@ -393,7 +393,7 @@ export function SwipeDeck({
                   onClick={onGoToShortlist}
                   className="min-h-[44px] px-4 py-2 rounded-xl bg-accent text-white font-bold text-caption hover:bg-accent-press shadow-e1 flex items-center justify-center gap-1"
                 >
-                  <span>ไปดูตาราง Shortlist ({shortlistCount})</span>
+                  <span>ไปดูตาราง รายการที่สนใจ ({shortlistCount})</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               )}
@@ -465,7 +465,7 @@ export function SwipeDeck({
           onClick={() => handleActionClick('interested')}
           disabled={!activeCard}
           className="flex-1 min-h-[48px] px-4 py-2.5 rounded-2xl text-white disabled:opacity-40 transition-all font-bold text-caption sm:text-callout flex items-center justify-center gap-2 shadow-e1 active:scale-95 cursor-pointer"
-          aria-label="สนใจ เก็บเข้า Shortlist (ปัดขวา)"
+          aria-label="สนใจ เก็บเข้า รายการที่สนใจ (ปัดขวา)"
         >
           <Heart className="w-4 h-4 fill-white text-white" />
           <span>สนใจ</span>

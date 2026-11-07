@@ -47,7 +47,7 @@ function Heading({ eyebrow, title, desc }: { eyebrow: string; title: string; des
   return (
     <div className="space-y-1">
       <p className="text-caption font-bold uppercase tracking-wider text-accent-text">{eyebrow}</p>
-      <h1 id="discovery-stage-title" tabIndex={-1} className="text-xl font-semibold leading-snug text-ink outline-none sm:text-2xl">{title}</h1>
+      <h1 id="discovery-stage-title" tabIndex={-1} className="text-headline font-semibold leading-snug text-ink outline-none sm:text-title">{title}</h1>
       <p className="text-callout text-ink-2">{desc}</p>
     </div>
   );
@@ -72,7 +72,7 @@ function CardDetails({ card }: { card: TopicCard }) {
   return (
     <div className="min-w-0 space-y-2 break-words">
       <p className="rounded-lg bg-accent-tint px-2 py-1 text-caption font-semibold text-accent-text">ที่มา: AI สร้างใหม่จากคำตอบของคุณ · {subfieldName(card.subfieldId)} · ยังไม่ตรวจความใหม่ (Prior Work)</p>
-      <h2 className="text-lg font-semibold leading-snug text-ink">{card.title}</h2>
+      <h2 className="text-headline font-semibold leading-snug text-ink">{card.title}</h2>
       <p className="text-caption font-bold text-accent-text">ปัญหาที่ชวนสำรวจ</p>
       <p className="text-callout text-ink">{s?.problem ?? card.phenomenon}</p>
       {s && <><p className="text-caption font-bold text-accent-text">แนวทางทดลองคร่าว ๆ</p><p className="text-callout text-ink">{s.roughDirection}</p>
@@ -134,14 +134,14 @@ function InterestChat({ session, dispatch, interview }: { session: DiscoverySess
       ) : (
         <div className="space-y-3">
           <p className="text-caption text-ink-3">คำถามที่ {session.answers.length + 1} · ไม่เกิน 4 ข้อ</p>
-          <h2 className="border-l-4 border-accent pl-3 text-base font-bold text-ink" data-testid="interest-question">{step.question.text}</h2>
+          <h2 className="border-l-4 border-accent pl-3 text-body font-bold text-ink" data-testid="interest-question">{step.question.text}</h2>
           <div className="flex flex-wrap gap-2">
             {step.question.choices.map(choice => <button key={choice} type="button" className={secondary} onClick={() => submit(choice)}>{choice}</button>)}
           </div>
           <form className="space-y-2" onSubmit={e => { e.preventDefault(); submit(session.answerDraft); }}>
             <label htmlFor="interest-answer" className="block text-callout font-semibold">หรือเล่าในแบบของคุณ</label>
             <textarea id="interest-answer" value={session.answerDraft} maxLength={FRESH_LIMITS.answerChars} onChange={e => dispatch({ type: 'SET_DRAFT', draft: e.target.value })}
-              placeholder="ไม่ต้องพิมพ์ชื่อจริงหรือชื่อโรงเรียน" className="min-h-[96px] w-full rounded-xl border border-control p-3 text-base" />
+              placeholder="ไม่ต้องพิมพ์ชื่อจริงหรือชื่อโรงเรียน" className="min-h-[96px] w-full rounded-xl border border-control p-3 text-body" />
             <button type="submit" className={primary} disabled={!session.answerDraft.trim()}>ส่งคำตอบ →</button>
           </form>
         </div>
@@ -175,9 +175,9 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
   const canUndo = Boolean(last && last.batch.join(',') === session.batch.join(','));
   const swipe = (action: 'like' | 'skip') => {
     if (!card) return;
-    if (action === 'like' && !session.shortlist.includes(card.id) && session.shortlist.length >= MAX_SHORTLIST) { announce('Shortlist เต็ม 5 ใบแล้ว นำบางใบออกก่อน หรือกด “เลือกใบนี้” ไปคุยต่อได้เลย'); return; }
+    if (action === 'like' && !session.shortlist.includes(card.id) && session.shortlist.length >= MAX_SHORTLIST) { announce('รายการที่สนใจ เต็ม 5 ใบแล้ว นำบางใบออกก่อน หรือกด “เลือกใบนี้” ไปคุยต่อได้เลย'); return; }
     dispatch({ type: 'SWIPE', action });
-    announce(action === 'like' ? 'เก็บใน Shortlist แล้ว' : 'ข้ามใบนี้แล้ว ไม่ได้ตัดเรื่องทั้งสาขาออก');
+    announce(action === 'like' ? 'เก็บใน รายการที่สนใจ แล้ว' : 'ข้ามใบนี้แล้ว ไม่ได้ตัดเรื่องทั้งสาขาออก');
     requestAnimationFrame(() => cardRef.current?.focus());
   };
   return (
@@ -210,11 +210,11 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
           <p className="text-caption text-ink-3">ใช้ปุ่มได้เสมอ หรือโฟกัสที่การ์ดแล้วกดลูกศร ← → ↑</p>
         </>
       ) : (
-        <div className="rounded-2xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">ดูการ์ดรอบนี้ครบแล้ว ({session.batch.length} ใบ) เลือกจาก Shortlist หรือบอกเพิ่มเพื่อขอรอบถัดไป</div>
+        <div className="rounded-2xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">ดูการ์ดรอบนี้ครบแล้ว ({session.batch.length} ใบ) เลือกจาก รายการที่สนใจ หรือบอกเพิ่มเพื่อขอรอบถัดไป</div>
       )}
       <div className="flex flex-wrap gap-2">
         <button type="button" className={secondary} disabled={!canUndo} onClick={() => { dispatch({ type: 'UNDO' }); announce('ย้อนการปัดล่าสุดแล้ว โควตายังคงเดิม'); }}>↶ ย้อนการปัดล่าสุด</button>
-        <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'shortlist' })}>ดู Shortlist ({session.shortlist.length}/5)</button>
+        <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'shortlist' })}>ดู รายการที่สนใจ ({session.shortlist.length}/5)</button>
         <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'saved' })}>การ์ดที่บันทึกทั้งหมด ({session.cards.length})</button>
       </div>
       <Guardrail />
@@ -222,10 +222,10 @@ function FreshDeck({ session, dispatch, onSelect, onGenerate, canGenerate, annou
         <summary className="min-h-[44px] cursor-pointer py-2 text-callout font-semibold">ยังไม่ตรงใจ? ปรับความสนใจแล้วขอเพิ่มอีก 5 ใบ</summary>
         <form className="space-y-2" onSubmit={e => { e.preventDefault(); onGenerate(); }}>
           <label htmlFor="refine-summary" className="block text-callout font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
-          <textarea id="refine-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[80px] w-full rounded-xl border border-control p-3 text-base" />
+          <textarea id="refine-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[80px] w-full rounded-xl border border-control p-3 text-body" />
           <label htmlFor="refinement" className="block text-callout font-semibold">อยากปรับอะไรในรอบถัดไป? (ไม่บังคับ)</label>
           <textarea id="refinement" value={session.refinement} maxLength={FRESH_LIMITS.refinementChars} onChange={e => dispatch({ type: 'SET_REFINEMENT', refinement: e.target.value })}
-            placeholder="เช่น เน้นเรื่องน้ำ ไม่ต้องใช้อุปกรณ์เพิ่ม" className="min-h-[80px] w-full rounded-xl border border-control p-3 text-base" />
+            placeholder="เช่น เน้นเรื่องน้ำ ไม่ต้องใช้อุปกรณ์เพิ่ม" className="min-h-[80px] w-full rounded-xl border border-control p-3 text-body" />
           <p className="text-caption text-ink-3">ระบบส่งการ์ดที่คุณสนใจ/ข้าม และการ์ดที่เคยเห็นไปด้วย เพื่อไม่ให้ได้แนวทางเดิมซ้ำ</p>
           <button type="submit" className={primary} disabled={!canGenerate || !session.summary.trim()}>ขอการ์ดเพิ่ม 5 ใบ</button>
         </form>
@@ -238,7 +238,7 @@ function MiniCard({ card, children, selected }: { card: TopicCard; children?: Re
   return (
     <li className={`min-w-0 list-none rounded-2xl border bg-surface p-3 ${selected ? 'border-2 border-accent' : 'border-control'}`} data-card-id={card.id}>
       <p className="mb-1 text-caption font-semibold text-accent-text">AI สร้างจากคำตอบของคุณ</p>
-      <h2 className="text-base font-bold text-ink">{card.title}</h2>
+      <h2 className="text-body font-bold text-ink">{card.title}</h2>
       <p className="text-callout text-ink-2">{card.starter?.problem ?? card.phenomenon}</p>
       <p className="mt-1 text-caption text-ink-3">ประมาณ {formatBaht(card.estimatedBudgetBaht)} บาท · {card.estimatedWeeks} สัปดาห์</p>
       <div className="mt-2 flex flex-wrap gap-2">{children}</div>
@@ -435,7 +435,7 @@ export function FreshDiscovery() {
     router.push(`/idea?topicCardId=${encodeURIComponent(card.id)}`);
   };
 
-  if (erased) return <section role="status" className={`${panel} space-y-3`}><h1 className="text-lg font-bold">ลบข้อมูลแล้ว</h1><p>หยุดการค้นหาและลบคำตอบ การ์ด และคำขอที่ค้างในหน้านี้แล้ว ไม่บันทึกข้อมูลเก่ากลับคืน</p><Link href="/interview" className={`${primary} inline-flex items-center`}>เริ่มต้นใหม่</Link></section>;
+  if (erased) return <section role="status" className={`${panel} space-y-3`}><h1 className="text-headline font-bold">ลบข้อมูลแล้ว</h1><p>หยุดการค้นหาและลบคำตอบ การ์ด และคำขอที่ค้างในหน้านี้แล้ว ไม่บันทึกข้อมูลเก่ากลับคืน</p><Link href="/interview" className={`${primary} inline-flex items-center`}>เริ่มต้นใหม่</Link></section>;
   if (!ready || interview === undefined) return <p className="p-8 text-center text-callout text-ink-3">กำลังโหลดการค้นหาเรื่องที่อยากทำ…</p>;
   if (!interview) return (
     <section className={`${panel} mx-auto max-w-2xl space-y-3`}>
@@ -454,7 +454,7 @@ export function FreshDiscovery() {
       <header className={`${panel} flex flex-wrap items-center gap-3`}>
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-good-tint text-good"><Compass aria-hidden className="h-5 w-5" /></div>
         <div className="min-w-0 flex-1">
-          <p className="text-base font-semibold text-ink sm:text-lg">ค้นหาเรื่องที่อยากทำ (Discovery)</p>
+          <p className="text-body font-semibold text-ink sm:text-headline">ค้นหาเรื่องที่อยากทำ (Discovery)</p>
           <p className="text-caption text-ink-2">คุยสั้น ๆ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณ ครั้งละ 5 ใบ · บันทึกในเบราว์เซอร์นี้ รีเฟรชแล้วทำต่อได้</p>
         </div>
       </header>
@@ -478,7 +478,7 @@ export function FreshDiscovery() {
             <form className="space-y-3" onSubmit={e => { e.preventDefault(); generate(); }}>
               <Heading eyebrow="01 / สรุปก่อนสำรวจ" title="ฟังดูเป็นเรื่องที่คุณสนใจไหม?" desc="แก้สรุปให้ตรงใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้น 5 ใบจากคำตอบและข้อจำกัดของคุณ" />
               <label htmlFor="interest-summary" className="block text-callout font-semibold">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label>
-              <textarea id="interest-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[110px] w-full rounded-xl border border-control p-3 text-base" />
+              <textarea id="interest-summary" value={session.summary} maxLength={FRESH_LIMITS.summaryChars} onChange={e => dispatch({ type: 'SET_SUMMARY', summary: e.target.value })} className="min-h-[110px] w-full rounded-xl border border-control p-3 text-body" />
               <p className="text-caption text-ink-3">แก้ได้ตามใจ · ข้อจำกัดเดิมถูกนำไปใช้ต่อ · การ์ดเป็นไอเดียตั้งต้น ไม่ใช่โครงงานสำเร็จรูป</p>
               {quotaEmpty && <p role="status" className="text-callout text-risk">วันนี้ใช้สิทธิ์สร้างการ์ดครบแล้ว การ์ดที่สร้างไว้ยังอยู่ สร้างใหม่ได้หลังเที่ยงคืนตามเวลาประเทศไทย</p>}
               <div className="flex flex-wrap gap-2">
@@ -491,13 +491,13 @@ export function FreshDiscovery() {
           {session.stage === 'deck' && <FreshDeck session={session} dispatch={dispatch} onSelect={select} onGenerate={generate} canGenerate={canGenerate} announce={announce} />}
           {session.stage === 'shortlist' && (
             <div className="space-y-3">
-              <Heading eyebrow="03 / คัดเลือก" title="เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่" desc="Shortlist ได้ไม่เกิน 5 ใบ เลือกเทียบ 2 ใบ หรือเลือกใบเดียวไปคุยกับครูที่ปรึกษาได้เลย" />
+              <Heading eyebrow="03 / คัดเลือก" title="เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่" desc="รายการที่สนใจ ได้ไม่เกิน 5 ใบ เลือกเทียบ 2 ใบ หรือเลือกใบเดียวไปคุยกับครูที่ปรึกษาได้เลย" />
               {session.shortlist.length ? (
                 <ul className="space-y-3">{session.shortlist.map(byId).filter((c): c is TopicCard => Boolean(c)).map(c => (
                   <MiniCard key={c.id} card={c} selected={session.compare.includes(c.id)}>
                     <button type="button" className={secondary} aria-pressed={session.compare.includes(c.id)} onClick={() => { if (!session.compare.includes(c.id) && session.compare.length >= 2) { announce('เทียบได้ครั้งละ 2 ใบ ยกเลิกใบที่เลือกก่อน'); return; } dispatch({ type: 'TOGGLE_COMPARE', id: c.id }); }}>{session.compare.includes(c.id) ? '✓ เลือกเทียบแล้ว' : '＋ เลือกเทียบ'}</button>
                     <button type="button" className={primary} onClick={() => select(c)}>เลือกไปคุยต่อ</button>
-                    <button type="button" className={secondary} onClick={() => { dispatch({ type: 'REMOVE_SHORTLIST', id: c.id }); announce('นำออกจาก Shortlist แล้ว การ์ดยังอยู่ในที่บันทึก'); }}>นำออก</button>
+                    <button type="button" className={secondary} onClick={() => { dispatch({ type: 'REMOVE_SHORTLIST', id: c.id }); announce('นำออกจาก รายการที่สนใจ แล้ว การ์ดยังอยู่ในที่บันทึก'); }}>นำออก</button>
                   </MiniCard>))}</ul>
               ) : <p className="rounded-2xl border border-caution/30 bg-caution-tint p-3 text-callout text-caution">ยังไม่มีการ์ดที่สนใจ กลับไปสำรวจแล้วกด “สนใจ” เพื่อเก็บไว้ที่นี่</p>}
               <div className="flex flex-wrap gap-2">
@@ -520,7 +520,7 @@ export function FreshDiscovery() {
                   </article>
                 ))}
               </div>
-              <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'shortlist' })}>← กลับ Shortlist</button>
+              <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'shortlist' })}>← กลับ รายการที่สนใจ</button>
             </div>
           )}
           {session.stage === 'saved' && (
@@ -528,7 +528,7 @@ export function FreshDiscovery() {
               <Heading eyebrow="บันทึกในเครื่อง" title="ทุกใบที่เคยได้รับยังอยู่" desc="กลับมาเลือกได้หลังรีเฟรช โดยไม่ใช้โควตาซ้ำ" />
               <ul className="space-y-3">{session.cards.map(c => (
                 <MiniCard key={c.id} card={c}>
-                  <button type="button" className={secondary} disabled={session.shortlist.includes(c.id) || session.shortlist.length >= MAX_SHORTLIST} onClick={() => dispatch({ type: 'ADD_SHORTLIST', id: c.id })}>{session.shortlist.includes(c.id) ? 'อยู่ใน Shortlist แล้ว' : 'เก็บใน Shortlist'}</button>
+                  <button type="button" className={secondary} disabled={session.shortlist.includes(c.id) || session.shortlist.length >= MAX_SHORTLIST} onClick={() => dispatch({ type: 'ADD_SHORTLIST', id: c.id })}>{session.shortlist.includes(c.id) ? 'อยู่ใน รายการที่สนใจ แล้ว' : 'เก็บใน รายการที่สนใจ'}</button>
                   <button type="button" className={primary} onClick={() => select(c)}>เลือกไปคุยต่อ</button>
                 </MiniCard>))}</ul>
               <button type="button" className={secondary} onClick={() => dispatch({ type: 'GO', stage: 'deck' })}>← กลับไปสำรวจ</button>

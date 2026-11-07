@@ -28,7 +28,7 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
       {/* Header Note */}
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h3 className="text-base sm:text-lg font-bold text-ink flex items-center gap-2">
+          <h3 className="text-body sm:text-headline font-bold text-ink flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-accent-text" />
             <span>งานวิจัยและโครงงานเดิมที่ใกล้เคียง (Verified Prior Work)</span>
           </h3>
@@ -62,7 +62,7 @@ export function PriorWorkList({ priorWork }: PriorWorkListProps) {
 
             {/* Title */}
             <div>
-              <h4 className="text-callout sm:text-base font-bold text-ink leading-snug">
+              <h4 className="text-callout sm:text-body font-bold text-ink leading-snug">
                 {item.title}
               </h4>
               <p className="text-caption text-ink-3 mt-1">

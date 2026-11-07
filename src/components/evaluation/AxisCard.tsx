@@ -45,7 +45,7 @@ export function AxisCard({
       {/* Header: Axis Title & Score Badge */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h4 className="text-callout sm:text-base font-bold text-ink">
+          <h4 className="text-callout sm:text-body font-bold text-ink">
             {axis.nameTh}
           </h4>
           <span className="text-caption text-ink-3">

@@ -62,7 +62,7 @@ export function SubjectSubfieldPicker({
           <Compass className="w-3.5 h-3.5 text-accent-text" />
           <span>ขั้นตอนที่ 1 • เลือกสาขาวิชาที่สนใจ</span>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-ink">
+        <h2 className="text-headline sm:text-title font-bold text-ink">
           คุณอยากเริ่มต้นสำรวจในหมวดหมู่วิชาใด?
         </h2>
         <p className="text-caption sm:text-callout text-ink-2 mt-1 leading-relaxed">
@@ -129,7 +129,7 @@ export function SubjectSubfieldPicker({
           <button
             type="button"
             onClick={() => onSelectSubfields('unknown')}
-            className={`min-h-[42px] px-3.5 py-2 rounded-xl text-caption font-semibold flex items-center gap-1.5 transition-all ${
+            className={`min-h-11 px-3.5 py-2 rounded-xl text-caption font-semibold flex items-center gap-1.5 transition-all ${
               isMixedMode
                 ? 'bg-caution text-white shadow-e1 ring-2 ring-amber-400/30'
                 : 'bg-surface-2 text-ink-2 hover:bg-separator border border-separator'
@@ -152,7 +152,7 @@ export function SubjectSubfieldPicker({
                 key={subfield.id}
                 type="button"
                 onClick={() => handleToggleSubfield(subfield.id)}
-                className={`min-h-[42px] px-3.5 py-2 rounded-xl text-caption font-medium transition-all flex items-center gap-1.5 ${
+                className={`min-h-11 px-3.5 py-2 rounded-xl text-caption font-medium transition-all flex items-center gap-1.5 ${
                   isPicked
                     ? 'bg-accent text-white shadow-e1'
                     : 'bg-surface text-ink-2 border border-separator hover:border-accent/30 hover:bg-accent-tint'

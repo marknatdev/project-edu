@@ -93,7 +93,7 @@ export function VariablesLiteForm({
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent-tint text-accent-text text-caption font-bold">
             <span>ตัวแปรและชุดควบคุม (Variables Step Lite)</span>
           </div>
-          <h2 className="text-lg sm:text-xl font-semibold text-ink mt-1">
+          <h2 className="text-headline sm:text-headline font-semibold text-ink mt-1">
             ระบุตัวแปรและระเบียบวิธีวิจัย
           </h2>
           <p className="text-caption sm:text-callout text-ink-2 leading-relaxed">
@@ -164,7 +164,7 @@ export function VariablesLiteForm({
             <button
               type="button"
               onClick={handleAddControlled}
-              className="text-caption text-accent-text hover:text-accent-text font-bold flex items-center gap-1 min-h-[32px] px-2 py-0.5"
+              className="text-caption text-accent-text hover:text-accent-text font-bold flex items-center gap-1 min-h-11 px-2 py-0.5"
             >
               <Plus className="w-3.5 h-3.5" /> เพิ่มข้อ
             </button>
@@ -178,13 +178,13 @@ export function VariablesLiteForm({
                   value={item}
                   onChange={(e) => handleControlledChange(idx, e.target.value)}
                   placeholder={`ตัวแปรควบคุมข้อที่ ${idx + 1} (เช่น อุณหภูมิห้อง 25°C)`}
-                  className="flex-1 min-h-[40px] px-3.5 py-2 rounded-2xl border border-control focus:border-accent focus:ring-2 focus:ring-accent text-caption sm:text-callout text-ink placeholder:text-ink-3 outline-none transition-all"
+                  className="flex-1 min-h-11 px-3.5 py-2 rounded-2xl border border-control focus:border-accent focus:ring-2 focus:ring-accent text-caption sm:text-callout text-ink placeholder:text-ink-3 outline-none transition-all"
                 />
                 {controlledList.length > 1 && (
                   <button
                     type="button"
                     onClick={() => handleRemoveControlled(idx)}
-                    className="w-9 h-9 rounded-xl flex items-center justify-center text-ink-3 hover:text-risk hover:bg-risk-tint transition-all shrink-0"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center text-ink-3 hover:text-risk hover:bg-risk-tint transition-all shrink-0"
                     aria-label={`ลบตัวแปรควบคุมข้อที่ ${idx + 1}`}
                   >
                     <Trash2 className="w-4 h-4" />
