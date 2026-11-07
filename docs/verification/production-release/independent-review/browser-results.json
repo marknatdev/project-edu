@@ -1,0 +1,260 @@
+[
+  {
+    "name": "optional login discloses Auth PII and no silent cloud sync",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "storage failure vetoes OAuth instead of losing an unsaved draft",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "unsaved proposal draft is preserved BEFORE OAuth navigation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "proposal-optional-login: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "proposal-optional-login: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "proposal-optional-login: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "proposal-optional-login: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "proposal-optional-login: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "proposal-optional-login: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "proposal-optional-login: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "proposal-optional-login: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "Guest Word export downloads a real DOCX containing the saved draft",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "manual save and Guest export never consume proposal allowance",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "real PKCE login start sanitizes an open redirect",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "production Guest capability is HttpOnly Secure Strict",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "real SSR PKCE cookies are HttpOnly Secure Lax",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cancel callback stays local and preserves the Guest identity",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cancel callback clears every real PKCE verifier cookie",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "Guest logout succeeds without erasing local project work",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "evaluation accepts the browser Guest with its own quota",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "new Pivot room offers Tier 1 only",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "forged unlocks are rejected by the production HTTP boundary",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "Tier 3 cannot be requested before a verified answer and hint",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "axis switches cannot race an in-flight Pivot turn",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "answer then hints then explicit examples works",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "pivot-examples: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "pivot-examples: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "pivot-examples: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "pivot-examples: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "pivot-examples: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "pivot-examples: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "pivot-examples: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "pivot-examples: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "Pivot never steals the proposal allowance",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "rewritten idea starts a fresh content-bound Pivot room",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "exhausted allowance creates a manual blank draft, never automatic source assembly",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "independent browser identity cannot access another Guest Pivot",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "independent Guest retains both proposal entitlements",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "personalized Discovery preserved; unconfigured AI is honest and retains interest answers",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "discovery-unconfigured: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "discovery-unconfigured: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "discovery-unconfigured: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "discovery-unconfigured: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "discovery-unconfigured: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "discovery-unconfigured: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "discovery-unconfigured: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "discovery-unconfigured: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "exhausted evaluation allowance shows an actionable error, not a permanent loading spinner",
+    "passed": true,
+    "detail": null
+  }
+]

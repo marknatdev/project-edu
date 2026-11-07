@@ -110,7 +110,7 @@ export default function HomePage() {
                   1. เส้นทางค้นหา (Discovery Track)
                 </h2>
                 <p className="text-xs text-slate-600 leading-relaxed font-prompt">
-                  สำหรับผู้เรียนที่ยังไม่มีหัวข้อ สำรวจการ์ดหัวข้อ 90 ใบ เลือกวิชา ปัดการ์ด และจัด Shortlist เปรียบเทียบ Fit Score
+                  สำหรับผู้เรียนที่ยังไม่มีหัวข้อ คุยสั้น ๆ เรื่องที่สนใจ ให้ AI สร้างการ์ดไอเดียตั้งต้นครั้งละ 5 ใบ ปัดการ์ด และจัด Shortlist เปรียบเทียบ
                 </p>
               </div>
               <div className="flex items-center text-xs font-semibold text-indigo-600 gap-1 pt-1">

@@ -1,0 +1,9 @@
+PASS optional login discloses Auth PII and no silent cloud sync
+FAIL unsaved proposal draft is preserved BEFORE OAuth navigation
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\repairs\run-repairs-browser.py", line 50, in <module>
+    check('unsaved proposal draft is preserved BEFORE OAuth navigation', js("window.__atLogin.projects.some(p=>p.proposal.title==='ร่างแก้ไขก่อนเข้าสู่ระบบที่ต้องไม่หาย')"))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 353, in check
+    raise AssertionError((name, detail))
+AssertionError: ('unsaved proposal draft is preserved BEFORE OAuth navigation', None)

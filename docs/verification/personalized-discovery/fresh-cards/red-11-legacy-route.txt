@@ -1,0 +1,58 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/unit/legacy-cards-route.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/unit/legacy-cards-route.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 25[2mms[22m[39m
+[31m   [31m×[31m legacy POST /api/ai/cards/generate (S5)[2m > [22mnever returns template cards as AI output and charges nothing when AI is unavailable[39m[32m 18[2mms[22m[39m
+[31m     → expected 200 to be 503 // Object.is equality[39m
+[31m   [31m×[31m legacy POST /api/ai/cards/generate (S5)[2m > [22mcharges only the AI cards actually returned when configured[39m[32m 5[2mms[22m[39m
+[31m     → expected 2 to be 1 // Object.is equality[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/legacy-cards-route.test.ts[2m > [22mlegacy POST /api/ai/cards/generate (S5)[2m > [22mnever returns template cards as AI output and charges nothing when AI is unavailable
+[31m[1mAssertionError[22m: expected 200 to be 503 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 503[39m
+[31m+ 200[39m
+
+[36m [2m❯[22m tests/unit/legacy-cards-route.test.ts:[2m16:29[22m[39m
+    [90m 14| [39m    [35mconst[39m id [33m=[39m [32m'legacy-'[39m [33m+[39m crypto[33m.[39m[34mrandomUUID[39m()[33m;[39m
+    [90m 15| [39m    [35mconst[39m response [33m=[39m [35mawait[39m [34mcall[39m(id)[33m;[39m
+    [90m 16| [39m    [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m503[39m)[33m;[39m
+    [90m   | [39m                            [31m^[39m
+    [90m 17| [39m    [35mconst[39m data [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m 18| [39m    [34mexpect[39m(data[33m.[39mcards [33m??[39m [])[33m.[39m[34mtoEqual[39m([])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/legacy-cards-route.test.ts[2m > [22mlegacy POST /api/ai/cards/generate (S5)[2m > [22mcharges only the AI cards actually returned when configured
+[31m[1mAssertionError[22m: expected 2 to be 1 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m tests/unit/legacy-cards-route.test.ts:[2m34:56[22m[39m
+    [90m 32| [39m    [34mexpect[39m(data)[33m.[39m[34mtoMatchObject[39m({ source[33m:[39m [32m'ai'[39m })[33m;[39m
+    [90m 33| [39m    [34mexpect[39m(data[33m.[39mcards)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m 34| [39m    [34mexpect[39m(([35mawait[39m quotaStore[33m.[39m[34mcheck[39m(id[33m,[39m [32m'cards'[39m))[33m.[39mused)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                                                       [31m^[39m
+    [90m 35| [39m  })[33m;[39m
+    [90m 36| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m   Start at [22m 12:01:06
+[2m   Duration [22m 1.06s[2m (transform 96ms, setup 0ms, collect 262ms, tests 25ms, environment 0ms, prepare 136ms)[22m
+

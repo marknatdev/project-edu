@@ -1,0 +1,91 @@
+BROWSER: Chrome/156.0.8078.80
+MODE: real production Next + SQLite; unconfigured upstream; server fallback, not live AI
+PASS server opening hydrated actual selected card
+PASS hydrate grade/goal/constraints, no completed aspects
+PASS one server-issued opening, no duplicated client greeting
+PASS hint and examples initially locked
+PASS first-use concurrent tabs share the same cookie owner
+PASS HttpOnly owner credential not visible to JavaScript
+PASS real HTTP API rejects tampered unsigned browser state
+PASS opening: no page overflow at 320px
+PASS opening: touch controls at least 40px
+PASS opening: screenshot is rendered, not blank
+PASS opening: no browser JS errors
+PASS opening: no page overflow at 360px
+PASS opening: touch controls at least 40px
+PASS opening: screenshot is rendered, not blank
+PASS opening: no browser JS errors
+PASS opening: no page overflow at 390px
+PASS opening: touch controls at least 40px
+PASS opening: screenshot is rendered, not blank
+PASS opening: no browser JS errors
+PASS opening: no page overflow at 1280px
+PASS opening: touch controls at least 40px
+PASS opening: screenshot is rendered, not blank
+PASS opening: no browser JS errors
+PASS keyboard focus reaches answer input
+PASS stuck response accepted by real server
+PASS normal answer did not implicitly request examples
+PASS native Tab reaches the enabled hint control
+PASS actual issued Tier 2 has lenses
+PASS hint: no page overflow at 360px
+PASS hint: touch controls at least 40px
+PASS hint: screenshot is rendered, not blank
+PASS hint: no browser JS errors
+PASS server listener really stopped
+PASS restart uses a different server process
+PASS server restart + browser reload retain exact conversation/history/progress
+PASS resumed examples remain eligible without extra answer after hint
+PASS restart-resume: no page overflow at 390px
+PASS restart-resume: touch controls at least 40px
+PASS restart-resume: screenshot is rendered, not blank
+PASS restart-resume: no browser JS errors
+PASS full browser close/reopen resumes the same conversation and hint
+PASS only explicit Tier 3 click issued examples
+PASS copying the second issued example is rejected too
+PASS partial rewrite text survives refresh without bypassing the gate
+PASS rewrite: no page overflow at 320px
+PASS rewrite: touch controls at least 40px
+PASS rewrite: screenshot is rendered, not blank
+PASS rewrite: no browser JS errors
+PASS rewrite: no page overflow at 360px
+PASS rewrite: touch controls at least 40px
+PASS rewrite: screenshot is rendered, not blank
+PASS rewrite: no browser JS errors
+PASS rewrite: no page overflow at 390px
+PASS rewrite: touch controls at least 40px
+PASS rewrite: screenshot is rendered, not blank
+PASS rewrite: no browser JS errors
+PASS rewrite: no page overflow at 1280px
+PASS rewrite: touch controls at least 40px
+PASS rewrite: screenshot is rendered, not blank
+PASS rewrite: no browser JS errors
+PASS own-words explanation is retained
+PASS other topic still has fresh gates
+PASS fresh-topic offline answer does not unlock hints/examples after online resume
+PASS returning topic restores history and own explanation
+PASS offline learner text is kept without new server progression
+PASS offline cannot grant hints or examples
+PASS offline-draft: no page overflow at 360px
+PASS offline-draft: touch controls at least 40px
+PASS offline-draft: screenshot is rendered, not blank
+PASS offline-draft: no browser JS errors
+PASS offline draft survives refresh
+PASS online recovery retains draft and explains it is unverified
+PASS explicit draft resend becomes a server-recorded answer
+PASS noncatalog snapshot resolves, hydrates and reaches authoritative API
+PASS generated-snapshot-fixture: no page overflow at 360px
+PASS generated-snapshot-fixture: touch controls at least 40px
+PASS generated-snapshot-fixture: screenshot is rendered, not blank
+PASS generated-snapshot-fixture: no browser JS errors
+PASS start-new resets identity/history/gates
+PASS start-new leaves other topic history intact
+PASS cross-tab reset preserves displaced draft without granting gates
+PASS cross-tab wipe clears mounted state and disables stale autosave
+PASS wipe removes app local keys but not unrelated data
+PASS cross-tab-wiped: no page overflow at 360px
+PASS cross-tab-wiped: touch controls at least 40px
+PASS cross-tab-wiped: screenshot is rendered, not blank
+PASS cross-tab-wiped: no browser JS errors
+PASS after wipe, reopening starts a new server conversation with fresh gates
+SUMMARY: {"browser": "Chrome/156.0.8078.80", "checks": 88, "passed": 88, "failed": 0, "mode": "Real production app/SQLite; upstream unconfigured; deterministic server coaching; generated snapshot explicitly test fixture", "server_processes": [23748, 40496], "widths": [320, 360, 390, 1280], "full_browser_restart": true, "server_restart": true, "live_ai": false}

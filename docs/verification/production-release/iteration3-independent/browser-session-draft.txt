@@ -1,0 +1,2 @@
+PASS DEFECT REPRODUCED: transient session verification unmount loses unsaved Proposal draft
+{'case': 'session-draft', 'browser': 'Chrome/156.0.8078.81', 'passed': 1, 'total': 1, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

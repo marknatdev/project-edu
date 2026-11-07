@@ -1,0 +1,18 @@
+{
+  "tests": {
+    "command": "npm test",
+    "exit": 0
+  },
+  "lint": {
+    "command": "npm run lint",
+    "exit": 0
+  },
+  "audit": {
+    "command": "npm audit --json",
+    "exit": 1
+  },
+  "diff-check": {
+    "command": "git diff --check",
+    "exit": 0
+  }
+}

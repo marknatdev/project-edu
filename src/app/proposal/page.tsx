@@ -1,11 +1,12 @@
 'use client';
 
-import React, { Suspense, useEffect, useState, useCallback } from 'react';
+import React, { Suspense, useEffect, useState, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import {
   getProjects,
+  getProject,
   getActiveProject,
   setActiveProjectId,
   createProject,
@@ -17,7 +18,10 @@ import {
   getInterview,
   getIdea,
   getLearner,
+  getDefaultStorage,
+  getWipeGeneration,
 } from '@/lib/storage/store';
+import { useWipeInvalidation } from '@/lib/storage/use-wipe-invalidation';
 import type { Project, Proposal, Plan, Idea, Interview } from '@/types/domain';
 import { assembleProposal } from '@/lib/proposal/assemble';
 import { generateWeeklyPlan } from '@/lib/plan/weekly-plan';
@@ -56,6 +60,9 @@ function ProposalContent() {
 
   const [quotaStatus, setQuotaStatus] = useState<ProposalQuotaStatus | undefined>(undefined);
   const [isSaving, setIsSaving] = useState(false);
+  const initialQuota = useRef<Promise<ProposalQuotaStatus> | null>(null);
+  const pendingCreation = useRef(new Map<string, Promise<ProposalQuotaStatus>>());
+  const [wiped] = useWipeInvalidation();
 
   // Reload projects & active project from store
   const refreshProjects = useCallback(() => {
@@ -72,6 +79,9 @@ function ProposalContent() {
   // Initialize on mount
   useEffect(() => {
     setMounted(true);
+    // Captured before any await: later writes are refused if a wipe happens meanwhile.
+    const storage = getDefaultStorage();
+    const generation = getWipeGeneration(storage);
     const storedProjects = getProjects();
     const storedIdeas = getIdeas();
     const storedInterview = getInterview();
@@ -83,8 +93,8 @@ function ProposalContent() {
     setInterview(storedInterview);
 
     // Initial Quota check
-    const anonId = learner?.id || 'guest-learner';
-    checkProposalQuota(anonId).then((status) => {
+    const quotaCheck = initialQuota.current ??= checkProposalQuota();
+    quotaCheck.then((status) => {
       setQuotaStatus(status);
     });
 
@@ -96,8 +106,9 @@ function ProposalContent() {
     }
 
     // 2. If urlIdeaId is provided, check if a project exists for it or create one
-    if (urlIdeaId) {
-      const existingProjectForIdea = storedProjects.find((p) => p.ideaId === urlIdeaId);
+    const initialIdeaId = urlIdeaId ?? (!storedProjects.length ? storedIdeas[0]?.id : undefined);
+    if (initialIdeaId) {
+      const existingProjectForIdea = storedProjects.find((p) => p.ideaId === initialIdeaId);
       if (existingProjectForIdea) {
         setActiveProjectId(existingProjectForIdea.id);
         refreshProjects();
@@ -105,7 +116,7 @@ function ProposalContent() {
       }
 
       // Create new project for this idea
-      const idea = getIdea(urlIdeaId);
+      const idea = getIdea(initialIdeaId);
       if (idea) {
         const assembledProposal = assembleProposal({
           idea,
@@ -123,22 +134,25 @@ function ProposalContent() {
           methodology: assembledProposal.methodology,
         });
 
-        const newProj = createProject({
-          title: idea.title,
-          ideaId: idea.id,
-          learnerId: idea.learnerId,
-          proposal: assembledProposal,
-          plan: weeklyPlan,
-        });
-
-        // Consume proposal quota
-        consumeProposalQuota(anonId).then((status) => {
+        // Wait for the first cookie before consuming, then honor the result.
+        // Re-running the mount effect reuses this action rather than charging
+        // again. A failed/empty allowance still permits a blank manual draft.
+        if (!pendingCreation.current.has(idea.id)) {
+          const requestId = crypto.randomUUID();
+          pendingCreation.current.set(idea.id, quotaCheck.then(() => consumeProposalQuota(requestId)));
+        }
+        let live = true;
+        pendingCreation.current.get(idea.id)!.then((status) => {
+          if (!live) return;
           setQuotaStatus(status);
+          if (status.ownerChanged) return;
+          const existing = getProjects(storage).find(p => p.ideaId === idea.id);
+          const newProj = existing ?? createProject({ title: idea.title, ideaId: idea.id, learnerId: idea.learnerId,
+            proposal: status.allowed ? assembledProposal : undefined, plan: status.allowed ? weeklyPlan : undefined }, storage, generation);
+          if (newProj) setActiveProjectId(newProj.id, storage, generation);
+          refreshProjects();
         });
-
-        setActiveProjectId(newProj.id);
-        refreshProjects();
-        return;
+        return () => { live = false; };
       }
     }
 
@@ -187,9 +201,16 @@ function ProposalContent() {
     refreshProjects();
   };
 
-  const handleCreateProject = (title: string, ideaId?: string) => {
-    const linkedIdea = ideaId ? getIdea(ideaId) : null;
-    const learner = getLearner();
+  const handleCreateProject = async (title: string, ideaId?: string) => {
+    const storage = getDefaultStorage();
+    const generation = getWipeGeneration(storage);
+    const linkedIdea = ideaId ? getIdea(ideaId, storage) : null;
+    const learner = getLearner(storage);
+    // Blank projects/manual editing are free. Source-driven assembly uses the
+    // same verified allowance as reassembly and never a caller-selected ID.
+    const status = linkedIdea ? await consumeProposalQuota() : undefined;
+    if (status) setQuotaStatus(status);
+    if (status?.ownerChanged) return;
 
     const proposal = assembleProposal({
       idea: linkedIdea,
@@ -213,11 +234,11 @@ function ProposalContent() {
       title,
       ideaId,
       learnerId: learner?.id,
-      proposal,
-      plan,
-    });
+      proposal: status?.allowed ? proposal : undefined,
+      plan: status?.allowed ? plan : undefined,
+    }, storage, generation);
 
-    setActiveProjectId(newProj.id);
+    if (newProj) setActiveProjectId(newProj.id, storage, generation);
     refreshProjects();
   };
 
@@ -242,11 +263,10 @@ function ProposalContent() {
 
   const handleReassembleProposal = async () => {
     if (!activeProject) return;
-    const learner = getLearner();
-    const anonId = learner?.id || 'guest-learner';
-
+    const storage = getDefaultStorage();
+    const generation = getWipeGeneration(storage);
     // Consume proposal quota
-    const status = await consumeProposalQuota(anonId);
+    const status = await consumeProposalQuota();
     setQuotaStatus(status);
     if (!status.allowed) return;
 
@@ -267,7 +287,7 @@ function ProposalContent() {
         : undefined,
     });
 
-    updateProjectProposal(activeProject.id, reassembled);
+    updateProjectProposal(activeProject.id, reassembled, storage, generation);
     refreshProjects();
   };
 
@@ -279,6 +299,8 @@ function ProposalContent() {
     refreshProjects();
     setTimeout(() => setIsSaving(false), 300);
   };
+
+  if (wiped) return <p role="status" className="max-w-2xl mx-auto px-4 py-12 text-center text-sm">ลบข้อมูลแล้ว กรุณาโหลดหน้าใหม่ก่อนเริ่มโครงงาน</p>;
 
   if (!mounted) {
     return (
@@ -344,6 +366,7 @@ function ProposalContent() {
             isSaving={isSaving}
             onSave={handleSaveProposal}
             onReassemble={handleReassembleProposal}
+            changedElsewhere={() => JSON.stringify(getProject(activeProject.id)?.proposal) !== JSON.stringify(activeProject.proposal)}
           />
         ) : activeTab === 'plan' ? (
           <WeeklyPlanEditor
@@ -351,11 +374,13 @@ function ProposalContent() {
             methodology={activeProject.proposal?.methodology}
             isSaving={isSaving}
             onSave={handleSavePlan}
+            changedElsewhere={() => JSON.stringify(getProject(activeProject.id)?.plan) !== JSON.stringify(activeProject.plan)}
           />
         ) : null
       ) : (
         <div className="bg-white rounded-3xl border border-slate-200/80 p-8 text-center space-y-3">
           <p className="text-sm text-slate-500">ยังไม่ได้เลือกโครงงาน</p>
+          {quotaStatus?.ownerChanged && <p role="alert" className="text-sm text-amber-900">{quotaStatus.messageTh}</p>}
         </div>
       )}
       {activeProject && <ProjectDeliverables key={`${activeProject.id}:${activeProject.updatedAt}`} project={activeProject} view={activeTab} />}

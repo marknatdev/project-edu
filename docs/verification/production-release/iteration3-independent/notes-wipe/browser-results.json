@@ -1,0 +1,15 @@
+[
+  {
+    "name": "DEFECT REPRODUCED: mounted TCAS editor restores same erased notes",
+    "passed": true,
+    "detail": {
+      "deletedInitially": true,
+      "before": {
+        "edtech:presentation:proj-1793977730711-8ms2k": "{\"role\":\"บทบาทส่วนตัวเดิมที่ลบแล้ว\",\"skills\":\"ทักษะเดิมที่ต้องไม่ฟื้นคืน\",\"learning\":\"\",\"targetField\":\"\",\"results\":\"\"}"
+      },
+      "after": {
+        "edtech:presentation:proj-1793977730711-8ms2k": "{\"role\":\"บทบาทส่วนตัวเดิมที่ลบแล้ว\",\"skills\":\"ทักษะเดิมที่ต้องไม่ฟื้นคืน\",\"learning\":\"\",\"targetField\":\"\",\"results\":\"\"}"
+      }
+    }
+  }
+]

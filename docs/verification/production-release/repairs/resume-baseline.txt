@@ -1,0 +1,450 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/integration/fresh-cards-service.test.ts [2m([22m[2m22 tests[22m[2m)[22m[33m 4362[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mconcurrent different intents can never spend more than 35 accepted cards per day [33m 473[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — daily allowance (MOCKED upstream)[2m > [22mswitching topic / restarting the interview does not renew the free allowance; 35 is the daily ceiling [33m 529[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — daily allowance (MOCKED upstream)[2m > [22mrequests only the remaining allowance when fewer than 5 remain [33m 459[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — daily allowance (MOCKED upstream)[2m > [22mrolls over at Bangkok midnight (17:00 UTC), not UTC midnight, and replays old intents [33m 723[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-api.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 2945[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22misolates two topics and two cookie owners; a public learner/id string cannot impersonate an owner [33m 440[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mstarts a new conversation with fresh gates, invalidates the old handle and preserves another topic [33m 305[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mdeletes all owned conversations and revokes the old cookie; another owner is unaffected [33m 310[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mmakes concurrent retries idempotent and rejects stale/conflicting writes without losing the winner [33m 457[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mopens a stable topic, resumes its server history and permits the exact Tier-1-answer/hint/explicit-example sequence [33m 726[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-pivot.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 2945[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-03 Pivot never consumes evaluation or proposal allowances[2m > [22mfull progression on several axes leaves 2 proposals and 5 evaluations; exhausted proposals do not block Pivot [33m 761[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-03 Pivot never consumes evaluation or proposal allowances[2m > [22mhas its own per-owner rate control that never touches the proposal allowance [33m 1246[2mms[22m[39m
+ [32m✓[39m tests/integration/fresh-cards-route.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 808[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-evaluate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 676[2mms[22m[39m
+ [32m✓[39m tests/integration/discovery-coaching-handoff.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 251[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-local.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 189[2mms[22m[39m
+ [32m✓[39m tests/unit/docx-export.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 903[2mms[22m[39m
+   [33m[2m✓[22m[39m DOCX Export (Seam 1)[2m > [22mappends TCAS, bounded abstract and 3-minute pitch only on explicit opt-in [33m 442[2mms[22m[39m
+ [32m✓[39m tests/integration/auth-pkce.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 200[2mms[22m[39m
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully when fetch rejects (network error)
+[22m[39m[AiGateway] network
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on non-2xx status code
+[22m[39m[AiGateway] upstream_http (HTTP 500)
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on malformed JSON or Zod validation failure
+[22m[39m[AiGateway] malformed_json
+
+ [31m❯[39m tests/unit/socratic-and-ai.test.ts [2m([22m[2m24 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 178[2mms[22m[39m
+   [32m✓[39m AI Gateway (ADR 0001)[2m > [22mdetects unconfigured env and returns fallback without calling fetch[32m 9[2mms[22m[39m
+   [32m✓[39m AI Gateway (ADR 0001)[2m > [22mcalls OpenAI-compatible API when configured and parses valid response[32m 6[2mms[22m[39m
+   [32m✓[39m AI Gateway (ADR 0001)[2m > [22mfalls back gracefully when fetch rejects (network error)[32m 4[2mms[22m[39m
+   [32m✓[39m AI Gateway (ADR 0001)[2m > [22mfalls back gracefully on non-2xx status code[32m 2[2mms[22m[39m
+   [32m✓[39m AI Gateway (ADR 0001)[2m > [22mfalls back gracefully on malformed JSON or Zod validation failure[32m 2[2mms[22m[39m
+   [32m✓[39m Per-Learner Daily Quota Engine[2m > [22menforces daily limits: 30 cards, 5 evaluations, 2 proposals[32m 10[2mms[22m[39m
+   [32m✓[39m Per-Learner Daily Quota Engine[2m > [22misolates quotas by anonymous learner ID[32m 1[2mms[22m[39m
+   [32m✓[39m Per-Learner Daily Quota Engine[2m > [22mresets quota when date changes in Asia/Bangkok time (UTC+7)[32m 1[2mms[22m[39m
+   [32m✓[39m Per-Learner Daily Quota Engine[2m > [22mreturns informative Thai messages for exceeded quotas[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Coach State Machine (ADR 0002)[2m > [22minitializes with Tier 1 unlocked, 0 turns, and all aspects incomplete[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Coach State Machine (ADR 0002)[2m > [22mdefaults to Tier 1 SOCRATIC_QUESTION and never provides answers[32m 2[2mms[22m[39m
+   [32m✓[39m Socratic Coach State Machine (ADR 0002)[2m > [22menforces Tier 3 lock: downgrades to Tier 2 if Tier 3 requested before Tier 1 & 2 shown[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Coach State Machine (ADR 0002)[2m > [22munlocks Tier 3 LAST_RESORT_EXAMPLES only after Tier 1 and Tier 2 have been shown[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Coach State Machine (ADR 0002)[2m > [22mtracks all 4 aspects (problem, objective, methodology, measurement) and targets next unfilled[32m 2[2mms[22m[39m
+   [32m✓[39m Socratic Coach State Machine (ADR 0002)[2m > [22menforces 8-question cap on Idea Track[32m 1[2mms[22m[39m
+   [32m✓[39m AI API Routes[2m > [22mPOST /api/ai/coach[2m > [22mreturns 400 when input contains forbidden PII fields (Zero-PII strictness)[32m 17[2mms[22m[39m
+   [32m✓[39m AI API Routes[2m > [22mPOST /api/ai/coach[2m > [22madvances coach turn and preserves 3-tier lock[32m 71[2mms[22m[39m
+   [32m✓[39m AI API Routes[2m > [22mPOST /api/ai/cards/generate[2m > [22menforces cards daily quota and returns 429 when exhausted[32m 3[2mms[22m[39m
+   [32m✓[39m AI API Routes[2m > [22mPOST /api/ai/cards/generate[2m > [22mdoes not fabricate template cards when AI is unavailable (truthful 503, see legacy-cards-route.test.ts)[32m 2[2mms[22m[39m
+[31m   [31m×[31m AI API Routes[2m > [22mPOST /api/ai/evaluate[2m > [22menforces evaluate daily quota (5) and returns 429 when exhausted[39m[32m 25[2mms[22m[39m
+[31m     → expected 400 to be 429 // Object.is equality[39m
+[31m   [31m×[31m AI API Routes[2m > [22mPOST /api/ai/evaluate[2m > [22mevaluates with 5 axes (1-10 integer scores + badges) and only DB citations[39m[32m 3[2mms[22m[39m
+[31m     → expected 400 to be 200 // Object.is equality[39m
+[31m   [31m×[31m AI API Routes[2m > [22mPOST /api/ai/evaluate[2m > [22mstrips and rejects fabricated AI citations when AI gateway returns fake URLs or IDs[39m[32m 4[2mms[22m[39m
+[31m     → expected 400 to be 200 // Object.is equality[39m
+[31m   [31m×[31m AI API Routes[2m > [22mPOST /api/ai/pivot[2m > [22menforces proposal daily quota (2) and returns 429 when exhausted[39m[32m 3[2mms[22m[39m
+[31m     → expected 400 to be 429 // Object.is equality[39m
+[31m   [31m×[31m AI API Routes[2m > [22mPOST /api/ai/pivot[2m > [22mreturns socratic pivot coaching shoring up red axes[39m[32m 3[2mms[22m[39m
+[31m     → expected 400 to be 200 // Object.is equality[39m
+ [32m✓[39m tests/unit/presentation-templates.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 175[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-proposal.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 201[2mms[22m[39m
+ [32m✓[39m tests/unit/advisor-signoff.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 255[2mms[22m[39m
+ [32m✓[39m tests/unit/share-link.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 185[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-shortlist.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 165[2mms[22m[39m
+ [32m✓[39m tests/unit/fresh-cards-gateway.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 74[2mms[22m[39m
+ [32m✓[39m tests/unit/prior-work.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 90[2mms[22m[39m
+ [31m❯[39m tests/unit/variable-isolator.test.ts [2m([22m[2m26 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 90[2mms[22m[39m
+[31m   [31m×[31m Variable & Control Isolator rigor check[2m > [22mkeeps the deterministic rigor evidence authoritative even when configured AI suggests a perfect score[39m[32m 43[2mms[22m[39m
+[31m     → expected undefined to be 'ai' // Object.is equality[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mcopies computing learner inputs into a fresh Proposal but preserves edited Proposal variables[32m 14[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mcarries the latest saved science design into a new Proposal, not superseded Variables Lite copies[32m 4[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mreuses only learner-provided science fields and never invents a computing design[32m 1[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not rate an otherwise blank design green merely because three checklist fields are filled[32m 5[2mms[22m[39m
+[31m   [31m×[31m Variable & Control Isolator rigor check[2m > [22muses the saved rigor evidence through the Evaluation HTTP boundary with AI unconfigured[39m[32m 6[2mms[22m[39m
+[31m     → expected 400 to be 200 // Object.is equality[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mfeeds saved designs into Evaluation rigor while other axes stay unchanged offline[32m 3[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mresumes a computing design and checklist on the same Idea in Guest Mode, including incomplete drafts[32m 3[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22maccepts the learner’s explicitly quantitative custom unit Ω without inventing a scale[32m 1[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22maccepts the learner’s explicitly quantitative custom unit Hz without inventing a scale[32m 1[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22maccepts the learner’s explicitly quantitative custom unit lux without inventing a scale[32m 1[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22maccepts the learner’s explicitly quantitative custom unit mg/L without inventing a scale[32m 1[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count "" as a quantitative unit[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count "  " as a quantitative unit[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count "ดีมาก" as a quantitative unit[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count "ไม่ทราบ" as a quantitative unit[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count "สีสวย" as a quantitative unit[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=0 as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=1 as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=2 as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=2.9 as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=3.5 as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=NaN as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mdoes not count n=Infinity as at least three independent repeats[32m 0[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mreports missing comparison with a Thai coaching hint without blocking[32m 1[2mms[22m[39m
+   [32m✓[39m Variable & Control Isolator rigor check[2m > [22mrecognizes a science design with comparison, quantitative unit and three repeats[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/competition-calendar.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 81[2mms[22m[39m
+ [32m✓[39m tests/integration/principal.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m tests/unit/bom.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 52[2mms[22m[39m
+ [32m✓[39m tests/integration/auth-refresh.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 54[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-screener.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 47[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-fresh-session.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m tests/unit/rubrics-engine.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m tests/unit/multi-project-store.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 47[2mms[22m[39m
+ [32m✓[39m tests/unit/legacy-cards-route.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 47[2mms[22m[39m
+ [32m✓[39m tests/unit/store.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [31m❯[39m tests/integration/production-fail-closed.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 56[2mms[22m[39m
+   [32m✓[39m production/serverless missing authority fails closed[2m > [22mnever opens SQLite when cloud configuration is missing[32m 24[2mms[22m[39m
+[31m   [31m×[31m production/serverless missing authority fails closed[2m > [22mdoes not expose legacy in-memory/client-selected quota endpoints while successor integration is pending[39m[32m 28[2mms[22m[39m
+[31m     → expected 400 to be 503 // Object.is equality[39m
+ [32m✓[39m tests/integration/coaching-cloud.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 28457[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mgates Tier 3 on server history and resumes the exact conversation after a real Postgres restart [33m 3200[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-fresh-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-postgres.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 29249[2mms[22m[39m
+   [33m[2m✓[22m[39m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mconcurrent independent Guests and accounts each get exactly 5 evaluations; no shared or caller-chosen pool [33m 1430[2mms[22m[39m
+   [33m[2m✓[22m[39m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mPivot progression is owner-bound, CAS-serialized, restart-durable and never writes evaluate/proposal usage [33m 2821[2mms[22m[39m
+ [32m✓[39m tests/unit/repairs-clients.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [32m✓[39m tests/unit/domain-schemas.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-chat-reducer.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+ [32m✓[39m tests/unit/supabase-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m tests/integration/fresh-cards-postgres.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 32788[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mpersists starter snapshots (jsonb round-trip) and replays them after a real database restart [33m 3196[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mproduction route: signed guest + supabase-js transport (REST hop simulated) + real Postgres; restart-safe replay [33m 2706[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mdouble-submit across independent connections: one model call, one charge [33m 367[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mconcurrent distinct intents never exceed 35 accepted cards; failures are not charged [33m 620[2mms[22m[39m
+ [31m❯[39m tests/unit/eval-client.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 48[2mms[22m[39m
+   [32m✓[39m Evaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mgenerates deterministic offline evaluation when offline[32m 14[2mms[22m[39m
+[31m   [31m×[31m Evaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mgenerates deterministic offline pivot coaching for red axes[39m[32m 20[2mms[22m[39m
+[31m     → expected 2 to be 3 // Object.is equality[39m
+   [32m✓[39m Evaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mfetchEvaluation returns evaluation data on 200 OK[32m 7[2mms[22m[39m
+   [32m✓[39m Evaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mfetchEvaluation gracefully handles 429 quota exhaustion[32m 1[2mms[22m[39m
+   [32m✓[39m Evaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mfetchEvaluation falls back to deterministic evaluation on network failure[32m 2[2mms[22m[39m
+[31m   [31m×[31m Evaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mfetchPivot falls back gracefully on network failure or 429[39m[32m 1[2mms[22m[39m
+[31m     → (0 , fetchPivot) is not a function[39m
+ [32m✓[39m tests/unit/interview-logic.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-checklist.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-postgres.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 32884[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22menforces the shared auth admission ceiling across independently bound owners [33m 1095[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mrecovers expired pending work after restart, fences its old lease, and preserves completed idempotency [33m 3813[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mretains records, receipts and quota after the actual Postgres process restarts [33m 2343[2mms[22m[39m
+ [32m✓[39m tests/unit/mock-judge.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [31m❯[39m tests/unit/pivot-flow-reducer.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 35[2mms[22m[39m
+   [32m✓[39m Pivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 8: initializes state with red axes, active axis, and non-blocking proposal access[32m 5[2mms[22m[39m
+   [32m✓[39m Pivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 9: Tier 1 Socratic question is immediately available and canAccessProposal remains true[32m 2[2mms[22m[39m
+   [32m✓[39m Pivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 10: Tier 2 lens is locked until unlocked; cannot jump directly to Tier 2 without unlocking[32m 2[2mms[22m[39m
+[31m   [31m×[31m Pivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 11: Tier 3 is strictly locked (ADR 0002) until Tier 1 and Tier 2 are unlocked; provides 2-3 angles[39m[32m 13[2mms[22m[39m
+[31m     → expected 0 to be greater than or equal to 2[39m
+[31m   [31m×[31m Pivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 12: falls back to deterministic axis guide on network or quota error without losing state[39m[32m 2[2mms[22m[39m
+[31m     → expected 0 to be greater than or equal to 2[39m
+[31m   [31m×[31m Pivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 13: ADR 0002 Student Rewrite Gate prevents overwriting idea and enforces honest rewrite[39m[32m 8[2mms[22m[39m
+[31m     → expected 'กรุณาเลือกมุมมองใหม่ที่ต้องการก่อนเขี…' to contain 'อย่างน้อย 15 ตัวอักษร'[39m
+ [32m✓[39m tests/unit/smoke.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/unit/weekly-plan.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/unit/foundation-transport.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-ai-cards.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/unit/proposal-assemble.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-privacy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/unit/evaluation-view-model.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/fresh-cards-dedupe.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-interest-interview.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [31m❯[39m tests/unit/proposal-quota.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 37[2mms[22m[39m
+   [32m✓[39m Proposal Quota Enforcement (2/day, ADR 0001 & ADR 0002)[2m > [22mSeam 1: Daily Limit & Consumption Rules[2m > [22mconfigures daily proposal quota limit to exactly 2[32m 4[2mms[22m[39m
+[31m   [31m×[31m Proposal Quota Enforcement (2/day, ADR 0001 & ADR 0002)[2m > [22mSeam 1: Daily Limit & Consumption Rules[2m > [22mallows 2 generations per day, then strictly blocks the 3rd with polite Thai notice[39m[32m 25[2mms[22m[39m
+[31m     → expected false to be true // Object.is equality[39m
+[31m   [31m×[31m Proposal Quota Enforcement (2/day, ADR 0001 & ADR 0002)[2m > [22mSeam 1: Daily Limit & Consumption Rules[2m > [22mviewing existing proposals and manual editing never consume quota[39m[32m 2[2mms[22m[39m
+[31m     → expected +0 to be 2 // Object.is equality[39m
+   [32m✓[39m Proposal Quota Enforcement (2/day, ADR 0001 & ADR 0002)[2m > [22mSeam 1: Daily Limit & Consumption Rules[2m > [22mresets quota on next day in Asia/Bangkok time[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-local.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-deck.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-authority.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/foundation-backend.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/topic-catalog.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 89[2mms[22m[39m
+ [32m✓[39m tests/unit/optional-login.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 15 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/production-fail-closed.test.ts[2m > [22mproduction/serverless missing authority fails closed[2m > [22mdoes not expose legacy in-memory/client-selected quota endpoints while successor integration is pending
+[31m[1mAssertionError[22m: expected 400 to be 503 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 503[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/integration/production-fail-closed.test.ts:[2m22:31[22m[39m
+    [90m 20| [39m    [35mfor[39m ([35mconst[39m handler [35mof[39m [cards[33m,[39mevaluate[33m,[39mproposal[33m,[39mpivot]) {
+    [90m 21| [39m      const response = await handler(new Request('https://app.test/api…
+    [90m 22| [39m      [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m503[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m 23| [39m      expect(await response.json()).toMatchObject({ error: 'PERSISTENC…
+    [90m 24| [39m    }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/eval-client.test.ts[2m > [22mEvaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mgenerates deterministic offline pivot coaching for red axes
+[31m[1mAssertionError[22m: expected 2 to be 3 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 3[39m
+[31m+ 2[39m
+
+[36m [2m❯[22m tests/unit/eval-client.test.ts:[2m39:27[22m[39m
+    [90m 37| [39m  it('generates deterministic offline pivot coaching for red axes', ()…
+    [90m 38| [39m    [35mconst[39m coaching [33m=[39m [34mgenerateOfflinePivotCoaching[39m([32m'feasibility'[39m[33m,[39m [34m3[39m)[33m;[39m
+    [90m 39| [39m    [34mexpect[39m(coaching[33m.[39mtier)[33m.[39m[34mtoBe[39m([34m3[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 40| [39m    expect(coaching.tier1Prompt).toContain('เมื่อพิจารณาด้านความเป็นไป…
+    [90m 41| [39m    [34mexpect[39m(coaching[33m.[39mtier2Lenses[33m?.[39mlength)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m1[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/eval-client.test.ts[2m > [22mEvaluation & Pivot Client (ADR 0001 & ADR 0002)[2m > [22mfetchPivot falls back gracefully on network failure or 429
+[31m[1mTypeError[22m: (0 , fetchPivot) is not a function[39m
+[36m [2m❯[22m tests/unit/eval-client.test.ts:[2m108:26[22m[39m
+    [90m106| [39m    vi[33m.[39m[34mstubGlobal[39m([32m'fetch'[39m[33m,[39m fetchMock)[33m;[39m
+    [90m107| [39m
+    [90m108| [39m    [35mconst[39m result [33m=[39m [35mawait[39m [34mfetchPivot[39m({
+    [90m   | [39m                         [31m^[39m
+    [90m109| [39m      anonymousId[33m:[39m [32m'anon-1'[39m[33m,[39m
+    [90m110| [39m      idea[33m:[39m sampleIdea[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/pivot-flow-reducer.test.ts[2m > [22mPivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 11: Tier 3 is strictly locked (ADR 0002) until Tier 1 and Tier 2 are unlocked; provides 2-3 angles
+[31m[1mAssertionError[22m: expected 0 to be greater than or equal to 2[39m
+[36m [2m❯[22m tests/unit/pivot-flow-reducer.test.ts:[2m102:40[22m[39m
+    [90m100| [39m
+    [90m101| [39m    [90m// Verify 2-3 angles constraint[39m
+    [90m102| [39m    [34mexpect[39m(state[33m.[39mtier3Examples[33m.[39mlength)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m2[39m)[33m;[39m
+    [90m   | [39m                                       [31m^[39m
+    [90m103| [39m    [34mexpect[39m(state[33m.[39mtier3Examples[33m.[39mlength)[33m.[39m[34mtoBeLessThanOrEqual[39m([34m3[39m)[33m;[39m
+    [90m104| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/pivot-flow-reducer.test.ts[2m > [22mPivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 12: falls back to deterministic axis guide on network or quota error without losing state
+[31m[1mAssertionError[22m: expected 0 to be greater than or equal to 2[39m
+[36m [2m❯[22m tests/unit/pivot-flow-reducer.test.ts:[2m131:40[22m[39m
+    [90m129| [39m    [34mexpect[39m(state[33m.[39mtier1Prompt)[33m.[39m[34mtoContain[39m([32m'ในด้านความแปลกใหม่'[39m)[33m;[39m
+    [90m130| [39m    [34mexpect[39m(state[33m.[39mtier2Lenses[33m.[39mlength)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m1[39m)[33m;[39m
+    [90m131| [39m    [34mexpect[39m(state[33m.[39mtier3Examples[33m.[39mlength)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m2[39m)[33m;[39m
+    [90m   | [39m                                       [31m^[39m
+    [90m132| [39m    [34mexpect[39m(state[33m.[39mcanAccessProposal)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m133| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/pivot-flow-reducer.test.ts[2m > [22mPivot Flow Reducer (ADR 0002 & AC-8)[2m > [22mSeam 13: ADR 0002 Student Rewrite Gate prevents overwriting idea and enforces honest rewrite
+[31m[1mAssertionError[22m: expected 'กรุณาเลือกมุมมองใหม่ที่ต้องการก่อนเขี…' to contain 'อย่างน้อย 15 ตัวอักษร'[39m
+
+Expected: [32m"อย่างน้อย 15 ตัวอักษร"[39m
+Received: [31m"กรุณาเลือกมุมมองใหม่ที่ต้องการก่อนเขียนอธิบาย"[39m
+
+[36m [2m❯[22m tests/unit/pivot-flow-reducer.test.ts:[2m152:25[22m[39m
+    [90m150| [39m    [90m// 1. Rejects rewrite shorter than 15 chars[39m
+    [90m151| [39m    state = pivotReducer(state, { type: 'SUBMIT_REWRITE', rewrite: 'สั…
+    [90m152| [39m    [34mexpect[39m(state[33m.[39merror)[33m.[39m[34mtoContain[39m([32m'อย่างน้อย 15 ตัวอักษร'[39m)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m153| [39m    [34mexpect[39m(state[33m.[39mupdatedIdea)[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m154| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/proposal-quota.test.ts[2m > [22mProposal Quota Enforcement (2/day, ADR 0001 & ADR 0002)[2m > [22mSeam 1: Daily Limit & Consumption Rules[2m > [22mallows 2 generations per day, then strictly blocks the 3rd with polite Thai notice
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m tests/unit/proposal-quota.test.ts:[2m28:31[22m[39m
+    [90m 26| [39m      [90m// Check initial quota without consuming[39m
+    [90m 27| [39m      [35mconst[39m initial [33m=[39m [35mawait[39m [34mcheckProposalQuota[39m(learnerId)[33m;[39m
+    [90m 28| [39m      [34mexpect[39m(initial[33m.[39mallowed)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m 29| [39m      [34mexpect[39m(initial[33m.[39mremaining)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m 30| [39m      [34mexpect[39m(initial[33m.[39mlimit)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/proposal-quota.test.ts[2m > [22mProposal Quota Enforcement (2/day, ADR 0001 & ADR 0002)[2m > [22mSeam 1: Daily Limit & Consumption Rules[2m > [22mviewing existing proposals and manual editing never consume quota
+[31m[1mAssertionError[22m: expected +0 to be 2 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 2[39m
+[31m+ 0[39m
+
+[36m [2m❯[22m tests/unit/proposal-quota.test.ts:[2m57:32[22m[39m
+    [90m 55| [39m
+    [90m 56| [39m      [90m// Remaining must still be full (2)[39m
+    [90m 57| [39m      [34mexpect[39m(status[33m.[39mremaining)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m   | [39m                               [31m^[39m
+    [90m 58| [39m    })[33m;[39m
+    [90m 59| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/socratic-and-ai.test.ts[2m > [22mAI API Routes[2m > [22mPOST /api/ai/evaluate[2m > [22menforces evaluate daily quota (5) and returns 429 when exhausted
+[31m[1mAssertionError[22m: expected 400 to be 429 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 429[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/unit/socratic-and-ai.test.ts:[2m500:26[22m[39m
+    [90m498| [39m
+    [90m499| [39m      [35mconst[39m res [33m=[39m [35mawait[39m [34mevaluateRoute[39m(req)[33m;[39m
+    [90m500| [39m      [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m429[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m501| [39m      [35mconst[39m json [33m=[39m [35mawait[39m res[33m.[39m[34mjson[39m()[33m;[39m
+    [90m502| [39m      [34mexpect[39m(json[33m.[39mmessageTh)[33m.[39m[34mtoContain[39m([32m'5 ครั้ง'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/socratic-and-ai.test.ts[2m > [22mAI API Routes[2m > [22mPOST /api/ai/evaluate[2m > [22mevaluates with 5 axes (1-10 integer scores + badges) and only DB citations
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/unit/socratic-and-ai.test.ts:[2m517:26[22m[39m
+    [90m515| [39m
+    [90m516| [39m      [35mconst[39m res [33m=[39m [35mawait[39m [34mevaluateRoute[39m(req)[33m;[39m
+    [90m517| [39m      [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m518| [39m      [35mconst[39m json [33m=[39m [35mawait[39m res[33m.[39m[34mjson[39m()[33m;[39m
+    [90m519| [39m      [35mconst[39m evaluation [33m=[39m json[33m.[39mevaluation[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/socratic-and-ai.test.ts[2m > [22mAI API Routes[2m > [22mPOST /api/ai/evaluate[2m > [22mstrips and rejects fabricated AI citations when AI gateway returns fake URLs or IDs
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/unit/socratic-and-ai.test.ts:[2m584:26[22m[39m
+    [90m582| [39m
+    [90m583| [39m      [35mconst[39m res [33m=[39m [35mawait[39m [34mevaluateRoute[39m(req)[33m;[39m
+    [90m584| [39m      [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m585| [39m      [35mconst[39m json [33m=[39m [35mawait[39m res[33m.[39m[34mjson[39m()[33m;[39m
+    [90m586| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/socratic-and-ai.test.ts[2m > [22mAI API Routes[2m > [22mPOST /api/ai/pivot[2m > [22menforces proposal daily quota (2) and returns 429 when exhausted
+[31m[1mAssertionError[22m: expected 400 to be 429 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 429[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/unit/socratic-and-ai.test.ts:[2m611:26[22m[39m
+    [90m609| [39m
+    [90m610| [39m      [35mconst[39m res [33m=[39m [35mawait[39m [34mpivotRoute[39m(req)[33m;[39m
+    [90m611| [39m      [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m429[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m612| [39m      [35mconst[39m json [33m=[39m [35mawait[39m res[33m.[39m[34mjson[39m()[33m;[39m
+    [90m613| [39m      [34mexpect[39m(json[33m.[39mmessageTh)[33m.[39m[34mtoContain[39m([32m'2 ครั้ง'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/socratic-and-ai.test.ts[2m > [22mAI API Routes[2m > [22mPOST /api/ai/pivot[2m > [22mreturns socratic pivot coaching shoring up red axes
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/unit/socratic-and-ai.test.ts:[2m629:26[22m[39m
+    [90m627| [39m
+    [90m628| [39m      [35mconst[39m res [33m=[39m [35mawait[39m [34mpivotRoute[39m(req)[33m;[39m
+    [90m629| [39m      [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m630| [39m      [35mconst[39m json [33m=[39m [35mawait[39m res[33m.[39m[34mjson[39m()[33m;[39m
+    [90m631| [39m      [34mexpect[39m(json[33m.[39mcoaching)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/variable-isolator.test.ts[2m > [22mVariable & Control Isolator rigor check[2m > [22mkeeps the deterministic rigor evidence authoritative even when configured AI suggests a perfect score
+[31m[1mAssertionError[22m: expected undefined to be 'ai' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"ai"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m tests/unit/variable-isolator.test.ts:[2m36:25[22m[39m
+    [90m 34| [39m    }))[33m;[39m
+    [90m 35| [39m    [35mconst[39m body [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m 36| [39m    [34mexpect[39m(body[33m.[39msource)[33m.[39m[34mtoBe[39m([32m'ai'[39m)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m 37| [39m    expect(body.evaluation.axes.rigor).toMatchObject({ score: 1, badge…
+    [90m 38| [39m    [34mexpect[39m(body[33m.[39mevaluation[33m.[39maxes[33m.[39mimpact[33m.[39mscore)[33m.[39m[34mtoBe[39m([34m10[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/15]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/variable-isolator.test.ts[2m > [22mVariable & Control Isolator rigor check[2m > [22muses the saved rigor evidence through the Evaluation HTTP boundary with AI unconfigured
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/unit/variable-isolator.test.ts:[2m83:29[22m[39m
+    [90m 81| [39m      body: JSON.stringify({ anonymousId: 'isolator-http-fallback', id…
+    [90m 82| [39m    }))[33m;[39m
+    [90m 83| [39m    [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                            [31m^[39m
+    [90m 84| [39m    [35mconst[39m body [33m=[39m [35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m 85| [39m    [34mexpect[39m(body[33m.[39msource)[33m.[39m[34mtoBe[39m([32m'fallback'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m55 passed[39m[22m[90m (61)[39m
+[2m      Tests [22m [1m[31m15 failed[39m[22m[2m | [22m[1m[32m472 passed[39m[22m[90m (487)[39m
+[2m   Start at [22m 14:40:38
+[2m   Duration [22m 56.27s[2m (transform 6.93s, setup 0ms, collect 123.24s, tests 139.42s, environment 30ms, prepare 21.83s)[22m
+

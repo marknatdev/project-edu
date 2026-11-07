@@ -1,0 +1,51 @@
+{
+  "head": "880e3a30a62e5fd61791bb3e7bab4025afdc2a30",
+  "noNewCommit": true,
+  "indexEmpty": true,
+  "sourceAndTestsUnmodified": true,
+  "disposableBrowserProfileRemoved": true,
+  "files": [
+    {
+      "path": "CONTEXT.md",
+      "before": "ff688c26746b4a789ff7567129bb7480b0a0e9bc50359df066269295036b5e37",
+      "after": "ff688c26746b4a789ff7567129bb7480b0a0e9bc50359df066269295036b5e37",
+      "preserved": true
+    },
+    {
+      "path": "docs/adr/0002-socratic-advisor-first-ai-pedagogy.md",
+      "before": "c286b2088ac6e3652ae04d040370af3df974bea2bef28ebd44b674a7c72592ed",
+      "after": "c286b2088ac6e3652ae04d040370af3df974bea2bef28ebd44b674a7c72592ed",
+      "preserved": true
+    },
+    {
+      "path": "docs/specs/personalized-discovery-and-def01.md",
+      "before": "0e9a985fbabb385fd1aa632519e51cac5fc7b3aab7f48d0de3c4f1678af2bfe0",
+      "after": "0e9a985fbabb385fd1aa632519e51cac5fc7b3aab7f48d0de3c4f1678af2bfe0",
+      "preserved": true
+    },
+    {
+      "path": "docs/mockups/interactive-prototype.html",
+      "before": "44c573e4926c4ab3dc5382ad974bd98327b16435918156d6ccee39c0732d8c91",
+      "after": "44c573e4926c4ab3dc5382ad974bd98327b16435918156d6ccee39c0732d8c91",
+      "preserved": true
+    },
+    {
+      "path": "REVIEW.md",
+      "before": "387653b158f17b41aabffd33b5de4d7fef8e5663d71484b5b9a19a5ba49d3d9d",
+      "after": "387653b158f17b41aabffd33b5de4d7fef8e5663d71484b5b9a19a5ba49d3d9d",
+      "preserved": true
+    },
+    {
+      "path": "package.json",
+      "before": "c7523ab94e199ecf6a12fb3d48ba18a31b5f83ff1b81a3f97db064e29d4134a3",
+      "after": "c7523ab94e199ecf6a12fb3d48ba18a31b5f83ff1b81a3f97db064e29d4134a3",
+      "preserved": true
+    },
+    {
+      "path": "package-lock.json",
+      "before": "68967a151d4c25df26e083a8d30a67e356f06ee659e375209b0311b6678aa801",
+      "after": "68967a151d4c25df26e083a8d30a67e356f06ee659e375209b0311b6678aa801",
+      "preserved": true
+    }
+  ]
+}

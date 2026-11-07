@@ -1,0 +1,13 @@
+{
+  "passed": 129,
+  "total": 129,
+  "browser": "Chrome/156.0.8078.81",
+  "server_pids": [
+    19012,
+    39140,
+    35392
+  ],
+  "mock_card_calls": 9,
+  "mock_coach_calls": 5,
+  "note": "AI upstream = LABELLED MOCK (hand-written/synthetic samples); not live AI evidence."
+}

@@ -1,0 +1,55 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/semantic-acceptance.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+ ❯ tests/integration/semantic-acceptance.test.ts (2 tests | 2 failed) 12809ms
+     × sqlite charges only one simultaneous non-identical water-filter idea 103ms
+     × postgres charges only one simultaneous non-identical water-filter idea 98ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/semantic-acceptance.test.ts > serialized semantic acceptance (real DBs; injected AI fixture, NOT live AI) > sqlite charges only one simultaneous non-identical water-filter idea
+AssertionError: expected [ { status: 'ok', …(10) }, …(1) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/integration/semantic-acceptance.test.ts:38:52
+     36|     const intents = [request(), request()];
+     37|     const results = await Promise.all(intents.map(async intent => gene…
+     38|     expect(results.filter(r => r.status === 'ok')).toHaveLength(1);
+       |                                                    ^
+     39|     expect(results.filter(r => r.status === 'unavailable')).toHaveLeng…
+     40|     expect(await (await connect()).cardQuota()).toMatchObject({ used: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/semantic-acceptance.test.ts > serialized semantic acceptance (real DBs; injected AI fixture, NOT live AI) > postgres charges only one simultaneous non-identical water-filter idea
+AssertionError: expected [ { status: 'ok', …(10) }, …(1) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/integration/semantic-acceptance.test.ts:38:52
+     36|     const intents = [request(), request()];
+     37|     const results = await Promise.all(intents.map(async intent => gene…
+     38|     expect(results.filter(r => r.status === 'ok')).toHaveLength(1);
+       |                                                    ^
+     39|     expect(results.filter(r => r.status === 'unavailable')).toHaveLeng…
+     40|     expect(await (await connect()).cardQuota()).toMatchObject({ used: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  20:31:55
+   Duration  13.67s (transform 292ms, setup 0ms, import 680ms, tests 12.81s, environment 0ms)
+

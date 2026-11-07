@@ -1,0 +1,16 @@
+{
+  "zod@3": {
+    "exit": 0,
+    "latest_in_major": "3.25.76"
+  },
+  "minimatch@10": {
+    "exit": 0,
+    "latest_in_major": "10.2.6"
+  },
+  "estree-latest": [
+    {
+      "version": "8.72.1",
+      "dependencies.minimatch": "^10.2.2"
+    }
+  ]
+}

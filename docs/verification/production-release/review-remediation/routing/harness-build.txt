@@ -1,0 +1,57 @@
+   ▲ Next.js 15.5.29
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 9.6s
+   Linting and checking validity of types ...
+
+./src/components/discovery/FreshDiscovery.tsx
+308:38  Warning: The ref value 'epoch.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'epoch.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/17) ...
+   Generating static pages (4/17) 
+   Generating static pages (8/17) 
+   Generating static pages (12/17) 
+ ✓ Generating static pages (17/17)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    4.12 kB         135 kB
+├ ○ /_not-found                            996 B         104 kB
+├ ○ /advisor-review                      3.37 kB         125 kB
+├ ƒ /api/ai/cards/generate                 155 B         103 kB
+├ ƒ /api/ai/coach                          155 B         103 kB
+├ ƒ /api/ai/evaluate                       155 B         103 kB
+├ ƒ /api/ai/pivot                          155 B         103 kB
+├ ƒ /api/ai/proposal                       155 B         103 kB
+├ ƒ /api/discovery/cards                   155 B         103 kB
+├ ƒ /auth                                2.58 kB         109 kB
+├ ƒ /auth/callback                         155 B         103 kB
+├ ƒ /auth/login                            155 B         103 kB
+├ ƒ /auth/logout                           155 B         103 kB
+├ ƒ /auth/session                          155 B         103 kB
+├ ○ /bom                                 6.36 kB         137 kB
+├ ○ /calendar                            6.09 kB         137 kB
+├ ○ /consent                             6.22 kB         137 kB
+├ ○ /discovery                           19.4 kB         176 kB
+├ ○ /evaluation                          18.2 kB         176 kB
+├ ○ /idea                                13.1 kB         173 kB
+├ ○ /interview                           8.42 kB         139 kB
+├ ○ /judge                               7.42 kB         155 kB
+├ ○ /print                               2.06 kB         127 kB
+├ ○ /proposal                            24.4 kB         151 kB
+├ ○ /share                               2.06 kB         127 kB
+└ ○ /variables                           5.66 kB         148 kB
++ First Load JS shared by all             103 kB
+  ├ chunks/1255-b84741b894bb9354.js      46.6 kB
+  ├ chunks/4bd1b696-f785427dddbba9fb.js  54.2 kB
+  └ other shared chunks (total)          2.08 kB
+
+
+ƒ Middleware                             95.7 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

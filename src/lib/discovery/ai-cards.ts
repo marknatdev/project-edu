@@ -1,10 +1,8 @@
 import { TopicCardSchema } from '@/lib/schemas';
-import { screenIdea } from '@/lib/safety/screener';
 import type { TopicCard, GradeLevel } from '@/types/domain';
 
 export interface GeneratedTopicCard extends TopicCard {
   isAiGenerated?: boolean;
-  verified?: boolean;
 }
 
 export interface FetchAiCardsOptions {
@@ -30,8 +28,8 @@ export interface AiCardsResult {
  *
  * Rules:
  * - AI calls only via /api/ai/cards/generate (ADR 0001).
- * - "verified" flag is only set to true when the card is strictly validated by TopicCardSchema
- *   and passed through deterministic SRC/ISEF safety screening without blocking safety violations.
+ * - Cards are shape-validated only. No "verified" claim: keyword safety screening is preliminary
+ *   and generation is not a novelty check (spec §8). Superseded by /api/discovery/cards.
  * - Respects per-learner daily quota (30 cards/day); returns plain-Thai notification on 429.
  * - Handles offline/unconfigured environments gracefully with plain-Thai fallback message.
  */
@@ -85,27 +83,18 @@ export async function fetchAiGeneratedCards(
     const data = await res.json();
     const rawCards = Array.isArray(data.cards) ? data.cards : [];
 
-    // Strictly validate each card and apply verified badge
-    const verifiedCards: GeneratedTopicCard[] = [];
+    // Shape-validate each card; never label it verified/safe.
+    const validCards: GeneratedTopicCard[] = [];
     for (const raw of rawCards) {
       const parsed = TopicCardSchema.safeParse(raw);
       if (parsed.success) {
-        const card = parsed.data;
-        // Verify safety: non-blocking check
-        const flags = screenIdea(`${card.title} ${card.phenomenon} ${card.curiosityHook}`);
-        const hasBlocking = flags.some((f) => f.blocking);
-
-        verifiedCards.push({
-          ...card,
-          isAiGenerated: true,
-          verified: !hasBlocking,
-        });
+        validCards.push({ ...parsed.data, isAiGenerated: true });
       }
     }
 
     return {
       success: true,
-      cards: verifiedCards,
+      cards: validCards,
       remaining: typeof data.remaining === 'number' ? data.remaining : undefined,
     };
   } catch (err: unknown) {

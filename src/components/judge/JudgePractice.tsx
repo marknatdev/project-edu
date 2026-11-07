@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { Evaluation, Project } from '@/types/domain';
-import { getEvaluations, getIdea } from '@/lib/storage/store';
+import { getDefaultStorage, getEvaluations, getIdea, getWipeGeneration } from '@/lib/storage/store';
+import { useWipeInvalidation } from '@/lib/storage/use-wipe-invalidation';
 import { AXIS_META } from '@/lib/evaluation/view-model';
 import { JUDGE_PERSONAS, selectJudgeQuestions, reviewJudgeAnswer, type JudgePersona } from '@/lib/judge/practice';
 import { readJudgeAnswers, saveJudgeAnswer } from '@/lib/judge/answers';
@@ -22,6 +23,9 @@ export function JudgePractice({ project, lockSelection }: { project: Project; lo
   const [error, setError] = useState('');
   const [readFailed, setReadFailed] = useState(false);
   const [ready, setReady] = useState(false);
+  const [wiped, markWiped] = useWipeInvalidation();
+  // Storage scope + wipe generation captured with the answers this editor shows.
+  const loaded = useRef<{ storage: ReturnType<typeof getDefaultStorage>; generation: string } | null>(null);
   const questions = selectJudgeQuestions({ persona, ideaId: project.ideaId, evaluation });
   const question = questions[index];
   const saved = answers[question.id] ?? '';
@@ -33,7 +37,9 @@ export function JudgePractice({ project, lockSelection }: { project: Project; lo
     setEvaluation(latest);
     setStale(!!idea && !!latest && idea.updatedAt > latest.evaluatedAt);
     try {
-      const stored = readJudgeAnswers(project.id);
+      const storage = getDefaultStorage();
+      loaded.current = { storage, generation: getWipeGeneration(storage) };
+      const stored = readJudgeAnswers(project.id, storage);
       setAnswers(stored);
       const first = selectJudgeQuestions({ persona: 'ysc', ideaId: project.ideaId, evaluation: latest })[0];
       setDraft(stored[first.id] ?? '');
@@ -41,7 +47,7 @@ export function JudgePractice({ project, lockSelection }: { project: Project; lo
     setReady(true);
   }, [project.id, project.ideaId]);
 
-  useEffect(() => { lockSelection(dirty); return () => lockSelection(false); }, [dirty, lockSelection]);
+  useEffect(() => { lockSelection(dirty && !wiped); return () => lockSelection(false); }, [dirty, wiped, lockSelection]);
 
   function move(nextPersona: JudgePersona, nextIndex: number) {
     const next = selectJudgeQuestions({ persona: nextPersona, ideaId: project.ideaId, evaluation })[nextIndex];
@@ -50,10 +56,11 @@ export function JudgePractice({ project, lockSelection }: { project: Project; lo
   function save() {
     try {
       const result = reviewJudgeAnswer(question, draft);
-      saveJudgeAnswer(project.id, question.id, draft);
+      if (!loaded.current || !saveJudgeAnswer(project.id, question.id, draft, loaded.current.storage, loaded.current.generation)) { markWiped(); return; }
       setAnswers({ ...answers, [question.id]: draft }); setFeedback(result); setError('');
     } catch { setError('ยังไม่บันทึกคำตอบ กรุณาเขียน 1–6,000 ตัวอักษรและตรวจพื้นที่จัดเก็บ แล้วลองใหม่'); }
   }
+  if (wiped) return <p role="status">ลบข้อมูลแล้ว กรุณาเปิดโครงงานใหม่ก่อนฝึกตอบ</p>;
   if (!ready) return <p role="status">กำลังโหลดคำถาม…</p>;
   return <section className="space-y-4 min-w-0" aria-label="ฝึกตอบคำถาม">
     <div className="rounded-2xl bg-indigo-50 border border-indigo-100 p-4 text-sm leading-relaxed text-indigo-950">

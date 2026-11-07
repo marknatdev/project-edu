@@ -1,4 +1,15 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
+import { appFetch } from '@/lib/auth/workspace-client';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+/** Statically analyzable references: Next replaces these in browser bundles. */
+export function publicSupabaseEnv() {
+  return {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  };
+}
 
 export interface SupabaseConfig {
   url: string;
@@ -26,10 +37,10 @@ export function resetSupabaseClientForTesting(): void {
  * Resolves Supabase configuration from environment variables or explicit override.
  */
 export function getSupabaseConfig(
-  env: Record<string, string | undefined> = process.env
+  env: Record<string, string | undefined> = publicSupabaseEnv()
 ): SupabaseConfig | null {
   const url = env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const anonKey = env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const anonKey = (env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY)?.trim();
 
   if (!url || !anonKey) {
     return null;
@@ -45,7 +56,7 @@ export function getSupabaseConfig(
  * Checks whether Supabase environment variables are configured.
  */
 export function isSupabaseConfigured(
-  env: Record<string, string | undefined> = process.env
+  env: Record<string, string | undefined> = publicSupabaseEnv()
 ): boolean {
   return getSupabaseConfig(env) !== null;
 }
@@ -54,7 +65,7 @@ export function isSupabaseConfigured(
  * Returns a configured SupabaseClient or null when env variables are not present.
  */
 export function getSupabaseClient(
-  env: Record<string, string | undefined> = process.env
+  env: Record<string, string | undefined> = publicSupabaseEnv()
 ): SupabaseClient | null {
   const config = getSupabaseConfig(env);
   if (!config) {
@@ -67,11 +78,9 @@ export function getSupabaseClient(
   }
 
   try {
-    cachedClient = createClient(config.url, config.anonKey, {
-      auth: {
-        persistSession: typeof window !== 'undefined',
-        autoRefreshToken: typeof window !== 'undefined',
-      },
+    cachedClient = createBrowserClient(config.url, config.anonKey, {
+      isSingleton: false,
+      auth: { autoRefreshToken: false, detectSessionInUrl: false },
     });
     cachedConfigKey = configKey;
     return cachedClient;
@@ -86,48 +95,23 @@ export function getSupabaseClient(
  * When unconfigured, returns an informative Thai message and allows Guest Mode to continue.
  */
 export async function signInWithGoogle(
-  env: Record<string, string | undefined> = process.env
+  env: Record<string, string | undefined> = publicSupabaseEnv(), next?: string
 ): Promise<SignInWithGoogleResult> {
-  const client = getSupabaseClient(env);
-  if (!client) {
-    return {
-      success: false,
-      client: null,
-      error:
-        'ระบบยังไม่ได้ตั้งค่าการเชื่อมต่อ Supabase บนสภาพแวดล้อมนี้ จึงยังไม่สามารถเข้าสู่ระบบด้วย Google ได้ในขณะนี้ ท่านสามารถใช้งานต่อในโหมด Guest ได้ตามปกติโดยไม่ต้องเข้าสู่ระบบและข้อมูลจะถูกบันทึกไว้ในเครื่องของคุณ',
-    };
-  }
-
+  const config = getSupabaseConfig(env);
+  if (!config || typeof window === 'undefined') return { success: false, client: null,
+    error: 'ระบบยังไม่ได้ตั้งค่าการเชื่อมต่อ Supabase จึงยังเข้าสู่ระบบไม่ได้ คุณใช้งานต่อในโหมด Guest ได้ งานในเครื่องยังอยู่' };
   try {
-    const redirectTo =
-      typeof window !== 'undefined'
-        ? `${window.location.origin}/auth/callback`
-        : undefined;
-
-    const { error } = await client.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo,
-      },
-    });
-
-    if (error) {
-      return {
-        success: false,
-        client,
-        error: error.message,
-      };
-    }
-
-    return {
-      success: true,
-      client,
-    };
-  } catch (err) {
-    return {
-      success: false,
-      client,
-      error: err instanceof Error ? err.message : 'เกิดข้อผิดพลาดในการเชื่อมต่อ Google OAuth',
-    };
-  }
+    const response = await appFetch('/auth/login', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ next: next ?? window.location.pathname + window.location.search }) });
+    const body = await response.json();
+    if (!response.ok || typeof body.url !== 'string') throw Error('AUTH_UNAVAILABLE');
+    const url = new URL(body.url);
+    if (url.origin !== new URL(config.url).origin || url.pathname !== '/auth/v1/authorize') throw Error('AUTH_UNAVAILABLE');
+    window.location.assign(url.href);
+    return { success: true, client: null };
+  } catch { return { success: false, client: null, error: 'เข้าสู่ระบบไม่สำเร็จ ลองใหม่หรือใช้งานต่อในโหมด Guest งานในเครื่องยังอยู่' }; }
+}
+export async function signOut(): Promise<boolean> {
+  try { return (await fetch('/auth/logout', { method: 'POST', credentials: 'same-origin' })).ok; }
+  catch { return false; }
 }

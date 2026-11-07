@@ -1,0 +1,10 @@
+[31m   [31m×[31m DEF-02 Pivot tiers are server authority bound to owner + idea[2m > [22mrejects client-asserted unlockedTiers, tier and anonymousId fields[39m[32m 24[2mms[22m[39m
+[31m   [31m×[31m DEF-02 Pivot tiers are server authority bound to owner + idea[2m > [22mopens at Tier 1 only and refuses Tier 3 or an unanswered Tier 2 request[39m[32m 4[2mms[22m[39m
+[31m   [31m×[31m DEF-02 Pivot tiers are server authority bound to owner + idea[2m > [22mallows the legitimate answer -> hint -> examples progression and resumes it after reload[39m[32m 2[2mms[22m[39m
+[31m   [31m×[31m DEF-02 Pivot tiers are server authority bound to owner + idea[2m > [22misolates owners: another browser cannot advance or read a pivot by its id[39m[32m 2[2mms[22m[39m
+[31m   [31m×[31m DEF-02 Pivot tiers are server authority bound to owner + idea[2m > [22mbinds progression to the idea content: edited idea text starts again at Tier 1[39m[32m 2[2mms[22m[39m
+[31m   [31m×[31m DEF-02 Pivot tiers are server authority bound to owner + idea[2m > [22mrejects a stale revision and replays a duplicated requestId without a second step[39m[32m 2[2mms[22m[39m
+[31m   [31m×[31m DEF-03 Pivot never consumes evaluation or proposal allowances[2m > [22mfull progression on several axes leaves 2 proposals and 5 evaluations; exhausted proposals do not block Pivot[39m[32m 2[2mms[22m[39m
+[31m   [31m×[31m DEF-03 Pivot never consumes evaluation or proposal allowances[2m > [22mhas its own per-owner rate control that never touches the proposal allowance[39m[32m 7[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[90m (8)[39m

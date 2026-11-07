@@ -30,7 +30,7 @@ describe('Variable & Control Isolator rigor check', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify({ axes: { novelty: axis, feasibility: axis, impact: axis, rigor: axis, fit: axis } }) } }] }) }));
     const response = await POST(new Request('http://localhost/api/ai/evaluate', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ anonymousId: 'isolator-http-ai', idea: { ...sampleIdea, isolator: { ...science, controlGroup: '', unit: '', replicates: 0 } } }),
+      body: JSON.stringify({ idea: { ...sampleIdea, isolator: { ...science, controlGroup: '', unit: '', replicates: 0 } } }),
     }));
     const body = await response.json();
     expect(body.source).toBe('ai');
@@ -78,7 +78,7 @@ describe('Variable & Control Isolator rigor check', () => {
     vi.stubEnv('AI_API_KEY', '');
     const response = await POST(new Request('http://localhost/api/ai/evaluate', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ anonymousId: 'isolator-http-fallback', idea: { ...sampleIdea, isolator: science } }),
+      body: JSON.stringify({ idea: { ...sampleIdea, isolator: science } }),
     }));
     expect(response.status).toBe(200);
     const body = await response.json();

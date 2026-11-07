@@ -1,81 +1,49 @@
-/**
- * Client-side communication helper for Socratic Advisor AI Gateway endpoint.
- * Calls /api/ai/coach per ADR 0001 (Stateless Gateway) & ADR 0002 (Socratic Advisor First).
- */
-
-import type { CoachAspect, CoachingTier } from '@/lib/ai/socratic-coach';
-import type { GradeLevel } from '@/types/domain';
-
-export interface FetchCoachTurnParams {
-  anonymousId: string;
-  ideaId?: string;
-  requestedTier?: CoachingTier;
-  targetAspect?: CoachAspect;
-  learnerResponse?: string;
-  ideaContext?: {
-    title?: string;
-    description?: string;
-    subfieldId?: string;
-    gradeLevel?: GradeLevel;
-  };
-}
-
+import { CoachEnvelopeSchema, type CoachApiRequest, type CoachConversation } from './coach-dto';
+import { appFetch } from '@/lib/auth/workspace-client';
+import type { CoachTurnResult } from './coach-contract';
 export interface CoachApiResponse {
   success: boolean;
-  data?: {
-    source: 'ai' | 'fallback';
-    tier: CoachingTier;
-    aspect: CoachAspect | 'completed';
-    content: string;
-    lenses?: string[];
-    examples?: string[];
-  };
+  data?: CoachTurnResult;
+  conversation?: CoachConversation;
   error?: string;
-  isOfflineFallback?: boolean;
+  status?: number;
 }
+let inTabQueue = Promise.resolve<unknown>(undefined);
 
-export async function fetchCoachTurn(
-  params: FetchCoachTurnParams
-): Promise<CoachApiResponse> {
-  try {
-    const res = await fetch('/api/ai/coach', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    });
-
-    if (!res.ok) {
-      const errorJson = (await res.json().catch(() => ({}))) as {
-        error?: string;
-      };
-      return {
-        success: false,
-        error: errorJson.error || `Server responded with status ${res.status}`,
-        isOfflineFallback: true,
-      };
-    }
-
-    const json = (await res.json()) as {
-      source: 'ai' | 'fallback';
-      tier: CoachingTier;
-      aspect: CoachAspect | 'completed';
-      content: string;
-      lenses?: string[];
-      examples?: string[];
-    };
-
-    return {
-      success: true,
-      data: json,
-    };
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Network error';
-    return {
-      success: false,
-      error: message,
-      isOfflineFallback: true,
-    };
+export async function fetchCoachTurn(params: CoachApiRequest, signal?: AbortSignal): Promise<CoachApiResponse> {
+  // Web Locks covers StrictMode/effect replay and first-use requests in other
+  // tabs; the next operation sees the HttpOnly cookie set by its predecessor.
+  if (typeof navigator !== 'undefined' && navigator.locks) {
+    return navigator.locks.request('edu-coaching-owner', { signal }, () => { signal?.throwIfAborted(); return sendCoachTurn(params); }).catch(() => ({ success: false, error: 'หน้าสนทนานี้หยุดทำงานแล้ว' }));
   }
+  // In insecure contexts (e.g. plain HTTP over local network IP) or environments
+  // without Web Locks, serialize requests locally in this tab so concurrent
+  // React effects/submits don't race internally. Cross-tab owner cookie minting
+  // is handled by SQLite CAS / cookie headers without failing closed.
+  const execute = () => signal?.aborted ? Promise.resolve({ success: false, error: 'หน้าสนทนานี้หยุดทำงานแล้ว' }) : sendCoachTurn(params);
+  const queued = inTabQueue.then(execute, execute);
+  inTabQueue = queued;
+  return queued as Promise<CoachApiResponse>;
+}
+async function sendCoachTurn(params: CoachApiRequest): Promise<CoachApiResponse> {
+  try {
+    const res = await appFetch('/api/ai/coach', {
+      method: 'POST', credentials: 'same-origin', cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(params),
+    });
+    const json: unknown = await res.json();
+    if (!res.ok) return { success: false, status: res.status,
+      error: typeof json === 'object' && json && 'error' in json ? String(json.error) : 'เชื่อมต่อบทสนทนาไม่ได้ กรุณาลองใหม่' };
+    const parsed = CoachEnvelopeSchema.safeParse(json);
+    if (!parsed.success) return { success: false, error: 'ข้อมูลบทสนทนาจากเซิร์ฟเวอร์ไม่สมบูรณ์ ข้อความของคุณยังอยู่' };
+    return { success: true, data: parsed.data.turn, conversation: parsed.data.conversation };
+  } catch {
+    return { success: false, error: 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ เก็บข้อความเป็นฉบับร่างแล้ว ยังไม่ปลดล็อกระดับคำแนะนำ' };
+  }
+}
+export async function deleteServerCoaching(): Promise<void> {
+  const response = await appFetch('/api/ai/coach', { method: 'DELETE', credentials: 'same-origin', cache: 'no-store' });
+  if (!response.ok) throw new Error('ยังลบบทสนทนาบนเซิร์ฟเวอร์ไม่ได้ กรุณาเชื่อมต่อแล้วลองใหม่');
+  const body = await response.json();
+  if (body.deleted !== true) throw new Error('เซิร์ฟเวอร์ยังไม่ยืนยันการลบบทสนทนา');
 }

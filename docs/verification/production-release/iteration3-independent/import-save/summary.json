@@ -1,0 +1,7 @@
+{
+  "case": "import-save",
+  "browser": "Chrome/156.0.8078.81",
+  "passed": 10,
+  "total": 10,
+  "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+}

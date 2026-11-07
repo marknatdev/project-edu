@@ -1,0 +1,13 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/foundation-postgres.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/integration/foundation-postgres.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 16163[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mreserves the 35-card limit across concurrent connections without duplicate generation claims [33m 371[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 09:49:24
+[2m   Duration [22m 18.97s[2m (transform 360ms, setup 0ms, collect 1.01s, tests 16.16s, environment 0ms, prepare 779ms)[22m
+

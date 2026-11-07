@@ -8,6 +8,7 @@ import type {
   PivotCoaching,
 } from '@/types/domain';
 import { isRewriteAcceptable } from '@/lib/advisor/chat-reducer';
+import type { PivotView } from './pivot-dto';
 
 export interface InitPivotParams {
   idea: Idea;
@@ -48,6 +49,7 @@ export type PivotAction =
     }
   | { type: 'SELECT_ANGLE'; angle: string }
   | { type: 'SUBMIT_REWRITE'; rewrite: string }
+  | { type: 'SERVER_SYNC'; pivot: PivotView }
   | { type: 'COACH_FAILURE_FALLBACK'; error?: string }
   | { type: 'SET_LOADING'; loading: boolean };
 
@@ -65,7 +67,9 @@ export function createInitialPivotState(params: InitPivotParams): PivotState {
     unlockedTiers: [1],
     tier1Prompt: guide.tier1,
     tier2Lenses: guide.tier2Lenses,
-    tier3Examples: guide.tier3Examples.slice(0, 3),
+    // DEF-02: Tier 3 examples only ever arrive from the server after verified
+    // Tier 1 answer + Tier 2 hint; never pre-filled or fabricated locally.
+    tier3Examples: [],
     pendingAngle: null,
     studentRewrite: null,
     updatedIdea: null,
@@ -89,9 +93,26 @@ export function pivotReducer(state: PivotState, action: PivotAction): PivotState
         unlockedTiers: [1],
         tier1Prompt: guide.tier1,
         tier2Lenses: guide.tier2Lenses,
-        tier3Examples: guide.tier3Examples.slice(0, 3),
+        tier3Examples: [],
         pendingAngle: null,
         studentRewrite: null,
+        error: null,
+      };
+    }
+
+    case 'SERVER_SYNC': {
+      // Server authority replaces local unlock state entirely (DEF-02).
+      const p = action.pivot;
+      if (p.axis !== state.activeAxis) return state;
+      const unlockedTiers = [...p.unlockedTiers] as CoachingTier[];
+      return {
+        ...state,
+        unlockedTiers,
+        currentTier: unlockedTiers.includes(state.currentTier) ? state.currentTier : unlockedTiers[unlockedTiers.length - 1],
+        tier1Prompt: p.tier1Prompt,
+        tier2Lenses: p.tier2Lenses ?? state.tier2Lenses,
+        tier3Examples: p.tier3Examples?.slice(0, 3) ?? [],
+        isWaitingForResponse: false,
         error: null,
       };
     }
@@ -225,13 +246,13 @@ export function pivotReducer(state: PivotState, action: PivotAction): PivotState
     }
 
     case 'COACH_FAILURE_FALLBACK': {
-      // Deterministic fallback from AXIS_PIVOT_GUIDES on network error or quota 429
+      // Deterministic local Tier 1/2 guidance on network error. ADR 0002: offline
+      // steps are not Tier 3 evidence, so Tier 3 examples are never filled here.
       const guide = AXIS_PIVOT_GUIDES[state.activeAxis] ?? AXIS_PIVOT_GUIDES.feasibility;
       return {
         ...state,
         tier1Prompt: guide.tier1,
         tier2Lenses: guide.tier2Lenses,
-        tier3Examples: guide.tier3Examples.slice(0, 3),
         isWaitingForResponse: false,
         error: action.error ?? null,
       };

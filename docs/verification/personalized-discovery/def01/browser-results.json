@@ -1,0 +1,481 @@
+[
+  {
+    "name": "server opening hydrated actual selected card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "hydrate grade/goal/constraints, no completed aspects",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "one server-issued opening, no duplicated client greeting",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "hint and examples initially locked",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "first-use concurrent tabs share the same cookie owner",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "HttpOnly owner credential not visible to JavaScript",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "real HTTP API rejects tampered unsigned browser state",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "opening: no page overflow at 320px",
+    "passed": true,
+    "detail": {
+      "width": 320,
+      "scroll": 320
+    }
+  },
+  {
+    "name": "opening: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "opening: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: no page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "opening: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "opening: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: no page overflow at 390px",
+    "passed": true,
+    "detail": {
+      "width": 390,
+      "scroll": 390
+    }
+  },
+  {
+    "name": "opening: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "opening: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: no page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "opening: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "opening: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "opening: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "keyboard focus reaches answer input",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "stuck response accepted by real server",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "normal answer did not implicitly request examples",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "native Tab reaches the enabled hint control",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "actual issued Tier 2 has lenses",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "hint: no page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "hint: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "hint: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "hint: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "server listener really stopped",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "restart uses a different server process",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "server restart + browser reload retain exact conversation/history/progress",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "resumed examples remain eligible without extra answer after hint",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "restart-resume: no page overflow at 390px",
+    "passed": true,
+    "detail": {
+      "width": 390,
+      "scroll": 390
+    }
+  },
+  {
+    "name": "restart-resume: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "restart-resume: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "restart-resume: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "full browser close/reopen resumes the same conversation and hint",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "only explicit Tier 3 click issued examples",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "copying the second issued example is rejected too",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "partial rewrite text survives refresh without bypassing the gate",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "rewrite: no page overflow at 320px",
+    "passed": true,
+    "detail": {
+      "width": 320,
+      "scroll": 320
+    }
+  },
+  {
+    "name": "rewrite: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "rewrite: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: no page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "rewrite: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "rewrite: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: no page overflow at 390px",
+    "passed": true,
+    "detail": {
+      "width": 390,
+      "scroll": 390
+    }
+  },
+  {
+    "name": "rewrite: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "rewrite: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: no page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "rewrite: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "rewrite: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "rewrite: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "own-words explanation is retained",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "other topic still has fresh gates",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "fresh-topic offline answer does not unlock hints/examples after online resume",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "returning topic restores history and own explanation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "offline learner text is kept without new server progression",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "offline cannot grant hints or examples",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "offline-draft: no page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "offline-draft: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "offline-draft: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "offline-draft: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "offline draft survives refresh",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "online recovery retains draft and explains it is unverified",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit draft resend becomes a server-recorded answer",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "noncatalog snapshot resolves, hydrates and reaches authoritative API",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "generated-snapshot-fixture: no page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "generated-snapshot-fixture: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "generated-snapshot-fixture: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "generated-snapshot-fixture: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "start-new resets identity/history/gates",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "start-new leaves other topic history intact",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cross-tab reset preserves displaced draft without granting gates",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cross-tab wipe clears mounted state and disables stale autosave",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "wipe removes app local keys but not unrelated data",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cross-tab-wiped: no page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "cross-tab-wiped: touch controls at least 40px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "cross-tab-wiped: screenshot is rendered, not blank",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cross-tab-wiped: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "after wipe, reopening starts a new server conversation with fresh gates",
+    "passed": true,
+    "detail": null
+  }
+]

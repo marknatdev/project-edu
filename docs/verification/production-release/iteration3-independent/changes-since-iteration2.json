@@ -1,0 +1,172 @@
+[
+  {
+    "path": "src/app/api/ai/cards/generate/route.ts",
+    "before": "8d61c222139fb9619777c7aaba15bd3a4bb1ef957f96fc502615473fdaba998e",
+    "now": "30e4beda422d81558930767fa1d18fa741df8bc3004b7080360a0c8da04432d4"
+  },
+  {
+    "path": "src/app/api/ai/coach/route.ts",
+    "before": "d30f6639390ae35b97018cad0b9f9dc5f871578517ef56cb29ca025cc8240403",
+    "now": "8ebc7f91e3335fb83582e6f12200f4348aad1f5cf391aa5eafa8bca1943b1981"
+  },
+  {
+    "path": "src/app/evaluation/page.tsx",
+    "before": "6c68ddaa977f4a151b33695ead978fa5243fcf3ed02711286673a0118ff49e0e",
+    "now": "db324a969d731fe45ef03e37b22e4b40617e82e771654cd48fdae73d4ddf1997"
+  },
+  {
+    "path": "src/app/idea/page.tsx",
+    "before": "e1d61852361b69f39b4a17164af8dd8e2a8a33485c34ca7c00d9fce28fd6b6a5",
+    "now": "7137cb278dd59013aec9607b061455ff1bee5e8658fa773379b4eaa0ee959118"
+  },
+  {
+    "path": "src/components/shell/AppShell.tsx",
+    "before": "d4adb5482a60111ac4549b160d34c1d8e27c2c09138dc8dd43066c299cda8cc8",
+    "now": "b2cd04641baf352ed96fbc5af0aa048cddc5f404a1699152c60fac3498624c59"
+  },
+  {
+    "path": "src/lib/advisor/chat-reducer.ts",
+    "before": "87998fbdc4d39b84b98258868d2821e18ccd3fa4695acc964518b558185425aa",
+    "now": "2334adf00c2ee10fd062e9f31d1388b3e1bc75c9f2a214db873c0afd03b3b62c"
+  },
+  {
+    "path": "src/lib/advisor/coach-client.ts",
+    "before": "b95835837274f6c6aacb3f7f0ddd68090be70a4bf1c8e24211220c3b61d0a057",
+    "now": "d2b01bad3781f30c782f391931106a3ca2f4b6a37155d6ab0984641d44c5f3be"
+  },
+  {
+    "path": "src/lib/ai/gateway.ts",
+    "before": "65d545bf09a18bf0f9f6f7d4a2eb57c7e2734dd91c81082db7a0e326972ef0c6",
+    "now": "317197a7068b3cec7500afd16ad2ae20882631b5fa6befcfbee7c8e89399dc90"
+  },
+  {
+    "path": "src/lib/evaluation/eval-client.ts",
+    "before": "70a77362a14c2f29aced229a3b60677c8f264dbefb532a64db8b8ddafac6a0af",
+    "now": "0e56058176a454a2a3dcc7b8ade10114e2d54a0c60beb3c7ea2d2b0cd12c5d10"
+  },
+  {
+    "path": "src/lib/proposal/quota-client.ts",
+    "before": "430b5af4bb5febae856086c16795ccb75b6f48e410b05ed76313e5531bf68550",
+    "now": "3abec1b9039d4ebab9e47d669a7cf11a62e282adfbc5b1cb30333b18b6e5009d"
+  },
+  {
+    "path": "src/lib/schemas.ts",
+    "before": "d8450000146720f1fc000303fd23c26df9e8ca6ed459612274b938b9874594e8",
+    "now": "d2977e40ab22943d24402b536bb8c950455c2675ac8a0bbea85c8ffacdcdca77"
+  },
+  {
+    "path": "src/lib/supabase/client.ts",
+    "before": "3b4cd13946c264d9178a241ac7280ed53e542dad666d022a25a1897179a87d89",
+    "now": "746399653de3501af608c0a2237d1fb2a20f686422f204fcd16b49c9c2cb6c98"
+  },
+  {
+    "path": "src/types/domain.ts",
+    "before": "d42c57897b4f60cf89527314c94e0a14817e4051efd1705d50ebf6e4ca34097e",
+    "now": "572bc99e2e9852afd99a7079340debfcfff85f3062133d60627402eed89ad935"
+  },
+  {
+    "path": "tests/unit/eval-client.test.ts",
+    "before": "2adb27f2d559b8a3367bc376c05d312b8bb5dc5d9bc18448be2b6a7523047cae",
+    "now": "5fc62537b8c0b37b640ee62a9c79f8fedfb81a2cef9c8bfd4b012c141f42f14d"
+  },
+  {
+    "path": "src/app/api/discovery/cards/route.ts",
+    "before": "ef0824bd7ef007cddc5f7949526442335604f5b927a3a2572bf5dd9ceab9583a",
+    "now": "e0dc96af498460672f52fa771782155676ff6f585acf9bfbb76f888d1d0cac65"
+  },
+  {
+    "path": "src/app/auth/login/route.ts",
+    "before": "c2c4dbddde025e101a3907767cea0900d3b900a751401ad5921e271bb5cebf39",
+    "now": "c721e07c5c2cc0fc7c22606fe896f7ca3fa76379f18f32809a5e2da3e1b9e8ce"
+  },
+  {
+    "path": "src/app/auth/session/route.ts",
+    "before": "59a6b472044fc5e5b51e9c8d891375b06b8d1bf4a32a86c87c8f06f305714bc0",
+    "now": "1dd19cce432bf9d3d0d06e5cf6dc663a2d7c4a4157a0e9c1a8e44cd49972e025"
+  },
+  {
+    "path": "src/components/auth/AccountAccess.tsx",
+    "before": "7281c35ecd60cd83730b97930a70f6ec4111dfc3c0707606a8efb728c7336e2e",
+    "now": "51fb63e3e8b50928a2e91cf882fc8dd5460fc4d39c298c0f25d03f5ec5f54c1e"
+  },
+  {
+    "path": "src/components/discovery/FreshDiscovery.tsx",
+    "before": "c7fffbc4ddef3a140bdadca4113b1215ee52e1cfe6f4b0c2561efe267d0289fa",
+    "now": "8b252a5272717eb3ad1da2e9ed780856384d0e5af9b3dba2982ee800fb172142"
+  },
+  {
+    "path": "src/lib/advisor/coach-dto.ts",
+    "before": "2db39cf66c9db070863d43a49c454c374c79ddaf94fff20c4e6411eba2a1a29f",
+    "now": "8dc04083683fcd901a8e78fe7b576d2e50c3ee3c0f2975cede51ea17952c830e"
+  },
+  {
+    "path": "src/lib/advisor/coaching-local.ts",
+    "before": "431b78ffc0c920335c87b9ab2cee1c36fae06a91b986857ae33df4b28f070331",
+    "now": "41cdef45b9429a17748d96a8c90c61188186e85be3b301eb3ed159e5e1c07f4b"
+  },
+  {
+    "path": "src/lib/advisor/coaching-store.server.ts",
+    "before": "91d7835f815dc77208adc93311843daf4f1fddedd054d4b96e1c1c9efa5a1481",
+    "now": "bec74792b2a0f2326124e0765cd129cf00673d16f4e0b2aa6502c6106caaa666"
+  },
+  {
+    "path": "src/lib/auth/principal.server.ts",
+    "before": "9fce3767d4fd3a77550fd55fca72e8b5b17e1132fcd087708e2f16ea775428f5",
+    "now": "0195d939f7f1b5cd4b402d1f306a30949b2c8ea278b01970e5d17e74f646a38b"
+  },
+  {
+    "path": "src/lib/discovery/fresh-cards.server.ts",
+    "before": "223ed854d5c6db4f92b071abab0b466e7d082059348d0f35375738c5fa0eaa4c",
+    "now": "78bbab3f6e4ecf303c34a0ae47030a5186627cb53b7d9d3178786b902c4d19df"
+  },
+  {
+    "path": "src/lib/discovery/fresh-client.ts",
+    "before": "9c8c07840a07b9dacc84f282a3a976cd494034465c7e169cf26baf00abfbb1c4",
+    "now": "c9e156c43c1565fbdd99e4e6ee9b3eb7e8189a4403d8201d9eafb85416c1e5f0"
+  },
+  {
+    "path": "src/lib/persistence/cards.server.ts",
+    "before": "25e50a5e236a971a30068de558af546c3c6fe568e0ac647592bcfc96baab9ab4",
+    "now": "fb0f109569882bf26948f11c5c44d83f125c4ecea08dc2cc926df5733cae80ae"
+  },
+  {
+    "path": "src/lib/persistence/owner-route.server.ts",
+    "before": "0dfa0824f802eeaf868978058e1975bd42421774ea8bfd40f9127c7d30cefc45",
+    "now": "922a778f1234fee60c6abf43e8b8541c9a879bfdb91f36712de5c1b42c4042b1"
+  },
+  {
+    "path": "src/lib/persistence/sqlite-store.server.ts",
+    "before": "34b2a19d3b1c2db10ba058e651761ea49054f3ed21a21f8878be1acb1cca51eb",
+    "now": "b623900cf90ad4c80d679674e210f840102d881fc615c2f4635c5e04f1d3140d"
+  },
+  {
+    "path": "src/lib/persistence/supabase-store.server.ts",
+    "before": "d612df1bfacb6d7f036a1151f330777e105057230253a3e4b7bcd3d75fd470d1",
+    "now": "8f3e4601dea649063a89dc08e1667f0297100693fa7eaa19565ad35a73ce72ff"
+  },
+  {
+    "path": "src/lib/pivot/pivot-client.ts",
+    "before": "4f59dcf0d0ee359a9a20e176d9f7b07b24e666388885ae6abb9957bb16be8139",
+    "now": "a3507a62387ece56a436376f671c5d7a5a8f24fbb1a41f15756de97adc48273d"
+  },
+  {
+    "path": "tests/fixtures/repairs.ts",
+    "before": "f7edab300a1ead7a891618f095a39966d606bf111e46e1ceaeaf50e0443598df",
+    "now": "25079e4ad607d028cff2aa971a0b1d41d852f2c1c6e5506b5c2e12d8163645b5"
+  },
+  {
+    "path": "tests/integration/auth-pkce.test.ts",
+    "before": "10d9abd23dc263bd62ca1af284a6b4c48ae0ecefcdee12bac6858e559fd5cd8a",
+    "now": "349f41883302d6269239eb003b769f822ca6586d21f33ef0702a02ee7506da8e"
+  },
+  {
+    "path": "tests/integration/principal.test.ts",
+    "before": "e18cb7f1de8afa30ca3b94dbe66a70af56147aaa3665c24e32625b85605f4325",
+    "now": "05822f25e835e092ac79157784778f70c4144a5ac589d4f140d23b9201d00c52"
+  },
+  {
+    "path": "tests/integration/repairs-postgres.test.ts",
+    "before": "a0b7df1792f786c81fb275ad4a6645eea6fd96d1d77298984ce3d1aabcca0cd1",
+    "now": "0a7ea204ce4c5c5658322c708bb72bf741ecd295fcf277ba914945cd55dd5a50"
+  }
+]

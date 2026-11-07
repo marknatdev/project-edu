@@ -16,9 +16,9 @@ import {
 import {
   getConsent,
   saveConsent,
-  wipeAllLearnerData,
   type PdpaConsent,
 } from '@/lib/storage/store';
+import { wipeLearnerDataWithCoaching } from '@/lib/advisor/privacy-client';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 
 export function ConsentView() {
@@ -47,8 +47,9 @@ export function ConsentView() {
     setTimeout(() => setAcceptSuccess(false), 3000);
   };
 
-  const handleConfirmWipe = () => {
-    wipeAllLearnerData();
+  const handleConfirmWipe = async () => {
+    try { await wipeLearnerDataWithCoaching(); }
+    catch { window.alert('ยังลบบทสนทนาบนเซิร์ฟเวอร์ไม่ได้ ข้อมูลในเครื่องยังอยู่ กรุณาเชื่อมต่อแล้วลองใหม่'); return; }
     setConsentState({ accepted: false, acceptedAt: null });
     setShowWipeModal(false);
     setWipeSuccess(true);
@@ -65,7 +66,7 @@ export function ConsentView() {
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-semibold text-indigo-700">
             <ShieldCheck className="w-4 h-4 text-indigo-600" />
-            <span>Zero-PII Privacy Protection</span>
+            <span>เก็บข้อมูลเท่าที่จำเป็น</span>
           </span>
           {consent.accepted ? (
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700">
@@ -84,7 +85,7 @@ export function ConsentView() {
           ความยินยอมและการคุ้มครองข้อมูลเยาวชน (PDPA)
         </h1>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-prompt">
-          Project Edu ยึดมั่นในหลักการ <strong>Zero-PII (Zero Personally Identifiable Information)</strong> เพื่อคุ้มครองความเป็นส่วนตัวของนักเรียน ม.ต้น และ ม.ปลาย อย่างเคร่งครัด
+          โปรไฟล์โครงงานไม่ถามชื่อจริงหรือโรงเรียน ใช้ Guest ได้โดยไม่ผูกอีเมล หากเลือกเข้าสู่ระบบ Google จะมีการประมวลผลข้อมูลบัญชีโดย Google และ Supabase Auth ตามรายละเอียดด้านล่าง
         </p>
       </div>
 
@@ -95,10 +96,10 @@ export function ConsentView() {
             <UserX className="w-5 h-5" />
           </div>
           <h3 className="font-bold text-slate-800 text-sm font-prompt">
-            ไม่เก็บข้อมูลส่วนบุคคล
+            โปรไฟล์ไม่ถามชื่อจริงหรือโรงเรียน
           </h3>
           <p className="text-xs text-slate-600 leading-relaxed font-prompt">
-            ระบบไม่มีการถามหรือบันทึกชื่อ-นามสกุลจริง โรงเรียน เลขบัตร หรือเบอร์โทรศัพท์เด็ดขาด
+            ไม่ขอชื่อจริง โรงเรียน เลขบัตร หรือเบอร์โทรในข้อมูลโครงงาน โปรดไม่พิมพ์ข้อมูลส่วนตัวลงคำตอบหรือข้อความที่ส่งให้ AI
           </p>
         </div>
 
@@ -110,7 +111,7 @@ export function ConsentView() {
             เก็บข้อมูลในเครื่องคุณ (Local-First)
           </h3>
           <p className="text-xs text-slate-600 leading-relaxed font-prompt">
-            ประวัติการสัมภาษณ์ ไอเดีย และการประเมินจะถูกจัดเก็บใน Local Storage ของอุปกรณ์เครื่องนี้
+            การสัมภาษณ์ ไอเดีย และการประเมินเก็บในอุปกรณ์ ส่วนบทสนทนาชวนคิดและการ์ดที่ใช้คุยจะเก็บบนเซิร์ฟเวอร์ด้วยคุกกี้รหัสนิรนาม เพื่อกลับมาคุยต่อหลังรีสตาร์ตได้ โปรดไม่พิมพ์ชื่อจริง โรงเรียน หรือข้อมูลติดต่อ
           </p>
         </div>
 
@@ -122,7 +123,7 @@ export function ConsentView() {
             สิทธิ์ควบคุมเป็นของคุณ 100%
           </h3>
           <p className="text-xs text-slate-600 leading-relaxed font-prompt">
-            คุณสามารถล้างและลบข้อมูลโครงงานทั้งหมดออกจากอุปกรณ์ได้ในคลิกเดียวตลอดเวลา
+            กดลบข้อมูลเพื่อขอล้างข้อมูลในอุปกรณ์และบทสนทนาบนเซิร์ฟเวอร์ ต้องออนไลน์เพื่อยืนยันการลบ ถ้าเชื่อมต่อไม่ได้จะแจ้งให้ลองใหม่ ไม่อ้างว่าลบสำเร็จ
           </p>
         </div>
       </div>
@@ -147,7 +148,7 @@ export function ConsentView() {
             <ul className="text-xs text-slate-600 space-y-2 list-disc list-inside font-prompt leading-relaxed">
               <li>ไม่ต้องสมัครสมาชิกและไม่ต้องผูกอีเมลใด ๆ</li>
               <li>ข้อมูลการสัมภาษณ์และการปัดการ์ดบันทึกในอุปกรณ์นี้</li>
-              <li>หากล้างแคชหรือประวัติเบราว์เซอร์ ข้อมูลจะถูกลบออก</li>
+              <li>ล้างแคชจะลบข้อมูลในเครื่อง แต่ไม่ใช่คำขอลบบทสนทนาบนเซิร์ฟเวอร์ หากลบคุกกี้จะเสียสิทธิ์กลับมาคุยต่อ ควรกดลบข้อมูลในแอปก่อน</li>
               <li>ใช้งาน Socratic Coach และประเมินโครงงานได้ตามโควตารายวัน</li>
             </ul>
           </div>
@@ -160,7 +161,7 @@ export function ConsentView() {
               </span>
               {supabaseReady ? (
                 <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[11px] font-semibold">
-                  เปิดใช้งานแล้ว
+                  ตั้งค่าจุดเชื่อมต่อแล้ว
                 </span>
               ) : (
                 <span className="px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 text-[11px] font-medium flex items-center gap-1">
@@ -170,8 +171,10 @@ export function ConsentView() {
               )}
             </div>
             <ul className="text-xs text-slate-600 space-y-2 list-disc list-inside font-prompt leading-relaxed">
-              <li>ใช้สำหรับบันทึกผลงานข้ามอุปกรณ์เมื่อระบบคลาวด์พร้อมให้บริการ</li>
-              <li>ระบบจะแปลงเป็นรหัสนิรนาม (Anonymous ID) โดยไม่นำชื่อหรืออีเมลไปเปิดเผย</li>
+              <li>การเข้าสู่ระบบเป็นตัวเลือก ไม่จำเป็นสำหรับบันทึกหรือส่งออก งานในเครื่องยังอยู่ และยังไม่ซิงค์โครงงานข้ามอุปกรณ์</li>
+              <li>เมื่อคุณเลือกเข้าสู่ระบบ Google และ Supabase Auth ประมวลผลชื่อ อีเมล และข้อมูลยืนยันบัญชีเพื่อการลงชื่อเข้าใช้ ไม่ใช่การใช้งานแบบไร้ข้อมูลส่วนบุคคลทั้งหมด</li>
+              <li>แอปใช้เพียงรหัสบัญชีที่ตรวจสอบแล้วเพื่อแยกสิทธิ์ ไม่คัดลอกชื่อหรืออีเมลลงข้อมูลโครงงาน บันทึกเหตุการณ์ หรือคำสั่งให้ AI และไม่ขอสิทธิ์ Google Drive หรือ Calendar</li>
+              <li>งาน Guest กับงานบัญชีแยกกัน ไม่ย้ายหรือเขียนทับงานคลาวด์อัตโนมัติ การมี public config ไม่ยืนยันว่าผู้ให้บริการ Google พร้อม ต้องทดสอบลงชื่อเข้าใช้จริงก่อน</li>
               <li>
                 {!supabaseReady &&
                   'ปัจจุบันสภาพแวดล้อมนี้ยังไม่ได้ตั้งค่าคลาวด์ ท่านจึงสามารถใช้งานต่อในโหมด Guest ได้อย่างเต็มรูปแบบ'}
@@ -230,7 +233,7 @@ export function ConsentView() {
         </div>
 
         <p className="text-sm text-slate-600 leading-relaxed font-prompt">
-          ตามมาตรฐาน PDPA ท่านมีสิทธิ์ในการลบข้อมูลทั้งหมดที่เคยบันทึกไว้ในอุปกรณ์นี้ได้ทันที เมื่อกดปุ่มด้านล่าง ข้อมูลทั้งหมดรวมถึงประวัติการสัมภาษณ์ การปัดการ์ด และไอเดียจะถูกทำลายทิ้งอย่างถาวร
+          การลบจะขอล้างข้อมูลโครงงานในอุปกรณ์และข้อมูลบทสนทนา/การ์ดที่แอปจัดเก็บสำหรับบัญชีหรือ Guest ในเบราว์เซอร์นี้ (บัญชีจะยังเก็บเฉพาะตัวเลขโควตาที่ใช้ไปของวันนี้ ไม่มีเนื้อหางาน) ต้องออนไลน์และได้รับคำยืนยันจากเซิร์ฟเวอร์ก่อน สำเนาสำรองอยู่ภายใต้นโยบายผู้ให้บริการ การลบนี้ไม่ลบบัญชี Google หรือ Supabase Auth และไม่ถอนสิทธิ์ Google; จัดการการเชื่อมต่อได้ในบัญชี Google ของคุณ
         </p>
 
         <div className="pt-2">

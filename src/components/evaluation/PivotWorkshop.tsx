@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Compass,
   HelpCircle,
@@ -22,7 +22,8 @@ import {
   pivotReducer,
   type PivotState,
 } from '@/lib/pivot/pivot-reducer';
-import { fetchPivot } from '@/lib/evaluation/eval-client';
+import { openPivot, advancePivot, type PivotResult } from '@/lib/pivot/pivot-client';
+import type { PivotView } from '@/lib/pivot/pivot-dto';
 import { isRewriteAcceptable } from '@/lib/advisor/chat-reducer';
 import { AXIS_META } from '@/lib/evaluation/view-model';
 import { saveIdea, savePivot } from '@/lib/storage/store';
@@ -32,7 +33,6 @@ export interface PivotWorkshopProps {
   idea: Idea;
   redAxes: EvaluationAxis[];
   constraints?: Constraints;
-  anonymousId?: string;
   onIdeaUpdated?: (updatedIdea: Idea) => void;
 }
 
@@ -40,7 +40,6 @@ export function PivotWorkshop({
   idea,
   redAxes,
   constraints,
-  anonymousId = 'guest_user',
   onIdeaUpdated,
 }: PivotWorkshopProps) {
   const [state, setState] = useState<PivotState>(() =>
@@ -55,6 +54,35 @@ export function PivotWorkshop({
   const [rewriteError, setRewriteError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  // DEF-02: server-authoritative progression for owner + idea + axis. Without it
+  // (offline/unavailable) the workshop offers local Tier 1/2 guidance only.
+  const [serverPivot, setServerPivot] = useState<PivotView | null>(null);
+  const [tier1Answer, setTier1Answer] = useState('');
+  const [notice, setNotice] = useState<string | null>(null);
+
+  const applyResult = (result: PivotResult) => {
+    const pivot = result.pivot;
+    if (pivot) {
+      setServerPivot(pivot);
+      setState((prev) => pivotReducer(prev, { type: 'SERVER_SYNC', pivot }));
+      if (pivot.tier1Response) setTier1Answer((prev) => prev || pivot.tier1Response || '');
+    }
+    if (!result.ok) {
+      if (result.kind === 'not_found') setServerPivot(null);
+      setNotice(result.messageTh);
+    } else {
+      setNotice(null);
+    }
+  };
+
+  const originalIdea = state.originalIdea;
+  const activeAxis = state.activeAxis;
+  useEffect(() => {
+    let live = true;
+    setServerPivot(null);
+    void openPivot({ idea: originalIdea, axis: activeAxis }).then((result) => { if (live) applyResult(result); });
+    return () => { live = false; };
+  }, [originalIdea, activeAxis]);
 
   if (redAxes.length === 0) {
     return null;
@@ -63,75 +91,63 @@ export function PivotWorkshop({
   const activeAxisMeta = AXIS_META[state.activeAxis];
   const hasTier2 = state.unlockedTiers.includes(2);
   const hasTier3 = state.unlockedTiers.includes(3);
+  const serverHasTier2 = serverPivot?.unlockedTiers.some(t => t === 2) ?? false;
 
   // Switch Red Axis
   const handleSwitchAxis = (axis: EvaluationAxis) => {
+    if (isSubmitting) return;
+    setServerPivot(null);
     setState((prev) => pivotReducer(prev, { type: 'SWITCH_AXIS', axis }));
     setRewriteInput('');
     setRewriteError(null);
     setSavedSuccess(false);
+    setTier1Answer('');
+    setNotice(null);
   };
 
-  // Unlock Tier 2
-  const handleUnlockTier2 = async () => {
-    setState((prev) => pivotReducer(prev, { type: 'UNLOCK_TIER_2' }));
-
-    // Optionally fetch dynamic Tier 2 lens from API
-    setIsSubmitting(true);
-    const res = await fetchPivot({
-      anonymousId,
-      idea: state.originalIdea,
-      redAxes: [state.activeAxis],
-      tier: 2,
-      constraints,
-      unlockedTiers: [1, 2],
-    });
-    setIsSubmitting(false);
-
-    if (res.success && res.coaching?.tier2Lenses) {
-      setState((prev) =>
-        pivotReducer(prev, {
-          type: 'SET_COACHING_DATA',
-          tier2Lenses: res.coaching?.tier2Lenses,
-        })
-      );
-    }
-  };
-
-  // Request Tier 3 (Last Resort Angles)
-  const handleRequestTier3 = async () => {
-    if (!hasTier2) {
+  // Tier 1 answer -> Tier 2 lenses. The server records the answer; offline the
+  // hint is local only and is never evidence for Tier 3 (ADR 0002).
+  const handleSubmitTier1 = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    const answer = tier1Answer.trim();
+    if (!answer) {
+      setNotice('ลองตอบคำถามระดับ 1 ด้วยความคิดของตัวเองก่อน ตอบสั้น ๆ หรือบอกว่ายังคิดไม่ออกก็ได้');
       return;
     }
-
-    setState((prev) => pivotReducer(prev, { type: 'REQUEST_TIER_3' }));
-    setIsSubmitting(true);
-
-    const res = await fetchPivot({
-      anonymousId,
-      idea: state.originalIdea,
-      redAxes: [state.activeAxis],
-      tier: 3,
-      constraints,
-      unlockedTiers: [1, 2, 3],
-    });
-    setIsSubmitting(false);
-
-    if (res.success && res.coaching?.tier3Examples) {
-      setState((prev) =>
-        pivotReducer(prev, {
-          type: 'SET_COACHING_DATA',
-          tier3Examples: res.coaching?.tier3Examples,
-        })
-      );
-    } else if (res.error) {
-      setState((prev) =>
-        pivotReducer(prev, {
-          type: 'COACH_FAILURE_FALLBACK',
-          error: res.error,
-        })
-      );
+    if (serverHasTier2) {
+      setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 2 }));
+      return;
     }
+    setIsSubmitting(true);
+    const result = serverPivot
+      ? await advancePivot({ pivot: serverPivot, requestedTier: 2, learnerResponse: answer })
+      : await openPivot({ idea: state.originalIdea, axis: state.activeAxis }).then((opened) =>
+          opened.ok ? advancePivot({ pivot: opened.pivot, requestedTier: 2, learnerResponse: answer }) : opened);
+    setIsSubmitting(false);
+    if (result.ok) {
+      applyResult(result);
+      setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 2 }));
+      return;
+    }
+    if (result.kind === 'offline' || result.kind === 'unavailable') {
+      setState((prev) => pivotReducer(pivotReducer(prev, { type: 'COACH_FAILURE_FALLBACK' }), { type: 'UNLOCK_TIER_2' }));
+      setNotice('ใช้คำใบ้ระดับ 2 ที่เก็บในเครื่องไปก่อน (ยังไม่ได้บันทึกบนเซิร์ฟเวอร์) ตัวอย่างระดับ 3 ต้องเชื่อมต่อแล้วส่งคำตอบระดับ 1 อีกครั้ง');
+      return;
+    }
+    applyResult(result);
+  };
+
+  // Tier 3 (Last Resort Angles): server-verified only, never offline.
+  const handleRequestTier3 = async () => {
+    if (!serverPivot || !serverHasTier2) {
+      setNotice('ตัวอย่างมุมมองใหม่จะเปิดหลังจากส่งคำตอบระดับ 1 และได้รับกรอบความคิดระดับ 2 ที่บันทึกบนเซิร์ฟเวอร์แล้ว');
+      return;
+    }
+    setIsSubmitting(true);
+    const result = await advancePivot({ pivot: serverPivot, requestedTier: 3 });
+    setIsSubmitting(false);
+    applyResult(result);
+    if (result.ok) setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 3 }));
   };
 
   // Select an angle to rewrite
@@ -214,6 +230,7 @@ export function PivotWorkshop({
                   key={axis}
                   type="button"
                   onClick={() => handleSwitchAxis(axis)}
+                  disabled={isSubmitting}
                   className={`min-h-[40px] px-3.5 py-1.5 rounded-2xl text-xs font-bold font-prompt transition-all flex items-center gap-1.5 ${
                     isSelected
                       ? 'bg-rose-600 text-white shadow-xs'
@@ -255,7 +272,8 @@ export function PivotWorkshop({
             if (hasTier2) {
               setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 2 }));
             } else {
-              handleUnlockTier2();
+              setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 1 }));
+              setNotice('ตอบคำถามระดับ 1 ก่อน แล้วกดขอกรอบความคิดระดับ 2');
             }
           }}
           disabled={isSubmitting}
@@ -284,15 +302,15 @@ export function PivotWorkshop({
           onClick={() => {
             if (hasTier3) {
               setState((prev) => pivotReducer(prev, { type: 'SELECT_TIER', tier: 3 }));
-            } else if (hasTier2) {
-              handleRequestTier3();
+            } else if (serverHasTier2) {
+              void handleRequestTier3();
             }
           }}
-          disabled={!hasTier2 || isSubmitting}
+          disabled={(!hasTier3 && !serverHasTier2) || isSubmitting}
           className={`min-h-[44px] px-3 py-2.5 rounded-2xl border text-xs font-bold font-prompt text-left flex items-center justify-between gap-2 transition-all ${
             state.currentTier === 3
               ? 'bg-rose-600 text-white border-rose-700 shadow-rose-100 ring-2 ring-rose-200'
-              : hasTier3
+              : hasTier3 || serverHasTier2
                 ? 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                 : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
           }`}
@@ -309,6 +327,13 @@ export function PivotWorkshop({
         </button>
       </div>
 
+      {notice && (
+        <div role="status" className="flex items-start gap-2 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-prompt">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>{notice}</span>
+        </div>
+      )}
+
       {/* Tier 1 Content: Socratic Question Prompt */}
       {state.currentTier === 1 && (
         <div className="rounded-2xl bg-indigo-50/60 border border-indigo-200 p-4 sm:p-5 space-y-3 font-prompt">
@@ -319,18 +344,32 @@ export function PivotWorkshop({
           <p className="text-slate-800 text-sm sm:text-base leading-relaxed bg-white p-3.5 rounded-xl border border-indigo-100">
             {state.tier1Prompt}
           </p>
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span className="text-xs text-slate-500">
-              ลองคิดหาคำตอบด้วยตนเอง หากยังนึกไม่ออก สามารถขอรับคำใบ้กรอบความคิดในระดับ 2 ได้
-            </span>
-            <button
-              type="button"
-              onClick={handleUnlockTier2}
-              className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0"
-            >
-              <span>ขอรับกรอบความคิด (Tier 2) →</span>
-            </button>
-          </div>
+          <form onSubmit={handleSubmitTier1} className="pt-2 space-y-2">
+            <label htmlFor="pivot-tier1-answer" className="block text-xs font-bold text-slate-700">
+              คำตอบของคุณ (ตอบสั้น ๆ หรือบอกว่ายังคิดไม่ออกก็ได้)
+            </label>
+            <textarea
+              id="pivot-tier1-answer"
+              value={tier1Answer}
+              onChange={(e) => setTier1Answer(e.target.value)}
+              maxLength={2000}
+              rows={3}
+              placeholder="ลองเขียนสิ่งที่คุณคิดก่อน..."
+              className="w-full p-3 rounded-xl border border-indigo-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-sm text-slate-900 outline-hidden font-prompt resize-none bg-white"
+            />
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+              <span className="text-xs text-slate-500">
+                ส่งคำตอบระดับ 1 ก่อน จึงขอรับคำใบ้กรอบความคิดในระดับ 2 ได้
+              </span>
+              <button
+                type="submit"
+                disabled={isSubmitting || !tier1Answer.trim()}
+                className="w-full sm:w-auto min-h-[44px] px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0"
+              >
+                <span>{isSubmitting ? 'กำลังส่ง...' : 'ส่งคำตอบและขอกรอบความคิด (Tier 2) →'}</span>
+              </button>
+            </div>
+          </form>
         </div>
       )}
 
@@ -360,8 +399,8 @@ export function PivotWorkshop({
             </span>
             <button
               type="button"
-              onClick={handleRequestTier3}
-              disabled={isSubmitting}
+              onClick={() => void handleRequestTier3()}
+              disabled={isSubmitting || !serverHasTier2}
               className="w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50"
             >
               {isSubmitting ? (

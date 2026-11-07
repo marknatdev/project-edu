@@ -1,10 +1,9 @@
 import {
   COACH_ASPECTS,
-  FALLBACK_PROMPTS,
   type CoachAspect,
   type CoachAspectProgress,
   type CoachingTier,
-} from '@/lib/ai/socratic-coach';
+} from '@/lib/advisor/coach-contract';
 import { IdeaSchema, IdeaVariablesLiteSchema } from '@/lib/schemas';
 import { saveIdea } from '@/lib/storage/store';
 import type {
@@ -16,78 +15,34 @@ import type {
   Track,
 } from '@/types/domain';
 
+import type { CoachConversation, CoachLocalWork } from './coach-dto';
 export type ChatPhase = 'chatting' | 'rewrite' | 'variables' | 'done';
-
 export interface ChatMessage {
-  id: string;
-  role: 'coach' | 'student';
-  content: string;
-  tier?: CoachingTier;
-  aspect?: CoachAspect;
-  lenses?: string[];
-  examples?: string[];
-  timestamp: string;
+  id: string; role: 'coach' | 'student'; content: string;
+  tier?: CoachingTier; aspect?: CoachAspect; lenses?: string[]; examples?: string[];
+  timestamp: string; source?: 'ai' | 'fallback'; unverified?: boolean;
 }
-
 export interface ChatState {
-  track: Track;
-  topicCard: TopicCard | null;
-  gradeLevel: GradeLevel;
-  goal: Goal;
-  messages: ChatMessage[];
-  questionCount: number; // 0..8
-  aspectProgress: CoachAspectProgress;
-  unlockedTiers: CoachingTier[]; // starts with [1]
-  currentTier: CoachingTier;
-  phase: ChatPhase;
-  pendingTier3Example: string | null;
-  studentRewrite: string | null;
-  variablesDraft: Partial<IdeaVariablesLite>;
-  savedIdea: Idea | null;
-  isWaitingForResponse: boolean;
-  isOffline: boolean;
-  error: string | null;
+  track: Track; topicCard: TopicCard | null; gradeLevel: GradeLevel; goal: Goal;
+  messages: ChatMessage[]; drafts: ChatMessage[]; questionCount: number;
+  aspectProgress: CoachAspectProgress; unlockedTiers: CoachingTier[]; currentTier: CoachingTier;
+  phase: ChatPhase; pendingTier3Example: string | null; studentRewrite: string | null;
+  variablesDraft: Partial<IdeaVariablesLite>; savedIdea: Idea | null;
+  isWaitingForResponse: boolean; isOffline: boolean; error: string | null;
+  conversation: CoachConversation | null; serverVerified: boolean;
 }
-
 export type ChatAction =
-  | {
-      type: 'STUDENT_SEND_MESSAGE';
-      content: string;
-    }
-  | {
-      type: 'COACH_RESPONSE_SUCCESS';
-      response: {
-        content: string;
-        tier: CoachingTier;
-        aspect?: CoachAspect | 'completed';
-        lenses?: string[];
-        examples?: string[];
-      };
-    }
-  | {
-      type: 'COACH_RESPONSE_FAILURE';
-      error?: string;
-    }
-  | {
-      type: 'REQUEST_TIER';
-      tier: CoachingTier;
-    }
-  | {
-      type: 'SUBMIT_REWRITE';
-      rewrittenText: string;
-    }
-  | {
-      type: 'SET_VARIABLES';
-      variables: IdeaVariablesLite;
-    }
-  | {
-      type: 'FINALIZE_IDEA';
-      learnerId: string;
-    };
+  | { type: 'RESTORE'; state: ChatState }
+  | { type: 'SERVER_HYDRATE'; conversation: CoachConversation; acknowledgedDraftId?: string }
+  | { type: 'STUDENT_SEND_MESSAGE'; content: string; id?: string }
+  | { type: 'REQUEST_STARTED' }
+  | { type: 'COACH_RESPONSE_FAILURE'; error?: string }
+  | { type: 'REQUEST_TIER'; tier: CoachingTier }
+  | { type: 'SUBMIT_REWRITE'; rewrittenText: string }
+  | { type: 'GO_TO_VARIABLES' }
+  | { type: 'SET_VARIABLES'; variables: IdeaVariablesLite }
+  | { type: 'FINALIZE_IDEA'; learnerId: string };
 
-/**
- * Returns whether all 4 aspects (problem, objective, methodology, measurement) have been covered.
- */
 export function areAllAspectsCovered(progress: CoachAspectProgress): boolean {
   return (
     progress.problem &&
@@ -107,56 +62,14 @@ export function getNextUnfilledAspect(progress: CoachAspectProgress): CoachAspec
   return 'measurement';
 }
 
-/**
- * Pure helper enforcing ADR 0002 progressive tier locking:
- * - Tier 1: always unlocked
- * - Tier 2: unlocked if Tier 1 was shown/used
- * - Tier 3: unlocked ONLY if both Tier 1 and Tier 2 have been shown/used!
- */
-export function canRequestTier(
-  state: Pick<ChatState, 'unlockedTiers' | 'messages'>,
-  requestedTier: CoachingTier
-): { allowed: boolean; reasonTh?: string } {
-  if (requestedTier === 1) {
-    return { allowed: true };
-  }
-
-  const hasUsedTier1 =
-    state.unlockedTiers.includes(1) ||
-    state.messages.some((m) => m.role === 'coach' && m.tier === 1);
-
-  if (requestedTier === 2) {
-    if (hasUsedTier1) {
-      return { allowed: true };
-    }
-    return {
-      allowed: false,
-      reasonTh: 'กรุณาลองตอบคำถามชวนคิดระดับ 1 ก่อนขอคำใบ้',
-    };
-  }
-
-  // requestedTier === 3
-  const hasUsedTier2 =
-    state.unlockedTiers.includes(2) ||
-    state.messages.some((m) => m.role === 'coach' && m.tier === 2);
-
-  if (hasUsedTier1 && hasUsedTier2) {
-    return { allowed: true };
-  }
-
-  return {
-    allowed: false,
-    reasonTh:
-      'ปุ่มคิดไม่ออกจริงๆ จะปลดล็อกหลังจากได้ลองตอบระดับ 1 และขอคำใบ้ระดับ 2 แล้วเท่านั้น',
-  };
+export function canRequestTier(state: Pick<ChatState, 'conversation' | 'serverVerified' | 'isOffline'>, tier: CoachingTier): { allowed: boolean; reasonTh?: string } {
+  if (tier === 1) return { allowed: true };
+  const history = state.serverVerified && !state.isOffline ? state.conversation?.state.history ?? [] : [];
+  const answer = history.findIndex(h => h.tier === 1 && Boolean(h.learnerResponse?.trim()));
+  if (answer >= 0 && (tier === 2 || history.some((h, i) => i > answer && h.tier === 2 && Boolean(h.lenses?.length)))) return { allowed: true };
+  return { allowed: false, reasonTh: 'ปุ่มคิดไม่ออกจริงๆ จะปลดล็อกหลังเซิร์ฟเวอร์ออกคำถามระดับ 1 รับคำตอบของคุณ และออกคำใบ้ระดับ 2 แล้ว (ตอบว่ายังคิดไม่ออกได้)' };
 }
 
-/**
- * Pure helper for Tier 3 Rewrite Gate.
- * Enforces:
- * 1. Minimum 15 characters
- * 2. Not a verbatim or near-verbatim copy of the example (>65% character 3-gram Dice similarity)
- */
 export function isRewriteAcceptable(
   example: string,
   rewrite: string
@@ -254,66 +167,17 @@ export function validateVariablesLite(input: unknown): {
   return { valid: false, errors };
 }
 
-/**
- * Initializes the ChatState from either Discovery Track (with TopicCard) or Idea Track.
- */
 export function createInitialChatState(init: {
-  track: Track;
-  topicCard?: TopicCard | null;
-  gradeLevel?: GradeLevel;
-  goal?: Goal;
+  track: Track; topicCard?: TopicCard | null; gradeLevel?: GradeLevel; goal?: Goal;
 }): ChatState {
-  const track = init.track;
-  const topicCard = init.topicCard ?? null;
-  const gradeLevel = init.gradeLevel ?? 'm_ton';
-  const goal = init.goal ?? 'curiosity';
-
-  let openingContent: string;
-  if (topicCard) {
-    openingContent = `สวัสดีครับ! ยินดีที่ได้ร่วมพัฒนาโครงงานเรื่อง "${topicCard.title}" นะครับ จากปรากฏการณ์ "${topicCard.phenomenon}" ลองสังเกตปัญหาในชีวิตประจำวันหรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?`;
-  } else {
-    openingContent =
-      'สวัสดีครับ! ยินดีต้อนรับสู่ Idea Track ครับ ลองเล่าให้ครูฟังหน่อยครับว่าคุณสังเกตเห็นปัญหาหรือมีเรื่องอะไรที่สงสัยและอยากพัฒนาเป็นโครงงานบ้างครับ?';
-  }
-
-  const initialMessage: ChatMessage = {
-    id: `msg_init_${Date.now()}`,
-    role: 'coach',
-    content: openingContent,
-    tier: 1,
-    aspect: 'problem',
-    timestamp: new Date().toISOString(),
-  };
-
-  return {
-    track,
-    topicCard,
-    gradeLevel,
-    goal,
-    messages: [initialMessage],
-    questionCount: 0,
-    aspectProgress: {
-      problem: false,
-      objective: false,
-      methodology: false,
-      measurement: false,
-    },
-    unlockedTiers: [1],
-    currentTier: 1,
-    phase: 'chatting',
-    pendingTier3Example: null,
-    studentRewrite: null,
-    variablesDraft: {},
-    savedIdea: null,
-    isWaitingForResponse: false,
-    isOffline: false,
-    error: null,
-  };
+  return { track: init.track, topicCard: init.topicCard ?? null, gradeLevel: init.gradeLevel ?? 'm_ton', goal: init.goal ?? 'curiosity',
+    messages: [], drafts: [], questionCount: 0,
+    aspectProgress: { problem: false, objective: false, methodology: false, measurement: false },
+    unlockedTiers: [1], currentTier: 1, phase: 'chatting', pendingTier3Example: null,
+    studentRewrite: null, variablesDraft: {}, savedIdea: null,
+    isWaitingForResponse: false, isOffline: false, error: null, conversation: null, serverVerified: false };
 }
 
-/**
- * Builds an Idea object from the ChatState and saves to store.
- */
 export function buildIdeaFromChat(
   state: ChatState,
   params: {
@@ -326,6 +190,7 @@ export function buildIdeaFromChat(
   // Synthesize clean title & description from student input and topic card
   const title =
     params.customTitle?.trim() ||
+    state.savedIdea?.title ||
     state.topicCard?.title ||
     state.messages.find((m) => m.role === 'student')?.content.slice(0, 80) ||
     'โครงงานที่พัฒนาผ่าน Socratic Advisor';
@@ -333,25 +198,28 @@ export function buildIdeaFromChat(
   const studentResponses = state.messages
     .filter((m) => m.role === 'student')
     .map((m) => m.content);
+  if (state.studentRewrite) studentResponses.push(state.studentRewrite);
 
   const description =
     studentResponses.length > 0
       ? studentResponses.join('\n\n')
-      : state.topicCard?.curiosityHook || 'โครงงานที่พัฒนาผ่านการสนทนากับครูที่ปรึกษา AI';
+      : state.savedIdea?.description || state.topicCard?.curiosityHook || 'โครงงานที่พัฒนาผ่านการสนทนากับครูที่ปรึกษา AI';
 
   const idea: Idea = {
-    id: `idea_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+    ...state.savedIdea,
+    id: state.savedIdea?.id ?? `idea_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     learnerId: params.learnerId,
     title,
     description,
     source: state.track,
     sourceTopicCardId: state.topicCard?.id,
+    coachingTopicKey: state.conversation?.topicKey ?? state.savedIdea?.coachingTopicKey,
     gradeLevel: params.gradeLevel,
     goal: params.goal,
-    variables: state.variablesDraft as IdeaVariablesLite | undefined,
+    variables: validateVariablesLite(state.variablesDraft).data,
     usedTier3Example: Boolean(state.pendingTier3Example || state.studentRewrite),
     tier3Rewrite: state.studentRewrite ?? undefined,
-    createdAt: new Date().toISOString(),
+    createdAt: state.savedIdea?.createdAt ?? new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
 
@@ -359,249 +227,70 @@ export function buildIdeaFromChat(
   return parsed;
 }
 
-/**
- * Pure state reducer for Socratic Advisor chat.
- */
 export function chatReducer(state: ChatState, action: ChatAction): ChatState {
   switch (action.type) {
+    case 'RESTORE': return { ...action.state, serverVerified: false, isWaitingForResponse: false };
+    case 'SERVER_HYDRATE': {
+      const conversation = action.conversation;
+      const changed = state.conversation && state.conversation.id !== conversation.id;
+      const recovered: ChatMessage[] = changed ? [
+        ...state.drafts,
+        ...state.messages.filter(m => m.role === 'student').map(m => ({ ...m, id: `recovered-${m.id}`, unverified: true })),
+        ...(state.studentRewrite ? [{ id: crypto.randomUUID(), role: 'student' as const, content: state.studentRewrite, timestamp: new Date().toISOString(), unverified: true }] : []),
+      ] : state.drafts;
+      const base = changed ? { ...createInitialChatState(conversation.context), drafts: recovered, variablesDraft: state.variablesDraft } : state;
+      const messages: ChatMessage[] = [];
+      for (const h of conversation.state.history) {
+        messages.push({ id: `coach-${conversation.id}-${h.turnIndex}`, role: 'coach', content: h.content,
+          tier: h.tier, aspect: h.aspect, lenses: h.lenses, examples: h.examples, timestamp: h.timestamp, source: h.source });
+        if (h.learnerResponse) messages.push({ id: `answer-${conversation.id}-${h.turnIndex}`, role: 'student', content: h.learnerResponse, timestamp: h.timestamp });
+      }
+      if (conversation.turn.aspect === 'completed') messages.push({ id: `complete-${conversation.revision}`, role: 'coach', content: conversation.turn.content, timestamp: new Date().toISOString() });
+      const example = [...conversation.state.history].reverse().find(h => h.tier === 3 && h.examples?.length)?.examples?.[0] ?? null;
+      const rewrite = example === base.pendingTier3Example ? base.studentRewrite : null;
+      const phase = example && !rewrite ? 'rewrite' : base.phase === 'done' || base.phase === 'variables'
+        ? base.phase : conversation.state.isComplete ? 'variables' : 'chatting';
+      return { ...base, ...conversation.context, topicCard: conversation.context.topicCard ?? null,
+        conversation, serverVerified: true, messages,
+        drafts: base.drafts.filter(d => d.id !== action.acknowledgedDraftId),
+        questionCount: conversation.state.turnCount, aspectProgress: { ...conversation.state.aspectProgress },
+        unlockedTiers: [...conversation.state.unlockedTiers], currentTier: conversation.turn.tier,
+        pendingTier3Example: example, studentRewrite: rewrite, phase, isWaitingForResponse: false, isOffline: false, error: changed ? 'บทสนทนาเปลี่ยนแล้ว ข้อความเดิมเก็บเป็นฉบับร่างที่ยังไม่ยืนยัน ไม่ใช้ปลดล็อกระดับคำแนะนำ' : null };
+    }
     case 'STUDENT_SEND_MESSAGE': {
-      const studentMsg: ChatMessage = {
-        id: `msg_stu_${Date.now()}_${state.messages.length}`,
-        role: 'student',
-        content: action.content.trim(),
-        timestamp: new Date().toISOString(),
-      };
-
-      return {
-        ...state,
-        messages: [...state.messages, studentMsg],
-        isWaitingForResponse: true,
-        error: null,
-      };
+      if (!action.content.trim()) return state;
+      const draft: ChatMessage = { id: action.id ?? crypto.randomUUID(), role: 'student', content: action.content.trim(), timestamp: new Date().toISOString(), unverified: true };
+      return { ...state, drafts: [...state.drafts, draft], isWaitingForResponse: true, error: null };
     }
-
-    case 'COACH_RESPONSE_SUCCESS': {
-      const resp = action.response;
-      const coachMsg: ChatMessage = {
-        id: `msg_coach_${Date.now()}_${state.messages.length}`,
-        role: 'coach',
-        content: resp.content,
-        tier: resp.tier,
-        aspect: resp.aspect === 'completed' ? undefined : resp.aspect,
-        lenses: resp.lenses,
-        examples: resp.examples,
-        timestamp: new Date().toISOString(),
-      };
-
-      const newUnlockedTiers = state.unlockedTiers.includes(resp.tier)
-        ? state.unlockedTiers
-        : [...state.unlockedTiers, resp.tier].sort((a, b) => a - b);
-
-      // Advance aspect progress: mark previous or current aspect covered
-      const updatedProgress: CoachAspectProgress = { ...state.aspectProgress };
-      if (resp.aspect && resp.aspect !== 'completed') {
-        // Mark the aspect as worked on
-        updatedProgress[resp.aspect] = true;
-      }
-
-      // Check if the previous message had an aspect
-      const lastCoachMsg = [...state.messages]
-        .reverse()
-        .find((m) => m.role === 'coach' && m.aspect);
-      if (lastCoachMsg && lastCoachMsg.aspect) {
-        updatedProgress[lastCoachMsg.aspect] = true;
-      }
-
-      const nextQuestionCount = state.questionCount + 1;
-      const allComplete = areAllAspectsCovered(updatedProgress);
-
-      // Check Tier 3 rewrite gate
-      if (resp.tier === 3 && resp.examples && resp.examples.length > 0) {
-        return {
-          ...state,
-          messages: [...state.messages, coachMsg],
-          questionCount: nextQuestionCount,
-          aspectProgress: updatedProgress,
-          unlockedTiers: newUnlockedTiers,
-          currentTier: resp.tier,
-          phase: 'rewrite',
-          pendingTier3Example: resp.examples[0],
-          isWaitingForResponse: false,
-          error: null,
-        };
-      }
-
-      // Check completion: all 4 aspects covered OR reached 8 questions
-      const nextPhase: ChatPhase =
-        allComplete || nextQuestionCount >= 8 ? 'variables' : 'chatting';
-
-      return {
-        ...state,
-        messages: [...state.messages, coachMsg],
-        questionCount: nextQuestionCount,
-        aspectProgress: updatedProgress,
-        unlockedTiers: newUnlockedTiers,
-        currentTier: resp.tier,
-        phase: nextPhase,
-        isWaitingForResponse: false,
-        error: null,
-      };
-    }
-
-    case 'COACH_RESPONSE_FAILURE': {
-      // Advance aspect progress from student's answer to the previous coach question
-      const updatedProgress: CoachAspectProgress = { ...state.aspectProgress };
-      const lastCoach = [...state.messages]
-        .reverse()
-        .find((m) => m.role === 'coach' && m.aspect);
-      if (lastCoach && lastCoach.aspect) {
-        updatedProgress[lastCoach.aspect] = true;
-      }
-
-      // Deterministic offline fallback for the next unfilled aspect
-      const targetAspect = getNextUnfilledAspect(updatedProgress);
-      const fallbackPromptData = FALLBACK_PROMPTS[targetAspect];
-
-      let fallbackContent: string;
-      let fallbackLenses: string[] | undefined;
-      let fallbackExamples: string[] | undefined;
-
-      if (state.currentTier === 1) {
-        fallbackContent = fallbackPromptData.tier1;
-      } else if (state.currentTier === 2) {
-        fallbackContent = fallbackPromptData.tier2.content;
-        fallbackLenses = fallbackPromptData.tier2.lenses;
-      } else {
-        fallbackContent = fallbackPromptData.tier3.content;
-        fallbackExamples = fallbackPromptData.tier3.examples;
-      }
-
-      const fallbackMsg: ChatMessage = {
-        id: `msg_fallback_${Date.now()}_${state.messages.length}`,
-        role: 'coach',
-        content: fallbackContent,
-        tier: state.currentTier,
-        aspect: targetAspect,
-        lenses: fallbackLenses,
-        examples: fallbackExamples,
-        timestamp: new Date().toISOString(),
-      };
-
-      const nextQuestionCount = state.questionCount + 1;
-      const allComplete = areAllAspectsCovered(updatedProgress);
-
-      if (state.currentTier === 3 && fallbackExamples && fallbackExamples.length > 0) {
-        return {
-          ...state,
-          messages: [...state.messages, fallbackMsg],
-          questionCount: nextQuestionCount,
-          aspectProgress: updatedProgress,
-          phase: 'rewrite',
-          pendingTier3Example: fallbackExamples[0],
-          isWaitingForResponse: false,
-          isOffline: true,
-          error: action.error ?? 'AI offline: switching to deterministic guidance',
-        };
-      }
-
-      const nextPhase: ChatPhase =
-        allComplete || nextQuestionCount >= 8 ? 'variables' : 'chatting';
-
-      return {
-        ...state,
-        messages: [...state.messages, fallbackMsg],
-        questionCount: nextQuestionCount,
-        aspectProgress: updatedProgress,
-        phase: nextPhase,
-        isWaitingForResponse: false,
-        isOffline: true,
-        error: action.error ?? 'AI offline: switching to deterministic guidance',
-      };
-    }
-
+    case 'REQUEST_STARTED': return { ...state, isWaitingForResponse: true, error: null };
+    case 'COACH_RESPONSE_FAILURE': return { ...state, isWaitingForResponse: false, isOffline: true, serverVerified: false,
+      error: action.error ?? 'ยังไม่ยืนยันกับเซิร์ฟเวอร์ เก็บข้อความเป็นฉบับร่างแล้ว กรุณาเชื่อมต่อเพื่อรับคำถามและส่งคำตอบก่อนขอคำใบ้' };
     case 'REQUEST_TIER': {
       const check = canRequestTier(state, action.tier);
-      if (!check.allowed) {
-        return {
-          ...state,
-          error: check.reasonTh ?? 'ไม่สามารถเลือกระดับนี้ได้ในขณะนี้',
-        };
-      }
-      return {
-        ...state,
-        currentTier: action.tier,
-        error: null,
-      };
+      return check.allowed ? { ...state, currentTier: action.tier, error: null } : { ...state, error: check.reasonTh ?? null };
     }
-
     case 'SUBMIT_REWRITE': {
-      if (state.phase !== 'rewrite') {
-        return state;
-      }
-
-      const example = state.pendingTier3Example ?? '';
-      const check = isRewriteAcceptable(example, action.rewrittenText);
-      if (!check.acceptable) {
-        return {
-          ...state,
-          error: check.reasonTh ?? 'ข้อความยังไม่ผ่านเกณฑ์การเขียนใหม่',
-        };
-      }
-
-      const studentMsg: ChatMessage = {
-        id: `msg_rewrite_${Date.now()}`,
-        role: 'student',
-        content: action.rewrittenText.trim(),
-        timestamp: new Date().toISOString(),
-      };
-
-      const allComplete = areAllAspectsCovered(state.aspectProgress);
-      const nextPhase: ChatPhase =
-        allComplete || state.questionCount >= 8 ? 'variables' : 'chatting';
-
-      return {
-        ...state,
-        messages: [...state.messages, studentMsg],
-        studentRewrite: action.rewrittenText.trim(),
-        phase: nextPhase,
-        error: null,
-      };
+      if (state.phase !== 'rewrite') return state;
+      const issuedExamples = state.conversation?.state.history.flatMap(h => h.examples ?? []) ?? [state.pendingTier3Example ?? ''];
+      const check = issuedExamples.map(example => isRewriteAcceptable(example, action.rewrittenText)).find(check => !check.acceptable) ?? { acceptable: true };
+      if (!check.acceptable) return { ...state, error: check.reasonTh ?? null };
+      return { ...state, studentRewrite: action.rewrittenText.trim(), phase: state.conversation?.state.isComplete ? 'variables' : 'chatting', error: null };
     }
-
-    case 'SET_VARIABLES': {
-      const validation = validateVariablesLite(action.variables);
-      if (!validation.valid) {
-        return {
-          ...state,
-          error: 'กรุณากรอกข้อมูลตัวแปรให้ครบถ้วนและถูกต้อง',
-        };
-      }
-
-      return {
-        ...state,
-        variablesDraft: action.variables,
-        error: null,
-      };
-    }
-
+    case 'GO_TO_VARIABLES': return state.pendingTier3Example && !state.studentRewrite ? state : { ...state, phase: 'variables' };
+    case 'SET_VARIABLES': return validateVariablesLite(action.variables).valid
+      ? { ...state, variablesDraft: action.variables, error: null } : { ...state, error: 'กรุณากรอกข้อมูลตัวแปรให้ครบถ้วนและถูกต้อง' };
     case 'FINALIZE_IDEA': {
-      const idea = buildIdeaFromChat(state, {
-        learnerId: action.learnerId,
-        goal: state.goal,
-        gradeLevel: state.gradeLevel,
-      });
-
+      if (state.pendingTier3Example && !state.studentRewrite) return { ...state, phase: 'rewrite' };
+      if (!validateVariablesLite(state.variablesDraft).valid) return { ...state, error: 'กรุณากรอกข้อมูลตัวแปรให้ครบถ้วนและถูกต้อง' };
+      const idea = buildIdeaFromChat(state, { learnerId: action.learnerId, goal: state.goal, gradeLevel: state.gradeLevel });
       saveIdea(idea);
-
-      return {
-        ...state,
-        savedIdea: idea,
-        phase: 'done',
-        error: null,
-      };
+      return { ...state, savedIdea: idea, phase: 'done', error: null };
     }
-
-    default:
-      return state;
+    default: return state;
   }
+}
+
+export function localWorkFromChat(state: ChatState, input: string): CoachLocalWork {
+  return { input, rewriteInput: '', studentRewrite: state.studentRewrite, variablesDraft: state.variablesDraft,
+    savedIdea: state.savedIdea, phase: state.phase, drafts: state.drafts.map(d => ({ id: d.id, content: d.content, timestamp: d.timestamp })) };
 }

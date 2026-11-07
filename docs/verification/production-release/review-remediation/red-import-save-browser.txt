@@ -1,0 +1,9 @@
+PASS Save/Export sign-in persists unsaved Guest draft BEFORE navigation
+PASS cancelled/interrupted sign-in leaves Guest draft and editor intact
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\review-remediation\run-browser.py", line 98, in <module>
+    fixture_login();navigate('/proposal?ideaId='+ideaid);wait("document.body.innerText.includes('เลือกพื้นที่งานก่อนทำต่อ')")
+                                                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 339, in wait
+    raise TimeoutError(expression)
+TimeoutError: document.body.innerText.includes('เลือกพื้นที่งานก่อนทำต่อ')

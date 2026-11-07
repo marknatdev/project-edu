@@ -1,0 +1,9 @@
+PASS mocked exhausted quota disables generation initially
+PASS server resetAt revalidates exhausted quota WITHOUT reload or foreground events
+PASS renewed-quota-mocked-clock: no horizontal page overflow at 360px
+PASS renewed-quota-mocked-clock: interactive controls at least 40px at 360px
+PASS renewed-quota-mocked-clock: screenshot rendered (not blank) at 360px
+PASS renewed-quota-mocked-clock: no browser JS errors
+PASS focus/visibility recovery refreshes once, not a busy loop
+PASS available quota does not busy-poll
+{'case': 'quota', 'browser': 'Chrome/156.0.8078.81', 'passed': 8, 'total': 8, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

@@ -1,0 +1,2 @@
+PASS DEFECT REPRODUCED: mounted TCAS editor restores same erased notes
+{'case': 'notes-wipe', 'browser': 'Chrome/156.0.8078.81', 'passed': 1, 'total': 1, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

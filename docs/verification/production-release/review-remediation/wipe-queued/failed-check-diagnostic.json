@@ -1,0 +1,569 @@
+{
+  "name": "wipe cancels queued Web Lock intent before it can mint a new Guest owner",
+  "detail": [
+    {
+      "url": "/api/discovery/cards",
+      "method": "GET",
+      "body": null,
+      "status": 200,
+      "response": {
+        "quota": {
+          "day": "2026-11-06",
+          "used": 0,
+          "reserved": 0,
+          "remaining": 35,
+          "freeRemaining": 5,
+          "extraRemaining": 30,
+          "resetAt": "2026-11-06T17:00:00Z"
+        }
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "POST",
+      "body": {
+        "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+        "count": 5,
+        "learner": {
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "teamSize": 2,
+            "equipment": [
+              "สมาร์ตโฟน / แท็บเล็ต",
+              "คอมพิวเตอร์ / โน้ตบุ๊ก"
+            ],
+            "skills": [
+              "การเขียนโค้ด / โปรแกรมมิ่ง",
+              "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+            ]
+          }
+        },
+        "interest": {
+          "answers": [
+            {
+              "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+              "answer": "สิ่งแวดล้อมรอบตัว"
+            },
+            {
+              "question": "จากเรื่อง “สิ่งแวดล้อมรอบตัว” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?",
+              "answer": "อยากลดขยะ"
+            }
+          ],
+          "summary": "สิ่งแวดล้อมรอบตัว · อยากลดขยะ"
+        },
+        "seenCardIds": []
+      },
+      "status": 200,
+      "response": {
+        "status": "ok",
+        "source": "ai",
+        "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+        "replayed": false,
+        "cards": [
+          {
+            "id": "fresh_4bc831b8-a0c7-4fe3-8ad5-4b9db1fb297a",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ตัวกรองน้ำตู้ปลาจากกะลามะพร้าว",
+            "phenomenon": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+              "roughDirection": "เทียบความใสของน้ำเมื่อใช้วัสดุกรองราคาถูกสามแบบ ถ่ายภาพด้วยมือถือทุกวัน",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_983d42fb-3a6f-42b7-a364-34f26bdd4273",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "แสงไฟกับตะไคร่ในตู้ปลา",
+            "phenomenon": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+              "roughDirection": "เปลี่ยนชั่วโมงเปิดไฟแล้ววัดพื้นที่ตะไคร่จากภาพถ่าย",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_0cabd522-baaa-41bd-b504-f9d6bf7c8dd0",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "พืชน้ำช่วยให้น้ำใสได้แค่ไหน",
+            "phenomenon": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+              "roughDirection": "เทียบตู้จำลองที่มีและไม่มีพืชน้ำ วัดความขุ่นด้วยแผ่นสีขาว",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_451a9dc6-a380-4815-8fb8-3018527a4bb8",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ปริมาณอาหารปลากับความขุ่นของน้ำ",
+            "phenomenon": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+              "roughDirection": "แบ่งปริมาณอาหารเป็นสามระดับในภาชนะจำลองแล้วบันทึกความขุ่น",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_db3f4803-2524-491c-beca-3da595d50be6",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "สมุดบันทึกตู้ปลาบนสเปรดชีต",
+            "phenomenon": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+              "roughDirection": "ออกแบบตารางบันทึกแล้วทดลองใช้สองสัปดาห์ เทียบจำนวนครั้งที่ลืม",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          }
+        ],
+        "accepted": 5,
+        "requested": 5,
+        "partial": false,
+        "rejected": {
+          "invalid": 0,
+          "unsupportedClaims": 0,
+          "repeats": 0
+        },
+        "quota": {
+          "day": "2026-11-06",
+          "used": 5,
+          "reserved": 0,
+          "remaining": 30,
+          "freeRemaining": 0,
+          "extraRemaining": 30,
+          "resetAt": "2026-11-06T17:00:00Z"
+        },
+        "noticeTh": "การ์ดเหล่านี้เป็นไอเดียตั้งต้นที่ AI สร้างจากคำตอบของคุณ ยังไม่ใช่โครงงานสำเร็จรูป ไม่รับรองว่าไม่มีใครทำมาก่อน และการตรวจความปลอดภัยเป็นเพียงการตรวจเบื้องต้น ต้องคิดต่อ ปรับ และอธิบายด้วยภาษาของคุณเอง"
+      }
+    }
+  ],
+  "text": "เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)\nติดตั้งแอป\nปิด\nProject Edu\nเข้าสู่ระบบ Google (ไม่บังคับ)\nลบข้อมูลแล้ว\n\nหยุดการค้นหาและลบคำตอบ การ์ด และคำขอที่ค้างในหน้านี้แล้ว ไม่บันทึกข้อมูลเก่ากลับคืน\n\nเริ่มต้นใหม่\nสัมภาษณ์\nค้นหาหัวข้อ\nพัฒนาไอเดีย\nตัวแปร\nข้อเสนอ\nความเป็นส่วนตัว",
+  "session": null,
+  "requests": [
+    {
+      "url": "/api/discovery/cards",
+      "method": "GET",
+      "body": null,
+      "status": 200,
+      "response": {
+        "quota": {
+          "day": "2026-11-06",
+          "used": 0,
+          "reserved": 0,
+          "remaining": 35,
+          "freeRemaining": 5,
+          "extraRemaining": 30,
+          "resetAt": "2026-11-06T17:00:00Z"
+        }
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "POST",
+      "body": {
+        "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+        "count": 5,
+        "learner": {
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "teamSize": 2,
+            "equipment": [
+              "สมาร์ตโฟน / แท็บเล็ต",
+              "คอมพิวเตอร์ / โน้ตบุ๊ก"
+            ],
+            "skills": [
+              "การเขียนโค้ด / โปรแกรมมิ่ง",
+              "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+            ]
+          }
+        },
+        "interest": {
+          "answers": [
+            {
+              "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+              "answer": "สิ่งแวดล้อมรอบตัว"
+            },
+            {
+              "question": "จากเรื่อง “สิ่งแวดล้อมรอบตัว” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?",
+              "answer": "อยากลดขยะ"
+            }
+          ],
+          "summary": "สิ่งแวดล้อมรอบตัว · อยากลดขยะ"
+        },
+        "seenCardIds": []
+      },
+      "status": 200,
+      "response": {
+        "status": "ok",
+        "source": "ai",
+        "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+        "replayed": false,
+        "cards": [
+          {
+            "id": "fresh_4bc831b8-a0c7-4fe3-8ad5-4b9db1fb297a",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ตัวกรองน้ำตู้ปลาจากกะลามะพร้าว",
+            "phenomenon": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+              "roughDirection": "เทียบความใสของน้ำเมื่อใช้วัสดุกรองราคาถูกสามแบบ ถ่ายภาพด้วยมือถือทุกวัน",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_983d42fb-3a6f-42b7-a364-34f26bdd4273",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "แสงไฟกับตะไคร่ในตู้ปลา",
+            "phenomenon": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+              "roughDirection": "เปลี่ยนชั่วโมงเปิดไฟแล้ววัดพื้นที่ตะไคร่จากภาพถ่าย",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_0cabd522-baaa-41bd-b504-f9d6bf7c8dd0",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "พืชน้ำช่วยให้น้ำใสได้แค่ไหน",
+            "phenomenon": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+              "roughDirection": "เทียบตู้จำลองที่มีและไม่มีพืชน้ำ วัดความขุ่นด้วยแผ่นสีขาว",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_451a9dc6-a380-4815-8fb8-3018527a4bb8",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ปริมาณอาหารปลากับความขุ่นของน้ำ",
+            "phenomenon": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+              "roughDirection": "แบ่งปริมาณอาหารเป็นสามระดับในภาชนะจำลองแล้วบันทึกความขุ่น",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          },
+          {
+            "id": "fresh_db3f4803-2524-491c-beca-3da595d50be6",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "สมุดบันทึกตู้ปลาบนสเปรดชีต",
+            "phenomenon": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "safetyCategories": [
+              "vertebrate_animals"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+              "roughDirection": "ออกแบบตารางบันทึกแล้วทดลองใช้สองสัปดาห์ เทียบจำนวนครั้งที่ลืม",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "dce03df1-8546-4c83-a30a-30503ed1594a",
+              "generatedAt": "2026-11-06T14:15:31.511Z"
+            }
+          }
+        ],
+        "accepted": 5,
+        "requested": 5,
+        "partial": false,
+        "rejected": {
+          "invalid": 0,
+          "unsupportedClaims": 0,
+          "repeats": 0
+        },
+        "quota": {
+          "day": "2026-11-06",
+          "used": 5,
+          "reserved": 0,
+          "remaining": 30,
+          "freeRemaining": 0,
+          "extraRemaining": 30,
+          "resetAt": "2026-11-06T17:00:00Z"
+        },
+        "noticeTh": "การ์ดเหล่านี้เป็นไอเดียตั้งต้นที่ AI สร้างจากคำตอบของคุณ ยังไม่ใช่โครงงานสำเร็จรูป ไม่รับรองว่าไม่มีใครทำมาก่อน และการตรวจความปลอดภัยเป็นเพียงการตรวจเบื้องต้น ต้องคิดต่อ ปรับ และอธิบายด้วยภาษาของคุณเอง"
+      }
+    }
+  ]
+}

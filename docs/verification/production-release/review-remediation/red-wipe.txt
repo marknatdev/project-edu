@@ -1,0 +1,8 @@
+FAIL two-tab Wipe prevents old-answer resurrection
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\review-remediation\run-browser.py", line 51, in <module>
+    check('two-tab Wipe prevents old-answer resurrection',js("localStorage.getItem('edtech:discovery-fresh:v1')===null"),{'beforeAnswers':len(before['answers']),'after':ns['session_state']()})
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 353, in check
+    raise AssertionError((name, detail))
+AssertionError: ('two-tab Wipe prevents old-answer resurrection', {'beforeAnswers': 2, 'after': {'version': 1, 'stage': 'summary', 'answers': [{'question': 'ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?', 'answer': 'สิ่งแวดล้อมรอบตัว'}, {'question': 'จากเรื่อง “สิ่งแวดล้อมรอบตัว” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?', 'answer': 'อยากลดขยะ'}], 'answerDraft': '', 'summary': 'แก้ไขหลังลบข้อมูลจากอีกแท็บ', 'refinement': '', 'cards': [], 'batch': [], 'cursor': 0, 'reactions': [], 'shortlist': [], 'compare': [], 'selectedId': None, 'pending': None, 'quota': {'day': '2026-11-06', 'used': 0, 'reserved': 0, 'remaining': 35, 'freeRemaining': 5, 'extraRemaining': 30, 'resetAt': '2026-11-06T17:00:00Z'}, 'notice': None}})

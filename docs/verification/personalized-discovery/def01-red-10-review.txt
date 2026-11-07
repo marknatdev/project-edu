@@ -1,0 +1,61 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/unit/coaching-client.test.ts tests/unit/socratic-chat-reducer.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/unit/coaching-client.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 39[2mms[22m[39m
+[31m   [31m×[31m DEF-01 client/server public DTO and hydration[2m > [22mretains displaced learner text as unverified drafts when another tab starts a new conversation[39m[32m 22[2mms[22m[39m
+[31m     → expected [] to include 'ฉบับร่างออฟไลน์'[39m
+   [32m✓[39m DEF-01 client/server public DTO and hydration[2m > [22mhydrates grade, goal and issued history without inventing answered aspects; offline messages never grant gates[32m 3[2mms[22m[39m
+   [32m✓[39m DEF-01 client/server public DTO and hydration[2m > [22munwraps the actual {turn, conversation} response and rejects malformed successful responses[32m 11[2mms[22m[39m
+ [31m❯[39m tests/unit/socratic-chat-reducer.test.ts [2m([22m[2m12 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 45[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22minitializes real card context without inventing a server-issued opening question[32m 5[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mmarks only server-confirmed answered aspects, not newly issued questions[32m 2[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mrequires an ordered answered Tier 1 and issued Tier 2 in verified server history[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22muses server completion/cap rather than incrementing or auto-answering during hydration[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mTier-3 own-words rewrite gate (existing behavior retained)[2m > [22mrejects input shorter than 15 characters[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mTier-3 own-words rewrite gate (existing behavior retained)[2m > [22mrejects exact verbatim copy of the Tier 3 example[32m 2[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mTier-3 own-words rewrite gate (existing behavior retained)[2m > [22mrejects near-verbatim copy with only superficial punctuation or spacing changes[32m 0[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mTier-3 own-words rewrite gate (existing behavior retained)[2m > [22maccepts genuine rewrite in student own words with distinct angle[32m 1[2mms[22m[39m
+[31m   [31m×[31m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mTier-3 own-words rewrite gate (existing behavior retained)[2m > [22mkeeps the rewrite gate across rehydration and refuses variable/finalize shortcuts[39m[32m 16[2mms[22m[39m
+[31m     → expected 'chatting' to be 'rewrite' // Object.is equality[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mSeam 8: Variables step lite validation (IV, DV, controlled, control group, replicates)[2m > [22mrejects incomplete or invalid variables input[32m 5[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mSeam 8: Variables step lite validation (IV, DV, controlled, control group, replicates)[2m > [22maccepts complete, valid variables input[32m 1[2mms[22m[39m
+   [32m✓[39m Socratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mfinalizes a valid Idea with hydrated card/grade/goal, learner words and variables[32m 7[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/coaching-client.test.ts[2m > [22mDEF-01 client/server public DTO and hydration[2m > [22mretains displaced learner text as unverified drafts when another tab starts a new conversation
+[31m[1mAssertionError[22m: expected [] to include 'ฉบับร่างออฟไลน์'[39m
+[36m [2m❯[22m tests/unit/coaching-client.test.ts:[2m15:46[22m[39m
+    [90m 13| [39m    const replacement = { ...conversationFixture(), id: '10c61c92-d8b7…
+    [90m 14| [39m    state = chatReducer(state, { type: 'SERVER_HYDRATE', conversation:…
+    [90m 15| [39m    expect(state.drafts.map(d => d.content)).toContain('ฉบับร่างออฟไลน…
+    [90m   | [39m                                             [31m^[39m
+    [90m 16| [39m    expect(state.drafts.map(d => d.content)).toContain('คำตอบเดิมของฉั…
+    [90m 17| [39m    [34mexpect[39m([34mcanRequestTier[39m(state[33m,[39m [34m3[39m)[33m.[39mallowed)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/socratic-chat-reducer.test.ts[2m > [22mSocratic Advisor Chat Reducer (DEF-01 supersedes M3.3 hydration)[2m > [22mTier-3 own-words rewrite gate (existing behavior retained)[2m > [22mkeeps the rewrite gate across rehydration and refuses variable/finalize shortcuts
+[31m[1mAssertionError[22m: expected 'chatting' to be 'rewrite' // Object.is equality[39m
+
+Expected: [32m"rewrite"[39m
+Received: [31m"chatting"[39m
+
+[36m [2m❯[22m tests/unit/socratic-chat-reducer.test.ts:[2m110:27[22m[39m
+    [90m108| [39m      [34mexpect[39m(state[33m.[39mphase)[33m.[39m[34mtoBe[39m([32m'rewrite'[39m)[33m;[39m
+    [90m109| [39m      state = chatReducer(state, { type: 'SUBMIT_REWRITE', rewrittenTe…
+    [90m110| [39m      [34mexpect[39m(state[33m.[39mphase)[33m.[39m[34mtoBe[39m([32m'rewrite'[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m111| [39m      const genuine = 'กลุ่มเราจะเอาเปลือกกล้วยเหลือจากร้านกล้วยทอดมาต…
+    [90m112| [39m      state = chatReducer(state, { type: 'SUBMIT_REWRITE', rewrittenTe…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 21:52:06
+[2m   Duration [22m 1.44s[2m (transform 302ms, setup 0ms, collect 777ms, tests 84ms, environment 1ms, prepare 386ms)[22m
+

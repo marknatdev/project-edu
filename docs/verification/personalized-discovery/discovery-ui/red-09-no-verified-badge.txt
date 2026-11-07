@@ -1,0 +1,7 @@
+[31m   [31m×[31m Seam 5: AI Card Generation Client Helper (fetchAiGeneratedCards)[2m > [22mfetches and validates AI-generated cards without a misleading verified badge (spec §8)[39m[32m 15[2mms[22m[39m
+   [32m✓[39m Seam 5: AI Card Generation Client Helper (fetchAiGeneratedCards)[2m > [22mhandles 429 quota exceeded with plain-Thai notice and no crash[32m 1[2mms[22m[39m
+   [32m✓[39m Seam 5: AI Card Generation Client Helper (fetchAiGeneratedCards)[2m > [22mhandles network / gateway failure gracefully with informative Thai error[32m 1[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-ai-cards.test.ts[2m > [22mSeam 5: AI Card Generation Client Helper (fetchAiGeneratedCards)[2m > [22mfetches and validates AI-generated cards without a misleading verified badge (spec §8)
+[31m[1mAssertionError[22m: expected { id: 'ai_card_1', …(15) } to not have property "verified"[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m

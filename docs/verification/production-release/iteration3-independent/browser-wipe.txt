@@ -1,0 +1,15 @@
+PASS two-tab Wipe prevents old-answer resurrection
+PASS mounted Discovery writer stops and shows erased state
+PASS two-tab-erased: no horizontal page overflow at 360px
+PASS two-tab-erased: interactive controls at least 40px at 360px
+PASS two-tab-erased: screenshot rendered (not blank) at 360px
+PASS two-tab-erased: no browser JS errors
+PASS delayed model fixture actually started before erase
+PASS late model response cannot recreate local cards/answers/pending intent
+PASS server tombstone fences late model acceptance
+PASS no follow-up quota/poll writer after erase
+PASS late-response-erased: no horizontal page overflow at 1280px
+PASS late-response-erased: interactive controls at least 40px at 1280px
+PASS late-response-erased: screenshot rendered (not blank) at 1280px
+PASS late-response-erased: no browser JS errors
+{'case': 'wipe', 'browser': 'Chrome/156.0.8078.81', 'passed': 14, 'total': 14, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

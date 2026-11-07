@@ -1,0 +1,9 @@
+npm notice run project-edu@0.1.0 lint
+npm notice run eslint .
+
+D:\millmaker\EdTech\tests\integration\principal.test.ts
+  4:10  warning  'authCookie' is defined but never used  @typescript-eslint/no-unused-vars
+  4:22  warning  'authUser' is defined but never used    @typescript-eslint/no-unused-vars
+
+✖ 2 problems (0 errors, 2 warnings)
+

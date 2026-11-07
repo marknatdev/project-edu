@@ -1,0 +1,33 @@
+node --input-type=module -e 'const {createServer}=await import('"'"'vite'"'"'); const path=await import('"'"'node:path'"'"'); const fs=await import('"'"'node:fs'"'"');
+const server=await createServer({configFile:false,server:{middlewareMode:true},resolve:{alias:{'"'"'@'"'"':path.resolve('"'"'src'"'"'),'"'"'server-only'"'"':path.resolve('"'"'tests/support/server-only.ts'"'"')}}});
+const evidence='"'"'docs/verification/production-release/independent-review'"'"';
+try {
+ process.env.NODE_ENV='"'"'test'"'"';process.env.COACH_DB_PATH=path.resolve('"'"'.local/independent-review-probes.sqlite'"'"');
+ const {connectLocalFoundationStore}=await server.ssrLoadModule('"'"'/src/lib/persistence/sqlite-store.server.ts'"'"');
+ const {generateFreshCards}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-cards.server.ts'"'"');
+ const {FreshCardsRequestSchema}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-contract.ts'"'"');
+ const {isSemanticRepeat,similarity}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-dedupe.ts'"'"');
+ const {coachingOperation}=await server.ssrLoadModule('"'"'/src/lib/advisor/coaching-store.server.ts'"'"');
+ const {readBody}=await server.ssrLoadModule('"'"'/src/lib/persistence/owner-route.server.ts'"'"');
+ const owner='"'"'g:'"'"'+crypto.randomUUID().replaceAll('"'"'-'"'"','"'"''"'"').repeat(2);const st=await connectLocalFoundationStore(owner);
+ const base={title:'"'"'ตัวกรองน้ำตู้ปลาจากวัสดุเหลือใช้'"'"',problem:'"'"'น้ำในตู้ปลาขุ่นเร็วและต้องเปลี่ยนน้ำบ่อย'"'"',roughDirection:'"'"'เปรียบเทียบวัสดุกรองสามชนิดโดยวัดความขุ่นทุกวัน'"'"',interestLink:'"'"'ความสนใจเรื่องตู้ปลา'"'"',subfieldId:'"'"'sci_environment'"'"',difficulty:'"'"'beginner'"'"',estimatedWeeks:5,estimatedBudgetBaht:250,requiredEquipment:['"'"'มือถือ'"'"'],minTeamSize:1,maxTeamSize:3,requiredSkills:['"'"'สังเกต'"'"'],fitNotes:['"'"'งบเหมาะสม'"'"'],safetyConcerns:[]};
+ const near={...base,title:base.title+'"'"'แบบประหยัด'"'"'};
+ const req=()=>FreshCardsRequestSchema.parse({requestId:crypto.randomUUID(),count:1,learner:{gradeLevel:'"'"'m_ton'"'"',goal:'"'"'ysc'"'"',constraints:{timeWeeks:6,budgetBaht:300,equipment:['"'"'มือถือ'"'"'],teamSize:2,skills:['"'"'สังเกต'"'"']}},interest:{answers:[{question:'"'"'สนใจอะไร'"'"',answer:'"'"'ตู้ปลา'"'"'}]}});
+ let arrived=0,release; const gate=new Promise(r=>release=r);
+ const ai=async (opt)=>{const i=arrived++;if(arrived===2)release();await gate;return {ok:true,data:{cards:[i?near:base]}}};
+ const results=await Promise.all([generateFreshCards(st,req(),{ai}),generateFreshCards(st,req(),{ai})]);
+ const duplicate={semanticRepeat:isSemanticRepeat(base,near),similarity:similarity(base,near),results:results.map(x=>({status:x.status,accepted:x.accepted})),quota:await st.cardQuota()};
+ fs.writeFileSync(evidence+'"'"'/dedupe-reproduction.json'"'"',JSON.stringify(duplicate,null,2));console.log('"'"'DEDUPE'"'"',JSON.stringify(duplicate));
+ process.env.AI_BASE_URL='"'"''"'"';process.env.AI_MODEL='"'"''"'"';process.env.AI_API_KEY='"'"''"'"';
+ const one=await coachingOperation(st,{action:'"'"'open'"'"',topicKey:'"'"'idea:own'"'"',context:{track:'"'"'idea_track'"'"',gradeLevel:'"'"'m_ton'"'"',goal:'"'"'ysc'"'"'}});
+ let turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:one.id,revision:one.revision,requestId:crypto.randomUUID(),requestedTier:1,learnerResponse:'"'"'ยังคิดไม่ออก'"'"'});
+ turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:turn.id,revision:turn.revision,requestId:crypto.randomUUID(),requestedTier:2});
+ turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:turn.id,revision:turn.revision,requestId:crypto.randomUUID(),requestedTier:3});
+ const other=await coachingOperation(st,{action:'"'"'open'"'"',topicKey:'"'"'idea:own'"'"',context:{track:'"'"'idea_track'"'"',gradeLevel:'"'"'m_plai'"'"',goal:'"'"'classroom'"'"'}});
+ const own={sameConversation:one.id===other.id,oldGrade:other.context.gradeLevel,newRequestedGrade:'"'"'m_plai'"'"',retainedTier:other.turn.tier,retainedHistory:other.state.history.length};
+ fs.writeFileSync(evidence+'"'"'/idea-topic-reproduction.json'"'"',JSON.stringify(own,null,2));console.log('"'"'IDEA'"'"',JSON.stringify(own));
+ let bytes=0,pulls=0; const stream=new ReadableStream({pull(c){if(pulls++<20){const a=new Uint8Array(65536).fill(65);bytes+=a.length;c.enqueue(a)}else c.close()}});
+ const body=await readBody(new Request('"'"'http://localhost/api/ai/proposal'"'"',{method:'"'"'POST'"'"',body:stream,duplex:'"'"'half'"'"'}),65536);
+ const b={limit:65536,bytesRead:bytes,status:body.response?.status};fs.writeFileSync(evidence+'"'"'/body-reproduction.json'"'"',JSON.stringify(b,null,2));console.log('"'"'BODY'"'"',JSON.stringify(b));
+} finally {await server.close()}
+'

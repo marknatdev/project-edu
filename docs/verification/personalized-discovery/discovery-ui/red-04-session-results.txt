@@ -1,0 +1,13 @@
+   [32m✓[39m discovery session: generation request (D2)[2m > [22mreuses the interview constraints (as Thai labels), the interest answers and the edited summary[32m 6[2mms[22m[39m
+   [32m✓[39m discovery session: generation request (D2)[2m > [22mclamps out-of-range interview values to the API limits instead of failing[32m 2[2mms[22m[39m
+[31m   [31m×[31m discovery session: generation results (D2)[2m > [22madds accepted cards to the deck, reports a partial batch honestly and never duplicates a replay[39m[32m 5[2mms[22m[39m
+[31m   [31m×[31m discovery session: generation results (D2)[2m > [22mkeeps answers and previous cards on every failure; same intent only where the server may already hold it[39m[32m 1[2mms[22m[39m
+[31m   [31m×[31m discovery session: generation results (D2)[2m > [22mignores a late result for an intent that is no longer pending[39m[32m 1[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: generation results (D2)[2m > [22madds accepted cards to the deck, reports a partial batch honestly and never duplicates a replay
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'pending')[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: generation results (D2)[2m > [22mkeeps answers and previous cards on every failure; same intent only where the server may already hold it
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'trim')[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: generation results (D2)[2m > [22mignores a late result for an intent that is no longer pending
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'cards')[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (5)[39m

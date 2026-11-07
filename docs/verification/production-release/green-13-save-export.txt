@@ -1,0 +1,61 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/unit/optional-login.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/unit/optional-login.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 23[2mms[22m[39m
+[31m   [31m×[31m Save/Export optional account offering, rendered public UI seam[2m > [22moffers optional Google login near Save without replacing the local save action[39m[32m 20[2mms[22m[39m
+[31m     → React is not defined[39m
+[31m   [31m×[31m Save/Export optional account offering, rendered public UI seam[2m > [22mkeeps Guest export actions available alongside an honest optional-login offer[39m[32m 2[2mms[22m[39m
+[31m     → React is not defined[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/optional-login.test.ts[2m > [22mSave/Export optional account offering, rendered public UI seam[2m > [22moffers optional Google login near Save without replacing the local save action
+[31m[1mReferenceError[22m: React is not defined[39m
+[36m [2m❯[22m OptionalLoginOffer src/components/auth/AccountAccess.tsx:[2m49:3[22m[39m
+    [90m 47| [39m}
+    [90m 48| [39m[35mexport[39m [35mfunction[39m [33mOptionalLoginOffer[39m() {
+    [90m 49| [39m  return <aside aria-label="บัญชีเสริมสำหรับการบันทึกและส่งออก" classN…
+    [90m   | [39m  [31m^[39m
+    [90m 50| [39m    <h3 className="text-sm font-semibold text-slate-800">บัญชี Google …
+    [90m 51| [39m    <p className="text-xs leading-relaxed text-slate-600">บันทึกและส่ง…
+[90m [2m❯[22m Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m10371:18[22m[39m
+[90m [2m❯[22m renderWithHooks node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m5361:19[22m[39m
+[90m [2m❯[22m renderElement node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m5796:23[22m[39m
+[90m [2m❯[22m retryNode node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m6783:21[22m[39m
+[90m [2m❯[22m renderNodeDestructive node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m6717:11[22m[39m
+[90m [2m❯[22m renderNode node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m7268:18[22m[39m
+[90m [2m❯[22m renderChildrenArray node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m7029:11[22m[39m
+[90m [2m❯[22m retryNode node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m6796:13[22m[39m
+[90m [2m❯[22m renderNodeDestructive node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m6717:11[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/optional-login.test.ts[2m > [22mSave/Export optional account offering, rendered public UI seam[2m > [22mkeeps Guest export actions available alongside an honest optional-login offer
+[31m[1mReferenceError[22m: React is not defined[39m
+[36m [2m❯[22m ExportPanel src/components/export/ExportPanel.tsx:[2m72:3[22m[39m
+    [90m 70| [39m  }
+    [90m 71| [39m
+    [90m 72| [39m  [35mreturn[39m (
+    [90m   | [39m  [31m^[39m
+    [90m 73| [39m    <section aria-labelledby="export-heading" className="rounded-3xl b…
+    [90m 74| [39m      [33m<[39m[33mdiv[39m[33m>[39m
+[90m [2m❯[22m Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m10371:18[22m[39m
+[90m [2m❯[22m renderWithHooks node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m5361:19[22m[39m
+[90m [2m❯[22m renderElement node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m5796:23[22m[39m
+[90m [2m❯[22m retryNode node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m6783:21[22m[39m
+[90m [2m❯[22m performWork node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m7919:19[22m[39m
+[90m [2m❯[22m startWork node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m8807:7[22m[39m
+[90m [2m❯[22m renderToStringImpl node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m8933:7[22m[39m
+[90m [2m❯[22m process.env.NODE_ENV.exports.renderToStaticMarkup node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js:[2m10426:14[22m[39m
+[90m [2m❯[22m tests/unit/optional-login.test.ts:[2m17:18[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m   Start at [22m 09:39:20
+[2m   Duration [22m 2.12s[2m (transform 142ms, setup 0ms, collect 1.62s, tests 23ms, environment 0ms, prepare 146ms)[22m
+

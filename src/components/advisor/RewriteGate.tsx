@@ -6,21 +6,27 @@ import { isRewriteAcceptable } from '@/lib/advisor/chat-reducer';
 
 export interface RewriteGateProps {
   exampleText: string;
+  issuedExamples?: string[];
   onSubmitRewrite: (rewrittenText: string) => void;
   error?: string | null;
+  initialText?: string;
+  onDraftChange?: (text: string) => void;
 }
 
 export function RewriteGate({
   exampleText,
   onSubmitRewrite,
   error: externalError,
+  initialText = '',
+  issuedExamples,
+  onDraftChange,
 }: RewriteGateProps) {
-  const [text, setText] = useState('');
+  const [text, setText] = useState(initialText);
   const [localError, setLocalError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const check = isRewriteAcceptable(exampleText, text);
+    const check = (issuedExamples?.length ? issuedExamples : [exampleText]).map(example => isRewriteAcceptable(example, text)).find(result => !result.acceptable) ?? { acceptable: true };
     if (!check.acceptable) {
       setLocalError(check.reasonTh ?? 'ข้อความยังไม่ผ่านเกณฑ์');
       return;
@@ -79,6 +85,7 @@ export function RewriteGate({
             value={text}
             onChange={(e) => {
               setText(e.target.value);
+              onDraftChange?.(e.target.value);
               if (localError) setLocalError(null);
             }}
             placeholder="ตัวอย่าง: กลุ่มเราจะนำแนวคิดนี้ไปปรับใช้โดย..."

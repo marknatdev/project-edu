@@ -1,0 +1,37 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/production-fail-closed.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/production-fail-closed.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 46[2mms[22m[39m
+   [32m✓[39m production/serverless missing authority fails closed[2m > [22mnever opens SQLite when cloud configuration is missing[32m 23[2mms[22m[39m
+[31m   [31m×[31m production/serverless missing authority fails closed[2m > [22mdoes not expose legacy in-memory/client-selected quota endpoints while successor integration is pending[39m[32m 21[2mms[22m[39m
+[31m     → expected 400 to be 503 // Object.is equality[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/production-fail-closed.test.ts[2m > [22mproduction/serverless missing authority fails closed[2m > [22mdoes not expose legacy in-memory/client-selected quota endpoints while successor integration is pending
+[31m[1mAssertionError[22m: expected 400 to be 503 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 503[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m tests/integration/production-fail-closed.test.ts:[2m22:31[22m[39m
+    [90m 20| [39m    [35mfor[39m ([35mconst[39m handler [35mof[39m [cards[33m,[39mevaluate[33m,[39mproposal[33m,[39mpivot]) {
+    [90m 21| [39m      const response = await handler(new Request('https://app.test/api…
+    [90m 22| [39m      [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m503[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m 23| [39m      expect(await response.json()).toMatchObject({ error: 'PERSISTENC…
+    [90m 24| [39m    }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m 09:41:38
+[2m   Duration [22m 3.26s[2m (transform 616ms, setup 0ms, collect 1.83s, tests 46ms, environment 0ms, prepare 764ms)[22m
+

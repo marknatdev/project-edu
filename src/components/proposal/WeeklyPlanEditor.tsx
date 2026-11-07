@@ -28,6 +28,8 @@ interface WeeklyPlanEditorProps {
   methodology?: string;
   isSaving?: boolean;
   onSave: (updatedPlan: Plan) => void;
+  /** True when the stored plan no longer matches the one this editor loaded. */
+  changedElsewhere?: () => boolean;
 }
 
 export function WeeklyPlanEditor({
@@ -35,6 +37,7 @@ export function WeeklyPlanEditor({
   methodology = '',
   isSaving = false,
   onSave,
+  changedElsewhere,
 }: WeeklyPlanEditorProps) {
   const [plan, setPlan] = useState<Plan>(initialPlan);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -55,6 +58,21 @@ export function WeeklyPlanEditor({
     setPlan(initialPlan);
     setTargetWeeks(initialPlan.totalWeeks || 8);
   }, [initialPlan]);
+
+  React.useEffect(() => {
+    const preserve = (event: Event) => {
+      // Incomplete modal fields are not yet a valid milestone. Ask the learner
+      // to finish/save or cancel instead of silently discarding them on OAuth.
+      if (editingIndex !== null || showAddModal) { event.preventDefault(); return; }
+      // Unedited: nothing to flush (a stale snapshot would overwrite newer saves from other tabs).
+      if (JSON.stringify(plan) === JSON.stringify(initialPlan)) return;
+      // Edited but the stored copy changed since load: veto so the learner decides.
+      if (changedElsewhere?.()) { event.preventDefault(); return; }
+      try { onSave(plan); } catch { event.preventDefault(); }
+    };
+    window.addEventListener('edtech:before-account-navigation', preserve);
+    return () => window.removeEventListener('edtech:before-account-navigation', preserve);
+  }, [plan, initialPlan, onSave, changedElsewhere, editingIndex, showAddModal]);
 
   const progress = calculatePlanProgress(plan);
 

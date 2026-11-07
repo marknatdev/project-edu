@@ -1,0 +1,12 @@
+{
+  "wipe": 0,
+  "wipe-queued": 0,
+  "routing": 0,
+  "import": 0,
+  "import-save": 0,
+  "quota": 0,
+  "quota-race": 0,
+  "evaluation-wipe": 0,
+  "notes-wipe": 0,
+  "session-draft": 0
+}

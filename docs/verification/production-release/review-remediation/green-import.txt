@@ -1,0 +1,11 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/workspace-boundary.test.ts tests/unit/eval-client.test.ts tests/integration/semantic-acceptance.test.ts tests/integration/auth-pkce.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+
+ Test Files  4 passed (4)
+      Tests  31 passed (31)
+   Start at  21:30:59
+   Duration  21.24s (transform 6.58s, setup 0ms, import 10.39s, tests 18.57s, environment 2ms)
+

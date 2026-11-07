@@ -1,0 +1,9 @@
+   [32m✓[39m adaptive interest interview (D1)[2m > [22mopens with one interest question whose choices include "ยังไม่รู้", then follows up on the answer[32m 2[2mms[22m[39m
+[31m   [31m×[31m adaptive interest interview (D1)[2m > [22manswers "ยังไม่รู้" with a guiding near-life question instead of picking a catalog subject, and keeps asking[39m[32m 8[2mms[22m[39m
+[31m   [31m×[31m adaptive interest interview (D1)[2m > [22mfinishes after 2 confident answers, after 3 when the last is confident, and always by 4[39m[32m 5[2mms[22m[39m
+   [32m✓[39m adaptive interest interview (D1)[2m > [22mnever asks for already-known constraints or identifying details in any path[32m 2[2mms[22m[39m
+   [32m✓[39m adaptive interest interview (D1)[2m > [22mdrafts an editable summary from what the learner said[32m 0[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-interest-interview.test.ts[2m > [22madaptive interest interview (D1)[2m > [22manswers "ยังไม่รู้" with a guiding near-life question instead of picking a catalog subject, and keeps asking
+[41m[1m FAIL [22m[49m tests/unit/discovery-interest-interview.test.ts[2m > [22madaptive interest interview (D1)[2m > [22mfinishes after 2 confident answers, after 3 when the last is confident, and always by 4
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (5)[39m

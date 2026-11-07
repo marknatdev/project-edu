@@ -1,0 +1,92 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/integration/fresh-cards-service.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/fresh-cards-service.test.ts [2m([22m[2m7 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[33m 448[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mbuilds 5 starter ideas from interest + constraints, charges the free allowance, never uses the seed catalog[32m 60[2mms[22m[39m
+[31m   [31m×[31m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22munconfigured → truthful unavailable, no cards, no charge, reservation released[39m[32m 27[2mms[22m[39m
+[31m     → not implemented[39m
+[31m   [31m×[31m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22munreachable → truthful unavailable, no cards, no charge, reservation released[39m[32m 22[2mms[22m[39m
+[31m     → not implemented[39m
+[31m   [31m×[31m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mmalformed output → truthful unavailable, no cards, no charge, reservation released[39m[32m 24[2mms[22m[39m
+[31m     → not implemented[39m
+[31m   [31m×[31m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mevery candidate invalid → truthful unavailable, no cards, no charge, reservation released[39m[32m 41[2mms[22m[39m
+[31m     → expected { status: 'ok', source: 'ai', …(9) } to match object { status: 'unavailable', …(2) }
+(20 matching properties omitted from actual)[39m
+[31m   [31m×[31m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22ma timed-out model call is unavailable and charges nothing[39m[32m 245[2mms[22m[39m
+[31m     → expected { status: 'ok', source: 'ai', …(9) } to match object { status: 'unavailable', …(1) }
+(20 matching properties omitted from actual)[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mmarks keyword-screened safety categories as preliminary, without blocking the idea[32m 28[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 5 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22munconfigured → truthful unavailable, no cards, no charge, reservation released
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22munreachable → truthful unavailable, no cards, no charge, reservation released
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mmalformed output → truthful unavailable, no cards, no charge, reservation released
+[31m[1mError[22m: not implemented[39m
+[36m [2m❯[22m generateFreshCards src/lib/discovery/fresh-cards.server.ts:[2m65:25[22m[39m
+    [90m 63| [39m    prompt: buildFreshPrompt(request, capacity, { liked: [], skipped: …
+    [90m 64| [39m    maxTokens[33m:[39m [34m2_400[39m[33m,[39m maxContentBytes[33m:[39m [34m32_768[39m[33m,[39m temperature[33m:[39m [34m0.8[39m })[33m;[39m
+    [90m 65| [39m  [35mif[39m ([33m![39mresult[33m.[39mok) [35mthrow[39m [35mnew[39m [33mError[39m([32m'not implemented'[39m)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m 66| [39m  const rejected: FreshRejections = { invalid: 0, unsupportedClaims: 0…
+    [90m 67| [39m  [35mconst[39m generatedAt [33m=[39m [34mnow[39m()[33m.[39m[34mtoISOString[39m()[33m;[39m
+[90m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m78:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mevery candidate invalid → truthful unavailable, no cards, no charge, reservation released
+[31m[1mAssertionError[22m: expected { status: 'ok', source: 'ai', …(9) } to match object { status: 'unavailable', …(2) }
+(20 matching properties omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "code": "AI_OUTPUT_UNUSABLE",[39m
+[32m-   "retryable": true,[39m
+[32m-   "status": "unavailable",[39m
+[31m+   "status": "ok",[39m
+[2m  }[22m
+
+[36m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m79:20[22m[39m
+    [90m 77| [39m    [35mconst[39m s [33m=[39m [35mawait[39m [34mstore[39m()[33m;[39m
+    [90m 78| [39m    [35mconst[39m result [33m=[39m [35mawait[39m [34mgenerateFreshCards[39m(s[33m,[39m [34mrequest[39m())[33m;[39m
+    [90m 79| [39m    expect(result).toMatchObject({ status: 'unavailable', code, retrya…
+    [90m   | [39m                   [31m^[39m
+    [90m 80| [39m    [34mexpect[39m([32m'cards'[39m [35min[39m result)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m 81| [39m    expect(result.status === 'unavailable' && result.messageTh).toMatc…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22ma timed-out model call is unavailable and charges nothing
+[31m[1mAssertionError[22m: expected { status: 'ok', source: 'ai', …(9) } to match object { status: 'unavailable', …(1) }
+(20 matching properties omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "code": "AI_TIMEOUT",[39m
+[32m-   "status": "unavailable",[39m
+[31m+   "status": "ok",[39m
+[2m  }[22m
+
+[36m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m90:20[22m[39m
+    [90m 88| [39m    [35mconst[39m s [33m=[39m [35mawait[39m [34mstore[39m()[33m;[39m
+    [90m 89| [39m    const result = await generateFreshCards(s, request(), { timeoutMs:…
+    [90m 90| [39m    expect(result).toMatchObject({ status: 'unavailable', code: 'AI_TI…
+    [90m   | [39m                   [31m^[39m
+    [90m 91| [39m    expect(await s.cardQuota()).toMatchObject({ used: 0, reserved: 0 }…
+    [90m 92| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (7)[39m
+[2m   Start at [22m 11:53:11
+[2m   Duration [22m 1.42s[2m (transform 231ms, setup 0ms, collect 524ms, tests 448ms, environment 0ms, prepare 144ms)[22m
+

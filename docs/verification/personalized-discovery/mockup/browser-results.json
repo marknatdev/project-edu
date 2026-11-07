@@ -1,0 +1,731 @@
+[
+  {
+    "check": "360px initial layout, touch targets and no external resources",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เริ่มจากเรื่องที่เธออยากทำ"
+    }
+  },
+  {
+    "check": "Unknown interest adapts next question, without showing a catalog",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Unknown path asks fourth question",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Adaptive unknown interview finishes at 4 answers",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Known interest adapts follow-up to plants",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Clear interest finishes at 2 answers",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Editable summary survives refresh",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px summary no horizontal page overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ฟังดูเป็นเรื่องที่เธอสนใจไหม?"
+    }
+  },
+  {
+    "check": "360px summary no horizontal page overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ฟังดูเป็นเรื่องที่เธอสนใจไหม?"
+    }
+  },
+  {
+    "check": "390px summary no horizontal page overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ฟังดูเป็นเรื่องที่เธอสนใจไหม?"
+    }
+  },
+  {
+    "check": "1280px summary no horizontal page overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ฟังดูเป็นเรื่องที่เธอสนใจไหม?"
+    }
+  },
+  {
+    "check": "Loading persistently discloses simulated work and no premature charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "First successful simulated batch accepts exactly 5 unique fixed cards",
+    "passed": true,
+    "detail": [
+      "water",
+      "soil",
+      "light",
+      "rain",
+      "leak"
+    ]
+  },
+  {
+    "check": "First five successful cards exhaust free allowance only",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Desktop deck layout",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1265,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "มีเรื่องไหนที่อยากลองต่อบ้าง?"
+    }
+  },
+  {
+    "check": "360px deck layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "มีเรื่องไหนที่อยากลองต่อบ้าง?"
+    }
+  },
+  {
+    "check": "Card focus has visible keyboard outline",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Keyboard right arrow shortlists first card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Keyboard left arrow skips only one card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Undo restores skipped card without quota charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Dragging does not cause horizontal page overflow",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Real pointer drag right shortlists second card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Button alternative shortlists third card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Compare opens with exactly two selected cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px compare responsive layout",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "สองเรื่องนี้ ต่างกันตรงไหน?"
+    }
+  },
+  {
+    "check": "360px compare responsive layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "สองเรื่องนี้ ต่างกันตรงไหน?"
+    }
+  },
+  {
+    "check": "390px compare responsive layout",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "สองเรื่องนี้ ต่างกันตรงไหน?"
+    }
+  },
+  {
+    "check": "1280px compare responsive layout",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1265,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "สองเรื่องนี้ ต่างกันตรงไหน?"
+    }
+  },
+  {
+    "check": "Coaching receives exact selected fixed-card snapshot and learner context",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Tab moves from draft to primary save action",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Keyboard Enter saves draft but grants no production unlocks",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Refresh resumes selected-card handoff and typed draft",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px coaching handoff layout",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "จากการ์ดตัวอย่าง สู่มุมของเธอ"
+    }
+  },
+  {
+    "check": "360px coaching handoff layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "จากการ์ดตัวอย่าง สู่มุมของเธอ"
+    }
+  },
+  {
+    "check": "390px coaching handoff layout",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "จากการ์ดตัวอย่าง สู่มุมของเธอ"
+    }
+  },
+  {
+    "check": "1280px coaching handoff layout",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1265,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "จากการ์ดตัวอย่าง สู่มุมของเธอ"
+    }
+  },
+  {
+    "check": "Arrow key in text field does not swipe a card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Keyboard up arrow selects the current card for coaching",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "No uncaught browser errors after handoff",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "unavailable retains answers/cards and does not charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "360px unavailable error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "timeout retains answers/cards and does not charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "360px timeout error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "malformed retains answers/cards and does not charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "360px malformed error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "duplicates retains answers/cards and does not charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "360px duplicates error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "Partial success accepts and charges only 3, without padding",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Refined next batch is unique and carries typed refinement",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Restart interview preserves daily quota and previous cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Concurrent UI submissions/navigation disabled during generation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Double interaction produces exactly one five-card batch",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Reload interrupted generation is truthful and uncharged",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Retry after interrupted generation accepts one batch only",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Quota progression accepts 28 total unique cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Quota progression accepts 33 total unique cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Quota progression accepts 35 total unique cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Daily maximum is first 5 free plus 30 extra, last partial counted exactly",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Daily cap prevents further charges or cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Exhausted quota and all saved snapshots survive refresh",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Explicit simulated Bangkok next-day resets free5/extra30 but preserves seen cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Fixture exhaustion is disclosed, not fabricated into new generation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "No browser errors or external resources after all scenarios",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Guided interest path can finish at exactly 3 answers",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Saved-card addition restores focus to same-card select action",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Undo does not remove a card independently saved before the like",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Undo is disabled across a newly accepted batch",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Disabled cross-batch undo cannot strand the current deck",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "One skip changes subsequent fixed-fixture ranking without excluding its whole subject",
+    "passed": true,
+    "detail": {
+      "without_skip": [
+        "soil",
+        "route",
+        "rain",
+        "paper",
+        "waste"
+      ],
+      "with_skip": [
+        "route",
+        "queue",
+        "labels",
+        "image",
+        "brightness"
+      ]
+    }
+  },
+  {
+    "check": "Five likes automatically enter shortlist",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Compare selection stays capped at two cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px full shortlist layout",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่"
+    }
+  },
+  {
+    "check": "360px full shortlist layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่"
+    }
+  },
+  {
+    "check": "390px full shortlist layout",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่"
+    }
+  },
+  {
+    "check": "1280px full shortlist layout",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1265,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่"
+    }
+  },
+  {
+    "check": "Full shortlist rejects sixth card without charge",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Removing saved shortlist entries produces a useful empty state",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px deck controls and overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "มีเรื่องไหนที่อยากลองต่อบ้าง?"
+    }
+  },
+  {
+    "check": "360px deck controls and overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "มีเรื่องไหนที่อยากลองต่อบ้าง?"
+    }
+  },
+  {
+    "check": "390px deck controls and overflow",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "มีเรื่องไหนที่อยากลองต่อบ้าง?"
+    }
+  },
+  {
+    "check": "Real touch swipe left skips one card",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Real touch swipe up selects current snapshot for coaching",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px unavailable no-charge error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "360px unavailable no-charge error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "390px unavailable no-charge error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "1280px unavailable no-charge error layout",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "ยังแสดงการ์ดรอบใหม่ไม่ได้"
+    }
+  },
+  {
+    "check": "Incomplete saved demo state recovers without crashing or renewing quota",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Invalid collection types recover to usable interview",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "Storage denial shows truthful unsaved warning while UI remains usable",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "check": "320px final initial interview layout",
+    "passed": true,
+    "detail": {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เริ่มจากเรื่องที่เธออยากทำ"
+    }
+  },
+  {
+    "check": "360px final initial interview layout",
+    "passed": true,
+    "detail": {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เริ่มจากเรื่องที่เธออยากทำ"
+    }
+  },
+  {
+    "check": "390px final initial interview layout",
+    "passed": true,
+    "detail": {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เริ่มจากเรื่องที่เธออยากทำ"
+    }
+  },
+  {
+    "check": "1280px final initial interview layout",
+    "passed": true,
+    "detail": {
+      "viewport": 1280,
+      "scrollWidth": 1280,
+      "smallTargets": [],
+      "disclosure": "sticky",
+      "resources": [],
+      "title": "เริ่มจากเรื่องที่เธออยากทำ"
+    }
+  },
+  {
+    "check": "Final console errors empty",
+    "passed": true,
+    "detail": null
+  }
+]

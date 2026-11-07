@@ -1,0 +1,70 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+[33mBoth esbuild and oxc options were set. oxc options will be used and esbuild options will be ignored.[39m The following esbuild options were set: `{ jsx: 'automatic' }`
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+ ❯ tests/unit/optional-login.test.ts (0 test)
+ ❯ tests/integration/repairs-postgres.test.ts (6 tests | 1 failed) 26677ms
+     × concurrent independent Guests and accounts each get exactly 5 evaluations; no shared or caller-chosen pool 827ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/optional-login.test.ts [ tests/unit/optional-login.test.ts ]
+Error: Failed to parse source for import analysis because the content contains invalid JS syntax. If you use tsconfig.json, make sure to not set jsx to preserve.
+  Plugin: vite:import-analysis
+  File: D:/millmaker/EdTech/src/components/export/ExportPanel.tsx:75:96
+  76 |  	return <section aria-labelledby="export-heading" className="rounded-3xl border border-indigo-100 bg-white/90 p-5 spa...
+  77 |        <div>
+  78 |          <h2 id="export-heading" className="font-bold text-slate-900">ส่งออก Proposal + Plan</h2>
+     |                                                                                                  ^
+  79 |          <p className="mt-1 text-xs text-slate-600 leading-relaxed">ส่งออกฉบับที่บันทึกแล้วเท่านั้น — กด “บันทึกการแก้...
+  80 |        </div>
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:8861:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:8858:14
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:26497:10
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:8632:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20108:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/repairs-postgres.test.ts > release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured) > concurrent independent Guests and accounts each get exactly 5 evaluations; no shared or caller-chosen pool
+AssertionError: expected [ 1, 1, 5, 5, 1, 1, 1, 5, 5 ] to deeply equal [ 5, 5, 5, 5 ]
+
+- Expected
++ Received
+
+  [
++   1,
++   1,
+    5,
+    5,
++   1,
++   1,
++   1,
+    5,
+    5,
+  ]
+
+ ❯ tests/integration/repairs-postgres.test.ts:83:40
+     81|     for (const r of [...a, ...b, ...c, ...d]) expect([200, 429]).toCon…
+     82|     const used = await pg.pool.query("SELECT owner_key, used FROM publ…
+     83|     expect(used.rows.map(r => r.used)).toEqual([5, 5, 5, 5]);
+       |                                        ^
+     84|     expect(used.rows.map(r => r.owner_key)).toContain('u:22222222-2222…
+     85|     const forged = await guestA.send(evaluatePOST, '/api/ai/evaluate',…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 59 passed (61)
+      Tests  1 failed | 485 passed (486)
+   Start at  15:03:44
+   Duration  29.75s (transform 6.84s, setup 0ms, import 25.05s, tests 120.72s, environment 19ms)
+

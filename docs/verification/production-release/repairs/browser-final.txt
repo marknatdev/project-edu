@@ -1,0 +1,48 @@
+PASS optional login discloses Auth PII and no silent cloud sync
+PASS storage failure vetoes OAuth instead of losing an unsaved draft
+PASS unsaved proposal draft is preserved BEFORE OAuth navigation
+PASS proposal-optional-login: no horizontal page overflow at 360px
+PASS proposal-optional-login: interactive controls at least 40px at 360px
+PASS proposal-optional-login: screenshot rendered (not blank) at 360px
+PASS proposal-optional-login: no browser JS errors
+PASS proposal-optional-login: no horizontal page overflow at 1280px
+PASS proposal-optional-login: interactive controls at least 40px at 1280px
+PASS proposal-optional-login: screenshot rendered (not blank) at 1280px
+PASS proposal-optional-login: no browser JS errors
+PASS Guest Word export downloads a real DOCX containing the saved draft
+PASS manual save and Guest export never consume proposal allowance
+PASS real PKCE login start sanitizes an open redirect
+PASS production Guest capability is HttpOnly Secure Strict
+PASS real SSR PKCE cookies are HttpOnly Secure Lax
+PASS cancel callback stays local and preserves the Guest identity
+PASS cancel callback clears every real PKCE verifier cookie
+PASS Guest logout succeeds without erasing local project work
+PASS evaluation accepts the browser Guest with its own quota
+PASS new Pivot room offers Tier 1 only
+PASS forged unlocks are rejected by the production HTTP boundary
+PASS Tier 3 cannot be requested before a verified answer and hint
+PASS axis switches cannot race an in-flight Pivot turn
+PASS answer then hints then explicit examples works
+PASS pivot-examples: no horizontal page overflow at 360px
+PASS pivot-examples: interactive controls at least 40px at 360px
+PASS pivot-examples: screenshot rendered (not blank) at 360px
+PASS pivot-examples: no browser JS errors
+PASS pivot-examples: no horizontal page overflow at 1280px
+PASS pivot-examples: interactive controls at least 40px at 1280px
+PASS pivot-examples: screenshot rendered (not blank) at 1280px
+PASS pivot-examples: no browser JS errors
+PASS Pivot never steals the proposal allowance
+PASS rewritten idea starts a fresh content-bound Pivot room
+PASS exhausted allowance creates a manual blank draft, never automatic source assembly
+PASS independent browser identity cannot access another Guest Pivot
+PASS independent Guest retains both proposal entitlements
+PASS personalized Discovery preserved; unconfigured AI is honest and retains interest answers
+PASS discovery-unconfigured: no horizontal page overflow at 360px
+PASS discovery-unconfigured: interactive controls at least 40px at 360px
+PASS discovery-unconfigured: screenshot rendered (not blank) at 360px
+PASS discovery-unconfigured: no browser JS errors
+PASS discovery-unconfigured: no horizontal page overflow at 1280px
+PASS discovery-unconfigured: interactive controls at least 40px at 1280px
+PASS discovery-unconfigured: screenshot rendered (not blank) at 1280px
+PASS discovery-unconfigured: no browser JS errors
+PASS exhausted evaluation allowance shows an actionable error, not a permanent loading spinner

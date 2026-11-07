@@ -1,0 +1,43 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/integration/auth-pkce.test.ts -t clears the PKCE verifier
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/auth-pkce.test.ts [2m([22m[2m14 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m13 skipped[39m[2m)[22m[32m 33[2mms[22m[39m
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mdoes not replace a Strict Guest capability omitted on the cross-site OAuth return (production admission path)
+[31m   [31m×[31m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mclears the PKCE verifier when callback admission is rate limited or the backend fails[39m[32m 32[2mms[22m[39m
+[31m     → the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string[39m
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mreports only verified sign-in status and signs out locally without deleting guest work
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mexchanges the callback code using its verifier and verifies the user before setting a session
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrejects bad codes, missing verifiers and provider cancellation without exposing provider text or external redirects
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path //attacker.invalid
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /\\attacker.invalid
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /%2f%2fattacker.invalid
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path https://attacker.invalid
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /auth/logout
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /api/ai/coach
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /proposal/../auth/login
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mblocks login/logout CSRF and never treats an unverified cached identity as authenticated
+   [2m[90m↓[39m[22m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mstarts Google sign-in with an S256 verifier cookie and only sign-in scopes
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/auth-pkce.test.ts[2m > [22mSupabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mclears the PKCE verifier when callback admission is rate limited or the backend fails
+[31m[1mAssertionError[22m: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string[39m
+[36m [2m❯[22m tests/integration/auth-pkce.test.ts:[2m54:23[22m[39m
+    [90m 52| [39m      [34mexpect[39m(exchange)[33m.[39mnot[33m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+    [90m 53| [39m      const cleared=response.headers.getSetCookie().find(c=>c.startsWi…
+    [90m 54| [39m      [34mexpect[39m(cleared)[33m.[39m[34mtoContain[39m([32m'Max-Age=0'[39m)[33m;[39m
+    [90m   | [39m                      [31m^[39m
+    [90m 55| [39m      expect(response.headers.getSetCookie().some(c=>c.startsWith('edu…
+    [90m 56| [39m    }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m13 skipped[39m[90m (14)[39m
+[2m   Start at [22m 11:11:29
+[2m   Duration [22m 1.19s[2m (transform 240ms, setup 0ms, collect 592ms, tests 33ms, environment 0ms, prepare 208ms)[22m
+

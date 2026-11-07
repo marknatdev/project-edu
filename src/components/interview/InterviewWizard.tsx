@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -34,7 +34,10 @@ import {
   saveLearner,
   getInterview,
   saveInterview,
+  getDefaultStorage,
+  getWipeGeneration,
 } from '@/lib/storage/store';
+import { useWipeInvalidation } from '@/lib/storage/use-wipe-invalidation';
 
 export function InterviewWizard() {
   const router = useRouter();
@@ -53,8 +56,13 @@ export function InterviewWizard() {
   const [skills, setSkills] = useState<string[]>([]);
   const [hasInitialIdea, setHasInitialIdea] = useState<boolean | undefined>(undefined);
   const [selectedTrack, setSelectedTrack] = useState<Track | undefined>(undefined);
+  const [wiped, markWiped] = useWipeInvalidation();
+  // Generation of the answers pre-filled below; a later wipe makes Submit stale.
+  const loaded = useRef<{ storage: ReturnType<typeof getDefaultStorage>; generation: string } | null>(null);
 
   useEffect(() => {
+    const storage = getDefaultStorage();
+    loaded.current = { storage, generation: getWipeGeneration(storage) };
     const currentConsent = getConsent();
     setConsentAccepted(currentConsent.accepted);
 
@@ -141,8 +149,9 @@ export function InterviewWizard() {
     setSubmitting(true);
 
     try {
+      const { storage, generation } = loaded.current ?? { storage: getDefaultStorage(), generation: '' };
       // 1. Ensure or initialize Zero-PII Learner profile
-      let learner = getLearner();
+      let learner = getLearner(storage);
       const nowIso = new Date().toISOString();
       if (!learner || learner.gradeLevel !== gradeLevel) {
         learner = {
@@ -151,12 +160,12 @@ export function InterviewWizard() {
           createdAt: learner?.createdAt ?? nowIso,
           updatedAt: nowIso,
         };
-        saveLearner(learner);
+        if (!saveLearner(learner, storage, generation)) { markWiped(); return; }
       }
 
       // 2. Create and persist Interview
       const interview = createInterviewFromDraft(currentDraft, learner.id);
-      saveInterview(interview);
+      if (!saveInterview(interview, storage, generation)) { markWiped(); return; }
 
       // 3. Navigate to target route
       const targetRoute = determineTrackRoute(interview);
@@ -179,6 +188,8 @@ export function InterviewWizard() {
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
+
+  if (wiped) return <p role="status" className="max-w-2xl mx-auto text-sm">ลบข้อมูลแล้ว กรุณาโหลดหน้าใหม่เพื่อเริ่มสัมภาษณ์ใหม่</p>;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
@@ -560,7 +571,7 @@ export function InterviewWizard() {
                     )}
                   </div>
                   <p className="text-xs text-slate-600 leading-relaxed font-prompt">
-                    สำรวจหัวข้อจากชุด Topic Cards 90 ใบ คัดสรรตามความสนใจและวิชา ปัดการ์ดเพื่อค้นหาหัวข้อที่ใช่ และสร้าง Shortlist เปรียบเทียบ Fit Score
+                    คุยสั้น ๆ เรื่องที่สนใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณครั้งละ 5 ใบ ปัดการ์ดเพื่อค้นหาเรื่องที่ใช่ และสร้าง Shortlist เปรียบเทียบ
                   </p>
                 </div>
               </button>

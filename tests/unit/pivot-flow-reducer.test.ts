@@ -4,6 +4,10 @@ import {
   pivotReducer,
 } from '@/lib/pivot/pivot-reducer';
 import type { Idea, Constraints } from '@/types/domain';
+import type { PivotView } from '@/lib/pivot/pivot-dto';
+const servedExamples: PivotView = { id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', revision: 3, axis: 'feasibility', unlockedTiers: [1, 2, 3],
+  tier1Prompt: 'คำถามจากเซิร์ฟเวอร์', tier2Lenses: ['คำใบ้จากเซิร์ฟเวอร์'],
+  tier3Examples: ['ลองเทียบการสกัดด้วยน้ำอุ่นกับน้ำเย็น', 'ลองลดขนาดการทดลองและควบคุมอุณหภูมิ'], source: 'fallback' };
 
 describe('Pivot Flow Reducer (ADR 0002 & AC-8)', () => {
   const sampleIdea: Idea = {
@@ -92,7 +96,8 @@ describe('Pivot Flow Reducer (ADR 0002 & AC-8)', () => {
     state = pivotReducer(state, { type: 'UNLOCK_TIER_2' });
     expect(state.unlockedTiers).toEqual([1, 2]);
 
-    // Now request Tier 3
+    // Only an authoritative server response supplies examples.
+    state = pivotReducer(state, { type: 'SERVER_SYNC', pivot: servedExamples });
     state = pivotReducer(state, { type: 'REQUEST_TIER_3' });
     expect(state.currentTier).toBe(3);
     expect(state.unlockedTiers).toEqual([1, 2, 3]);
@@ -128,7 +133,7 @@ describe('Pivot Flow Reducer (ADR 0002 & AC-8)', () => {
     expect(state.error).toBe('Quota exceeded or network timeout');
     expect(state.tier1Prompt).toContain('ในด้านความแปลกใหม่');
     expect(state.tier2Lenses.length).toBeGreaterThanOrEqual(1);
-    expect(state.tier3Examples.length).toBeGreaterThanOrEqual(2);
+    expect(state.tier3Examples).toEqual([]);
     expect(state.canAccessProposal).toBe(true);
   });
 
@@ -138,8 +143,8 @@ describe('Pivot Flow Reducer (ADR 0002 & AC-8)', () => {
       redAxes: ['feasibility'],
       constraints: sampleConstraints,
     });
-    state = pivotReducer(state, { type: 'UNLOCK_TIER_2' });
-    state = pivotReducer(state, { type: 'REQUEST_TIER_3' });
+    state = pivotReducer(state, { type: 'SERVER_SYNC', pivot: servedExamples });
+    state = pivotReducer(state, { type: 'SELECT_TIER', tier: 3 });
 
     const chosenAngle = state.tier3Examples[0];
     state = pivotReducer(state, { type: 'SELECT_ANGLE', angle: chosenAngle });

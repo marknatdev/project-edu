@@ -1,0 +1,38 @@
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+ ✓ tests/integration/workspace-boundary.test.ts > Guest/account context opt-in at authenticated HTTP persistence boundary (synthetic Auth) > does not persist Guest-local context in a newly signed-in account before a workspace decision 139ms
+ ✓ tests/integration/workspace-boundary.test.ts > Guest/account context opt-in at authenticated HTTP persistence boundary (synthetic Auth) > explicit continue-Guest selects Guest ownership without copying or overwriting the account 202ms
+ ✓ tests/integration/workspace-boundary.test.ts > Guest/account context opt-in at authenticated HTTP persistence boundary (synthetic Auth) > separate-account selection rejects a stale mounted Guest writer before account persistence 56ms
+ ✓ tests/integration/workspace-boundary.test.ts > Guest/account context opt-in at authenticated HTTP persistence boundary (synthetic Auth) > legacy Guest and two account local workspaces never fall through or overwrite each other 12ms
+ ✓ tests/integration/workspace-boundary.test.ts > Guest/account context opt-in at authenticated HTTP persistence boundary (synthetic Auth) > resumes an existing account room without importing a missing Guest-local card snapshot 230ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > owner AI routes cancels the twenty-chunk allocation probe before consuming it 55ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > coaching cancels the twenty-chunk allocation probe before consuming it 5ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > Discovery cancels the twenty-chunk allocation probe before consuming it 3ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > OAuth login cancels the twenty-chunk allocation probe before consuming it 7ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > evaluation cancels the twenty-chunk allocation probe before consuming it 5ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > Pivot cancels the twenty-chunk allocation probe before consuming it 2ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > proposal cancels the twenty-chunk allocation probe before consuming it 2ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > legacy local cards cancels the twenty-chunk allocation probe before consuming it 2ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > workspace decision cancels the twenty-chunk allocation probe before consuming it 2ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > rejects oversized Content-Length without reading; ignores lying small length as authority 10ms
+stderr | tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > cancels oversized upstream response while reading, including absent or lying lengths
+[AiGateway] too_large
+
+stderr | tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > cancels oversized upstream response while reading, including absent or lying lengths
+[AiGateway] too_large
+
+stderr | tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > cancels oversized upstream response while reading, including absent or lying lengths
+[AiGateway] too_large
+
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > counts multibyte UTF8 bytes, preserves split codepoints and rejects malformed JSON 9ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > rejects cross-site bodies before reading or resolving auth 7ms
+ ✓ tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > cancels oversized upstream response while reading, including absent or lying lengths 17ms
+ ✓ tests/integration/semantic-acceptance.test.ts > serialized semantic acceptance (real DBs; injected AI fixture, NOT live AI) > sqlite charges only one simultaneous non-identical water-filter idea 153ms
+ ✓ tests/integration/semantic-acceptance.test.ts > serialized semantic acceptance (real DBs; injected AI fixture, NOT live AI) > postgres charges only one simultaneous non-identical water-filter idea 151ms
+
+ Test Files  3 passed (3)
+      Tests  20 passed (20)
+   Start at  22:05:37
+   Duration  19.15s (transform 2.27s, setup 0ms, import 5.81s, tests 17.45s, environment 1ms)
+

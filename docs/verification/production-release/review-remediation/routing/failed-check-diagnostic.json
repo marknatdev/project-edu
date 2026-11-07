@@ -1,0 +1,170 @@
+{
+  "name": "two saved own Ideas open separate stable server conversations",
+  "detail": {
+    "a": {
+      "id": "4b31475a-81ab-47a7-8c46-48ee1aa90f21",
+      "topicKey": "idea:own",
+      "revision": 1,
+      "context": {
+        "track": "idea_track",
+        "gradeLevel": "m_plai",
+        "goal": "classroom",
+        "topicCard": null,
+        "constraints": {
+          "timeWeeks": 6,
+          "budgetBaht": 1000,
+          "equipment": [
+            "smartphone",
+            "computer"
+          ],
+          "teamSize": 2,
+          "skills": [
+            "coding",
+            "data_math"
+          ]
+        }
+      },
+      "state": {
+        "anonymousId": "guest",
+        "ideaId": "idea:own",
+        "turnCount": 1,
+        "unlockedTiers": [
+          1
+        ],
+        "aspectProgress": {
+          "problem": false,
+          "objective": false,
+          "methodology": false,
+          "measurement": false
+        },
+        "history": [
+          {
+            "turnIndex": 1,
+            "tier": 1,
+            "aspect": "problem",
+            "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+            "timestamp": "2026-11-06T13:51:35.811Z",
+            "source": "ai"
+          }
+        ],
+        "isComplete": false
+      },
+      "turn": {
+        "source": "ai",
+        "tier": 1,
+        "tierDowngraded": false,
+        "aspect": "problem",
+        "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+        "state": {
+          "anonymousId": "guest",
+          "ideaId": "idea:own",
+          "turnCount": 1,
+          "unlockedTiers": [
+            1
+          ],
+          "aspectProgress": {
+            "problem": false,
+            "objective": false,
+            "methodology": false,
+            "measurement": false
+          },
+          "history": [
+            {
+              "turnIndex": 1,
+              "tier": 1,
+              "aspect": "problem",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "timestamp": "2026-11-06T13:51:35.811Z",
+              "source": "ai"
+            }
+          ],
+          "isComplete": false
+        }
+      }
+    },
+    "b": {
+      "id": "4b31475a-81ab-47a7-8c46-48ee1aa90f21",
+      "topicKey": "idea:own",
+      "revision": 1,
+      "context": {
+        "track": "idea_track",
+        "gradeLevel": "m_plai",
+        "goal": "classroom",
+        "topicCard": null,
+        "constraints": {
+          "timeWeeks": 6,
+          "budgetBaht": 1000,
+          "equipment": [
+            "smartphone",
+            "computer"
+          ],
+          "teamSize": 2,
+          "skills": [
+            "coding",
+            "data_math"
+          ]
+        }
+      },
+      "state": {
+        "anonymousId": "guest",
+        "ideaId": "idea:own",
+        "turnCount": 1,
+        "unlockedTiers": [
+          1
+        ],
+        "aspectProgress": {
+          "problem": false,
+          "objective": false,
+          "methodology": false,
+          "measurement": false
+        },
+        "history": [
+          {
+            "turnIndex": 1,
+            "tier": 1,
+            "aspect": "problem",
+            "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+            "timestamp": "2026-11-06T13:51:35.811Z",
+            "source": "ai"
+          }
+        ],
+        "isComplete": false
+      },
+      "turn": {
+        "source": "ai",
+        "tier": 1,
+        "tierDowngraded": false,
+        "aspect": "problem",
+        "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+        "state": {
+          "anonymousId": "guest",
+          "ideaId": "idea:own",
+          "turnCount": 1,
+          "unlockedTiers": [
+            1
+          ],
+          "aspectProgress": {
+            "problem": false,
+            "objective": false,
+            "methodology": false,
+            "measurement": false
+          },
+          "history": [
+            {
+              "turnIndex": 1,
+              "tier": 1,
+              "aspect": "problem",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "timestamp": "2026-11-06T13:51:35.811Z",
+              "source": "ai"
+            }
+          ],
+          "isComplete": false
+        }
+      }
+    }
+  },
+  "text": "เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)\nติดตั้งแอป\nปิด\nProject Edu\nเข้าสู่ระบบ Google (ไม่บังคับ)\nเส้นทางมีไอเดีย (Idea Track)\n🧑‍🏫 ครูที่ปรึกษาโครงงาน Socratic AI\n\nAI ไม่คิดไอเดียสำเร็จรูปแทนคุณ แต่จะถามชวนคิด 3 ระดับ เจาะลึก 4 ด้าน จนได้โครงงานที่คุณเป็นเจ้าของเอง\n\nเชื่อมต่อบทสนทนา / โหลดล่าสุด\nเริ่มบทสนทนาใหม่\nความคืบหน้าประเด็นสำคัญ (4 ด้าน)\n0/4 ด้าน\nคำถามที่ 1/8\n1. ปัญหา\nProblem\n2. วัตถุประสงค์\nObjective\n3. วิธีการ\nMethodology\n4. สิ่งที่จะวัด\nMeasurement\nระดับความช่วยเหลือจากครูที่ปรึกษา (3-Tier Pedagogy):\nปลดล็อกตามลำดับ\nถามชวนคิด\nTier 1: Socratic\nใช้งานอยู่\nขอคำใบ้\nTier 2: Guided Hints\nล็อก\nคิดไม่ออกจริงๆ\nTier 3: Last Resort\nล็อก\nครูที่ปรึกษา AI\nTier 1 • Socratic Question\nคำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “โครงงานของนักเรียน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?\nสัมภาษณ์\nค้นหาหัวข้อ\nพัฒนาไอเดีย\nตัวแปร\nข้อเสนอ\nความเป็นส่วนตัว",
+  "session": null,
+  "requests": []
+}

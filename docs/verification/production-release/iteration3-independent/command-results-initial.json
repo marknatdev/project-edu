@@ -1,0 +1,7 @@
+{
+  "tests": 0,
+  "lint": 0,
+  "audit": 1,
+  "audit-lockfile": 1,
+  "diffcheck": 0
+}

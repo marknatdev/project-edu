@@ -1,0 +1,38 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/coaching-api.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/coaching-api.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 28[2mms[22m[39m
+[31m   [31m×[31m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mopens a stable topic, resumes its server history and permits the exact Tier-1-answer/hint/explicit-example sequence[39m[32m 23[2mms[22m[39m
+[31m     → expected 400 to be 200 // Object.is equality[39m
+   [32m✓[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mrejects unsigned browser state instead of granting fabricated tier progression[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/coaching-api.test.ts[2m > [22mDEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mopens a stable topic, resumes its server history and permits the exact Tier-1-answer/hint/explicit-example sequence
+[31m[1mAssertionError[22m: expected 400 to be 200 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 400[39m
+
+[36m [2m❯[22m call tests/integration/coaching-api.test.ts:[2m18:31[22m[39m
+    [90m 16| [39m      }))[33m;[39m
+    [90m 17| [39m      if (response.headers.get('set-cookie')) cookie = response.header…
+    [90m 18| [39m      [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m 19| [39m      [35mreturn[39m response[33m.[39m[34mjson[39m()[33m;[39m
+    [90m 20| [39m    }[33m;[39m
+[90m [2m❯[22m tests/integration/coaching-api.test.ts:[2m21:20[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m 21:22:53
+[2m   Duration [22m 1.19s[2m (transform 96ms, setup 0ms, collect 295ms, tests 28ms, environment 0ms, prepare 539ms)[22m
+

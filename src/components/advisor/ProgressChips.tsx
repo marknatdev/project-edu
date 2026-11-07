@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CheckCircle2, Circle, HelpCircle } from 'lucide-react';
-import type { CoachAspectProgress } from '@/lib/ai/socratic-coach';
+import type { CoachAspectProgress } from '@/lib/advisor/coach-contract';
 
 export interface ProgressChipsProps {
   progress: CoachAspectProgress;
@@ -46,7 +46,7 @@ export function ProgressChips({
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold text-slate-800 font-prompt">
           <HelpCircle className="w-3.5 h-3.5 text-indigo-600" />
           <span>
-            คำถามที่ {Math.min(questionCount + 1, maxQuestions)}/{maxQuestions}
+            คำถามที่ {Math.min(questionCount, maxQuestions)}/{maxQuestions}
           </span>
         </div>
       </div>

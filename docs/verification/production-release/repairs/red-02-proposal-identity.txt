@@ -1,0 +1,16 @@
+[31m   [31m×[31m DEF-04 proposal allowance is server-bound (2/day per verified owner)[2m > [22mrejects a caller-chosen anonymousId[39m[32m 18[2mms[22m[39m
+[31m     → expected 200 to be 400 // Object.is equality[39m
+[31m   [31m×[31m DEF-04 proposal allowance is server-bound (2/day per verified owner)[2m > [22mallows exactly two consumptions per owner; a second browser keeps its own two[39m[32m 8[2mms[22m[39m
+[31m     → expected { error: 'Invalid input', …(1) } to match object { allowed: true, remaining: 2, …(1) }
+[31m   [31m×[31m DEF-04 proposal allowance is server-bound (2/day per verified owner)[2m > [22ma retried consume with the same requestId is charged once[39m[32m 4[2mms[22m[39m
+[31m     → expected { error: 'Invalid input', …(1) } to match object { allowed: true, remaining: 1 }
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/integration/repairs-proposal.test.ts[2m > [22mDEF-04 proposal allowance is server-bound (2/day per verified owner)[2m > [22mrejects a caller-chosen anonymousId
+[31m[1mAssertionError[22m: expected 200 to be 400 // Object.is equality[39m
+[41m[1m FAIL [22m[49m tests/integration/repairs-proposal.test.ts[2m > [22mDEF-04 proposal allowance is server-bound (2/day per verified owner)[2m > [22mallows exactly two consumptions per owner; a second browser keeps its own two
+[31m[1mAssertionError[22m: expected { error: 'Invalid input', …(1) } to match object { allowed: true, remaining: 2, …(1) }
+[31m+       "expected": "string",[39m
+[41m[1m FAIL [22m[49m tests/integration/repairs-proposal.test.ts[2m > [22mDEF-04 proposal allowance is server-bound (2/day per verified owner)[2m > [22ma retried consume with the same requestId is charged once
+[31m[1mAssertionError[22m: expected { error: 'Invalid input', …(1) } to match object { allowed: true, remaining: 1 }
+[31m+       "expected": "string",[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[90m (3)[39m

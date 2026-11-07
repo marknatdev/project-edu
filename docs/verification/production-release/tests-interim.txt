@@ -1,0 +1,76 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/unit/competition-calendar.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 236[2mms[22m[39m
+ [32m✓[39m tests/integration/auth-pkce.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 208[2mms[22m[39m
+ [32m✓[39m tests/unit/advisor-signoff.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 272[2mms[22m[39m
+ [32m✓[39m tests/unit/docx-export.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 949[2mms[22m[39m
+   [33m[2m✓[22m[39m DOCX Export (Seam 1)[2m > [22mappends TCAS, bounded abstract and 3-minute pitch only on explicit opt-in [33m 385[2mms[22m[39m
+ [32m✓[39m tests/unit/presentation-templates.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 193[2mms[22m[39m
+ [32m✓[39m tests/unit/share-link.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 210[2mms[22m[39m
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully when fetch rejects (network error)
+[22m[39m[AiGateway] Call failed: Connection refused
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on non-2xx status code
+[22m[39m[AiGateway] Non-2xx response from AI endpoint (500): Internal Server Error
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on malformed JSON or Zod validation failure
+[22m[39m[AiGateway] Failed to parse JSON from AI response: SyntaxError: Unexpected token 'o', "not valid j"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at callAiGateway [90m(D:\millmaker\EdTech\[39msrc\lib\ai\gateway.ts:132:25[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at [90mD:\millmaker\EdTech\[39mtests\unit\socratic-and-ai.test.ts:158:20
+    at [90mfile:///D:/millmaker/EdTech/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+ [32m✓[39m tests/unit/socratic-and-ai.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 366[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-shortlist.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 127[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-local.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 119[2mms[22m[39m
+ [32m✓[39m tests/unit/prior-work.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 111[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-screener.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 50[2mms[22m[39m
+ [32m✓[39m tests/unit/bom.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-api.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 2518[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22misolates two topics and two cookie owners; a public learner/id string cannot impersonate an owner [33m 330[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mdoes not treat an initial answer, blank answer or default unlocked tier as prior progression [33m 338[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mdeletes all owned conversations and revokes the old cookie; another owner is unaffected [33m 387[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 authoritative coaching API (server fallback, not live AI)[2m > [22mopens a stable topic, resumes its server history and permits the exact Tier-1-answer/hint/explicit-example sequence [33m 365[2mms[22m[39m
+ [32m✓[39m tests/unit/variable-isolator.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 81[2mms[22m[39m
+ [32m✓[39m tests/unit/rubrics-engine.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [32m✓[39m tests/unit/multi-project-store.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [32m✓[39m tests/integration/auth-refresh.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 52[2mms[22m[39m
+ [32m✓[39m tests/unit/store.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-chat-reducer.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m tests/unit/topic-catalog.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 238[2mms[22m[39m
+ [32m✓[39m tests/unit/domain-schemas.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/eval-client.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/unit/supabase-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+ [32m✓[39m tests/unit/smoke.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-checklist.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m tests/integration/production-fail-closed.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m tests/integration/principal.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-ai-cards.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m tests/unit/interview-logic.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/unit/mock-judge.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/pivot-flow-reducer.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/unit/weekly-plan.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/unit/evaluation-view-model.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-privacy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/unit/proposal-assemble.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/foundation-transport.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-local.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-deck.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/unit/proposal-quota.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-authority.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/unit/foundation-backend.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/unit/optional-login.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-postgres.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 16175[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mreserves the 35-card limit across concurrent connections without duplicate generation claims [33m 309[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m45 passed[39m[22m[90m (45)[39m
+[2m      Tests [22m [1m[32m368 passed[39m[22m[90m (368)[39m
+[2m   Start at [22m 09:49:45
+[2m   Duration [22m 20.00s[2m (transform 5.43s, setup 0ms, collect 26.34s, tests 22.71s, environment 28ms, prepare 11.70s)[22m
+

@@ -1,0 +1,26 @@
+{
+  "semanticRepeat": true,
+  "similarity": {
+    "title": 0.8648648648648649,
+    "problem": 1
+  },
+  "results": [
+    {
+      "status": "ok",
+      "accepted": 1
+    },
+    {
+      "status": "ok",
+      "accepted": 1
+    }
+  ],
+  "quota": {
+    "day": "2026-11-06",
+    "used": 2,
+    "reserved": 0,
+    "remaining": 33,
+    "freeRemaining": 3,
+    "extraRemaining": 30,
+    "resetAt": "2026-11-06T17:00:00.000Z"
+  }
+}

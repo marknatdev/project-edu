@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import {
   fetchEvaluation,
-  fetchPivot,
+
   generateOfflineEvaluation,
   generateOfflinePivotCoaching,
 } from '@/lib/evaluation/eval-client';
+import { openPivot } from '@/lib/pivot/pivot-client';
 import type { Idea } from '@/types/domain';
 
 describe('Evaluation & Pivot Client (ADR 0001 & ADR 0002)', () => {
@@ -36,10 +37,10 @@ describe('Evaluation & Pivot Client (ADR 0001 & ADR 0002)', () => {
 
   it('generates deterministic offline pivot coaching for red axes', () => {
     const coaching = generateOfflinePivotCoaching('feasibility', 3);
-    expect(coaching.tier).toBe(3);
+    expect(coaching.tier).toBe(2);
     expect(coaching.tier1Prompt).toContain('เมื่อพิจารณาด้านความเป็นไปได้');
     expect(coaching.tier2Lenses?.length).toBeGreaterThanOrEqual(1);
-    expect(coaching.tier3Examples?.length).toBeGreaterThanOrEqual(2);
+    expect(coaching.tier3Examples).toBeUndefined();
   });
 
   it('fetchEvaluation returns evaluation data on 200 OK', async () => {
@@ -56,7 +57,6 @@ describe('Evaluation & Pivot Client (ADR 0001 & ADR 0002)', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await fetchEvaluation({
-      anonymousId: 'anon-1',
       idea: sampleIdea,
     });
 
@@ -77,7 +77,6 @@ describe('Evaluation & Pivot Client (ADR 0001 & ADR 0002)', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await fetchEvaluation({
-      anonymousId: 'anon-1',
       idea: sampleIdea,
     });
 
@@ -92,7 +91,6 @@ describe('Evaluation & Pivot Client (ADR 0001 & ADR 0002)', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await fetchEvaluation({
-      anonymousId: 'anon-1',
       idea: sampleIdea,
     });
 
@@ -101,20 +99,19 @@ describe('Evaluation & Pivot Client (ADR 0001 & ADR 0002)', () => {
     expect(result.evaluation?.ideaId).toBe(sampleIdea.id);
   });
 
-  it('fetchPivot falls back gracefully on network failure or 429', async () => {
+  it.each([401, 403, 409, 410])('does not turn identity/workspace refusal %s into a saved fallback success', async status => {
+    vi.stubGlobal('fetch', vi.fn(async () => Response.json({ error: 'WORKSPACE_CHANGED' }, { status })));
+    const result = await fetchEvaluation({ idea: sampleIdea });
+    expect(result.success).toBe(false);
+    expect(result.evaluation).toBeUndefined();
+  });
+
+  it('openPivot reports offline without inventing server progression', async () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error('Failed to fetch'));
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await fetchPivot({
-      anonymousId: 'anon-1',
-      idea: sampleIdea,
-      redAxes: ['novelty'],
-      tier: 2,
-    });
-
-    expect(result.success).toBe(true);
-    expect(result.source).toBe('fallback');
-    expect(result.coaching?.tier).toBe(2);
-    expect(result.coaching?.tier2Lenses?.length).toBeGreaterThan(0);
+    const result = await openPivot({ idea: sampleIdea, axis: 'novelty' });
+    expect(result).toMatchObject({ ok: false, kind: 'offline' });
+    expect(result.pivot).toBeUndefined();
   });
 });

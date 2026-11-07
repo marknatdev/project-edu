@@ -1,0 +1,251 @@
+{
+  "name": "Guest export after verified sign-in downloads real DOCX with the preserved Guest draft",
+  "detail": null,
+  "text": "เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)\nติดตั้งแอป\nปิด\n\nกำลังทำงาน Guest เดิม — ไม่ย้ายเข้าบัญชี\n\nสลับไปพื้นที่บัญชีแยก\nกลับไปหน้าประเมิน / ไอเดีย\nม.ต้น & ม.ปลาย • Guest Mode\nProposal, พอร์ต & ครูอนุมัติ\n\nจัดเอกสารจากคำตอบจริงของผู้เรียน: Proposal + Plan • พอร์ต TCAS • Abstract & Pitch • ส่งครูตรวจ\n\nข้อเสนอ & แผน\nงบ & อุปกรณ์\nปฏิทินแข่ง\nซ้อมกรรมการ\nโครงงานปัจจุบัน\nตัวกรองน้ำตู้ปลาจากกะลามะพร้าว\nสลับโครงงาน (1)\n📑 Proposal\n🗓️ Plan รายสัปดาห์\n🎓 พอร์ต TCAS\n🎙️ Abstract & Pitch\n✍️ ครูตรวจ\nข้อเสนอโครงงานฉบับร่วมสร้าง (Co-created 1-Page Proposal): เนื้อหาทุกส่วนรวบรวมจากคำตอบและความคิดของคุณเอง 100% โดยไม่มีข้อความแต่งเติมจาก AI (ตามหลักการ ADR 0002) และคุณสามารถแก้ไขปรับปรุงได้อย่างอิสระ\nโควตาสร้างข้อเสนอวันนี้:\nเหลือ 1 / 2 ครั้ง\n(การบันทึกแก้ไขด้วยตนเองทำได้ไม่จำกัดและไม่เสียโควตา)\nชื่อโครงงาน (PROJECT TITLE)\n1\nที่มาและความสำคัญของโครงงาน\n139 ตัวอักษร\n2\nวัตถุประสงค์ (Objectives)\nเพิ่มข้อ\n\nยังไม่มีข้อความวัตถุประสงค์ กดปุ่ม \"เพิ่มข้อ\" เพื่อระบุ\n\n3\nสมมติฐานการทดลอง/การศึกษา (Hypothesis)\n4\nตัวแปรในการทดลอง/การพัฒนา (Variables)\n🌱 ตัวแปรต้น (Independent Variables)\nเพิ่ม\n\nยังไม่มีตัวแปรต้น\n\n📈 ตัวแปรตาม (Dependent Variables)\nเพิ่ม\n\nยังไม่มีตัวแปรตาม\n\n🔒 ตัวแปรควบคุม (Controlled Variables)\nเพิ่ม\n\nยังไม่มีตัวแปรควบคุม\n\n5\nวิธีดำเนินการ / ขั้นตอนการทดลอง (Methodology)\n0 ตัวอักษร\nสร้างใหม่จากคำตอบสัมภาษณ์\nบันทึกการแก้ไข\nบัญชี Google (ไม่บังคับ)\n\nบันทึกและส่งออกใน Guest ได้โดยไม่เข้าสู่ระบบ งานยังอยู่ในเครื่อง และยังไม่ซิงค์โครงงานข้ามอุปกรณ์\n\nออกจากระบบ Google\nส่งออก Proposal + Plan\n\nส่งออกฉบับที่บันทึกแล้วเท่านั้น — กด “บันทึกการแก้ไข” ในแต่ละแท็บก่อนส่งออก ใช้ได้ใน Guest Mode โดยไม่เสียโควตา AI\n\nบัญชี Google (ไม่บังคับ)\n\nบันทึกและส่งออกใน Guest ได้โดยไม่เข้าสู่ระบบ งานยังอยู่ในเครื่อง และยังไม่ซิงค์โครงงานข้ามอุปกรณ์\n\nออกจากระบบ Google\nแนบพอร์ต TCAS + Abstract ≤250 คำ + โครงร่าง Pitch 3 นาที\nPDF / พิมพ์\nWord (.docx)\nGoogle Docs\nลิงก์อ่านอย่างเดียว\nฉันตรวจแล้วว่าเอกสารไม่มีชื่อจริง โรงเรียน หรือข้อมูลส่วนตัว ทุกคนที่มีลิงก์อ่านและส่งต่อได้ ลิงก์เป็นสำเนา ณ ตอนนี้ ไม่อัปเดตตามการแก้ไข และเรียกคืนไม่ได้ ข้อมูลอยู่ในส่วน # ของ URL ไม่ส่งให้เซิร์ฟเวอร์\n\nส่งไฟล์ Word ให้เบราว์เซอร์ดาวน์โหลดแล้ว",
+  "session": {
+    "version": 1,
+    "stage": "deck",
+    "answers": [
+      {
+        "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+        "answer": "สิ่งแวดล้อมรอบตัว"
+      },
+      {
+        "question": "จากเรื่อง “สิ่งแวดล้อมรอบตัว” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?",
+        "answer": "อยากลดขยะ"
+      }
+    ],
+    "answerDraft": "",
+    "summary": "สิ่งแวดล้อมรอบตัว · อยากลดขยะ",
+    "refinement": "",
+    "cards": [
+      {
+        "id": "fresh_7ea04c5e-efd3-4153-9d2e-e6e30b935f68",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ตัวกรองน้ำตู้ปลาจากกะลามะพร้าว",
+        "phenomenon": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+          "roughDirection": "เทียบความใสของน้ำเมื่อใช้วัสดุกรองราคาถูกสามแบบ ถ่ายภาพด้วยมือถือทุกวัน",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "fe7d409d-b108-4bc2-866d-c2228d9b49b1",
+          "generatedAt": "2026-11-06T14:37:56.670Z"
+        }
+      },
+      {
+        "id": "fresh_cfd33225-9fcd-48ce-978b-8ace2e648c4b",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "แสงไฟกับตะไคร่ในตู้ปลา",
+        "phenomenon": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+          "roughDirection": "เปลี่ยนชั่วโมงเปิดไฟแล้ววัดพื้นที่ตะไคร่จากภาพถ่าย",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "fe7d409d-b108-4bc2-866d-c2228d9b49b1",
+          "generatedAt": "2026-11-06T14:37:56.670Z"
+        }
+      },
+      {
+        "id": "fresh_1bc4f59e-8ebc-4093-8976-720fa56fb576",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "พืชน้ำช่วยให้น้ำใสได้แค่ไหน",
+        "phenomenon": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+          "roughDirection": "เทียบตู้จำลองที่มีและไม่มีพืชน้ำ วัดความขุ่นด้วยแผ่นสีขาว",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "fe7d409d-b108-4bc2-866d-c2228d9b49b1",
+          "generatedAt": "2026-11-06T14:37:56.670Z"
+        }
+      },
+      {
+        "id": "fresh_25b0bf59-da3a-4e4b-8579-3e3648c43783",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ปริมาณอาหารปลากับความขุ่นของน้ำ",
+        "phenomenon": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+          "roughDirection": "แบ่งปริมาณอาหารเป็นสามระดับในภาชนะจำลองแล้วบันทึกความขุ่น",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "fe7d409d-b108-4bc2-866d-c2228d9b49b1",
+          "generatedAt": "2026-11-06T14:37:56.670Z"
+        }
+      },
+      {
+        "id": "fresh_7a573fc1-9fd3-4120-b29b-abe9711d0ce1",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "สมุดบันทึกตู้ปลาบนสเปรดชีต",
+        "phenomenon": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+          "roughDirection": "ออกแบบตารางบันทึกแล้วทดลองใช้สองสัปดาห์ เทียบจำนวนครั้งที่ลืม",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "fe7d409d-b108-4bc2-866d-c2228d9b49b1",
+          "generatedAt": "2026-11-06T14:37:56.670Z"
+        }
+      }
+    ],
+    "batch": [
+      "fresh_7ea04c5e-efd3-4153-9d2e-e6e30b935f68",
+      "fresh_cfd33225-9fcd-48ce-978b-8ace2e648c4b",
+      "fresh_1bc4f59e-8ebc-4093-8976-720fa56fb576",
+      "fresh_25b0bf59-da3a-4e4b-8579-3e3648c43783",
+      "fresh_7a573fc1-9fd3-4120-b29b-abe9711d0ce1"
+    ],
+    "cursor": 0,
+    "reactions": [],
+    "shortlist": [],
+    "compare": [],
+    "selectedId": "fresh_7ea04c5e-efd3-4153-9d2e-e6e30b935f68",
+    "pending": null,
+    "quota": {
+      "day": "2026-11-06",
+      "used": 5,
+      "reserved": 0,
+      "remaining": 30,
+      "freeRemaining": 0,
+      "extraRemaining": 30,
+      "resetAt": "2026-11-06T17:00:00Z"
+    },
+    "notice": {
+      "kind": "success",
+      "messageTh": "AI สร้างการ์ดใหม่ 5 ใบจากคำตอบของคุณ",
+      "accepted": 5,
+      "requested": 5,
+      "retry": null
+    }
+  },
+  "requests": []
+}

@@ -1,0 +1,122 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/unit/pivot-flow-reducer.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/unit/eval-client.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully when fetch rejects (network error)
+[22m[39m[AiGateway] network
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on non-2xx status code
+[22m[39m[AiGateway] upstream_http (HTTP 500)
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on malformed JSON or Zod validation failure
+[22m[39m[AiGateway] malformed_json
+
+ [31m❯[39m tests/integration/production-fail-closed.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 50[2mms[22m[39m
+   [32m✓[39m production/serverless missing authority fails closed[2m > [22mnever opens SQLite when cloud configuration is missing[32m 23[2mms[22m[39m
+[31m   [31m×[31m production/serverless missing authority fails closed[2m > [22mkeeps legacy cards gated and repaired owner-bound endpoints fail closed without cloud credentials[39m[32m 25[2mms[22m[39m
+[31m     → expected 403 to be 503 // Object.is equality[39m
+ [32m✓[39m tests/unit/proposal-quota.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 394[2mms[22m[39m
+ [32m✓[39m tests/unit/variable-isolator.test.ts [2m([22m[2m26 tests[22m[2m)[22m[33m 397[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-and-ai.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 633[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-api.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1635[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-pivot.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 1479[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-03 Pivot never consumes evaluation or proposal allowances[2m > [22mfull progression on several axes leaves 2 proposals and 5 evaluations; exhausted proposals do not block Pivot [33m 416[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-03 Pivot never consumes evaluation or proposal allowances[2m > [22mhas its own per-owner rate control that never touches the proposal allowance [33m 428[2mms[22m[39m
+ [32m✓[39m tests/unit/docx-export.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 576[2mms[22m[39m
+ [32m✓[39m tests/integration/fresh-cards-service.test.ts [2m([22m[2m22 tests[22m[2m)[22m[33m 3903[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mconcurrent different intents can never spend more than 35 accepted cards per day [33m 411[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — daily allowance (MOCKED upstream)[2m > [22mswitching topic / restarting the interview does not renew the free allowance; 35 is the daily ceiling [33m 426[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — daily allowance (MOCKED upstream)[2m > [22mrequests only the remaining allowance when fewer than 5 remain [33m 400[2mms[22m[39m
+   [33m[2m✓[22m[39m generateFreshCards (S3) — daily allowance (MOCKED upstream)[2m > [22mrolls over at Bangkok midnight (17:00 UTC), not UTC midnight, and replays old intents [33m 647[2mms[22m[39m
+ [32m✓[39m tests/integration/fresh-cards-route.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 790[2mms[22m[39m
+ [32m✓[39m tests/unit/advisor-signoff.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 211[2mms[22m[39m
+ [32m✓[39m tests/integration/discovery-coaching-handoff.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 287[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-evaluate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 643[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-proposal.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 176[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-local.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 182[2mms[22m[39m
+ [32m✓[39m tests/integration/auth-pkce.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 247[2mms[22m[39m
+ [32m✓[39m tests/unit/share-link.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 127[2mms[22m[39m
+ [32m✓[39m tests/unit/presentation-templates.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 211[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-shortlist.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 85[2mms[22m[39m
+ [32m✓[39m tests/unit/prior-work.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 83[2mms[22m[39m
+ [32m✓[39m tests/unit/competition-calendar.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+ [32m✓[39m tests/unit/fresh-cards-gateway.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 100[2mms[22m[39m
+ [32m✓[39m tests/integration/principal.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 76[2mms[22m[39m
+ [32m✓[39m tests/integration/auth-refresh.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 68[2mms[22m[39m
+ [32m✓[39m tests/unit/bom.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 70[2mms[22m[39m
+ [32m✓[39m tests/unit/rubrics-engine.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 53[2mms[22m[39m
+ [32m✓[39m tests/unit/topic-catalog.test.ts [2m([22m[2m19 tests[22m[2m)[22m[33m 382[2mms[22m[39m
+ [32m✓[39m tests/unit/legacy-cards-route.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-screener.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m tests/unit/multi-project-store.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m tests/unit/repairs-clients.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+ [32m✓[39m tests/unit/store.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-fresh-session.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-fresh-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-chat-reducer.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/supabase-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32m✓[39m tests/unit/domain-schemas.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32m✓[39m tests/unit/interview-logic.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-checklist.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-privacy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/smoke.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/unit/mock-judge.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/unit/weekly-plan.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/proposal-assemble.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/evaluation-view-model.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/optional-login.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 83[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-ai-cards.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/foundation-transport.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/fresh-cards-dedupe.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-authority.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-interest-interview.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-deck.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-local.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/unit/foundation-backend.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-cloud.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 26450[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mgates Tier 3 on server history and resumes the exact conversation after a real Postgres restart [33m 2576[2mms[22m[39m
+ [32m✓[39m tests/integration/repairs-postgres.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 27275[2mms[22m[39m
+   [33m[2m✓[22m[39m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mconcurrent independent Guests and accounts each get exactly 5 evaluations; no shared or caller-chosen pool [33m 1106[2mms[22m[39m
+   [33m[2m✓[22m[39m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mPivot progression is owner-bound, CAS-serialized, restart-durable and never writes evaluate/proposal usage [33m 2279[2mms[22m[39m
+ [32m✓[39m tests/integration/fresh-cards-postgres.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 28863[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mpersists starter snapshots (jsonb round-trip) and replays them after a real database restart [33m 2600[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mproduction route: signed guest + supabase-js transport (REST hop simulated) + real Postgres; restart-safe replay [33m 2273[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mconcurrent distinct intents never exceed 35 accepted cards; failures are not charged [33m 390[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-postgres.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 30041[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22muses signed guest ownership and Postgres for the real coaching route in production (REST transport simulated) [33m 439[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22menforces the shared auth admission ceiling across independently bound owners [33m 771[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mrecovers expired pending work after restart, fences its old lease, and preserves completed idempotency [33m 3300[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mretains records, receipts and quota after the actual Postgres process restarts [33m 1125[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/production-fail-closed.test.ts[2m > [22mproduction/serverless missing authority fails closed[2m > [22mkeeps legacy cards gated and repaired owner-bound endpoints fail closed without cloud credentials
+[31m[1mAssertionError[22m: expected 403 to be 503 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 503[39m
+[31m+ 403[39m
+
+[36m [2m❯[22m tests/integration/production-fail-closed.test.ts:[2m26:31[22m[39m
+    [90m 24| [39m    for (const [handler, body] of [[evaluate, { idea: ideaFixture() }]…
+    [90m 25| [39m      const response = await handler(new Request('https://app.test/api…
+    [90m 26| [39m      [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m503[39m)[33m;[39m
+    [90m   | [39m                              [31m^[39m
+    [90m 27| [39m      expect(await response.json()).toMatchObject({ error: 'PERSISTENC…
+    [90m 28| [39m    }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m60 passed[39m[22m[90m (61)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m486 passed[39m[22m[90m (487)[39m
+[2m   Start at [22m 14:53:27
+[2m   Duration [22m 32.54s[2m (transform 5.77s, setup 0ms, collect 29.58s, tests 126.45s, environment 25ms, prepare 14.86s)[22m
+

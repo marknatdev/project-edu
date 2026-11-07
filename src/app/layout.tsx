@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Prompt, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { PwaInstall } from '@/components/pwa/PwaInstall';
+import { WorkspaceBoundary } from '@/components/auth/WorkspaceBoundary';
 
 const prompt = Prompt({
   weight: ["300", "400", "500", "600", "700"],
@@ -35,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th" className={`${prompt.variable} ${plusJakartaSans.variable}`}>
-      <body className="font-sans antialiased"><PwaInstall />{children}</body>
+      <body className="font-sans antialiased"><PwaInstall /><WorkspaceBoundary>{children}</WorkspaceBoundary></body>
     </html>
   );
 }

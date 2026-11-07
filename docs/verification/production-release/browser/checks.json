@@ -1,0 +1,78 @@
+[
+  {
+    "name": "360 Save/Export offer visible",
+    "passed": true
+  },
+  {
+    "name": "360 no horizontal overflow",
+    "passed": true
+  },
+  {
+    "name": "360 opt-in identity/Drive disclosure",
+    "passed": true
+  },
+  {
+    "name": "360 primary login label visible",
+    "passed": true
+  },
+  {
+    "name": "360 cancel retains local work",
+    "passed": true
+  },
+  {
+    "name": "360 Guest save succeeds without login",
+    "passed": true
+  },
+  {
+    "name": "360 unconfigured login truthful and no data loss",
+    "passed": true
+  },
+  {
+    "name": "360 no JS exceptions",
+    "passed": true
+  },
+  {
+    "name": "1280 Save/Export offer visible",
+    "passed": true
+  },
+  {
+    "name": "1280 no horizontal overflow",
+    "passed": true
+  },
+  {
+    "name": "1280 opt-in identity/Drive disclosure",
+    "passed": true
+  },
+  {
+    "name": "1280 primary login label visible",
+    "passed": true
+  },
+  {
+    "name": "1280 cancel retains local work",
+    "passed": true
+  },
+  {
+    "name": "1280 Guest save succeeds without login",
+    "passed": true
+  },
+  {
+    "name": "1280 unconfigured login truthful and no data loss",
+    "passed": true
+  },
+  {
+    "name": "1280 no JS exceptions",
+    "passed": true
+  },
+  {
+    "name": "cancel remains same-origin and sanitized",
+    "passed": true
+  },
+  {
+    "name": "real HTTP security headers",
+    "passed": true
+  },
+  {
+    "name": "auth HTTP no-cache and no-referrer",
+    "passed": true
+  }
+]

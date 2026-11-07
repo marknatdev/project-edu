@@ -1,0 +1,3 @@
+PASS wipe cancels queued Web Lock intent before it can mint a new Guest owner
+PASS queued intent cannot restore erased local work
+{'case': 'wipe-queued', 'browser': 'Chrome/156.0.8078.81', 'passed': 2, 'total': 2, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

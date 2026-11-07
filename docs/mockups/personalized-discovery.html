@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Project-Edu · ค้นหาเรื่องที่อยากทำ — UI จำลอง</title>
+<style>
+:root {
+  --bg-gradient: linear-gradient(135deg, #EEF2FF 0%, #FDF2F8 50%, #ECFDF5 100%);
+  --glass-surface: rgba(255,255,255,.85); --glass-strong: rgba(255,255,255,.95);
+  --glass-border: rgba(99,102,241,.18); --text-main: #0F172A; --text-sub: #475569;
+  --brand-indigo: #6366F1; --brand-indigo-dark: #4F46E5; --brand-pink: #EC4899;
+  --brand-mint: #10B981; --brand-amber: #F59E0B;
+  --neo-shadow: 0 10px 25px -5px rgba(99,102,241,.14), 0 4px 10px -2px rgba(236,72,153,.08);
+  --pop-shadow: 0 4px 0 #3730A3; --radius-xl: 1.5rem; --radius-lg: 1rem;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; color: var(--text-main); background: var(--bg-gradient); background-attachment: fixed; font-family: 'Prompt', 'Leelawadee UI', Tahoma, sans-serif; line-height: 1.65; }
+button, input, textarea, select { font: inherit; }
+button, summary, input, select { min-height: 44px; }
+button { min-width: 44px; padding: .55rem .85rem; border: 1.5px solid #CBD5E1; border-radius: .85rem; color: var(--text-main); background: #fff; cursor: pointer; font-weight: 600; line-height: 1.5; }
+button:hover:not(:disabled) { border-color: var(--brand-indigo); background: #EEF2FF; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.primary { color: #fff; background: var(--brand-indigo-dark); border-color: var(--brand-indigo-dark); box-shadow: var(--pop-shadow); }
+.primary:hover:not(:disabled) { color: #fff; background: #4338CA; }
+.pink { color: #9D174D; background: #FDF2F8; border-color: #F9A8D4; }
+.mint { color: #065F46; background: #ECFDF5; border-color: #6EE7B7; }
+:focus-visible { outline: 3px solid #4338CA; outline-offset: 4px; }
+#stageTitle:focus { outline: none; }
+input, textarea, select { width: 100%; border: 1.5px solid #94A3B8; border-radius: .75rem; background: #fff; padding: .65rem; color: var(--text-main); font-size: 1rem; }
+textarea { resize: vertical; min-height: 110px; }
+label { display: block; font-weight: 600; margin: .75rem 0 .35rem; }
+select { white-space: normal; }
+summary { cursor: pointer; display: list-item; padding: .5rem 0; font-weight: 600; }
+h1, h2, h3, p { margin: 0 0 .75rem; }
+h1 { font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1.45; letter-spacing: -.025em; }
+h2 { font-size: 1.2rem; } h3 { font-size: 1.05rem; }
+small, .small { font-size: .82rem; } .muted { color: var(--text-sub); }
+[hidden] { display: none !important; }
+.disclosure { position: sticky; top: 0; z-index: 30; background: #0F172A; color: #fff; padding: .65rem 1rem; text-align: center; font-size: .85rem; box-shadow: 0 3px 12px #0F172A26; }
+.disclosure strong { color: #FDE68A; }
+.skip-link { position: fixed; left: .5rem; top: -100px; z-index: 50; padding: .75rem; background: #fff; }
+.skip-link:focus { top: .5rem; }
+.shell { max-width: 1200px; padding: 1.25rem; margin: auto; }
+.brand-row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.logo { display: grid; place-items: center; width: 44px; height: 44px; background: linear-gradient(135deg,var(--brand-indigo),var(--brand-pink)); border-radius: 13px; color: white; font-weight: 800; font-size: 1.4rem; box-shadow: var(--neo-shadow); }
+.brand-name { font-weight: 800; font-size: 1.05rem; } .brand-row p { margin: 0; }
+#saveStatus { margin-left: auto; color: #065F46; font-size: .8rem; }
+.layout { display: grid; grid-template-columns: 275px minmax(0,1fr); gap: 1.25rem; align-items: start; }
+.panel { background: var(--glass-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: 1.25rem; box-shadow: var(--neo-shadow); min-width: 0; }
+.sidebar { display: grid; gap: 1rem; }
+.nav { display: grid; gap: .5rem; margin-bottom: 1rem; }
+.nav button { text-align: left; background: transparent; border-color: transparent; }
+.nav button[aria-current="step"] { background: #EEF2FF; border-color: #A5B4FC; color: #3730A3; }
+.nav button span { display: inline-grid; place-items: center; border-radius: 9px; background: #fff; width: 28px; height: 28px; margin-right: .3rem; font-weight: 800; }
+.chips, .actions { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.actions { margin: 1rem 0 .25rem; }
+.chip { display: inline-block; padding: .25rem .6rem; border-radius: 999px; background: #EEF2FF; color: #3730A3; font-size: .8rem; }
+.chip.mint { background: #ECFDF5; color: #065F46; }
+.eyebrow { color: #4338CA; font-size: .76rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; margin-bottom: .4rem; }
+.divider { border-top: 1px dashed #CBD5E1; padding-top: .85rem; margin-top: .85rem; }
+.quota { padding: .85rem; border-radius: 1rem; background: #0F172A; color: #fff; }
+.quota p { margin: .25rem 0; } .quota strong { color: #6EE7B7; }
+#quotaDate { color: #CBD5E1; }
+.notice { background: #FFFBEB; border: 1px solid #FCD34D; border-radius: .85rem; padding: .8rem; font-size: .84rem; margin: .85rem 0; color: #78350F; }
+.error { background: #FFF1F2; border-color: #FDA4AF; color: #9F1239; }
+.success { background: #ECFDF5; border-color: #6EE7B7; color: #065F46; }
+.chat { display: grid; gap: .85rem; margin: 1rem 0; }
+.bubble { padding: .85rem 1rem; border: 1px solid #CBD5E1; border-radius: 1rem 1rem 1rem .25rem; background: #fff; }
+.bubble.user { margin-left: 1.5rem; background: #EEF2FF; border-color: #C7D2FE; border-radius: 1rem 1rem .25rem 1rem; }
+.bubble p { margin: .25rem 0 0; white-space: pre-wrap; }
+.question { border-left: 4px solid var(--brand-indigo); padding-left: .85rem; }
+.choices { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .85rem; }
+.choices button { font-size: .85rem; font-weight: 500; }
+.progress { height: 5px; border-radius: 5px; background: #E2E8F0; margin: 1rem 0; }
+.progress i { display: block; height: 100%; background: linear-gradient(90deg,var(--brand-indigo),var(--brand-pink)); border-radius: inherit; }
+.deck-viewport { padding: 8px; margin: -8px; overflow: clip; }
+.topic-card { position: relative; background: #fff; border: 2px solid #1E293B; border-radius: var(--radius-xl); box-shadow: 5px 5px 0 #1E293B; padding: 1.15rem; margin: 1rem 5px 1.5rem 0; touch-action: pan-y; overflow-wrap: anywhere; }
+.topic-card h2 { font-size: 1.35rem; margin-top: .8rem; line-height: 1.5; }
+.visual { border-radius: 1rem; background: linear-gradient(125deg,#EEF2FF,#FDF2F8,#ECFDF5); display: grid; place-items: center; min-height: 100px; font-size: 2.75rem; user-select: none; cursor: grab; touch-action: none; }
+.visual span { font-size: .72rem; color: #475569; font-weight: 600; }
+.visual:active { cursor: grabbing; }
+.source { font-size: .75rem; color: #6B21A8; background: #FAF5FF; border-radius: .5rem; padding: .3rem .5rem; margin: .75rem 0; }
+.card-label { font-weight: 700; font-size: .8rem; color: #4338CA; margin: .85rem 0 .15rem; }
+.swipe-actions { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .5rem; }
+.swipe-actions button { padding: .65rem .2rem; font-size: .85rem; }
+.feedback { color: #4338CA; font-size: .8rem; margin: .65rem 0; }
+.list { display: grid; gap: .85rem; padding: 0; list-style: none; }
+.mini-card { background: #fff; border: 1.5px solid #CBD5E1; border-radius: 1rem; padding: 1rem; min-width: 0; overflow-wrap: anywhere; }
+.mini-card.selected { border: 2px solid var(--brand-indigo-dark); }
+.compare-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .85rem; }
+.compare-grid .mini-card { border-top: 5px solid var(--brand-indigo); }
+.compare-grid .mini-card:nth-child(2) { border-top-color: var(--brand-pink); }
+.compare-grid p { font-size: .9rem; }
+.mini-card button[aria-pressed="true"] { background: #EEF2FF; border-color: #6366F1; color: #3730A3; }
+.spinner { width: 52px; height: 52px; margin: 2rem auto; border: 5px solid #E0E7FF; border-top-color: var(--brand-indigo-dark); border-right-color: var(--brand-pink); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading { text-align: center; padding: 1.5rem 0; }
+#announcement { min-height: 1.6em; font-size: .85rem; color: #4338CA; margin: 1rem 0 0; }
+footer { color: #475569; font-size: .75rem; padding: 1rem 0; }
+main { scroll-margin-top: 100px; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+@media (max-width: 800px) {
+  .shell { padding: .85rem; } .layout { grid-template-columns: minmax(0,1fr); gap: .85rem; }
+  .sidebar { gap: .75rem; } .sidebar.panel { padding: .85rem; }
+  .nav { grid-template-columns: repeat(3,minmax(0,1fr)); margin: 0; gap: .3rem; }
+  .nav button { text-align: center; padding: .4rem .15rem; font-size: .75rem; }
+  .nav button span { display: grid; margin: 0 auto .2rem; }
+  .brand-row { margin-bottom: .85rem; } .profile-details { margin-top: 0; }
+  .sidebar .quota { display: grid; grid-template-columns: 1fr 1fr; gap: .2rem .5rem; }
+  .quota > .small { grid-column: 1 / -1; } .quota p { font-size: .85rem; }
+  .panel { padding: 1rem; } .brand-row #saveStatus { width: 100%; margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .shell { padding: .65rem; } .panel { padding: .85rem; }
+  .disclosure { padding: .5rem .65rem; font-size: .77rem; }
+  .compare-grid { grid-template-columns: minmax(0,1fr); } .topic-card { padding: .85rem; }
+  .actions > .primary { width: 100%; } .topic-card h2 { font-size: 1.2rem; }
+}
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+@media print { .disclosure { position: static; } .sidebar, footer { display: none; } .layout { display: block; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">ข้ามไปเนื้อหาหลัก</a>
+<div id="disclosure" class="disclosure"><strong>ข้อมูลจำลองเพื่อทดลอง UI — ไม่ได้เรียก AI จริง</strong><br>การ์ดจากชุดตัวอย่างคงที่ · โควตาจำลอง · ไม่ใช่โครงงานสำเร็จรูป</div>
+<div class="shell">
+  <header class="brand-row"><div class="logo" aria-hidden="true">P</div><div><div class="brand-name">Project-Edu</div><p class="small muted">พื้นที่เล็ก ๆ ของไอเดียที่เป็นของเธอ</p></div><span id="saveStatus" role="status">บันทึกในเบราว์เซอร์นี้</span></header>
+  <div id="storageWarning" class="notice error" role="alert" hidden></div>
+  <div class="layout">
+    <aside class="panel sidebar" aria-label="เส้นทางและบริบทผู้เรียนจำลอง">
+      <nav class="nav" aria-label="ขั้นตอนค้นหา"><button id="navChat" data-action="chat"><span>1</span>คุยความสนใจ</button><button id="navDeck" data-action="deck"><span>2</span>สำรวจการ์ด</button><button id="navShortlist" data-action="shortlist"><span>3</span>คัดเลือก</button></nav>
+      <div class="chips"><span class="chip">งบตัวอย่าง 1,000 บาท</span><span class="chip mint">เวลา 6 สัปดาห์</span></div>
+      <details class="profile-details"><summary>ข้อจำกัดที่ทราบแล้ว · ตัวอย่าง</summary><p class="small muted">ม.ปลาย · ส่งงานในชั้นเรียน<br>ทีม 2 คน · ถนัดตารางคำนวณและเขียนโค้ดพื้นฐาน<br>มีมือถือ คอมพิวเตอร์ ไม้บรรทัด และเครื่องชั่ง<br>นำบริบทนี้มาใช้ต่อ ไม่ถามข้อมูลซ้ำ</p></details>
+      <section class="quota" aria-label="โควตาจำลองรายวัน"><p>ฟรีเหลือ <strong id="freeQuota">5</strong>/5 ใบ</p><p>เพิ่มเหลือ <strong id="extraQuota">30</strong>/30 ใบ</p><div class="small" id="quotaDate"></div><div class="small">นับเฉพาะตัวอย่างที่รับสำเร็จ · ไม่ใช่ระบบคิดเงินจริง</div></section>
+      <details id="demoTools"><summary>เครื่องมือทดสอบ UI จำลอง</summary><label for="scenario">ผลลัพธ์รอบถัดไป (จำลอง)</label><select id="scenario"><option value="success">สำเร็จ 5 ใบ</option><option value="unavailable">AI ไม่พร้อมใช้งาน</option><option value="timeout">หมดเวลารอ</option><option value="malformed">ข้อมูลใช้ไม่ได้</option><option value="partial">ผ่านเพียง 3 ใบ</option><option value="duplicates">ซ้ำทั้งหมด (หลังมีการ์ด)</option></select><div class="actions"><button data-action="nextDay" id="nextDay">จำลองวันถัดไป</button></div><p class="small muted" id="clockNote">ใช้วันปฏิทินกรุงเทพฯ</p><button data-action="restart" id="restart">เริ่มคุยใหม่ · ไม่คืนโควตา</button><p class="small muted divider">ข้อมูลอยู่ในเครื่องเท่านั้น ไม่ส่งไปเซิร์ฟเวอร์ ไม่เชื่อมกับข้อมูลในแอปจริง กรุณาไม่พิมพ์ชื่อจริงหรือชื่อโรงเรียน</p></details>
+    </aside>
+    <main id="main" class="panel" tabindex="-1"><div id="stage"></div><p id="announcement" role="status" aria-live="polite" aria-atomic="true"></p></main>
+  </div>
+  <footer>Theme A+B · ใช้สี indigo / pink / mint และการ์ดขอบเข้มจาก mockup เดิม · ไม่มีการเรียก AI หรือประเมินงานวิจัยจริง</footer>
+</div>
+<script>
+'use strict';
+// All entries are hand-authored fixed UI fixtures, never fresh AI output.
+// No app APIs, no application storage keys, no external fonts or libraries.
+const DATA_KEY = 'project-edu-personalized-discovery-demo-v1';
+const LEDGER_KEY = 'project-edu-personalized-discovery-demo-quota-v1';
+const FIXTURES = [
+  ['shade','🌤️','ร่มเงาช่วยลดความร้อนบนพื้นได้แค่ไหน','พื้นกลางแจ้งร้อนต่างกันในแต่ละจุด','เปรียบเทียบอุณหภูมิพื้นผิวใต้ร่มเงากับจุดกลางแดดในเวลาเดียวกัน','สิ่งแวดล้อม พลังงาน',300,3,'หลีกเลี่ยงแดดจัดและพื้นร้อน ให้ครูช่วยเลือกพื้นที่'],
+  ['water','💧','น้ำล้างผักนำมารดต้นไม้ได้หรือไม่','มีน้ำเหลือจากการล้างผักที่ถูกเททิ้ง','เปรียบเทียบการเติบโตของพืชชนิดเดียวกันเมื่อรดด้วยน้ำสะอาดกับน้ำล้างผัก','สิ่งแวดล้อม พืช น้ำ',250,5,'ไม่ใช้น้ำปนผงซักฟอก ไม่ชิมหรือเพาะเชื้อ'],
+  ['sort','♻️','ป้ายแบบไหนช่วยแยกขยะได้ชัดขึ้น','สัญลักษณ์บนถังอาจอ่านเข้าใจไม่ตรงกัน','ออกแบบป้ายสองแบบแล้ววัดความถูกต้องจากการจัดหมวดภาพขยะจำลอง','สิ่งแวดล้อม ออกแบบ ข้อมูล',100,3,'หากทดสอบกับคน ต้องปรึกษาครูเรื่องความยินยอมและข้อมูลส่วนบุคคล'],
+  ['light','🌱','แสงแต่ละจุดกับการโตของต้นอ่อน','พื้นที่ปลูกในบ้านได้รับแสงไม่เท่ากัน','ปลูกต้นอ่อนชนิดเดียวกันในตำแหน่งแสงต่างกันแล้วบันทึกความสูง','พืช แสง สิ่งแวดล้อม',200,4,'ไม่กินต้นอ่อนจากการทดลอง ระวังความชื้นสะสม'],
+  ['reminder','💻','ตัวเตือนงานแบบไหนช่วยมองเห็นสิ่งที่ค้าง','งานย่อยหลายชิ้นทำให้ลืมขั้นตอน','สร้างหน้าจอต้นแบบสองแบบแล้วเปรียบเทียบจำนวนขั้นตอนในการหางานค้างจากข้อมูลจำลอง','คอมพิวเตอร์ ออกแบบ ข้อมูล',0,3,'ใช้ข้อมูลสมมติ หากทดสอบกับคนต้องปรึกษาครู'],
+  ['soil','🪴','วัสดุคลุมดินแบบไหนรักษาความชื้น','กระถางแห้งเร็วทำให้รดน้ำบ่อย','เปรียบเทียบมวลน้ำที่หายไปจากกระถางที่คลุมดินต่างกัน','พืช น้ำ สิ่งแวดล้อม',300,4,'ใช้วัสดุสะอาด ไม่ใช้สารเคมีอันตราย'],
+  ['route','🗺️','เส้นทางเก็บของที่เดินน้อยลง','การแวะหลายจุดอาจทำให้เดินย้อน','เปรียบเทียบวิธีเรียงลำดับจุดบนแผนผังจำลองด้วยระยะทางรวม','คณิตศาสตร์ คอมพิวเตอร์ ข้อมูล',0,3,'ไม่เก็บพิกัดบ้านหรือข้อมูลระบุตัวบุคคล'],
+  ['rain','🌧️','รูปทรงภาชนะกับการอ่านปริมาณฝน','ภาชนะต่างรูปทำให้ระดับน้ำต่างกัน','เติมน้ำปริมาตรเท่ากันในภาชนะรูปทรงต่างกันแล้วสร้างตารางเทียบระดับน้ำ','น้ำ คณิตศาสตร์ สิ่งแวดล้อม',150,2,'ใช้ภาชนะพลาสติกไม่คม ไม่ออกเก็บข้อมูลกลางพายุ'],
+  ['paper','📄','กระดาษพับแบบไหนรับน้ำหนักได้มาก','กระดาษบางยุบง่ายเมื่อใช้เป็นฐาน','เปรียบเทียบโครงสร้างพับสามแบบด้วยมวลที่รับได้ก่อนยุบ','วัสดุ คณิตศาสตร์ พลังงาน',100,2,'ใช้ตุ้มน้ำหนักขนาดเล็ก ระวังของตกใส่มือ'],
+  ['waste','📊','ภาพรวมเศษอาหารจากข้อมูลตัวอย่าง','ตัวเลขรายวันอ่านหาแนวโน้มยาก','เปรียบเทียบกราฟหลายแบบด้วยความสามารถในการแสดงวันที่มีค่าผิดปกติจากข้อมูลจำลอง','ข้อมูล คอมพิวเตอร์ สิ่งแวดล้อม',0,2,'ไม่เก็บข้อมูลการกินรายบุคคล'],
+  ['heatbox','📦','บรรจุภัณฑ์แบบไหนชะลอการอุ่น','กล่องแต่ละวัสดุเก็บความเย็นต่างกัน','ใส่น้ำเย็นปริมาตรเท่ากันในกล่องต่างชนิดแล้วติดตามอุณหภูมิ','พลังงาน วัสดุ สิ่งแวดล้อม',400,3,'ไม่ใช้ภาชนะอัดแรงดันหรือแหล่งความร้อนสูง'],
+  ['leak','🚰','หยดน้ำเล็ก ๆ สูญเสียน้ำเท่าไร','น้ำหยดช้าอาจถูกมองข้าม','นับหยดจากขวดจำลองการรั่วแล้วเทียบปริมาตรน้ำที่สูญเสียตามเวลา','น้ำ คณิตศาสตร์ สิ่งแวดล้อม',80,2,'ไม่ดัดแปลงท่อน้ำหรืออุปกรณ์ไฟฟ้า'],
+  ['queue','🧮','คิวแบบไหนรอน้อยลงในแบบจำลอง','จุดบริการเดียวทำให้คนรอไม่เท่ากัน','จำลองเวลาบริการด้วยตารางคำนวณแล้วเทียบคิวเดียวกับหลายคิว','คณิตศาสตร์ ข้อมูล คอมพิวเตอร์',0,3,'ใช้ข้อมูลจำลอง ไม่บันทึกข้อมูลผู้ใช้จริง'],
+  ['labels','🏷️','ขนาดตัวอักษรกับพื้นที่บนฉลาก','ข้อความยาวอาจอ่านได้ยากบนพื้นที่เล็ก','ออกแบบฉลากหลายขนาดแล้ววัดจำนวนตัวอักษรที่แสดงได้โดยไม่ตัดคำ','ออกแบบ คอมพิวเตอร์ คณิตศาสตร์',0,2,'การทดลองนี้วัดพื้นที่หน้าจอ ไม่สรุปแทนการทดสอบกับคน'],
+  ['wind','🍃','ช่องลมแบบไหนช่วยให้กระดาษแห้งเร็ว','การตากในพื้นที่อับทำให้แห้งช้า','เปรียบเทียบมวลกระดาษชื้นในกล่องที่มีช่องลมต่างกัน','พลังงาน น้ำ สิ่งแวดล้อม',200,3,'ไม่ใช้ไฟบ้านหรือดัดแปลงพัดลม'],
+  ['seed','🌾','ระยะปลูกกับการเติบโตของถั่ว','ต้นอ่อนที่แน่นอาจเติบโตต่างกัน','ปลูกถั่วด้วยระยะห่างต่างกันโดยคงปริมาณน้ำและแสงแล้ววัดความสูง','พืช สิ่งแวดล้อม',200,5,'ไม่กินพืชทดลองและไม่เพาะเชื้อ'],
+  ['image','🖼️','ภาพย่อขนาดไหนยังเห็นรายละเอียด','การบีบอัดภาพลดพื้นที่แต่ทำรายละเอียดหาย','เปรียบเทียบขนาดไฟล์และค่าความต่างของภาพสังเคราะห์เมื่อบีบอัดต่างระดับ','คอมพิวเตอร์ ข้อมูล',0,3,'ใช้ภาพที่สร้างเอง ไม่ใช้ใบหน้าหรือภาพส่วนบุคคล'],
+  ['sound','🔈','วัสดุรองกล่องช่วยลดการสั่นได้หรือไม่','โต๊ะอาจสั่นเมื่อมีอุปกรณ์ทำงาน','ใช้มือถือวัดการสั่นจากแรงเคาะเบา ๆ ผ่านวัสดุรองต่างชนิด','พลังงาน วัสดุ ข้อมูล',200,3,'ไม่ใช้เสียงดังหรือแรงกระแทกสูง ระวังมือถือหล่น'],
+  ['packing','🧩','วางชิ้นงานแบบไหนเหลือเศษน้อย','การตัดวัสดุอาจมีเศษที่ใช้ต่อไม่ได้','จำลองการวางรูปสี่เหลี่ยมบนกระดาษแล้วเทียบสัดส่วนพื้นที่เหลือ','คณิตศาสตร์ วัสดุ สิ่งแวดล้อม',50,2,'วัดจากภาพจำลองได้ ไม่ต้องใช้เครื่องตัด'],
+  ['brightness','📱','สีหน้าจอกับค่าความสว่างที่วัดได้','สีที่เลือกอาจมีค่าความสว่างไม่เท่ากัน','คำนวณความสว่างสัมพัทธ์ของคู่สีและทดสอบการแสดงผลบนหน้าจอเดียว','คอมพิวเตอร์ ออกแบบ ข้อมูล',0,2,'ไม่อ้างว่าเป็นการตรวจสายตาหรือรับรองการเข้าถึง'],
+  ['evaporate','☀️','พื้นที่ผิวน้ำกับอัตราการระเหย','น้ำในภาชนะแต่ละแบบลดลงไม่เท่ากัน','ชั่งมวลน้ำในภาชนะพื้นที่ผิวต่างกันโดยคงตำแหน่งและปริมาตรเริ่มต้น','น้ำ พลังงาน สิ่งแวดล้อม',250,3,'ไม่ให้ความร้อนด้วยเปลวไฟและไม่ปล่อยน้ำขัง'],
+  ['compress','🗜️','ข้อมูลซ้ำช่วยย่อไฟล์ได้มากแค่ไหน','ไฟล์ขนาดเท่ากันอาจบีบอัดได้ต่างกัน','สร้างข้อความจำลองที่มีสัดส่วนคำซ้ำต่างกันแล้วเทียบอัตราย่อไฟล์','คอมพิวเตอร์ ข้อมูล คณิตศาสตร์',0,2,'ใช้ข้อความสมมติ ไม่ใช้เอกสารส่วนตัว'],
+  ['pot','🏺','สีภาชนะกับการรับความร้อน','กระถางต่างสีอาจรับความร้อนต่างกัน','เปรียบเทียบอุณหภูมิของภาชนะสีต่างกันที่รับแสงในช่วงเวลาเดียวกัน','พืช พลังงาน สิ่งแวดล้อม',300,3,'ใช้วัสดุไม่แตกง่าย หลีกเลี่ยงแดดจัด'],
+  ['maze','🔀','วิธีค้นหาเส้นทางในเขาวงกต','ขั้นตอนค้นหาที่ต่างกันใช้เวลาต่างกัน','สร้างเขาวงกตจำลองแล้วเทียบจำนวนจุดที่ตรวจของวิธีค้นหาสองแบบ','คอมพิวเตอร์ คณิตศาสตร์',0,4,'ไม่มีการติดตามตำแหน่งคนจริง'],
+  ['sponge','🧽','วัสดุซับน้ำแบบไหนใช้ซ้ำได้ดี','วัสดุซับน้ำเสื่อมลงหลังใช้หลายรอบ','ชั่งมวลน้ำที่วัสดุสะอาดดูดซับได้ก่อนและหลังบีบซ้ำตามจำนวนรอบ','น้ำ วัสดุ สิ่งแวดล้อม',250,3,'ใช้น้ำสะอาด ไม่ทดลองกับสารปนเปื้อน'],
+  ['chart','📈','ช่วงแกนกราฟเปลี่ยนการแสดงแนวโน้มอย่างไร','กราฟข้อมูลเดียวกันดูต่างได้จากการตั้งแกน','สร้างกราฟจากชุดตัวเลขเดียวกันแล้ววัดความชันที่ปรากฏเมื่อเปลี่ยนช่วงแกน','คณิตศาสตร์ ข้อมูล ออกแบบ',0,2,'ระบุช่วงแกนชัดเจน ไม่ใช้กราฟชวนเข้าใจผิด'],
+  ['ramp','🛝','ความลาดกับระยะทางไหลของลูกแก้ว','พื้นผิวและความลาดมีผลต่อการเคลื่อนที่','ปล่อยลูกแก้วจากทางลาดระดับต่างกันแล้ววัดระยะเคลื่อนที่บนพื้นเดิม','พลังงาน คณิตศาสตร์ วัสดุ',150,2,'ใช้รางเตี้ยและมีขอบกั้น ระวังลูกแก้วกลิ้ง'],
+  ['cache','⚡','เก็บผลคำนวณซ้ำช่วยลดเวลาได้แค่ไหน','การคำนวณเดิมซ้ำทำให้โปรแกรมช้า','เปรียบเทียบเวลาและหน่วยความจำของโปรแกรมจำลองก่อนและหลังเก็บผลซ้ำ','คอมพิวเตอร์ ข้อมูล',0,3,'ใช้ชุดตัวเลขจำลองและไม่เก็บข้อมูลอ่อนไหว'],
+  ['filter','🪨','ชั้นวัสดุกรองกับความใสของน้ำจำลอง','น้ำขุ่นมองเห็นต่างกันหลังผ่านวัสดุ','กรองน้ำผสมดินสะอาดด้วยชั้นวัสดุต่างกันแล้วเปรียบเทียบความใสจากภาพ','น้ำ สิ่งแวดล้อม วัสดุ',350,4,'น้ำที่กรองไม่ใช่น้ำดื่ม ห้ามชิม ไม่เพาะเชื้อ'],
+  ['tiles','🔷','ลวดลายปูพื้นกับจำนวนชิ้นที่ต้องตัด','ขอบพื้นที่ไม่ลงตัวทำให้ต้องตัดวัสดุ','จำลองพื้นที่ขนาดต่างกันแล้วนับชิ้นที่ต้องตัดของลายปูแต่ละแบบ','คณิตศาสตร์ วัสดุ ออกแบบ',0,3,'ใช้ภาพวาดหรือโปรแกรม ไม่ใช้เครื่องตัดจริง'],
+  ['dry','👕','การพับผ้ากับเวลาที่แห้ง','ผ้าเปียกที่พับซ้อนอาจแห้งช้า','ชั่งน้ำหนักผ้าขนาดเท่ากันที่จัดวางต่างกันเป็นช่วงเวลา','น้ำ พลังงาน สิ่งแวดล้อม',200,3,'ใช้ผ้าสะอาด ไม่สร้างสภาวะเพาะเชื้อ'],
+  ['search','🔎','คำค้นแบบไหนหาไฟล์ตัวอย่างได้เร็ว','ชื่อไฟล์คล้ายกันทำให้ค้นหาไม่ตรง','สร้างคลังไฟล์สมมติแล้วเทียบจำนวนผลลัพธ์ตรงเป้าหมายของวิธีค้นหาสองแบบ','คอมพิวเตอร์ ข้อมูล',0,3,'ไม่อ่านหรือทำดัชนีไฟล์ส่วนบุคคล'],
+  ['balance','⚖️','ตำแหน่งจุดรองรับกับการทรงตัว','ฐานรองรับแคบทำให้วัตถุล้มง่าย','ใช้รูปทรงกระดาษจำลองแล้ววัดมุมที่เริ่มล้มเมื่อย้ายจุดรองรับ','คณิตศาสตร์ วัสดุ พลังงาน',100,2,'ใช้ชิ้นงานเบาและโต๊ะเตี้ย ไม่ทดสอบด้วยร่างกายคน'],
+  ['schedule','🗓️','จัดตารางงานย่อยให้ชนกันน้อยลง','งานที่ต้องใช้อุปกรณ์เดียวกันอาจซ้อนเวลา','จำลองงานพร้อมระยะเวลาแล้วเทียบจำนวนช่วงเวลาชนกันของสองวิธีจัดตาราง','คอมพิวเตอร์ คณิตศาสตร์ ข้อมูล',0,4,'ใช้ตารางจำลอง ไม่เผยตารางส่วนบุคคล'],
+  ['roots','🌿','ทิศทางวางเมล็ดกับทิศทางราก','เมล็ดที่วางต่างมุมอาจเริ่มงอกต่างกัน','วางเมล็ดถั่วต่างมุมในภาชนะใสแล้วบันทึกมุมของรากตามเวลา','พืช สิ่งแวดล้อม',150,4,'ไม่กินพืชทดลองและจัดการวัสดุชื้นอย่างเหมาะสม']
+].map(([id,icon,title,problem,direction,tags,budget,weeks,safety]) => ({id,icon,title,problem,direction,tags,budget,weeks,safety}));
+const blankState = () => ({ version: 1, stage: 'chat', answers: [], answerDraft: '', summary: '', refinement: '', cards: [], batch: [], cursor: 0, reactions: [], shortlist: [], compare: [], selected: null, coachDrafts: {}, scenario: 'success', error: '', result: '', pending: null });
+let storageFailed = false;
+function readStored(key, fallback) {
+  try { const value = JSON.parse(localStorage.getItem(key)); return value || fallback; }
+  catch { storageFailed = true; return fallback; }
+}
+const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+const isText = value => typeof value === 'string';
+const isId = value => isText(value) && /^[a-z]+$/.test(value);
+const isIds = value => Array.isArray(value) && value.every(isId);
+function normalizeState(value) {
+  const defaults = blankState();
+  if (!isRecord(value) || value.version !== 1) { storageFailed = true; return defaults; }
+  if (Object.keys(defaults).some(key => !(key in value))) storageFailed = true;
+  const candidate = { ...defaults, ...value };
+  const validCards = Array.isArray(candidate.cards) && candidate.cards.every(c => isRecord(c) && isId(c.id) && ['icon','title','problem','direction','tags','safety','source'].every(k => isText(c[k])) && Number.isFinite(c.budget) && Number.isFinite(c.weeks));
+  const validAnswers = Array.isArray(candidate.answers) && candidate.answers.length <= 4 && candidate.answers.every(a => isRecord(a) && isText(a.question) && isText(a.answer));
+  const validReactions = Array.isArray(candidate.reactions) && candidate.reactions.every(r => isRecord(r) && isId(r.id) && ['like','skip'].includes(r.action) && isIds(r.batch) && Number.isInteger(r.cursor) && r.cursor >= 0);
+  if (!validCards || !validAnswers || !validReactions || !['summary','refinement','answerDraft','error','result'].every(k => isText(candidate[k])) || !isIds(candidate.batch) || !isIds(candidate.shortlist) || !isIds(candidate.compare) || !isRecord(candidate.coachDrafts) || !Object.values(candidate.coachDrafts).every(isText) || !Number.isInteger(candidate.cursor) || candidate.cursor < 0 || (candidate.pending !== null && (!isRecord(candidate.pending) || !isText(candidate.pending.id)))) {
+    storageFailed = true; return defaults;
+  }
+  const ids = new Set(candidate.cards.map(c => c.id));
+  candidate.shortlist = [...new Set(candidate.shortlist)].filter(id => ids.has(id)).slice(0,5);
+  candidate.compare = candidate.compare.filter(id => candidate.shortlist.includes(id)).slice(0,2);
+  candidate.batch = candidate.batch.filter(id => ids.has(id));
+  candidate.cursor = Math.min(candidate.cursor,candidate.batch.length);
+  if (!ids.has(candidate.selected)) candidate.selected = null;
+  if (!['chat','summary','deck','shortlist','compare','saved','coach','error','loading'].includes(candidate.stage)) candidate.stage = 'chat';
+  if (!['success','unavailable','timeout','malformed','partial','duplicates'].includes(candidate.scenario)) candidate.scenario = 'success';
+  return candidate;
+}
+let state = normalizeState(readStored(DATA_KEY, blankState()));
+let ledger = readStored(LEDGER_KEY, { version: 1, offset: 0, day: '', used: 0, receipts: [] });
+// Local demo data is not a production authorization or cross-tab quota boundary.
+if (!isRecord(ledger) || ledger.version !== 1 || !Number.isInteger(ledger.used) || ledger.used < 0 || ledger.used > 35 || !Number.isInteger(ledger.offset) || ledger.offset < 0 || ledger.offset > 36500 || !isText(ledger.day) || !Array.isArray(ledger.receipts) || !ledger.receipts.every(r => isRecord(r) && isText(r.id) && Number.isInteger(r.count) && r.count > 0 && r.count <= 5)) { ledger = { version: 1, offset: 0, day: '', used: 0, receipts: [] }; storageFailed = true; }
+let busy = false;
+let storageMessage = '';
+const $ = selector => document.querySelector(selector);
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const html = escapeHTML;
+function dayKey() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(Date.now() + ledger.offset * 86400000));
+}
+function rollDay() {
+  const day = dayKey();
+  if (day !== ledger.day) { ledger.day = day; ledger.used = 0; ledger.receipts = []; }
+}
+function persist() {
+  try {
+    // Ledger first: an interrupted save may conservatively retain usage, never renew it.
+    localStorage.setItem(LEDGER_KEY, JSON.stringify(ledger));
+    localStorage.setItem(DATA_KEY, JSON.stringify(state));
+    $('#saveStatus').textContent = 'บันทึกแล้วในเครื่องนี้ · รีเฟรชเพื่อกลับมาทำต่อ';
+  } catch {
+    storageFailed = true;
+    storageMessage = 'บันทึกในเครื่องไม่ได้ ข้อมูลรอบนี้อยู่เฉพาะแท็บนี้และอาจหายเมื่อรีเฟรช';
+  }
+  $('#storageWarning').hidden = !storageFailed;
+  if (storageFailed) {
+    $('#storageWarning').textContent = storageMessage || 'อ่านข้อมูลเดิมไม่ได้ เริ่มด้วยข้อมูลตัวอย่างใหม่ กรุณาตรวจการตั้งค่าพื้นที่จัดเก็บ';
+    $('#saveStatus').textContent = 'โปรดตรวจคำเตือนการบันทึก';
+  }
+}
+function announce(message) { $('#announcement').textContent = message; }
+function navigate(stage) { if (busy) return; state.stage = stage; state.error = ''; render(); $('#stageTitle').focus(); }
+function header(eyebrow, title, desc) { return `<div class="eyebrow">${eyebrow}</div><h1 id="stageTitle" tabindex="-1">${title}</h1><p class="muted">${desc}</p>`; }
+function question() {
+  const n = state.answers.length;
+  const uncertain = text => /ยังไม่รู้|ยังคิดไม่ออก|ไม่แน่ใจ/.test(text || '');
+  if (!n) return { text: 'ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?', choices: ['สิ่งแวดล้อมรอบตัว', 'พืชและการปลูก', 'คอมพิวเตอร์และข้อมูล', 'ยังไม่รู้'] };
+  const first = state.answers[0].answer;
+  if (n === 1 && uncertain(first)) return { text: 'ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?', choices: ['น้ำที่ใช้ทุกวัน', 'ต้นไม้ริมหน้าต่าง', 'แอปที่ใช้จัดการงาน', 'ยังไม่แน่ใจ'] };
+  if (n === 1) return { text: `จากเรื่อง “${first}” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?`, choices: /พืช|ปลูก/.test(first) ? ['ต้นไม้แห้งเร็ว', 'แสงไม่เท่ากัน', 'ยังคิดไม่ออก'] : /คอม|ข้อมูล|แอป/.test(first) ? ['มองไม่เห็นงานที่ค้าง', 'ข้อมูลอ่านยาก', 'ยังคิดไม่ออก'] : ['อยากลดการใช้น้ำ', 'อยากลดขยะ', 'ยังคิดไม่ออก'] };
+  const previous = state.answers[n-1].answer;
+  if (n === 2) return { text: `ถ้าเริ่มจาก “${previous}” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?`, choices: ['เปรียบเทียบสิ่งที่วัดได้', 'ลองออกแบบเครื่องมือช่วย', 'ยังคิดไม่ออก'] };
+  return { text: 'ลองเลือกวิธีเริ่มเล็ก ๆ ที่อยากทำที่สุดก็พอ ยังเปลี่ยนใจได้ภายหลัง', choices: ['วัดและบันทึกด้วยอุปกรณ์ที่มี', 'ทำแบบจำลองบนคอมพิวเตอร์', 'ลองทั้งสองแบบ'] };
+}
+function submitAnswer(answer) {
+  answer = answer.trim().slice(0,500);
+  if (!answer || busy || state.answers.length >= 4) return;
+  state.answers.push({ question: question().text, answer });
+  state.answerDraft = '';
+  const n = state.answers.length;
+  const uncertain = /ยังไม่รู้|ยังคิดไม่ออก|ไม่แน่ใจ/;
+  if ((n === 2 && !state.answers.some(x => uncertain.test(x.answer))) || (n === 3 && !uncertain.test(answer)) || n === 4) {
+    state.summary = state.answers.map(x => x.answer).join(' · ');
+    navigate('summary');
+  } else { render(); $('#answer').focus(); }
+}
+function renderChat() {
+  return header('01 / รู้จักความสนใจ', 'เริ่มจากเรื่องที่เธออยากทำ', 'คุยสั้น ๆ ทีละข้อ 2–4 คำถาม ไม่ต้องมีไอเดียที่ชัดเจนก็เริ่มได้') +
+    `<div class="chat">${state.answers.map(x=>`<div class="bubble"><b class="small muted">ครูที่ปรึกษา · บทพูดจำลอง</b><p>${html(x.question)}</p></div><div class="bubble user"><b class="small">เธอ</b><p>${html(x.answer)}</p></div>`).join('')}</div>` +
+    (state.answers.length >= 4 ? '<button class="primary" data-action="summary">ดูสรุปความสนใจ</button>' : `<p class="small muted">คำถามที่ ${state.answers.length+1} · ไม่เกิน 4 ข้อ</p><div class="question"><h2>${html(question().text)}</h2></div><div class="choices">${question().choices.map((c,i)=>`<button data-choice="${i}">${html(c)}</button>`).join('')}</div><form id="answerForm"><label for="answer">หรือเล่าในแบบของเธอ</label><textarea id="answer" maxlength="500" placeholder="ไม่ต้องพิมพ์ชื่อจริงหรือชื่อโรงเรียน">${html(state.answerDraft)}</textarea><div class="actions"><button type="submit" class="primary">ส่งคำตอบ →</button></div></form>`);
+}
+function summaryForm() {
+  return `<label for="summary">สิ่งที่อยากทำ / ปัญหาที่สนใจ</label><textarea id="summary" maxlength="1600">${html(state.summary)}</textarea><p class="small muted">แก้ได้ตามใจเลย ข้อจำกัดเดิมจะถูกนำไปใช้ต่อ</p>`;
+}
+function renderSummary() {
+  return header('01 / สรุปก่อนสำรวจ', 'ฟังดูเป็นเรื่องที่เธอสนใจไหม?', 'แก้สรุปให้ตรงใจ แล้วลองดูหน้าตาการ์ดตัวอย่าง 5 ใบ') + `<form id="summaryForm">${summaryForm()}<div class="notice">การทดลองนี้เลือกการ์ดจากชุดตัวอย่างคงที่ตามคำสำคัญเท่านั้น ไม่ใช่การสร้างไอเดียเฉพาะบุคคลด้วย AI จริง</div><div class="actions"><button class="primary" type="submit">ทดลองแสดงการ์ด 5 ใบ →</button><button data-action="chat" type="button">กลับไปดูบทสนทนา</button></div></form>`;
+}
+function currentCard() { return state.cards.find(c => c.id === state.batch[state.cursor]); }
+function cardDetails(card) {
+  return `<p class="source">ชุดตัวอย่างคงที่ · ไม่ได้สร้างด้วย AI</p><h2>${html(card.title)}</h2><p class="card-label">ปัญหาที่ชวนสำรวจ</p><p>${html(card.problem)}</p><p class="card-label">แนวทางทดลองคร่าว ๆ</p><p>${html(card.direction)}</p><div class="chips"><span class="chip">ประมาณ ${card.budget} บาท</span><span class="chip mint">${card.weeks} สัปดาห์</span></div><div class="notice"><b>ธงความปลอดภัย · คำเตือนตัวอย่าง</b><br>${html(card.safety)}</div>`;
+}
+function guardrail() { return '<p class="small muted">เป็นเพียงไอเดียตั้งต้น ต้องปรับและอธิบายเอง · งบและเวลาเป็นค่าประมาณ · ยังไม่ได้ตรวจความใหม่ (Prior Work) หรือรับรองความปลอดภัย ควรปรึกษาครูก่อนทดลอง</p>'; }
+function renderDeck() {
+  const card = currentCard();
+  return header('02 / สำรวจทีละใบ', 'มีเรื่องไหนที่อยากลองต่อบ้าง?', 'ปัดหรือกดปุ่มเพื่อเก็บสิ่งที่สนใจ ข้ามใบเดียวไม่ได้หมายถึงไม่ชอบทั้งสาขา') +
+    `<p class="feedback">บริบทตัวอย่าง: ${html(state.summary)}${state.refinement ? `<br>บอกเพิ่ม: ${html(state.refinement)}` : ''}<br>รับตัวอย่างสะสม ${state.cards.length} ใบ · สนใจ ${state.reactions.filter(x=>x.action==='like').length} · ข้าม ${state.reactions.filter(x=>x.action==='skip').length}</p>` +
+    (state.result ? `<div class="notice success" role="status">${html(state.result)}</div>` : '') +
+    (card ? `<div class="small muted">รอบนี้ ${state.cursor+1}/${state.batch.length} ใบ</div><div class="progress"><i style="width:${(state.cursor+1)/state.batch.length*100}%"></i></div><div class="deck-viewport"><article class="topic-card" id="activeCard" tabindex="0" aria-label="การ์ด ${html(card.title)} ใช้ลูกศรซ้ายข้าม ขวาสนใจ ขึ้นเลือก"><div class="visual" id="dragSurface" aria-hidden="true">${html(card.icon)}<span>ลากตรงนี้ ← ข้าม · → สนใจ · ↑ เลือก</span></div>${cardDetails(card)}</article></div><div class="swipe-actions"><button data-action="skip">← ข้าม</button><button class="pink" data-action="selectCurrent">↑ เลือกใบนี้</button><button class="mint" data-action="like">สนใจ →</button></div><p class="small muted">ใช้ปุ่มได้เสมอ หรือโฟกัสที่การ์ดแล้วกดลูกศร ← → ↑</p>` : `<div class="notice">ดูตัวอย่างรอบนี้ครบแล้ว (${state.batch.length} ใบ) เลือกจาก Shortlist หรือบอกเพิ่มเพื่อสำรวจรอบต่อไป</div>`) +
+    `<div class="actions"><button data-action="undo" ${!canUndo()?'disabled':''}>↶ ย้อนการปัดล่าสุดในรอบนี้</button><button data-action="shortlist">ดู Shortlist (${state.shortlist.length}/5)</button></div>${guardrail()}${renderRefine()}`;
+}
+function renderRefine() {
+  return `<details id="refineBox" class="divider"><summary>ยังไม่ตรงใจ? ปรับความสนใจและขอรอบถัดไป</summary><form id="refineForm">${summaryForm()}<label for="refinement">อยากปรับอะไรในรอบถัดไป? (ไม่บังคับ)</label><textarea id="refinement" maxlength="500" placeholder="เช่น เน้นเรื่องน้ำ ไม่ต้องใช้อุปกรณ์เพิ่ม">${html(state.refinement)}</textarea><p class="small muted">เดโมจัดลำดับชุดตัวอย่างจากคำสำคัญและการปัด ไม่สร้างเนื้อหาใหม่ และไม่นำไอเดียที่เคยเห็นกลับมานับซ้ำ</p><div class="actions"><button type="submit" class="primary">ขอตัวอย่างรอบถัดไป 5 ใบ</button><button type="button" data-action="saved">ดูการ์ดที่บันทึกทั้งหมด (${state.cards.length})</button></div></form></details>`;
+}
+function renderShortlist() {
+  return header('03 / คัดเลือก', 'เก็บไว้คิดต่อ แล้วเลือกสิ่งที่ใช่', 'Shortlist ได้ไม่เกิน 5 ใบ เลือกเทียบ 2 ใบ หรือเลือกใบเดียวไปคุยต่อได้เลย') +
+    (state.shortlist.length ? `<ul class="list">${state.shortlist.map(id=>state.cards.find(c=>c.id===id)).filter(Boolean).map(c=>`<li class="mini-card"><div class="source">การ์ดตัวอย่างคงที่ · ไม่ใช่ผล AI สด</div><h2>${html(c.title)}</h2><p class="muted small">${html(c.problem)}</p><div class="chips"><span class="chip">${c.budget} บาท · ${c.weeks} สัปดาห์ (ประมาณ)</span></div><div class="actions"><button data-compare="${c.id}" aria-pressed="${state.compare.includes(c.id)}">${state.compare.includes(c.id)?'✓ เลือกเทียบแล้ว':'＋ เลือกเทียบ'}</button><button data-select="${c.id}" class="primary">เลือกไปคุยต่อ</button><button data-remove="${c.id}">นำออก</button></div></li>`).join('')}</ul><div class="actions"><button id="compareButton" data-action="compare" class="primary" ${state.compare.length!==2?'disabled':''}>เทียบ ${state.compare.length}/2 ใบ →</button></div>` : '<div class="notice">ยังไม่มีการ์ดที่สนใจ กลับไปสำรวจแล้วกด “สนใจ” เพื่อเก็บไว้ที่นี่</div>') +
+    `<div class="actions"><button data-action="deck">← กลับไปสำรวจ</button></div>${guardrail()}`;
+}
+function renderCompare() {
+  const cards = state.compare.map(id=>state.cards.find(c=>c.id===id)).filter(Boolean);
+  return header('03 / เปรียบเทียบ', 'สองเรื่องนี้ ต่างกันตรงไหน?', 'ดูปัญหา แนวทาง งบ และเวลาเคียงกัน · ตัวเลขทั้งหมดเป็นค่าประมาณจากชุดตัวอย่าง ไม่ใช่คะแนนรับรอง') + `<div class="compare-grid">${cards.map(c=>`<article class="mini-card">${cardDetails(c)}<p class="card-label">เทียบกับข้อจำกัดตัวอย่าง</p><p>งบ ${c.budget<=1000?'ไม่เกิน':'เกิน'} 1,000 บาท · เวลา ${c.weeks<=6?'ไม่เกิน':'เกิน'} 6 สัปดาห์<br>ยังต้องตรวจอุปกรณ์และวิธีทำกับครู</p><button data-select="${c.id}" class="primary">เลือกเรื่องนี้ →</button></article>`).join('')}</div><div class="actions"><button data-action="shortlist">← กลับ Shortlist</button></div>${guardrail()}`;
+}
+function renderSaved() {
+  return header('บันทึกในเครื่อง / ชุดตัวอย่าง', 'ทุกใบที่เคยสำรวจยังอยู่', 'กลับมาเลือกได้หลังรีเฟรช โดยไม่ใช้โควตาซ้ำ') + `<ul class="list">${state.cards.map(c=>`<li class="mini-card"><h2>${html(c.title)}</h2><p class="small muted">${html(c.problem)}</p><p class="source">ชุดตัวอย่างคงที่ · ไม่ได้สร้างด้วย AI</p><div class="actions"><button data-save="${c.id}" ${state.shortlist.includes(c.id)?'disabled':''}>เก็บใน Shortlist</button><button data-select="${c.id}" class="primary">เลือกไปคุยต่อ</button></div></li>`).join('')}</ul><button data-action="deck">← กลับไปสำรวจ</button>`;
+}
+function renderCoach() {
+  const card = state.cards.find(c=>c.id===state.selected);
+  if (!card) return header('ยังไม่ได้เลือกการ์ด','เลือกเรื่องที่อยากทำก่อน','กลับไปสำรวจหรือเลือกจาก Shortlist');
+  return header('ส่งต่อ / ครูที่ปรึกษาชวนคิด', 'จากการ์ดตัวอย่าง สู่มุมของเธอ', 'ส่งต่อ snapshot การ์ดที่เลือกพร้อมความสนใจและข้อจำกัด ไม่ค้นจากคลังการ์ดเดิม') +
+    `<details open><summary>เรื่องที่เลือก: ${html(card.title)}</summary><div class="mini-card">${cardDetails(card)}</div></details><p class="feedback">ความสนใจ: ${html(state.summary)}${state.refinement?` · บอกเพิ่ม: ${html(state.refinement)}`:''}<br>ม.ปลาย · ส่งงานในชั้นเรียน · งบ 1,000 บาท · 6 สัปดาห์ · ทีม 2 คน · มือถือและคอมพิวเตอร์</p><div class="bubble"><b class="small muted">ระดับ 1 · คำถามชวนคิดจำลอง</b><p>จากเรื่อง “${html(card.title)}” เธอเจอปัญหานี้ใกล้ตัวอย่างไร และอยากปรับแนวทางให้เป็นของตัวเองตรงไหน?</p></div><form id="coachForm"><label for="coachDraft">เล่าด้วยคำของเธอเอง (ยังคิดไม่ออกก็เขียนได้)</label><textarea id="coachDraft" maxlength="1600">${html(state.coachDrafts[card.id] || '')}</textarea><div class="actions"><button class="primary" type="submit">บันทึกคำตอบร่างในเดโม</button><button type="button" data-action="shortlist">กลับไปเปลี่ยนเรื่อง</button></div></form><div class="notice">นี่คือหน้าส่งต่อ UI จำลองเท่านั้น ไม่ได้เชื่อม API ครูที่ปรึกษาจริง ไม่ปลดล็อกระดับ 2–3 หรือประเมินโครงงาน ความคืบหน้าในเดโมไม่ใช่สิทธิ์ที่เซิร์ฟเวอร์รับรอง</div>${guardrail()}`;
+}
+function renderError() {
+  return header('การทดลองไม่สำเร็จ', 'ยังแสดงการ์ดรอบใหม่ไม่ได้', 'คำตอบและการ์ดที่บันทึกก่อนหน้านี้ยังอยู่') + `<div class="notice error" role="alert"><b>${html(state.error)}</b><br>รอบนี้รับ 0 ใบ · ไม่หักโควตาจำลอง</div><p class="muted">ลองเปลี่ยนผลลัพธ์ใน “เครื่องมือทดสอบ UI จำลอง” เป็นสำเร็จ แล้วลองอีกครั้ง ไม่มีการนำการ์ดเก่ามาสวมเป็นผลสร้างใหม่</p><div class="actions"><button class="primary" data-action="retry">ลองอีกครั้ง</button><button data-action="summary">แก้สรุปความสนใจ</button>${state.cards.length?'<button data-action="saved">ดูการ์ดเดิมที่บันทึก</button>':''}</div>`;
+}
+function render() {
+  rollDay();
+  const renderers = { chat:renderChat, summary:renderSummary, deck:renderDeck, shortlist:renderShortlist, compare:renderCompare, saved:renderSaved, coach:renderCoach, error:renderError,
+    loading:()=>header('กำลังทดลอง / ไม่ได้เรียก AI', 'กำลังเตรียมชุดตัวอย่าง', 'การรอถูกจำลองเพื่อทดสอบหน้าจอ ไม่ได้ติดต่อโมเดลหรือเซิร์ฟเวอร์')+'<div class="loading" role="status"><div class="spinner" aria-hidden="true"></div><p>กำลังเลือกจากข้อมูลตัวอย่างคงที่…</p><p class="small muted">ยังไม่หักโควตา จนกว่าจะรับตัวอย่างสำเร็จ</p></div>' };
+  $('#stage').innerHTML = (renderers[state.stage] || renderChat)();
+  $('#freeQuota').textContent = Math.max(0,5-ledger.used);
+  $('#extraQuota').textContent = Math.max(0,30-Math.max(0,ledger.used-5));
+  $('#quotaDate').textContent = `${ledger.day} · วันปฏิทินกรุงเทพฯ (จำลอง)`;
+  $('#clockNote').textContent = ledger.offset ? `เลื่อนวันจำลอง +${ledger.offset} วันจากเวลาจริง` : 'ใช้วันปฏิทินกรุงเทพฯ ไม่ใช้วันของอุปกรณ์';
+  $('#scenario').value = state.scenario;
+  for (const id of ['scenario','nextDay','restart']) $('#'+id).disabled = busy;
+  for (const [id,stage] of [['navChat','chat'],['navDeck','deck'],['navShortlist','shortlist']]) {
+    const button = $('#'+id);
+    button.disabled = busy || (stage!=='chat' && !state.cards.length);
+    button.removeAttribute('aria-current');
+    if (state.stage===stage || (stage==='chat' && state.stage==='summary') || (stage==='shortlist' && ['compare','coach'].includes(state.stage))) button.setAttribute('aria-current','step');
+  }
+  bindForms(); bindGestures(); persist();
+}
+function rankFixtures() {
+  // Transparent keyword ranking of fixed demo fixtures, not AI personalization.
+  const liked = state.reactions.filter(x=>x.action==='like').map(x=>state.cards.find(c=>c.id===x.id)).filter(Boolean);
+  const skipped = state.reactions.filter(x=>x.action==='skip').map(x=>state.cards.find(c=>c.id===x.id)).filter(Boolean);
+  const context = [state.summary,state.refinement,...liked.map(c=>c.tags)].join(' ');
+  // A skip gently lowers related unseen examples, never excludes a whole subject.
+  const score = c => c.tags.split(' ').reduce((n,tag)=>n+(context.includes(tag)?1:0)-Math.min(.5,skipped.filter(s=>s.tags.split(' ').includes(tag)).length*.1),0);
+  return FIXTURES.filter(c=>!state.cards.some(seen=>seen.id===c.id || (seen.title===c.title && seen.problem===c.problem))).sort((a,b)=>score(b)-score(a));
+}
+async function generate() {
+  if (busy) return;
+  if (!state.summary.trim()) { navigate('summary'); announce('ช่วยเล่าความสนใจสั้น ๆ ก่อน'); $('#summary').focus(); return; }
+  rollDay();
+  if (ledger.used>=35) { announce('ครบสิทธิ์จำลองวันนี้แล้ว: ฟรี 5 + เพิ่ม 30 ใบ กลับมาวันถัดไปได้ การ์ดเดิมยังอยู่'); return; }
+  const available = rankFixtures();
+  if (!available.length && !['unavailable','timeout','malformed','duplicates'].includes(state.scenario)) { announce('ดูตัวอย่างคงที่ครบทั้ง 35 ใบแล้ว ไม่มีเนื้อหาใหม่ในเดโม โควตาวันใหม่ไม่ได้ทำให้มีตัวอย่างใหม่'); return; }
+  busy = true;
+  const requestId = state.pending?.id || `demo-${crypto.randomUUID()}`;
+  const scenario = state.scenario;
+  state.pending = { id: requestId };
+  state.stage = 'loading'; state.error = ''; state.result = '';
+  render(); $('#stageTitle').focus(); announce('กำลังจำลองการเตรียมตัวอย่าง');
+  await new Promise(resolve=>setTimeout(resolve,2200));
+  rollDay();
+  const messages = { unavailable:'จำลอง: AI ยังไม่พร้อมใช้งาน จึงสร้างการ์ดใหม่ไม่ได้', timeout:'จำลอง: หมดเวลารอ AI จึงยังไม่มีผลลัพธ์', malformed:'จำลอง: ผลลัพธ์ใช้ไม่ได้ ไม่รับข้อมูลรอบนี้' };
+  if (messages[scenario]) {
+    busy = false; state.stage = 'error'; state.error = messages[scenario];
+    render(); $('#stageTitle').focus(); announce('รับ 0 ใบ ไม่หักโควตา'); return;
+  }
+  let candidates = available.slice(0,5);
+  if (scenario==='partial') candidates = candidates.slice(0,3);
+  if (scenario==='duplicates') candidates = state.cards.slice(0,5);
+  const accepted = candidates.filter((card,index,all)=>card.title && card.problem && card.direction && !state.cards.some(c=>c.id===card.id || (c.title===card.title && c.problem===card.problem)) && all.findIndex(c=>c.title===card.title && c.problem===card.problem)===index).slice(0,35-ledger.used);
+  if (!accepted.length) {
+    busy=false; state.stage='error'; state.error='จำลอง: ไม่มีการ์ดใหม่ที่ผ่านเกณฑ์ (ซ้ำหรือไม่มีตัวอย่างให้รับ)'; render(); $('#stageTitle').focus(); announce('ไม่หักโควตาสำหรับข้อมูลซ้ำ'); return;
+  }
+  if (!ledger.receipts.some(r=>r.id===requestId)) {
+    ledger.used += accepted.length;
+    ledger.receipts.push({ id:requestId, count:accepted.length });
+    state.cards.push(...accepted.map(c=>({...c,source:'fixed-demo-fixture'})));
+    state.batch = accepted.map(c=>c.id); state.cursor=0;
+  }
+  state.pending=null; busy=false; state.stage='deck';
+  state.result=`รับตัวอย่างคงที่ ${accepted.length} ใบ · หักโควตาจำลอง ${accepted.length} ใบ${accepted.length<5?' · ส่วนที่ไม่ผ่านไม่หักและไม่เติมด้วยการ์ดปลอม':''}`;
+  render(); $('#stageTitle').focus(); announce(state.result);
+}
+function saveCard(id) {
+  if (state.shortlist.includes(id)) return true;
+  if (state.shortlist.length>=5) { announce('Shortlist เต็ม 5 ใบแล้ว นำบางใบออกก่อน ยังเลือกไปคุยต่อได้เสมอ'); return false; }
+  state.shortlist.push(id); return true;
+}
+function selectCard(id) {
+  if (!state.cards.some(c=>c.id===id)) return;
+  state.selected=id; navigate('coach'); announce('ส่งต่อ snapshot การ์ดที่เลือกและบริบทในเดโมแล้ว');
+}
+function canUndo() {
+  const last = state.reactions.at(-1);
+  return Boolean(last && last.batch.join(',') === state.batch.join(','));
+}
+function swipe(action) {
+  if (busy || state.stage!=='deck') return;
+  const card=currentCard(); if (!card) return;
+  const addedToShortlist = action==='like' && !state.shortlist.includes(card.id);
+  if (action==='like' && !saveCard(card.id)) return;
+  state.reactions.push({ id:card.id, action, addedToShortlist, batch:[...state.batch], cursor:state.cursor });
+  state.cursor++;
+  if (state.shortlist.length===5 && action==='like') navigate('shortlist');
+  else { render(); ($('#activeCard') || $('#stageTitle')).focus(); }
+  announce(action==='like'?'เก็บใน Shortlist แล้ว':'ข้ามใบนี้แล้ว ไม่ตัดทั้งสาขาออก');
+}
+function undo() {
+  if (!canUndo()) return;
+  const last=state.reactions.pop(); if (!last) return;
+  if (last.addedToShortlist) { state.shortlist=state.shortlist.filter(id=>id!==last.id); state.compare=state.compare.filter(id=>id!==last.id); }
+  state.batch=last.batch; state.cursor=last.cursor; state.stage='deck'; render(); $('#activeCard').focus(); announce('ย้อนการปัดล่าสุดแล้ว โควตายังคงเดิม');
+}
+function bindForms() {
+  if ($('#answerForm')) $('#answerForm').onsubmit = e=>{e.preventDefault(); submitAnswer($('#answer').value);};
+  if ($('#summaryForm')) $('#summaryForm').onsubmit = e=>{e.preventDefault(); state.summary=$('#summary').value; generate();};
+  if ($('#refineForm')) $('#refineForm').onsubmit = e=>{e.preventDefault(); state.summary=$('#summary').value; state.refinement=$('#refinement').value; generate();};
+  if ($('#coachForm')) $('#coachForm').onsubmit = e=>{e.preventDefault(); state.coachDrafts[state.selected]=$('#coachDraft').value; persist(); announce('บันทึกคำตอบร่างแล้ว ยังไม่ได้ส่งให้ AI หรือใช้ปลดล็อกระดับใด');};
+}
+function bindGestures() {
+  const card=$('#activeCard'); if (!card) return;
+  card.onkeydown=e=>{
+    if (e.target!==card) return;
+    if (['ArrowLeft','ArrowRight','ArrowUp'].includes(e.key)) {
+      e.preventDefault();
+      if (e.key==='ArrowUp') selectCard(currentCard().id); else swipe(e.key==='ArrowLeft'?'skip':'like');
+    }
+  };
+  const surface=$('#dragSurface'); let start=null;
+  surface.onpointerdown=e=>{ if (e.button!==0 || !e.isPrimary) return; start={x:e.clientX,y:e.clientY}; surface.setPointerCapture(e.pointerId); };
+  surface.onpointermove=e=>{
+    if (!start) return;
+    const x=Math.max(-25,Math.min(25,(e.clientX-start.x)/5));
+    card.style.transform=`rotate(${x/5}deg) translateX(${x}px)`;
+  };
+  surface.onpointerup=e=>{
+    if (!start) return;
+    const dx=e.clientX-start.x, dy=e.clientY-start.y; start=null; card.style.transform='';
+    if (dy < -65 && Math.abs(dy)>Math.abs(dx)) selectCard(currentCard().id);
+    else if (Math.abs(dx)>65 && Math.abs(dx)>Math.abs(dy)) swipe(dx>0?'like':'skip');
+  };
+  surface.onpointercancel=()=>{start=null;card.style.transform='';};
+}
+document.addEventListener('input',e=>{
+  const id=e.target.id;
+  if (id==='answer') state.answerDraft=e.target.value;
+  if (id==='summary') state.summary=e.target.value;
+  if (id==='refinement') state.refinement=e.target.value;
+  if (id==='coachDraft') state.coachDrafts[state.selected]=e.target.value;
+  if (['answer','summary','refinement','coachDraft'].includes(id)) persist();
+});
+$('#scenario').onchange=e=>{state.scenario=e.target.value; persist(); announce('ผลลัพธ์รอบถัดไป: '+e.target.selectedOptions[0].textContent);};
+document.addEventListener('click',e=>{
+  const button=e.target.closest('button'); if (!button || button.disabled || busy) return;
+  if (button.dataset.choice!==undefined) { submitAnswer(question().choices[Number(button.dataset.choice)]); return; }
+  if (button.dataset.select) { selectCard(button.dataset.select); return; }
+  if (button.dataset.save) {
+    const id = button.dataset.save;
+    if (saveCard(id)) { render(); document.querySelector(`[data-select="${id}"]`).focus(); announce('เก็บใน Shortlist แล้ว'); }
+    return;
+  }
+  if (button.dataset.remove) {
+    state.shortlist=state.shortlist.filter(id=>id!==button.dataset.remove); state.compare=state.compare.filter(id=>id!==button.dataset.remove); render(); $('#stageTitle').focus(); announce('นำออกจาก Shortlist แล้ว การ์ดยังอยู่ในที่บันทึก'); return;
+  }
+  if (button.dataset.compare) {
+    const id=button.dataset.compare;
+    if (state.compare.includes(id)) state.compare=state.compare.filter(x=>x!==id);
+    else if (state.compare.length<2) state.compare.push(id);
+    else { announce('เทียบได้ครั้งละ 2 ใบ ยกเลิกใบที่เลือกก่อน'); return; }
+    render(); document.querySelector(`[data-compare="${id}"]`).focus(); announce(`เลือกเทียบ ${state.compare.length} จาก 2 ใบ`); return;
+  }
+  const action=button.dataset.action;
+  if (['chat','summary','deck','shortlist','saved'].includes(action)) { navigate(action); return; }
+  if (action==='like' || action==='skip') swipe(action);
+  if (action==='selectCurrent' && currentCard()) selectCard(currentCard().id);
+  if (action==='undo') undo();
+  if (action==='compare' && state.compare.length===2) navigate('compare');
+  if (action==='retry') generate();
+  if (action==='restart') {
+    state.answers=[]; state.answerDraft=''; state.summary=''; state.refinement=''; state.pending=null;
+    navigate('chat'); announce('เริ่มบทสนทนาใหม่แล้ว การ์ดเดิมและโควตาวันนี้ยังคงอยู่');
+  }
+  if (action==='nextDay') {
+    ledger.offset++; rollDay(); render(); $('#nextDay').focus(); announce('เลื่อนไปวันจำลองถัดไป คืนสิทธิ์วันใหม่ แต่ไม่ลบการ์ดที่เคยเห็น');
+  }
+});
+if (state.stage==='loading') {
+  state.stage='error'; state.error='การเตรียมตัวอย่างถูกขัดจังหวะจากการปิดหรือรีเฟรชหน้า ยังไม่ได้รับการ์ดรอบนี้';
+}
+rollDay(); render();
+if (state.cards.length || state.answers.length) announce('กลับมาทำต่อจากข้อมูลจำลองที่บันทึกในเบราว์เซอร์นี้');
+</script>
+</body>
+</html>

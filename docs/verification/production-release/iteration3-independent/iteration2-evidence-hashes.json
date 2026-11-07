@@ -1,0 +1,362 @@
+[
+  {
+    "path": "docs/verification/production-release/independent-review/audit-lockfile.json",
+    "sha256": "f5d5be8f9e66be6bca87f8c51a883ae928f03a6bf7ad7947d0f52047a9b18b46"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/audit.txt",
+    "sha256": "9c63a4114f72b346261bf989d74c412b3da26079a1cfc276a351255eeaf46520"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/body-postgres-reproduction.json",
+    "sha256": "48b0c7ceaf0abf1ff51da0da3492ce7e78c793264ce88a306ed70739344d3680"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/body-reproduction.json",
+    "sha256": "c5a87279374c2cfba4e168ff3c7f999852645b02176e001b778300ec93e9c4a8"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/browser-results.json",
+    "sha256": "0284a7955d22022e85d5736db70a0fe3c7d10985540fdbdcbabfa5ac4b56e1b3"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/browser-runtime.log",
+    "sha256": "db7221bbd2cd038290bcacd6142abfb3494cebfde083bdb13aed731ba730e79a"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/browser-summary.json",
+    "sha256": "7a1205ecba4e6f7c45abf6dbc6b88e1d5e70f289487a1387b5651a49d8858e53"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/build-final.txt",
+    "sha256": "c2a46afcef30c0da4ea2b59a2ee7f452a86eccd2925189a97883ebc71a085f7d"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/build.txt",
+    "sha256": "f2fc4eb3ff58152b7e3f050ade3c472a459f5515e3336d4db0b28032c2ba9daa"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/bundle-scan-final.json",
+    "sha256": "4064f3d079d2dde6c45c0f7d8713f70b70865796b94b95f46c905d3dd1e13368"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/bundle-scan.json",
+    "sha256": "4af23c6b4198e90700eb2a91c78dfcab98ea6c29f3c9643a96108cb6984a60fe"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/commands-final.json",
+    "sha256": "a4426df7113821e1ac5d2addcbab7b49980fce6ef4f7c21f9e945d7b88f099c1"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/commands.json",
+    "sha256": "95e9c35694f59baeb1143872120bc54f2648488b64628a7525b1845f56b51835"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/dedupe-postgres-reproduction.json",
+    "sha256": "15e8f905c311b23802a1738c500180e6dc09d9bdcbdabe6c8f33220e5a99b961"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/dedupe-reproduction.json",
+    "sha256": "3c3291f9a9a958e5ea446e776f577170a64b96b46b0d0623887d935b9b087e29"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/diff-check.txt",
+    "sha256": "cc42f1cdb56c7fb085016d46f398dfaeb331b26fb71031125ffc941d6a318c8b"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/diffcheck-final.txt",
+    "sha256": "cc42f1cdb56c7fb085016d46f398dfaeb331b26fb71031125ffc941d6a318c8b"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/browser-results.json",
+    "sha256": "741a022d5fcbf4833490532d11b8001ae591651ca2775401ad8003bacfaf6437"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/browser-summary.json",
+    "sha256": "19cd317ce1051c12a9a05ceecf899ceaf3366c57b5ec4cc9c662c7b746e6cc0d"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/harness-build.txt",
+    "sha256": "3d4e627b192aad6f380aa33e69f181e799ea9d63f6619eae40316882de0e1ea5"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/runtime.log",
+    "sha256": "48aab2b8503bf27ad663701de6ae6df6c13efb5de46968f2c1c796124a36e028"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/01-chat-start-360-full.png",
+    "sha256": "99f245903d82efc498623110c9a891e2f0e77309b9abcc9e9d452b673026d075"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/01-chat-start-360.png",
+    "sha256": "a1ca5afea632843d2e46b70722553140c289b15095c452820d6f71b071c6abe1"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/02-chat-unknown-guided-360-full.png",
+    "sha256": "508202f57ab307d914d30490f35e074e6316c897efffdafd01f84a810ffa58e3"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/02-chat-unknown-guided-360.png",
+    "sha256": "7b6844a432763b5e5fb818d72d5ad2eb714a07b6385e3dcfc0164d92a70e54bf"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/03-summary-editable-360-full.png",
+    "sha256": "99ff861735b7af34e0f86d292abda0fe68e2deed65eb1e52827aa0c9fb33c363"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/03-summary-editable-360.png",
+    "sha256": "f85189a066bd6460bf07094436a7ed72e1680f4a715b2e4937114de4ae2b4938"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/04-loading-360.png",
+    "sha256": "eee334d4e186f2e4f23b244fc026faf1b4a8cc7b9c693bbeab88cc8454fbe21f"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/05-deck-360-full.png",
+    "sha256": "d6f43ecda492dd18e0b4743a7f7abedb789c4dc6a92ae374783a2d20f12d2d08"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/05-deck-360.png",
+    "sha256": "e9159f1f09a58116bb5aafd4cb40b2e9f32e60e2a27061dbad9ccd13757da5fc"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/06-partial-360-full.png",
+    "sha256": "90e01f3d35f76ace66ed078ce153d2c29157d26c4c1408f9dbf7bc09cb0843ed"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/06-partial-360.png",
+    "sha256": "aa4d4a6a3dc8e86e1aa9f896039c3b9afeb79a19f4e80b11e2f295ebddf5e663"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/07-unavailable-retry-360-full.png",
+    "sha256": "746474e122a9d414e1036af41cda8cf92d91a1456d488b6e95f118612423307d"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/07-unavailable-retry-360.png",
+    "sha256": "d5446fd899cb13ded829ea7ccb087c5a427ff8d5a735cfaeaca6e4e10398fc7d"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/08-shortlist-360-full.png",
+    "sha256": "7cbdc8b3002e2b9f353bdf32f868e2faf22974d805032d7ac7089ce97028146f"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/08-shortlist-360.png",
+    "sha256": "51dd956af7937f75821aed56d35c5b2bb8fac0edf34a46c2c985b486505a825c"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/09-compare-360-full.png",
+    "sha256": "31e75793c6fb68f2d99adfb7b9dfacafb0914bd953e980e2906cef3ecf309b5d"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/09-compare-360.png",
+    "sha256": "766b1ba296e8c25c2bfab851dfa0bfb2ec95a22a0eaf0e87713dfdd02df82830"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/10-coach-selected-card-1280-full.png",
+    "sha256": "a27d31cf914c35323d0eb97bad6d0849acf0c30bf4fc38157f853948d3a7eaa4"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/10-coach-selected-card-1280.png",
+    "sha256": "2d65a79adf9db5a572f1fe12590bcc49813f270022f5fbdb4a0a151e631dc3aa"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/10-coach-selected-card-360-full.png",
+    "sha256": "b22dddfd24e09f65219a88b0cb3e282db768949bed9b7f4120f8ee0501618949"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/10-coach-selected-card-360.png",
+    "sha256": "8dbbaf3264477d85cefd99230128e409d47b0ecfeea46c52039b5312dc39231a"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/11-rewrite-gate-360-full.png",
+    "sha256": "3197c786d6fd02af65b40960406e58f9ff8111b7877b7cadd51f53c4e1469d36"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/11-rewrite-gate-360.png",
+    "sha256": "ac528989fc1b42f3933f551d7b758fbc117b0153ee4a1052984f756668214c1f"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/12-quota-exhausted-360-full.png",
+    "sha256": "74852a22e1cf41db277b9b4c941a967d5216016ea43fb082bfc5f133fce7124c"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/12-quota-exhausted-360.png",
+    "sha256": "c80592dda785e04ca668a68f0865a743650a1d552247869ced784fe951316301"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/13-deck-1280-1280-full.png",
+    "sha256": "a65d202f4db8f45f33e1181cab1d085b80efa94c9c0510bb011ab0f751479b25"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/13-deck-1280-1280.png",
+    "sha256": "cec71788c9b7aab9559f910e5fd2ce7638340483349c7b2d3dcad3632f989bef"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/13-deck-320-320-full.png",
+    "sha256": "406259ac3fde10704529b3eebadfd65de8d15dddd873f50cd9a9610cc24dc53a"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/13-deck-320-320.png",
+    "sha256": "11a4ace56bdfb292058b0156b716b35217fd395dd25d3d194804102f6f4faa40"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/13-deck-390-390-full.png",
+    "sha256": "4c889de69f517ad020b23bbe93429c746949f2829f436b14398bec8c9dc634ff"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/13-deck-390-390.png",
+    "sha256": "c7aa7312012c7eb80aa06af05674ecc4b1bb2e6c8bf2d43c124dad25d64960b4"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/14-shortlist-desktop-1280-full.png",
+    "sha256": "6afeab7ebddcca935bc422c8b61bb0a77ce127339d71f9059ef65d32c2fc70b5"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/14-shortlist-desktop-1280.png",
+    "sha256": "eec0ba12c5a104e9c4a02bb006d0f4966cdab8e22c9d12e175cb894a171b1632"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/15-summary-desktop-1280-full.png",
+    "sha256": "2b4d2dfb156a71e84b0cb0161b3df1640b3b91893e4930043b41eb39d237c7e9"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/15-summary-desktop-1280.png",
+    "sha256": "da40c63630aebc33a4e7dde684e4e1dc2f63337022196663467c2364ace3c73e"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/16-ai-unconfigured-1280-full.png",
+    "sha256": "ec8ee1897b6ddba182819536fec346a6fbebac8b91effdee8a737937ef85d630"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/16-ai-unconfigured-1280.png",
+    "sha256": "b97cc8b4abaf22501b25f1895b28a491452cd809c516179df35dcb7a017c05d1"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/16-ai-unconfigured-360-full.png",
+    "sha256": "71563e60e61444f2d21077331c9aa3d0c29c7c08f708c4649182fb32551d0982"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/discovery/screenshots/16-ai-unconfigured-360.png",
+    "sha256": "487fa4d7a89c955f8b25207fa731de1517f975af808ee45f1bc5a2f75a2a26a0"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/downloads/proposal-\u0e23\u0e48\u0e32\u0e07\u0e41\u0e01\u0e49\u0e44\u0e02\u0e01\u0e48\u0e2d\u0e19\u0e40\u0e02\u0e49\u0e32\u0e2a\u0e39\u0e48\u0e23\u0e30\u0e1a\u0e1a\u0e17\u0e35\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e44\u0e21\u0e48\u0e2b\u0e32\u0e22.docx",
+    "sha256": "675d0b69ac19b5f03eee46272746047953b16496f553ec5910051e758a497150"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/extra/idea-router-reproduction.json",
+    "sha256": "1600952d49da8b15cfdab3f44fcbf571ad43e4184a7d56374ddeac66b47d04ef"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/extra/quota-midnight-reproduction.json",
+    "sha256": "1afdc05c384872c29066d6e81923ec7a0e88c571e092c0037c3d9917a18eab92"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/extra/runtime.log",
+    "sha256": "0634909c5dcb72d05631eeddf6a2d2a546da29a16ced989d62ecf9153e03df93"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/harness-build.txt",
+    "sha256": "222156ffc93b0b6460d68ac0fdfe54a349d2e2437bc848b403f5e3cfb4a8bb92"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/idea-topic-postgres-reproduction.json",
+    "sha256": "8de3842f1481d5b4c03586c742935d1166c2432d8e4f8b690cde07ac5b14ba06"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/idea-topic-reproduction.json",
+    "sha256": "8de3842f1481d5b4c03586c742935d1166c2432d8e4f8b690cde07ac5b14ba06"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/lint-final.txt",
+    "sha256": "985f3620a82b43526f844aecd49e550e85285d4b2627aba56504b1eec7e1748a"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/lint.txt",
+    "sha256": "985f3620a82b43526f844aecd49e550e85285d4b2627aba56504b1eec7e1748a"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/review-commands.txt",
+    "sha256": "6c063b0e5dd3f245d80ee7d5620b1848712910c40c55bb53359158f70a368599"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/runtime.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/scope-manifest.json",
+    "sha256": "4778100a412ce5f049290c3e600ef20310282bc784994c64833999b04c8e2e99"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/discovery-unconfigured-1280-full.png",
+    "sha256": "ec8ee1897b6ddba182819536fec346a6fbebac8b91effdee8a737937ef85d630"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/discovery-unconfigured-1280.png",
+    "sha256": "b97cc8b4abaf22501b25f1895b28a491452cd809c516179df35dcb7a017c05d1"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/discovery-unconfigured-360-full.png",
+    "sha256": "71563e60e61444f2d21077331c9aa3d0c29c7c08f708c4649182fb32551d0982"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/discovery-unconfigured-360.png",
+    "sha256": "0f507d4d2b0c18bb6a149931c76ef40659cf414a0afdb4d73a517619effaa8de"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/pivot-examples-1280-full.png",
+    "sha256": "0d01427d7460e3708f178dadb8f6c4534c1f2b77bc0b5f9c89d32bcae3961b9d"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/pivot-examples-1280.png",
+    "sha256": "d27d90fe08dcc97c2bd979efae3b231f0d5784ce507a01f4ff21654a208249af"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/pivot-examples-360-full.png",
+    "sha256": "65f22ddb4c59474775e3ce1484bb4a1b3a7749dc82dc4519d7679d1e829eb794"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/pivot-examples-360.png",
+    "sha256": "622e6b845e2beb4000ab6e3fd08c2a216e569424139b6443898a3d1f6e5e78d9"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/proposal-optional-login-1280-full.png",
+    "sha256": "f3a615ea1275bf091108401b0b4b2d136cd8d2b576f55482a01c37b86db8b2b9"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/proposal-optional-login-1280.png",
+    "sha256": "e27d7d077dbd766708fd2eaec2eee5c386c7038921598e3eda3517ef4c954d52"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/proposal-optional-login-360-full.png",
+    "sha256": "1d63d1a152b6ecb80e6762bd4e715bbaa3ab6bf06ca8668b84e84fe97b2d203c"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/screenshots/proposal-optional-login-360.png",
+    "sha256": "c62e991713b490d0716e3283a8bb4776b586fe88c219c4f54303db62865c2665"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/size-probe-command.txt",
+    "sha256": "2b88131175d2b893d227b2370fa7ee2ee799182cdad048182611213f40f637bc"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/tests-final.txt",
+    "sha256": "58adaf115fe92292e81839f30c959c6c65a8f1616319ba8ec174097225c07607"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/tests.txt",
+    "sha256": "5a12503ab34009ffabc731ebbb8655dea208f06c0c22f5fb8e3eefeabce28012"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/typecheck-final.txt",
+    "sha256": "4ac09c6807e0224ead2e76bae4dc4e2c205c29e82e04ee8461ec029a46a2ed9e"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/typecheck.txt",
+    "sha256": "4ac09c6807e0224ead2e76bae4dc4e2c205c29e82e04ee8461ec029a46a2ed9e"
+  },
+  {
+    "path": "docs/verification/production-release/independent-review/wipe-reproduction.json",
+    "sha256": "6cbad6f94db571662a51072276ad5941d49b8bbd28306d9b74be9182a1f07403"
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "name": "two-tab-erased: interactive controls at least 40px at 360px",
+  "detail": [
+    {
+      "text": "เริ่มต้นใหม่",
+      "h": 39,
+      "w": 96
+    }
+  ],
+  "text": "เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)\nติดตั้งแอป\nปิด\nProject Edu\nเข้าสู่ระบบ Google (ไม่บังคับ)\nลบข้อมูลแล้ว\n\nหยุดการค้นหาและลบคำตอบ การ์ด และคำขอที่ค้างในหน้านี้แล้ว ไม่บันทึกข้อมูลเก่ากลับคืน\n\nเริ่มต้นใหม่\nสัมภาษณ์\nค้นหาหัวข้อ\nพัฒนาไอเดีย\nตัวแปร\nข้อเสนอ\nความเป็นส่วนตัว",
+  "session": null,
+  "requests": [
+    {
+      "url": "/api/discovery/cards",
+      "method": "GET",
+      "body": null,
+      "status": 200,
+      "response": {
+        "quota": {
+          "day": "2026-11-06",
+          "used": 0,
+          "reserved": 0,
+          "remaining": 35,
+          "freeRemaining": 5,
+          "extraRemaining": 30,
+          "resetAt": "2026-11-06T17:00:00Z"
+        }
+      }
+    }
+  ]
+}

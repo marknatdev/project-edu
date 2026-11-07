@@ -1,0 +1,17 @@
+PASS cancel optional Google choice preserves Guest work
+PASS verified account transition does not auto-open/copy Guest context
+PASS explicit-workspace-choice-synthetic-auth: no horizontal page overflow at 360px
+PASS explicit-workspace-choice-synthetic-auth: interactive controls at least 40px at 360px
+PASS explicit-workspace-choice-synthetic-auth: screenshot rendered (not blank) at 360px
+PASS explicit-workspace-choice-synthetic-auth: no browser JS errors
+PASS declining Guest continuation performs resume-only 404, never creates account context
+PASS decline preserves original Guest snapshot byte-for-byte
+PASS separate account starts without Guest card/interview context
+PASS explicit continue Guest resumes original Guest owner, never account copy
+PASS Guest continuation and snapshot survive reload after sign-in
+PASS returning to account preserves its original account-owned context
+PASS account-context-kept-separate: no horizontal page overflow at 1280px
+PASS account-context-kept-separate: interactive controls at least 40px at 1280px
+PASS account-context-kept-separate: screenshot rendered (not blank) at 1280px
+PASS account-context-kept-separate: no browser JS errors
+{'case': 'import', 'browser': 'Chrome/156.0.8078.81', 'passed': 16, 'total': 16, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

@@ -1,0 +1,948 @@
+[
+  {
+    "name": "first Idea server progression tier 1",
+    "passed": true,
+    "detail": {
+      "status": 200,
+      "data": {
+        "turn": {
+          "source": "ai",
+          "tier": 1,
+          "tierDowngraded": false,
+          "aspect": "objective",
+          "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "ae9ecf0f-ae5e-4292-8bef-1c3e29e97c72",
+          "topicKey": "idea:project-A",
+          "revision": 2,
+          "context": {
+            "track": "idea_track",
+            "gradeLevel": "m_plai",
+            "goal": "classroom",
+            "topicCard": null,
+            "ownIdea": {
+              "id": "project-A",
+              "title": "ตัวกรองน้ำจากของเหลือใช้",
+              "description": "เปรียบเทียบวัสดุกรองสามแบบ"
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 1000,
+              "equipment": [
+                "smartphone",
+                "computer"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "coding",
+                "data_math"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "ai",
+            "tier": 1,
+            "tierDowngraded": false,
+            "aspect": "objective",
+            "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "idea:project-A",
+              "turnCount": 2,
+              "unlockedTiers": [
+                1
+              ],
+              "aspectProgress": {
+                "problem": true,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "learnerResponse": "ยังคิดไม่ออก",
+                  "timestamp": "2026-11-06T14:40:27.719Z",
+                  "source": "ai"
+                },
+                {
+                  "turnIndex": 2,
+                  "tier": 1,
+                  "aspect": "objective",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "timestamp": "2026-11-06T14:40:27.856Z",
+                  "source": "ai"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "first Idea server progression tier 2",
+    "passed": true,
+    "detail": {
+      "status": 200,
+      "data": {
+        "turn": {
+          "source": "ai",
+          "tier": 2,
+          "tierDowngraded": false,
+          "aspect": "objective",
+          "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+          "lenses": [
+            "ลองลดสเกลให้ทดสอบในห้องได้",
+            "ลองใช้ของในบ้าน"
+          ],
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1,
+              2
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 3,
+                "tier": 2,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "lenses": [
+                  "ลองลดสเกลให้ทดสอบในห้องได้",
+                  "ลองใช้ของในบ้าน"
+                ],
+                "timestamp": "2026-11-06T14:40:27.958Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "ae9ecf0f-ae5e-4292-8bef-1c3e29e97c72",
+          "topicKey": "idea:project-A",
+          "revision": 3,
+          "context": {
+            "track": "idea_track",
+            "gradeLevel": "m_plai",
+            "goal": "classroom",
+            "topicCard": null,
+            "ownIdea": {
+              "id": "project-A",
+              "title": "ตัวกรองน้ำจากของเหลือใช้",
+              "description": "เปรียบเทียบวัสดุกรองสามแบบ"
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 1000,
+              "equipment": [
+                "smartphone",
+                "computer"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "coding",
+                "data_math"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1,
+              2
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 3,
+                "tier": 2,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "lenses": [
+                  "ลองลดสเกลให้ทดสอบในห้องได้",
+                  "ลองใช้ของในบ้าน"
+                ],
+                "timestamp": "2026-11-06T14:40:27.958Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "ai",
+            "tier": 2,
+            "tierDowngraded": false,
+            "aspect": "objective",
+            "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+            "lenses": [
+              "ลองลดสเกลให้ทดสอบในห้องได้",
+              "ลองใช้ของในบ้าน"
+            ],
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "idea:project-A",
+              "turnCount": 2,
+              "unlockedTiers": [
+                1,
+                2
+              ],
+              "aspectProgress": {
+                "problem": true,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "learnerResponse": "ยังคิดไม่ออก",
+                  "timestamp": "2026-11-06T14:40:27.719Z",
+                  "source": "ai"
+                },
+                {
+                  "turnIndex": 2,
+                  "tier": 1,
+                  "aspect": "objective",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "timestamp": "2026-11-06T14:40:27.856Z",
+                  "source": "ai"
+                },
+                {
+                  "turnIndex": 3,
+                  "tier": 2,
+                  "aspect": "objective",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "lenses": [
+                    "ลองลดสเกลให้ทดสอบในห้องได้",
+                    "ลองใช้ของในบ้าน"
+                  ],
+                  "timestamp": "2026-11-06T14:40:27.958Z",
+                  "source": "ai"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "first Idea server progression tier 3",
+    "passed": true,
+    "detail": {
+      "status": 200,
+      "data": {
+        "turn": {
+          "source": "ai",
+          "tier": 3,
+          "tierDowngraded": false,
+          "aspect": "objective",
+          "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+          "examples": [
+            "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+            "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+          ],
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1,
+              2,
+              3
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 3,
+                "tier": 2,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "lenses": [
+                  "ลองลดสเกลให้ทดสอบในห้องได้",
+                  "ลองใช้ของในบ้าน"
+                ],
+                "timestamp": "2026-11-06T14:40:27.958Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 4,
+                "tier": 3,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "examples": [
+                  "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+                  "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+                ],
+                "timestamp": "2026-11-06T14:40:28.055Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "ae9ecf0f-ae5e-4292-8bef-1c3e29e97c72",
+          "topicKey": "idea:project-A",
+          "revision": 4,
+          "context": {
+            "track": "idea_track",
+            "gradeLevel": "m_plai",
+            "goal": "classroom",
+            "topicCard": null,
+            "ownIdea": {
+              "id": "project-A",
+              "title": "ตัวกรองน้ำจากของเหลือใช้",
+              "description": "เปรียบเทียบวัสดุกรองสามแบบ"
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 1000,
+              "equipment": [
+                "smartphone",
+                "computer"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "coding",
+                "data_math"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1,
+              2,
+              3
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 3,
+                "tier": 2,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "lenses": [
+                  "ลองลดสเกลให้ทดสอบในห้องได้",
+                  "ลองใช้ของในบ้าน"
+                ],
+                "timestamp": "2026-11-06T14:40:27.958Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 4,
+                "tier": 3,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "examples": [
+                  "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+                  "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+                ],
+                "timestamp": "2026-11-06T14:40:28.055Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "ai",
+            "tier": 3,
+            "tierDowngraded": false,
+            "aspect": "objective",
+            "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+            "examples": [
+              "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+              "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+            ],
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "idea:project-A",
+              "turnCount": 2,
+              "unlockedTiers": [
+                1,
+                2,
+                3
+              ],
+              "aspectProgress": {
+                "problem": true,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "learnerResponse": "ยังคิดไม่ออก",
+                  "timestamp": "2026-11-06T14:40:27.719Z",
+                  "source": "ai"
+                },
+                {
+                  "turnIndex": 2,
+                  "tier": 1,
+                  "aspect": "objective",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "timestamp": "2026-11-06T14:40:27.856Z",
+                  "source": "ai"
+                },
+                {
+                  "turnIndex": 3,
+                  "tier": 2,
+                  "aspect": "objective",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "lenses": [
+                    "ลองลดสเกลให้ทดสอบในห้องได้",
+                    "ลองใช้ของในบ้าน"
+                  ],
+                  "timestamp": "2026-11-06T14:40:27.958Z",
+                  "source": "ai"
+                },
+                {
+                  "turnIndex": 4,
+                  "tier": 3,
+                  "aspect": "objective",
+                  "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                  "examples": [
+                    "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+                    "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+                  ],
+                  "timestamp": "2026-11-06T14:40:28.055Z",
+                  "source": "ai"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "two saved own Ideas open separate stable server conversations",
+    "passed": true,
+    "detail": {
+      "a": {
+        "id": "ae9ecf0f-ae5e-4292-8bef-1c3e29e97c72",
+        "topicKey": "idea:project-A",
+        "revision": 4,
+        "context": {
+          "track": "idea_track",
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "topicCard": null,
+          "ownIdea": {
+            "id": "project-A",
+            "title": "ตัวกรองน้ำจากของเหลือใช้",
+            "description": "เปรียบเทียบวัสดุกรองสามแบบ"
+          },
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "equipment": [
+              "smartphone",
+              "computer"
+            ],
+            "teamSize": 2,
+            "skills": [
+              "coding",
+              "data_math"
+            ]
+          }
+        },
+        "state": {
+          "anonymousId": "guest",
+          "ideaId": "idea:project-A",
+          "turnCount": 2,
+          "unlockedTiers": [
+            1,
+            2,
+            3
+          ],
+          "aspectProgress": {
+            "problem": true,
+            "objective": false,
+            "methodology": false,
+            "measurement": false
+          },
+          "history": [
+            {
+              "turnIndex": 1,
+              "tier": 1,
+              "aspect": "problem",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "learnerResponse": "ยังคิดไม่ออก",
+              "timestamp": "2026-11-06T14:40:27.719Z",
+              "source": "ai"
+            },
+            {
+              "turnIndex": 2,
+              "tier": 1,
+              "aspect": "objective",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "timestamp": "2026-11-06T14:40:27.856Z",
+              "source": "ai"
+            },
+            {
+              "turnIndex": 3,
+              "tier": 2,
+              "aspect": "objective",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "lenses": [
+                "ลองลดสเกลให้ทดสอบในห้องได้",
+                "ลองใช้ของในบ้าน"
+              ],
+              "timestamp": "2026-11-06T14:40:27.958Z",
+              "source": "ai"
+            },
+            {
+              "turnIndex": 4,
+              "tier": 3,
+              "aspect": "objective",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "examples": [
+                "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+                "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+              ],
+              "timestamp": "2026-11-06T14:40:28.055Z",
+              "source": "ai"
+            }
+          ],
+          "isComplete": false
+        },
+        "turn": {
+          "source": "ai",
+          "tier": 3,
+          "tierDowngraded": false,
+          "aspect": "objective",
+          "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+          "examples": [
+            "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+            "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+          ],
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-A",
+            "turnCount": 2,
+            "unlockedTiers": [
+              1,
+              2,
+              3
+            ],
+            "aspectProgress": {
+              "problem": true,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "learnerResponse": "ยังคิดไม่ออก",
+                "timestamp": "2026-11-06T14:40:27.719Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 2,
+                "tier": 1,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:27.856Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 3,
+                "tier": 2,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "lenses": [
+                  "ลองลดสเกลให้ทดสอบในห้องได้",
+                  "ลองใช้ของในบ้าน"
+                ],
+                "timestamp": "2026-11-06T14:40:27.958Z",
+                "source": "ai"
+              },
+              {
+                "turnIndex": 4,
+                "tier": 3,
+                "aspect": "objective",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “ตัวกรองน้ำจากของเหลือใช้”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "examples": [
+                  "ตัวอย่าง MOCK 1: เทียบวัสดุกรองสองแบบ",
+                  "ตัวอย่าง MOCK 2: วัดความขุ่นทุกวัน"
+                ],
+                "timestamp": "2026-11-06T14:40:28.055Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          }
+        }
+      },
+      "b": {
+        "id": "7b594e17-d965-49c3-a1c7-25cff039d06a",
+        "topicKey": "idea:project-B",
+        "revision": 1,
+        "context": {
+          "track": "idea_track",
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "topicCard": null,
+          "ownIdea": {
+            "id": "project-B",
+            "title": "แผ่นบังแสงลดความร้อน",
+            "description": "วัดอุณหภูมิเมื่อเปลี่ยนวัสดุบังแสง"
+          },
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "equipment": [
+              "smartphone",
+              "computer"
+            ],
+            "teamSize": 2,
+            "skills": [
+              "coding",
+              "data_math"
+            ]
+          }
+        },
+        "state": {
+          "anonymousId": "guest",
+          "ideaId": "idea:project-B",
+          "turnCount": 1,
+          "unlockedTiers": [
+            1
+          ],
+          "aspectProgress": {
+            "problem": false,
+            "objective": false,
+            "methodology": false,
+            "measurement": false
+          },
+          "history": [
+            {
+              "turnIndex": 1,
+              "tier": 1,
+              "aspect": "problem",
+              "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “แผ่นบังแสงลดความร้อน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+              "timestamp": "2026-11-06T14:40:28.702Z",
+              "source": "ai"
+            }
+          ],
+          "isComplete": false
+        },
+        "turn": {
+          "source": "ai",
+          "tier": 1,
+          "tierDowngraded": false,
+          "aspect": "problem",
+          "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “แผ่นบังแสงลดความร้อน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "idea:project-B",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "คำถามจาก MOCK (ไม่ใช่ AI) เรื่อง “แผ่นบังแสงลดความร้อน”: ปัญหานี้เกิดกับเธอบ่อยแค่ไหน และจะวัดได้อย่างไร?",
+                "timestamp": "2026-11-06T14:40:28.702Z",
+                "source": "ai"
+              }
+            ],
+            "isComplete": false
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "second own Idea cannot inherit first Idea Tier 3/history",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "saved Idea context, not current interview, reaches PostgreSQL",
+    "passed": true,
+    "detail": {
+      "track": "idea_track",
+      "gradeLevel": "m_plai",
+      "goal": "classroom",
+      "topicCard": null,
+      "ownIdea": {
+        "id": "project-B",
+        "title": "แผ่นบังแสงลดความร้อน",
+        "description": "วัดอุณหภูมิเมื่อเปลี่ยนวัสดุบังแสง"
+      },
+      "constraints": {
+        "timeWeeks": 6,
+        "budgetBaht": 1000,
+        "equipment": [
+          "smartphone",
+          "computer"
+        ],
+        "teamSize": 2,
+        "skills": [
+          "coding",
+          "data_math"
+        ]
+      }
+    }
+  },
+  {
+    "name": "first Idea context and Tier 3 resume after real app restart",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "saved-idea-resume: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "saved-idea-resume: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "saved-idea-resume: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "saved-idea-resume: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "evaluation edit returns to second own Idea",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit genuinely new own topic has fresh id, context and gates",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "generated-card evaluation edit preserves snapshot and original conversation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "generated-evaluation-edit: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "generated-evaluation-edit: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "generated-evaluation-edit: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "generated-evaluation-edit: no browser JS errors",
+    "passed": true,
+    "detail": []
+  }
+]

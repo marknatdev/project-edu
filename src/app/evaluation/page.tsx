@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -15,6 +15,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { AppShell } from '@/components/shell/AppShell';
+import { appFetch, getWorkspaceScope } from '@/lib/auth/workspace-client';
 import { AxisCard } from '@/components/evaluation/AxisCard';
 import { SafetyChecklist } from '@/components/safety/SafetyChecklist';
 import { screenIdea } from '@/lib/safety/screener';
@@ -36,7 +37,15 @@ import {
   getEvaluations,
   saveEvaluation,
   getInterview,
+  getDefaultStorage,
+  getWipeGeneration,
+  WIPE_GENERATION_KEY,
 } from '@/lib/storage/store';
+import {
+  COACH_INVALIDATION_EVENT,
+  COACH_INVALIDATION_KEY,
+  type CoachingInvalidation,
+} from '@/lib/advisor/coaching-invalidation';
 import { getRubricPreset } from '@/lib/rubrics/presets';
 import type { Evaluation, EvaluationAxis, Idea } from '@/types/domain';
 
@@ -57,40 +66,95 @@ function EvaluationContent() {
   const [isReevaluating, setIsReevaluating] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [highlightedRedAxis, setHighlightedRedAxis] = useState<EvaluationAxis | null>(null);
+  const quotaRemaining = useRef(5);
+  const requestEpoch = useRef(0);
 
   const performEvaluation = useCallback(
     async (targetIdea: Idea) => {
       setIsLoading(true);
       setErrorMessage(null);
 
-      const interview = getInterview();
+      const epoch = ++requestEpoch.current;
+      const scope = getWorkspaceScope();
+      const storage = getDefaultStorage();
+      const startGen = getWipeGeneration(storage);
+      const currentIdeas = getIdeas(storage);
+      if (!currentIdeas.some((i) => i.id === targetIdea.id)) {
+        setIsLoading(false);
+        return;
+      }
+
+      const interview = getInterview(storage);
       const constraints = interview?.constraints;
 
       const res = await fetchEvaluation({
-        anonymousId: 'guest',
         idea: targetIdea,
         constraints,
       });
 
+      if (requestEpoch.current !== epoch || getWorkspaceScope() !== scope || getWipeGeneration(storage) !== startGen) {
+        return;
+      }
       setIsLoading(false);
       setIsReevaluating(false);
+      const liveIdeas = getIdeas(storage);
+      if (!liveIdeas.some((i) => i.id === targetIdea.id)) {
+        return;
+      }
 
       if (res.quota) {
+        quotaRemaining.current = res.quota.remaining;
         setQuota(res.quota);
       }
 
       if (res.evaluation) {
+        if (!saveEvaluation(res.evaluation, storage, startGen)) return;
         setEvaluation(res.evaluation);
-        saveEvaluation(res.evaluation);
-        const remaining = res.quota?.remaining ?? quota.remaining;
+        const remaining = res.quota?.remaining ?? quotaRemaining.current;
         const vm = buildEvaluationView(res.evaluation, { quotaRemaining: remaining });
         setViewModel(vm);
       } else if (res.error) {
         setErrorMessage(res.error);
       }
     },
-    [quota.remaining]
+    []
   );
+
+  useEffect(() => {
+    const invalidateRequests = () => { requestEpoch.current++; };
+    const handleWipe = () => {
+      invalidateRequests();
+      setIdea(null);
+      setEvaluation(null);
+      setViewModel(null);
+      setIsLoading(false);
+      setIsReevaluating(false);
+      setErrorMessage(null);
+      setHighlightedRedAxis(null);
+    };
+    const custom = (event: Event) => {
+      const detail = (event as CustomEvent<CoachingInvalidation>)?.detail;
+      if (detail?.action === 'wipe') handleWipe();
+    };
+    const storage = (event: StorageEvent) => {
+      if (event.key === COACH_INVALIDATION_KEY && event.newValue) {
+        try {
+          const detail = JSON.parse(event.newValue);
+          if (detail?.action === 'wipe') handleWipe();
+        } catch { /* ignored */ }
+      }
+      if (event.key === WIPE_GENERATION_KEY || event.key === null) {
+        handleWipe();
+      }
+    };
+    window.addEventListener(COACH_INVALIDATION_EVENT, custom);
+    window.addEventListener('storage', storage);
+    return () => {
+      invalidateRequests();
+      window.removeEventListener(COACH_INVALIDATION_EVENT, custom);
+      window.removeEventListener('storage', storage);
+    };
+  }, []);
 
   // Load Idea and existing Evaluation on mount
   useEffect(() => {
@@ -118,21 +182,30 @@ function EvaluationContent() {
 
     if (existing) {
       setEvaluation(existing);
-      const vm = buildEvaluationView(existing, { quotaRemaining: quota.remaining });
+      const vm = buildEvaluationView(existing, { quotaRemaining: quotaRemaining.current });
       setViewModel(vm);
       setIsLoading(false);
     } else {
       // First-time evaluation for this idea
       performEvaluation(currentIdea);
     }
-  }, [ideaIdParam, performEvaluation, quota.remaining]);
+  }, [ideaIdParam, performEvaluation]);
 
   // Query quota from GET /api/ai/evaluate
   useEffect(() => {
-    fetch('/api/ai/evaluate?anonymousId=guest')
+    // First POST issues the Guest cookie; don't race it with a second owner.
+    if (!evaluation) return;
+    let live = true;
+    const epoch = requestEpoch.current;
+    const storage = getDefaultStorage();
+    const generation = getWipeGeneration(storage);
+    const scope = getWorkspaceScope();
+    appFetch('/api/ai/evaluate', { credentials: 'same-origin', cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
+        if (!live || epoch !== requestEpoch.current || generation !== getWipeGeneration(storage) || scope !== getWorkspaceScope()) return;
         if (data?.quota) {
+          quotaRemaining.current = data.quota.remaining;
           setQuota(data.quota);
           if (evaluation) {
             setViewModel(buildEvaluationView(evaluation, { quotaRemaining: data.quota.remaining }));
@@ -142,6 +215,7 @@ function EvaluationContent() {
       .catch(() => {
         // Ignore network error for quota GET
       });
+    return () => { live = false; };
   }, [evaluation]);
 
   const handleReevaluate = () => {
@@ -190,6 +264,19 @@ function EvaluationContent() {
     );
   }
 
+  if (!isLoading && !viewModel && errorMessage && idea) {
+    return <section role="alert" className="max-w-xl mx-auto p-6 space-y-4 font-prompt">
+      <h2 className="font-bold text-slate-900">ยังประเมินโครงงานไม่ได้</h2>
+      <p className="text-sm text-amber-900">{errorMessage}</p>
+      <p className="text-sm text-slate-600">ไอเดียและงานในเครื่องยังอยู่ คุณแก้ไขต่อหรือเขียนข้อเสนอด้วยตนเองได้</p>
+      <div className="flex flex-wrap gap-3">
+        <button type="button" disabled={quota.remaining <= 0} onClick={() => void performEvaluation(idea)} className="min-h-[44px] rounded-xl bg-indigo-600 px-4 py-2 text-sm text-white disabled:opacity-50">ลองประเมินใหม่</button>
+        <Link className="inline-flex min-h-[44px] items-center px-3 text-sm underline" href={`/idea?ideaId=${idea.id}`}>กลับไปแก้ไอเดีย</Link>
+        <Link className="inline-flex min-h-[44px] items-center px-3 text-sm underline" href={`/proposal?ideaId=${idea.id}`}>เขียนข้อเสนอโครงงาน</Link>
+      </div>
+    </section>;
+  }
+
   // 2. Loading State
   if (isLoading || !viewModel || !idea) {
     return (
@@ -221,7 +308,7 @@ function EvaluationContent() {
       <div className="flex items-center justify-between gap-2 text-xs font-prompt">
         <Link
           href={`/idea?ideaId=${idea.id}`}
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 py-1 transition-colors"
+          className="inline-flex min-h-[40px] items-center gap-1.5 text-slate-500 hover:text-indigo-600 py-1 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>กลับสู่รายละเอียดไอเดีย</span>
@@ -368,6 +455,7 @@ function EvaluationContent() {
       {/* Socratic Pivot Workshop for Red Axes (AC-8) */}
       {viewModel.hasRedAxes && (
         <PivotWorkshop
+          key={JSON.stringify([idea.id, idea.title, idea.description])}
           idea={idea}
           redAxes={viewModel.redAxes}
           constraints={getInterview()?.constraints}

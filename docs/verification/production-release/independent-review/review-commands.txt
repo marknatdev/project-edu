@@ -1,0 +1,156 @@
+Independent review reproducible invocations; run in D:/millmaker/EdTech.
+No repository source/test files changed. Browser scripts below are transformed only in memory; output paths and process directories are reviewer-owned.
+
+npm test
+npm run lint
+npm run build
+npm run typecheck
+npm audit --json
+npm audit --package-lock-only --json
+git diff --check
+
+REPAIR BROWSER + REAL TWO-TAB WIPE REPRO
+python -c 'from pathlib import Path
+p=Path('"'"'docs/verification/production-release/repairs/run-repairs-browser.py'"'"').resolve()
+s=p.read_text(encoding='"'"'utf-8'"'"')
+helper="SOURCE.read_text(encoding='"'"'utf-8'"'"').split('"'"'# ====================================================================='"'"')[0]"
+s=s.replace(helper, helper+'"'"'.replace("EVIDENCE = ROOT / \'"'"'docs/verification/personalized-discovery/discovery-ui\'"'"'", "EVIDENCE = ROOT / \'"'"'docs/verification/production-release/independent-review\'"'"'").replace("SHIM = EVIDENCE / \'"'"'rest-shim.mjs\'"'"'", "SHIM = ROOT / \'"'"'docs/verification/personalized-discovery/discovery-ui/rest-shim.mjs\'"'"'")'"'"')
+s=s.replace("EVIDENCE = Path(__file__).resolve().parent", "EVIDENCE = ROOT / '"'"'docs/verification/production-release/independent-review'"'"'")
+s=s.replace("repairs-browser-profile", "independent-review-browser-profile").replace("repairs-browser-pg", "independent-review-browser-pg")
+s=s.replace('"'"'3023'"'"','"'"'3033'"'"').replace('"'"'55514'"'"','"'"'55534'"'"').replace('"'"'55513'"'"','"'"'55533'"'"').replace('"'"'55515'"'"','"'"'55535'"'"')
+extra="""
+    navigate('"'"'/discovery'"'"');wait("document.querySelector('"'"'#interest-summary'"'"')")
+    original=ns['"'"'session_state'"'"']()
+    primary_session=ns['"'"'session_id'"'"']
+    target=cdp('"'"'Target.createTarget'"'"',url=ns['"'"'BASE'"'"']+'"'"'/consent'"'"')['"'"'targetId'"'"']
+    ns['"'"'session_id'"'"']=cdp('"'"'Target.attachToTarget'"'"',targetId=target,flatten=True)['"'"'sessionId'"'"']
+    cdp('"'"'Page.enable'"'"');cdp('"'"'Runtime.enable'"'"');cdp('"'"'Network.enable'"'"')
+    wait("document.body.innerText.includes('"'"'Wipe All My Data'"'"')")
+    click('"'"'Wipe All My Data'"'"');click('"'"'ยืนยันการลบข้อมูล'"'"')
+    wait("document.body.innerText.includes('"'"'ลบข้อมูลทั้งหมดออกจากอุปกรณ์เรียบร้อยแล้ว'"'"')")
+    deleted=js("localStorage.getItem('"'"'edtech:discovery-fresh:v1'"'"')===null")
+    ns['"'"'session_id'"'"']=primary_session
+    fill('"'"'#interest-summary'"'"','"'"'แก้ไขหลังลบข้อมูลจากอีกแท็บ'"'"')
+    time.sleep(.3)
+    after=ns['"'"'session_state'"'"']()
+    bug={'"'"'deletedInitially'"'"':deleted,'"'"'beforeAnswers'"'"':len(original['"'"'answers'"'"']),'"'"'afterAnswers'"'"':len(after['"'"'answers'"'"']) if after else 0,'"'"'retainedAnswers'"'"':after['"'"'answers'"'"']==original['"'"'answers'"'"'] if after else False}
+    (EVIDENCE/'"'"'wipe-reproduction.json'"'"').write_text(json.dumps(bug,ensure_ascii=False,indent=2),encoding='"'"'utf-8'"'"')
+    print('"'"'REVIEW REPRODUCTION'"'"',json.dumps(bug),flush=True)
+"""
+s=s.replace("    (EVIDENCE/'"'"'browser-summary.json'"'"').write_text",extra+"    (EVIDENCE/'"'"'browser-summary.json'"'"').write_text")
+exec(compile(s,str(p),'"'"'exec'"'"'),{'"'"'__file__'"'"':str(p),'"'"'__name__'"'"':'"'"'__main__'"'"'})
+'
+
+DISCOVERY BROWSER (EXPLICIT TEST-ONLY MODEL TRANSPORT INJECTION; NOT LIVE AI)
+python -c 'from pathlib import Path
+p=Path('"'"'docs/verification/personalized-discovery/discovery-ui/run-discovery-ui-browser.py'"'"').resolve()
+s=p.read_text(encoding='"'"'utf-8'"'"')
+s=s.replace("EVIDENCE = ROOT / '"'"'docs/verification/personalized-discovery/discovery-ui'"'"'","EVIDENCE = ROOT / '"'"'docs/verification/production-release/independent-review/discovery'"'"'")
+s=s.replace("SHIM = EVIDENCE / '"'"'rest-shim.mjs'"'"'","SHIM = ROOT / '"'"'docs/verification/personalized-discovery/discovery-ui/rest-shim.mjs'"'"'")
+s=s.replace('"'"'discovery-ui-browser-profile'"'"','"'"'independent-discovery-browser-profile'"'"').replace('"'"'discovery-ui-pg'"'"','"'"'independent-discovery-pg'"'"')
+s=s.replace('"'"'3021'"'"','"'"'3034'"'"').replace('"'"'55494'"'"','"'"'55544'"'"').replace('"'"'55493'"'"','"'"'55543'"'"').replace('"'"'55495'"'"','"'"'55545'"'"')
+s=s.replace("f'"'"'http://127.0.0.1:{MOCK_PORT}/v1'"'"' if ai_configured","'"'"'https://mock-upstream.invalid/v1'"'"' if ai_configured")
+s=s.replace("    env.update({'"'"'PERSISTENCE_BACKEND'"'"'", "    env['"'"'NODE_OPTIONS'"'"'] = "+repr('"'"'--import=data:text/javascript,const%20original%3DglobalThis.fetch%3BglobalThis.fetch%3D%28input%2Cinit%29%3D%3E%7Bconst%20u%3DString%28input%29%3Breturn%20original%28u.startsWith%28%27https%3A%2F%2Fmock-upstream.invalid%2Fv1%2F%27%29%3Fu.replace%28%27https%3A%2F%2Fmock-upstream.invalid%27%2C%27http%3A%2F%2F127.0.0.1%3A55545%27%29%3Ainput%2Cinit%29%7D%3B'"'"')+"\n    env.update({'"'"'PERSISTENCE_BACKEND'"'"'")
+exec(compile(s,str(p),'"'"'exec'"'"'),{'"'"'__file__'"'"':str(p),'"'"'__name__'"'"':'"'"'__main__'"'"'})
+'
+
+LOCAL PROBE
+node --input-type=module -e 'const {createServer}=await import('"'"'vite'"'"'); const path=await import('"'"'node:path'"'"'); const fs=await import('"'"'node:fs'"'"');
+const server=await createServer({configFile:false,server:{middlewareMode:true},resolve:{alias:{'"'"'@'"'"':path.resolve('"'"'src'"'"'),'"'"'server-only'"'"':path.resolve('"'"'tests/support/server-only.ts'"'"')}}});
+const evidence='"'"'docs/verification/production-release/independent-review'"'"';
+try {
+ process.env.NODE_ENV='"'"'test'"'"';process.env.COACH_DB_PATH=path.resolve('"'"'.local/independent-review-probes.sqlite'"'"');
+ const {connectLocalFoundationStore}=await server.ssrLoadModule('"'"'/src/lib/persistence/sqlite-store.server.ts'"'"');
+ const {generateFreshCards}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-cards.server.ts'"'"');
+ const {FreshCardsRequestSchema}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-contract.ts'"'"');
+ const {isSemanticRepeat,similarity}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-dedupe.ts'"'"');
+ const {coachingOperation}=await server.ssrLoadModule('"'"'/src/lib/advisor/coaching-store.server.ts'"'"');
+ const {readBody}=await server.ssrLoadModule('"'"'/src/lib/persistence/owner-route.server.ts'"'"');
+ const owner='"'"'g:'"'"'+crypto.randomUUID().replaceAll('"'"'-'"'"','"'"''"'"').repeat(2);const st=await connectLocalFoundationStore(owner);
+ const base={title:'"'"'ตัวกรองน้ำตู้ปลาจากวัสดุเหลือใช้'"'"',problem:'"'"'น้ำในตู้ปลาขุ่นเร็วและต้องเปลี่ยนน้ำบ่อย'"'"',roughDirection:'"'"'เปรียบเทียบวัสดุกรองสามชนิดโดยวัดความขุ่นทุกวัน'"'"',interestLink:'"'"'ความสนใจเรื่องตู้ปลา'"'"',subfieldId:'"'"'sci_environment'"'"',difficulty:'"'"'beginner'"'"',estimatedWeeks:5,estimatedBudgetBaht:250,requiredEquipment:['"'"'มือถือ'"'"'],minTeamSize:1,maxTeamSize:3,requiredSkills:['"'"'สังเกต'"'"'],fitNotes:['"'"'งบเหมาะสม'"'"'],safetyConcerns:[]};
+ const near={...base,title:base.title+'"'"'แบบประหยัด'"'"'};
+ const req=()=>FreshCardsRequestSchema.parse({requestId:crypto.randomUUID(),count:1,learner:{gradeLevel:'"'"'m_ton'"'"',goal:'"'"'ysc'"'"',constraints:{timeWeeks:6,budgetBaht:300,equipment:['"'"'มือถือ'"'"'],teamSize:2,skills:['"'"'สังเกต'"'"']}},interest:{answers:[{question:'"'"'สนใจอะไร'"'"',answer:'"'"'ตู้ปลา'"'"'}]}});
+ let arrived=0,release; const gate=new Promise(r=>release=r);
+ const ai=async (opt)=>{const i=arrived++;if(arrived===2)release();await gate;return {ok:true,data:{cards:[i?near:base]}}};
+ const results=await Promise.all([generateFreshCards(st,req(),{ai}),generateFreshCards(st,req(),{ai})]);
+ const duplicate={semanticRepeat:isSemanticRepeat(base,near),similarity:similarity(base,near),results:results.map(x=>({status:x.status,accepted:x.accepted})),quota:await st.cardQuota()};
+ fs.writeFileSync(evidence+'"'"'/dedupe-reproduction.json'"'"',JSON.stringify(duplicate,null,2));console.log('"'"'DEDUPE'"'"',JSON.stringify(duplicate));
+ process.env.AI_BASE_URL='"'"''"'"';process.env.AI_MODEL='"'"''"'"';process.env.AI_API_KEY='"'"''"'"';
+ const one=await coachingOperation(st,{action:'"'"'open'"'"',topicKey:'"'"'idea:own'"'"',context:{track:'"'"'idea_track'"'"',gradeLevel:'"'"'m_ton'"'"',goal:'"'"'ysc'"'"'}});
+ let turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:one.id,revision:one.revision,requestId:crypto.randomUUID(),requestedTier:1,learnerResponse:'"'"'ยังคิดไม่ออก'"'"'});
+ turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:turn.id,revision:turn.revision,requestId:crypto.randomUUID(),requestedTier:2});
+ turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:turn.id,revision:turn.revision,requestId:crypto.randomUUID(),requestedTier:3});
+ const other=await coachingOperation(st,{action:'"'"'open'"'"',topicKey:'"'"'idea:own'"'"',context:{track:'"'"'idea_track'"'"',gradeLevel:'"'"'m_plai'"'"',goal:'"'"'classroom'"'"'}});
+ const own={sameConversation:one.id===other.id,oldGrade:other.context.gradeLevel,newRequestedGrade:'"'"'m_plai'"'"',retainedTier:other.turn.tier,retainedHistory:other.state.history.length};
+ fs.writeFileSync(evidence+'"'"'/idea-topic-reproduction.json'"'"',JSON.stringify(own,null,2));console.log('"'"'IDEA'"'"',JSON.stringify(own));
+ let bytes=0,pulls=0; const stream=new ReadableStream({pull(c){if(pulls++<20){const a=new Uint8Array(1024).fill(65);bytes+=a.length;c.enqueue(a)}else c.close()}});
+ const body=await readBody(new Request('"'"'http://localhost/api/ai/proposal'"'"',{method:'"'"'POST'"'"',body:stream,duplex:'"'"'half'"'"'}),64);
+ const b={limit:64,bytesRead:bytes,status:body.response?.status};fs.writeFileSync(evidence+'"'"'/body-reproduction.json'"'"',JSON.stringify(b,null,2));console.log('"'"'BODY'"'"',JSON.stringify(b));
+} finally {await server.close()}
+'
+
+POSTGRES PROBE
+node --input-type=module -e 'const {createServer}=await import('"'"'vite'"'"'); const path=await import('"'"'node:path'"'"'); const fs=await import('"'"'node:fs'"'"');
+const server=await createServer({configFile:false,server:{middlewareMode:true},resolve:{alias:{'"'"'@'"'"':path.resolve('"'"'src'"'"'),'"'"'server-only'"'"':path.resolve('"'"'tests/support/server-only.ts'"'"')}}});
+const evidence='"'"'docs/verification/production-release/independent-review'"'"';
+let pgfixture;try {
+ process.env.NODE_ENV='"'"'test'"'"';process.env.COACH_DB_PATH=path.resolve('"'"'.local/independent-review-probes.sqlite'"'"');
+ const {connectLocalFoundationStore}=await server.ssrLoadModule('"'"'/src/lib/persistence/sqlite-store.server.ts'"'"');
+ const {generateFreshCards}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-cards.server.ts'"'"');
+ const {FreshCardsRequestSchema}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-contract.ts'"'"');
+ const {isSemanticRepeat,similarity}=await server.ssrLoadModule('"'"'/src/lib/discovery/fresh-dedupe.ts'"'"');
+ const {coachingOperation}=await server.ssrLoadModule('"'"'/src/lib/advisor/coaching-store.server.ts'"'"');
+ const {readBody}=await server.ssrLoadModule('"'"'/src/lib/persistence/owner-route.server.ts'"'"');
+ const owner='"'"'g:'"'"'+crypto.randomUUID().replaceAll('"'"'-'"'"','"'"''"'"').repeat(2);const {postgresFixture}=await server.ssrLoadModule('"'"'/tests/support/postgres.ts'"'"');pgfixture=await postgresFixture();const {connectFoundationStore}=await server.ssrLoadModule('"'"'/src/lib/persistence/supabase-store.server.ts'"'"');const st=await connectFoundationStore(pgfixture.rpc,owner);
+ const base={title:'"'"'ตัวกรองน้ำตู้ปลาจากวัสดุเหลือใช้'"'"',problem:'"'"'น้ำในตู้ปลาขุ่นเร็วและต้องเปลี่ยนน้ำบ่อย'"'"',roughDirection:'"'"'เปรียบเทียบวัสดุกรองสามชนิดโดยวัดความขุ่นทุกวัน'"'"',interestLink:'"'"'ความสนใจเรื่องตู้ปลา'"'"',subfieldId:'"'"'sci_environment'"'"',difficulty:'"'"'beginner'"'"',estimatedWeeks:5,estimatedBudgetBaht:250,requiredEquipment:['"'"'มือถือ'"'"'],minTeamSize:1,maxTeamSize:3,requiredSkills:['"'"'สังเกต'"'"'],fitNotes:['"'"'งบเหมาะสม'"'"'],safetyConcerns:[]};
+ const near={...base,title:base.title+'"'"'แบบประหยัด'"'"'};
+ const req=()=>FreshCardsRequestSchema.parse({requestId:crypto.randomUUID(),count:1,learner:{gradeLevel:'"'"'m_ton'"'"',goal:'"'"'ysc'"'"',constraints:{timeWeeks:6,budgetBaht:300,equipment:['"'"'มือถือ'"'"'],teamSize:2,skills:['"'"'สังเกต'"'"']}},interest:{answers:[{question:'"'"'สนใจอะไร'"'"',answer:'"'"'ตู้ปลา'"'"'}]}});
+ let arrived=0,release; const gate=new Promise(r=>release=r);
+ const ai=async (opt)=>{const i=arrived++;if(arrived===2)release();await gate;return {ok:true,data:{cards:[i?near:base]}}};
+ const results=await Promise.all([generateFreshCards(st,req(),{ai}),generateFreshCards(st,req(),{ai})]);
+ const duplicate={semanticRepeat:isSemanticRepeat(base,near),similarity:similarity(base,near),results:results.map(x=>({status:x.status,accepted:x.accepted})),quota:await st.cardQuota()};
+ fs.writeFileSync(evidence+'"'"'/dedupe-postgres-reproduction.json'"'"',JSON.stringify(duplicate,null,2));console.log('"'"'DEDUPE'"'"',JSON.stringify(duplicate));
+ process.env.AI_BASE_URL='"'"''"'"';process.env.AI_MODEL='"'"''"'"';process.env.AI_API_KEY='"'"''"'"';
+ const one=await coachingOperation(st,{action:'"'"'open'"'"',topicKey:'"'"'idea:own'"'"',context:{track:'"'"'idea_track'"'"',gradeLevel:'"'"'m_ton'"'"',goal:'"'"'ysc'"'"'}});
+ let turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:one.id,revision:one.revision,requestId:crypto.randomUUID(),requestedTier:1,learnerResponse:'"'"'ยังคิดไม่ออก'"'"'});
+ turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:turn.id,revision:turn.revision,requestId:crypto.randomUUID(),requestedTier:2});
+ turn=await coachingOperation(st,{action:'"'"'turn'"'"',conversationId:turn.id,revision:turn.revision,requestId:crypto.randomUUID(),requestedTier:3});
+ const other=await coachingOperation(st,{action:'"'"'open'"'"',topicKey:'"'"'idea:own'"'"',context:{track:'"'"'idea_track'"'"',gradeLevel:'"'"'m_plai'"'"',goal:'"'"'classroom'"'"'}});
+ const own={sameConversation:one.id===other.id,oldGrade:other.context.gradeLevel,newRequestedGrade:'"'"'m_plai'"'"',retainedTier:other.turn.tier,retainedHistory:other.state.history.length};
+ fs.writeFileSync(evidence+'"'"'/idea-topic-postgres-reproduction.json'"'"',JSON.stringify(own,null,2));console.log('"'"'IDEA'"'"',JSON.stringify(own));
+ let bytes=0,pulls=0; const stream=new ReadableStream({pull(c){if(pulls++<20){const a=new Uint8Array(1024).fill(65);bytes+=a.length;c.enqueue(a)}else c.close()}});
+ const body=await readBody(new Request('"'"'http://localhost/api/ai/proposal'"'"',{method:'"'"'POST'"'"',body:stream,duplex:'"'"'half'"'"'}),64);
+ const b={limit:64,bytesRead:bytes,status:body.response?.status};fs.writeFileSync(evidence+'"'"'/body-postgres-reproduction.json'"'"',JSON.stringify(b,null,2));console.log('"'"'BODY'"'"',JSON.stringify(b));
+} finally {if(pgfixture)await pgfixture.close();await server.close()}
+'
+
+EXTRA BROWSER (IDEA ROUTER + MOCKED RESET CLOCK)
+python -c 'from pathlib import Path
+import json,time
+p=Path('"'"'docs/verification/personalized-discovery/discovery-ui/run-discovery-ui-browser.py'"'"').resolve()
+s=p.read_text(encoding='"'"'utf-8'"'"').split('"'"'# ====================================================================='"'"')[0]
+s=s.replace("EVIDENCE = ROOT / '"'"'docs/verification/personalized-discovery/discovery-ui'"'"'","EVIDENCE = ROOT / '"'"'docs/verification/production-release/independent-review/extra'"'"'")
+s=s.replace("SHIM = EVIDENCE / '"'"'rest-shim.mjs'"'"'","SHIM = ROOT / '"'"'docs/verification/personalized-discovery/discovery-ui/rest-shim.mjs'"'"'")
+s=s.replace('"'"'discovery-ui-browser-profile'"'"','"'"'independent-extra-browser-profile'"'"').replace('"'"'discovery-ui-pg'"'"','"'"'independent-extra-pg'"'"')
+s=s.replace('"'"'3021'"'"','"'"'3034'"'"').replace('"'"'55494'"'"','"'"'55544'"'"').replace('"'"'55493'"'"','"'"'55543'"'"').replace('"'"'55495'"'"','"'"'55545'"'"')
+ns={'"'"'__file__'"'"':str(p),'"'"'__name__'"'"':'"'"'extra_helpers'"'"'};exec(compile(s,str(p),'"'"'exec'"'"'),ns)
+for k in ['"'"'PROFILE'"'"','"'"'DB_DIR'"'"']:ns[k].mkdir(parents=True,exist_ok=True)
+js=ns['"'"'js'"'"'];cdp=ns['"'"'cdp'"'"'];wait=ns['"'"'wait'"'"'];navigate=ns['"'"'navigate'"'"']
+try:
+ ns['"'"'start_shim'"'"']();ns['"'"'start_server'"'"'](ai_configured=False);ns['"'"'start_browser'"'"']();ns['"'"'seed_learner'"'"']()
+ navigate('"'"'/idea?ideaId=project-A'"'"');wait("(window.__requests||[]).some(r=>r.url==='"'"'/api/ai/coach'"'"'&&r.status===200)")
+ first=next(r for r in js('"'"'window.__requests'"'"') if r['"'"'url'"'"']=='"'"'/api/ai/coach'"'"' and r.get('"'"'status'"'"')==200)
+ navigate('"'"'/idea?ideaId=project-B'"'"');wait("(window.__requests||[]).some(r=>r.url==='"'"'/api/ai/coach'"'"'&&r.status===200)")
+ second=next(r for r in js('"'"'window.__requests'"'"') if r['"'"'url'"'"']=='"'"'/api/ai/coach'"'"' and r.get('"'"'status'"'"')==200)
+ issue={'"'"'differentIdeaIds'"'"':['"'"'project-A'"'"','"'"'project-B'"'"'],'"'"'topicKeys'"'"':[first['"'"'body'"'"']['"'"'topicKey'"'"'],second['"'"'body'"'"']['"'"'topicKey'"'"']],'"'"'sameConversation'"'"':first['"'"'response'"'"']['"'"'conversation'"'"']['"'"'id'"'"']==second['"'"'response'"'"']['"'"'conversation'"'"']['"'"'id'"'"']}
+ (ns['"'"'EVIDENCE'"'"']/'"'"'idea-router-reproduction.json'"'"').write_text(json.dumps(issue,indent=2),encoding='"'"'utf-8'"'"');print('"'"'IDEA ROUTER'"'"',json.dumps(issue))
+ # Explicitly mocked UI quota: resetAt crosses while the page stays mounted.
+ cdp('"'"'Page.addScriptToEvaluateOnNewDocument'"'"',source="const f=window.fetch;window.__quotaReads=0;window.fetch=async(...a)=>{if(String(a[0])==='"'"'/api/discovery/cards'"'"'&&(!a[1]?.method||a[1]?.method==='"'"'GET'"'"')){window.__quotaReads++;if(window.__quotaReads===1)return Response.json({quota:{day:'"'"'2026-11-05'"'"',used:35,reserved:0,remaining:0,freeRemaining:0,extraRemaining:0,resetAt:new Date(Date.now()+1000).toISOString()}})}return f(...a)}")
+ navigate('"'"'/discovery'"'"');wait("document.querySelector('"'"'[data-testid=interest-question]'"'"')");ns['"'"'click'"'"']('"'"'สิ่งแวดล้อมรอบตัว'"'"');wait("document.querySelector('"'"'[data-testid=interest-question]'"'"')?.textContent.includes('"'"'สิ่งแวดล้อมรอบตัว'"'"')");ns['"'"'click'"'"']('"'"'อยากลดขยะ'"'"');wait("document.querySelector('"'"'#interest-summary'"'"')")
+ time.sleep(2);js("window.dispatchEvent(new Event('"'"'focus'"'"'));document.dispatchEvent(new Event('"'"'visibilitychange'"'"'))");time.sleep(.5)
+ disabled=ns['"'"'button_disabled'"'"']('"'"'สร้างการ์ด 5 ใบ'"'"');reads=js('"'"'window.__quotaReads'"'"');actual=ns['"'"'server_quota'"'"']()
+ issue={'"'"'mockedQuotaClockBoundary'"'"':True,'"'"'buttonDisabledAfterReset'"'"':disabled,'"'"'automaticQuotaReads'"'"':reads,'"'"'actualServerRemaining'"'"':actual['"'"'remaining'"'"']}
+ (ns['"'"'EVIDENCE'"'"']/'"'"'quota-midnight-reproduction.json'"'"').write_text(json.dumps(issue,indent=2),encoding='"'"'utf-8'"'"');print('"'"'MIDNIGHT UI'"'"',json.dumps(issue))
+finally:
+ ns['"'"'stop_browser'"'"']();ns['"'"'stop_server'"'"']();ns['"'"'stop_shim'"'"']()
+'

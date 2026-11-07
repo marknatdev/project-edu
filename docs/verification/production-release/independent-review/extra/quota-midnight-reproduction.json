@@ -1,0 +1,6 @@
+{
+  "mockedQuotaClockBoundary": true,
+  "buttonDisabledAfterReset": true,
+  "automaticQuotaReads": 1,
+  "actualServerRemaining": 35
+}

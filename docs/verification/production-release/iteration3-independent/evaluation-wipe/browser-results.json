@@ -1,0 +1,68 @@
+[
+  {
+    "name": "DEFECT REPRODUCED: late real evaluation response recreates erased evaluation",
+    "passed": true,
+    "detail": {
+      "deletedInitially": true,
+      "responseStatus": 200,
+      "beforeResponseHadEvaluation": true,
+      "afterState": {
+        "schemaVersion": 2,
+        "consent": {
+          "accepted": false,
+          "acceptedAt": null
+        },
+        "learner": null,
+        "interview": null,
+        "swipeHistory": [],
+        "ideas": [],
+        "projects": [],
+        "evaluations": [
+          {
+            "id": "eval_1793977704039_931k5r",
+            "ideaId": "privacy-probe-idea",
+            "overallScore": 7,
+            "overallBadge": "green",
+            "axes": {
+              "novelty": {
+                "score": 7,
+                "badge": "green",
+                "rationale": "หัวข้อมีความคิดสร้างสรรค์และมีประเด็นท้าทายที่น่าสนใจในการต่อยอดจากสิ่งรอบตัว",
+                "feedback": "ลองสำรวจเอกสารงานวิจัยเพิ่มเติมเพื่อระบุความแตกต่างและจุดเด่นเฉพาะตัวของโครงงานให้ชัดเจนขึ้น"
+              },
+              "feasibility": {
+                "score": 7,
+                "badge": "green",
+                "rationale": "ขอบเขตและอุปกรณ์อยู่ในระดับที่สามารถจัดหาและดำเนินการได้จริงตามระดับชั้น",
+                "feedback": "ควรวางแผนการทดลองและตารางการทำงานล่วงหน้าเพื่อป้องกันปัญหาเรื่องระยะเวลา"
+              },
+              "impact": {
+                "score": 8,
+                "badge": "green",
+                "rationale": "ผลสัมฤทธิ์ของโครงงานมีศักยภาพในการแก้ไขปัญหาจริงและเกิดประโยชน์ต่อผู้ใช้หรือชุมชน",
+                "feedback": "สามารถเก็บข้อมูลผลกระทบเชิงปริมาณหรือความคิดเห็นจากกลุ่มผู้ใช้จริงเพื่อยืนยันประโยชน์"
+              },
+              "rigor": {
+                "score": 6,
+                "badge": "yellow",
+                "rationale": "แนวคิดมีความเป็นวิทยาศาสตร์ แต่ยังจำเป็นต้องระบุตัวแปรและวิธีการควบคุมอย่างรัดกุม",
+                "feedback": "ควรกำหนดตัวแปรต้น ตัวแปรตาม และตัวแปรควบคุมให้ชัดเจน และทำซ้ำเพื่อความน่าเชื่อถือ"
+              },
+              "fit": {
+                "score": 8,
+                "badge": "green",
+                "rationale": "สอดคล้องกับเป้าหมายการแข่งขันและเกณฑ์การประเมินของระดับชั้นที่เลือก",
+                "feedback": "ปรับปรุงการนำเสนอให้ตอบโจทย์เกณฑ์ของเวทีการประกวดที่ตั้งเป้าหมายไว้"
+              }
+            },
+            "safetyFlags": [],
+            "priorWork": [],
+            "evaluatedAt": "2026-11-06T15:08:24.039Z"
+          }
+        ],
+        "pivots": [],
+        "activeProjectId": null
+      }
+    }
+  }
+]

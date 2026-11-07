@@ -1,0 +1,19 @@
+   [33m[2m✓[22m[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mgates Tier 3 on server history and resumes the exact conversation after a real Postgres restart [33m 1931[2mms[22m[39m
+ [32m✓[39m tests/integration/fresh-cards-postgres.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 22090[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mpersists starter snapshots (jsonb round-trip) and replays them after a real database restart [33m 1800[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mproduction route: signed guest + supabase-js transport (REST hop simulated) + real Postgres; restart-safe replay [33m 1462[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mconcurrent distinct intents never exceed 35 accepted cards; failures are not charged [33m 329[2mms[22m[39m
+ [32m✓[39m tests/integration/foundation-postgres.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 22973[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22menforces the shared auth admission ceiling across independently bound owners [33m 555[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mrecovers expired pending work after restart, fences its old lease, and preserves completed idempotency [33m 2738[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mretains records, receipts and quota after the actual Postgres process restarts [33m 815[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m56 passed[39m[22m[90m (56)[39m
+[2m      Tests [22m [1m[32m460 passed[39m[22m[90m (460)[39m
+[2m   Start at [22m 13:05:03
+[2m   Duration [22m 25.35s[2m (transform 5.56s, setup 0ms, collect 26.26s, tests 75.80s, environment 23ms, prepare 14.63s)[22m
+
+
+real	0m27.087s
+user	0m0.091s
+sys	0m0.169s

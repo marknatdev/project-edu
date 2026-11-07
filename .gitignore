@@ -9,5 +9,6 @@ build/
 Thumbs.db
 *.log
 coverage/
+.local/
 *.tsbuildinfo
 

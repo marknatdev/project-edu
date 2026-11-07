@@ -1,0 +1,25 @@
+{
+  "public_env_inlined": true,
+  "server_sentinel_leaks": [],
+  "head": "880e3a30a62e5fd61791bb3e7bab4025afdc2a30",
+  "index_empty": true,
+  "original_review_unchanged": true,
+  "changed_since_baseline": [
+    "src/lib/advisor/coaching-store.server.ts",
+    "next.config.ts",
+    "package-lock.json",
+    "package.json",
+    "src/app/api/ai/cards/generate/route.ts",
+    "src/app/api/ai/coach/route.ts",
+    "src/app/api/ai/evaluate/route.ts",
+    "src/app/api/ai/pivot/route.ts",
+    "src/app/api/ai/proposal/route.ts",
+    "src/components/consent/ConsentView.tsx",
+    "src/components/export/ExportPanel.tsx",
+    "src/components/proposal/ProposalEditor.tsx",
+    "src/components/shell/AppShell.tsx",
+    "src/lib/supabase/client.ts",
+    "tests/unit/supabase-client.test.ts",
+    "vitest.config.ts"
+  ]
+}

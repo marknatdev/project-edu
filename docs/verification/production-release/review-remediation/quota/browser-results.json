@@ -1,0 +1,50 @@
+[
+  {
+    "name": "mocked exhausted quota disables generation initially",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "server resetAt revalidates exhausted quota WITHOUT reload or foreground events",
+    "passed": true,
+    "detail": {
+      "reads": 2
+    }
+  },
+  {
+    "name": "renewed-quota-mocked-clock: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "renewed-quota-mocked-clock: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "renewed-quota-mocked-clock: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "renewed-quota-mocked-clock: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "focus/visibility recovery refreshes once, not a busy loop",
+    "passed": true,
+    "detail": {
+      "before": 2,
+      "after": 3
+    }
+  },
+  {
+    "name": "available quota does not busy-poll",
+    "passed": true,
+    "detail": null
+  }
+]

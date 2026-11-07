@@ -1,0 +1,101 @@
+[
+  {
+    "name": "cancel optional Google choice preserves Guest work",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "verified account transition does not auto-open/copy Guest context",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit-workspace-choice-synthetic-auth: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "explicit-workspace-choice-synthetic-auth: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "explicit-workspace-choice-synthetic-auth: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit-workspace-choice-synthetic-auth: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "declining Guest continuation performs resume-only 404, never creates account context",
+    "passed": true,
+    "detail": [
+      {
+        "url": "/api/ai/coach",
+        "method": "POST",
+        "body": {
+          "action": "resume",
+          "topicKey": "card:fresh_f5e29354-f1d4-4d6e-a1ee-1c2be389881e"
+        },
+        "status": 404,
+        "response": {
+          "error": "ไม่มีบทสนทนานี้ในพื้นที่บัญชี งาน Guest ยังอยู่ เลือกกลับไปทำงาน Guest เดิมได้"
+        }
+      }
+    ]
+  },
+  {
+    "name": "decline preserves original Guest snapshot byte-for-byte",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "separate account starts without Guest card/interview context",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit continue Guest resumes original Guest owner, never account copy",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "Guest continuation and snapshot survive reload after sign-in",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "returning to account preserves its original account-owned context",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "account-context-kept-separate: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "account-context-kept-separate: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "account-context-kept-separate: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "account-context-kept-separate: no browser JS errors",
+    "passed": true,
+    "detail": []
+  }
+]

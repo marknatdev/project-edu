@@ -1,0 +1,134 @@
+BROWSER: Chrome/156.0.8078.81
+MODE: real next start + supabase-js -> local REST shim -> real PostgreSQL 17; card upstream = LABELLED MOCK (not AI)
+PASS discovery opens with the adaptive interest chat, not the seed catalog deck
+PASS real server quota shown before any generation (5 free / 30 extra)
+PASS 01-chat-start: no horizontal page overflow at 360px
+PASS 01-chat-start: interactive controls at least 40px at 360px
+PASS 01-chat-start: screenshot rendered (not blank) at 360px
+PASS 01-chat-start: no browser JS errors
+PASS “ยังไม่รู้” gets a guiding near-life question (no silent subject pick, no cards)
+PASS 02-chat-unknown-guided: no horizontal page overflow at 360px
+PASS 02-chat-unknown-guided: interactive controls at least 40px at 360px
+PASS 02-chat-unknown-guided: screenshot rendered (not blank) at 360px
+PASS 02-chat-unknown-guided: no browser JS errors
+PASS follow-up question adapts to the typed answer
+PASS interest questions never ask known constraints or identity
+PASS summary after 3 answers (first was “ยังไม่รู้”), one question at a time
+PASS 03-summary-editable: no horizontal page overflow at 360px
+PASS 03-summary-editable: interactive controls at least 40px at 360px
+PASS 03-summary-editable: screenshot rendered (not blank) at 360px
+PASS 03-summary-editable: no browser JS errors
+PASS truthful loading state: no quota charged until accepted
+PASS 04-loading: no horizontal page overflow at 360px
+PASS 04-loading: interactive controls at least 40px at 360px
+PASS 04-loading: screenshot rendered (not blank) at 360px
+PASS 04-loading: no browser JS errors
+PASS generation request carried the edited summary, answers and interview constraints
+PASS server prompt to the (MOCK) upstream contained the learner interest + constraints; key only server-side
+PASS 5 accepted fresh cards persisted with snapshots
+PASS quota after first 5: free 0/5, extra 30/30 (server truth)
+PASS card shows truthful source/limits; no “verified” or safety-passed claim
+PASS 05-deck: no horizontal page overflow at 360px
+PASS 05-deck: interactive controls at least 40px at 360px
+PASS 05-deck: screenshot rendered (not blank) at 360px
+PASS 05-deck: no browser JS errors
+PASS one skip does not remove other same-subject cards from the batch
+PASS refresh resumes the same deck position, cards, swipes and shortlist (no new generation)
+PASS active card after refresh is the 4th card of the batch
+PASS more5 request used likes, skips, typed refinement and all seen ids
+PASS server prompt carried liked/skipped ideas and seen titles to avoid (MOCK upstream)
+PASS previous cards kept and 5 new unique cards added (10 total, no repeats)
+PASS quota: extra 25/30 after second batch
+PASS partial batch: honest “2 จาก 5”, charged 2, no filler cards
+PASS 06-partial: no horizontal page overflow at 360px
+PASS 06-partial: interactive controls at least 40px at 360px
+PASS 06-partial: screenshot rendered (not blank) at 360px
+PASS 06-partial: no browser JS errors
+PASS unavailable: Thai error, answers + 12 cards kept, quota unchanged, no fake cards
+PASS 07-unavailable-retry: no horizontal page overflow at 360px
+PASS 07-unavailable-retry: interactive controls at least 40px at 360px
+PASS 07-unavailable-retry: screenshot rendered (not blank) at 360px
+PASS 07-unavailable-retry: no browser JS errors
+PASS retry after a failed intent uses a NEW requestId and succeeds
+PACE: waiting 55.5s for production admission window
+PASS network failure: truthful “เชื่อมต่อเซิร์ฟเวอร์ไม่ได้”, pending intent kept with its exact body
+PASS retry after network failure resent the SAME requestId; 5 cards added once
+PASS 08-shortlist: no horizontal page overflow at 360px
+PASS 08-shortlist: interactive controls at least 40px at 360px
+PASS 08-shortlist: screenshot rendered (not blank) at 360px
+PASS 08-shortlist: no browser JS errors
+PASS compare view shows both cards with constraint fit text
+PASS 09-compare: no horizontal page overflow at 360px
+PASS 09-compare: interactive controls at least 40px at 360px
+PASS 09-compare: screenshot rendered (not blank) at 360px
+PASS 09-compare: no browser JS errors
+PASS coach open sent the selected generated card snapshot + constraints (not a catalog lookup)
+PASS server coaching prompt was built from that card’s problem + rough direction + interest link (MOCK upstream)
+PASS coaching page shows the selected generated card’s own problem/direction/interest link
+PASS 10-coach-selected-card: no horizontal page overflow at 360px
+PASS 10-coach-selected-card: interactive controls at least 40px at 360px
+PASS 10-coach-selected-card: screenshot rendered (not blank) at 360px
+PASS 10-coach-selected-card: no browser JS errors
+PASS 10-coach-selected-card: no horizontal page overflow at 1280px
+PASS 10-coach-selected-card: interactive controls at least 40px at 1280px
+PASS 10-coach-selected-card: screenshot rendered (not blank) at 1280px
+PASS 10-coach-selected-card: no browser JS errors
+PASS Tier 3 locked on the first turn of this generated-card conversation
+PASS Tier 3 still locked after the answer, before a Tier-2 hint
+PASS explicit Tier 3 (after answer + Tier-2 hint) issues examples and opens the own-words gate
+PASS copying an issued example is rejected by the rewrite gate
+PASS 11-rewrite-gate: no horizontal page overflow at 360px
+PASS 11-rewrite-gate: interactive controls at least 40px at 360px
+PASS 11-rewrite-gate: screenshot rendered (not blank) at 360px
+PASS 11-rewrite-gate: no browser JS errors
+PASS second card: separate conversation, its own context, fresh Tier-1 gate
+PASS returning to the first card resumes its own conversation history
+PASS after a real Next restart: same saved cards and server quota (22 used)
+PASS allowance consumed honestly to 27
+PASS allowance consumed honestly to 32
+PASS allowance consumed honestly to 35
+PASS at 35/35 the UI shows 0 free / 0 extra and disables more
+PASS server refuses the 36th card: 429 quota_exhausted, no upstream call
+PASS 12-quota-exhausted: no horizontal page overflow at 360px
+PASS 12-quota-exhausted: interactive controls at least 40px at 360px
+PASS 12-quota-exhausted: screenshot rendered (not blank) at 360px
+PASS 12-quota-exhausted: no browser JS errors
+PASS new interview/topic does not renew the daily allowance (button disabled, quota 0, all 35 cards kept)
+PASS 13-deck-320: no horizontal page overflow at 320px
+PASS 13-deck-320: interactive controls at least 40px at 320px
+PASS 13-deck-320: screenshot rendered (not blank) at 320px
+PASS 13-deck-320: no browser JS errors
+PASS 13-deck-390: no horizontal page overflow at 390px
+PASS 13-deck-390: interactive controls at least 40px at 390px
+PASS 13-deck-390: screenshot rendered (not blank) at 390px
+PASS 13-deck-390: no browser JS errors
+PASS 13-deck-1280: no horizontal page overflow at 1280px
+PASS 13-deck-1280: interactive controls at least 40px at 1280px
+PASS 13-deck-1280: screenshot rendered (not blank) at 1280px
+PASS 13-deck-1280: no browser JS errors
+PASS 14-shortlist-desktop: no horizontal page overflow at 1280px
+PASS 14-shortlist-desktop: interactive controls at least 40px at 1280px
+PASS 14-shortlist-desktop: screenshot rendered (not blank) at 1280px
+PASS 14-shortlist-desktop: no browser JS errors
+PASS 15-summary-desktop: no horizontal page overflow at 1280px
+PASS 15-summary-desktop: interactive controls at least 40px at 1280px
+PASS 15-summary-desktop: screenshot rendered (not blank) at 1280px
+PASS 15-summary-desktop: no browser JS errors
+PACE: waiting 48.3s for production admission window
+PASS AI unconfigured: 503 AI_UNCONFIGURED, Thai message, zero cards, nothing charged, no upstream call
+PASS 16-ai-unconfigured: no horizontal page overflow at 360px
+PASS 16-ai-unconfigured: interactive controls at least 40px at 360px
+PASS 16-ai-unconfigured: screenshot rendered (not blank) at 360px
+PASS 16-ai-unconfigured: no browser JS errors
+PASS 16-ai-unconfigured: no horizontal page overflow at 1280px
+PASS 16-ai-unconfigured: interactive controls at least 40px at 1280px
+PASS 16-ai-unconfigured: screenshot rendered (not blank) at 1280px
+PASS 16-ai-unconfigured: no browser JS errors
+PASS regression smoke /: loads without JS errors
+PASS regression smoke /interview: loads without JS errors and shows “สัมภาษณ์”
+PASS regression smoke /idea: loads without JS errors and shows “ครูที่ปรึกษา”
+PASS regression smoke /evaluation: loads without JS errors
+PASS regression smoke /proposal: loads without JS errors
+PASS regression smoke /consent: loads without JS errors
+PASS server logs contain no learner interest text or synthetic secrets
+SUMMARY {"passed": 129, "total": 129, "browser": "Chrome/156.0.8078.81", "server_pids": [19012, 39140, 35392], "mock_card_calls": 9, "mock_coach_calls": 5, "note": "AI upstream = LABELLED MOCK (hand-written/synthetic samples); not live AI evidence."}

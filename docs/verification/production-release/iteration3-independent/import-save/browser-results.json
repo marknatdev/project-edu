@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Save/Export sign-in persists unsaved Guest draft BEFORE navigation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "cancelled/interrupted sign-in leaves Guest draft and editor intact",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "verified account return from Save/Export mounts no project writer before decision",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "decline Guest continuation never copies the saved/export draft into account",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit Guest continuation restores saved draft after account transition and reload",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "Guest export after verified sign-in downloads real DOCX with the preserved Guest draft",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "guest-save-export-after-sign-in: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "guest-save-export-after-sign-in: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "guest-save-export-after-sign-in: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "guest-save-export-after-sign-in: no browser JS errors",
+    "passed": true,
+    "detail": []
+  }
+]

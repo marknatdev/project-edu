@@ -1,0 +1,48 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/auth-pkce.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/auth-pkce.test.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 128[2mms[22m[39m
+[31m   [31m×[31m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mdoes not replace a Strict Guest capability omitted on the cross-site OAuth return (production admission path)[39m[32m 49[2mms[22m[39m
+[31m     → expected true to be false // Object.is equality[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mreports only verified sign-in status and signs out locally without deleting guest work[32m 12[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mexchanges the callback code using its verifier and verifies the user before setting a session[32m 14[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrejects bad codes, missing verifiers and provider cancellation without exposing provider text or external redirects[32m 10[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path //attacker.invalid[32m 8[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /\\attacker.invalid[32m 4[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /%2f%2fattacker.invalid[32m 5[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path https://attacker.invalid[32m 4[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /auth/logout[32m 3[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /api/ai/coach[32m 4[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mrefuses unallowlisted return path /proposal/../auth/login[32m 3[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mblocks login/logout CSRF and never treats an unverified cached identity as authenticated[32m 6[2mms[22m[39m
+   [32m✓[39m Supabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mstarts Google sign-in with an S256 verifier cookie and only sign-in scopes[32m 5[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/auth-pkce.test.ts[2m > [22mSupabase SSR PKCE HTTP flow (SDK real, provider network simulated)[2m > [22mdoes not replace a Strict Guest capability omitted on the cross-site OAuth return (production admission path)
+[31m[1mAssertionError[22m: expected true to be false // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- false[39m
+[31m+ true[39m
+
+[36m [2m❯[22m tests/integration/auth-pkce.test.ts:[2m32:90[22m[39m
+    [90m 30| [39m    const response=await callback(new Request('https://app.test/auth/c…
+    [90m 31| [39m    expect(response.headers.get('location')).toBe('https://app.test/pr…
+    [90m 32| [39m    expect(response.headers.getSetCookie().some(c=>c.startsWith('edu-c…
+    [90m   | [39m                                                                                         [31m^[39m
+    [90m 33| [39m    [34mexpect[39m(response[33m.[39mheaders[33m.[39m[35mget[39m([32m'set-cookie'[39m))[33m.[39m[34mtoContain[39m([32m'HttpOnly'[39m)[33m;[39m
+    [90m 34| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 10:16:30
+[2m   Duration [22m 1.77s[2m (transform 245ms, setup 0ms, collect 762ms, tests 128ms, environment 0ms, prepare 482ms)[22m
+

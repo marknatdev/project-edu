@@ -1,0 +1,13 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/integration/principal.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-api.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1102[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-cloud.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 9231[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mgates Tier 3 on server history and resumes the exact conversation after a real Postgres restart [33m 1026[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m17 passed[39m[22m[90m (17)[39m
+[2m   Start at [22m 11:22:43
+[2m   Duration [22m 11.16s[2m (transform 566ms, setup 0ms, collect 2.67s, tests 10.38s, environment 1ms, prepare 488ms)[22m
+

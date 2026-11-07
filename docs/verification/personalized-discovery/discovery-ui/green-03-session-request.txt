@@ -1,0 +1,5 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/unit/discovery-fresh-session.test.ts
+ [32m✓[39m tests/unit/discovery-fresh-session.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+[2m      Tests [22m [1m[32m2 passed[39m[22m[90m (2)[39m

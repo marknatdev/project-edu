@@ -1,0 +1,14 @@
+PASS optional login discloses Auth PII and no silent cloud sync
+PASS unsaved proposal draft is preserved BEFORE OAuth navigation
+PASS proposal-optional-login: no horizontal page overflow at 360px
+FAIL proposal-optional-login: interactive controls at least 40px at 360px
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\repairs\run-repairs-browser.py", line 52, in <module>
+    shot('proposal-optional-login',360)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 410, in shot
+    check(f'{name}: interactive controls at least 40px at {width}px', not small, small)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 353, in check
+    raise AssertionError((name, detail))
+AssertionError: ('proposal-optional-login: interactive controls at least 40px at 360px', [{'text': 'เพิ่ม', 'h': 36, 'w': 53}, {'text': 'เพิ่ม', 'h': 36, 'w': 53}, {'text': 'เพิ่ม', 'h': 36, 'w': 53}, {'text': '', 'h': 20, 'w': 20}, {'text': '', 'h': 20, 'w': 20}])

@@ -1,0 +1,11 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/streaming-limits.test.ts tests/unit/fresh-cards-gateway.test.ts tests/integration/auth-pkce.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+
+ Test Files  3 passed (3)
+      Tests  31 passed (31)
+   Start at  20:31:07
+   Duration  1.42s (transform 851ms, setup 0ms, import 2.18s, tests 312ms, environment 1ms)
+

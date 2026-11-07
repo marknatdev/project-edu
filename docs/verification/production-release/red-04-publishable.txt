@@ -1,0 +1,42 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/unit/supabase-client.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/unit/supabase-client.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 24[2mms[22m[39m
+[31m   [31m×[31m Supabase Client (src/lib/supabase/client.ts)[2m > [22mSeam: Configuration & graceful fallback when unconfigured[2m > [22mprefers the publishable key while retaining the anon-key compatibility alias[39m[32m 13[2mms[22m[39m
+[31m     → expected { …(2) } to deeply equal { …(2) }[39m
+   [32m✓[39m Supabase Client (src/lib/supabase/client.ts)[2m > [22mSeam: Configuration & graceful fallback when unconfigured[2m > [22mdetects missing configuration when env vars are absent[32m 1[2mms[22m[39m
+   [32m✓[39m Supabase Client (src/lib/supabase/client.ts)[2m > [22mSeam: Configuration & graceful fallback when unconfigured[2m > [22mreturns informative Thai explanation on signInWithGoogle() when unconfigured[32m 1[2mms[22m[39m
+   [32m✓[39m Supabase Client (src/lib/supabase/client.ts)[2m > [22mSeam: Configuration & graceful fallback when unconfigured[2m > [22mdetects valid configuration when env vars are present[32m 6[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/supabase-client.test.ts[2m > [22mSupabase Client (src/lib/supabase/client.ts)[2m > [22mSeam: Configuration & graceful fallback when unconfigured[2m > [22mprefers the publishable key while retaining the anon-key compatibility alias
+[31m[1mAssertionError[22m: expected { …(2) } to deeply equal { …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "anonKey": "sb_publishable_test",[39m
+[31m+   "anonKey": "old-key",[39m
+[2m    "url": "https://ppctndzkerwiokjfaklw.supabase.co",[22m
+[2m  }[22m
+
+[36m [2m❯[22m tests/unit/supabase-client.test.ts:[2m29:10[22m[39m
+    [90m 27| [39m      expect(getSupabaseConfig({ NEXT_PUBLIC_SUPABASE_URL: 'https://pp…
+    [90m 28| [39m        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test', N…
+    [90m 29| [39m        .toEqual({ url: 'https://ppctndzkerwiokjfaklw.supabase.co', an…
+    [90m   | [39m         [31m^[39m
+    [90m 30| [39m    })[33m;[39m
+    [90m 31| [39m    it('detects missing configuration when env vars are absent', () =>…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 09:19:48
+[2m   Duration [22m 1.01s[2m (transform 74ms, setup 0ms, collect 256ms, tests 24ms, environment 0ms, prepare 406ms)[22m
+

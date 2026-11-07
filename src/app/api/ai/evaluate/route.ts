@@ -1,8 +1,12 @@
+import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { evaluateIsolator } from '@/lib/variables/rigor';
 import { z } from 'zod';
-import { quotaStore, getQuotaExceededMessage } from '@/lib/ai/quota';
+import { getQuotaExceededMessage } from '@/lib/ai/quota';
 import { callAiGateway } from '@/lib/ai/gateway';
+import { resolvePrincipal } from '@/lib/auth/principal.server';
+import { foundationForOwner } from '@/lib/persistence/factory.server';
+import { fingerprint, invalidInput, json, ownerFailure, readBody } from '@/lib/persistence/owner-route.server';
 import { getRubricPreset } from '@/lib/rubrics/presets';
 import { computeEvaluationScore, scoreToBadge } from '@/lib/rubrics/engine';
 import { screenIdea } from '@/lib/safety/screener';
@@ -18,13 +22,16 @@ import type {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+// DEF-04: no anonymousId. The quota owner is the verified account or the signed
+// server-issued Guest capability; a caller-chosen identity field is rejected.
 const EvaluateRequestSchema = z
   .object({
-    anonymousId: z.string().min(1),
     idea: IdeaSchema,
     constraints: ConstraintsSchema.optional(),
   })
   .strict();
+
+const UNAVAILABLE_TH = 'ระบบบันทึกโควตาหรือสิทธิ์การประเมินยังไม่พร้อม จึงยืนยันผลไม่ได้ กรุณาตรวจโควตาแล้วลองใหม่ภายหลัง';
 
 const AiAxisSchema = z.object({
   score: z.number().int().min(1).max(10).optional(),
@@ -44,40 +51,31 @@ const AiEvaluateResponseSchema = z.object({
 });
 
 export async function POST(req: Request) {
-  let body: unknown;
+  const read = await readBody(req);
+  if ('response' in read) return read.response;
+  const parsed = EvaluateRequestSchema.safeParse(read.body);
+  if (!parsed.success) return invalidInput(parsed.error.issues);
   try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
-  }
+    const who = await resolvePrincipal(req);
+    const store = await foundationForOwner(who.owner);
+    if (!await store.allowRequest('evaluate')) {
+      return who.apply(json(429, { error: 'RATE_LIMITED', messageTh: 'ขอประเมินถี่เกินไป กรุณารอประมาณหนึ่งนาทีแล้วลองใหม่ (ยังไม่ได้ใช้โควตา)' }));
+    }
+    // A fresh server intent per evaluation: a replayed client ID can never buy
+    // another model call for free.
+    const charged = await store.consumeQuota({ kind: 'evaluate', requestId: randomUUID(), fingerprint: fingerprint({ v: 1, idea: parsed.data.idea.id }) });
+    const quota = { used: charged.used, limit: 5, remaining: charged.remaining, resetAt: charged.resetAt };
+    if (!charged.allowed) {
+      return who.apply(json(429, { error: 'QUOTA_EXCEEDED', messageTh: getQuotaExceededMessage('evaluate'), ...quota, quota }));
+    }
+    const response = await evaluateIdea(parsed.data.idea, quota);
+    // Reuse the bound generation check; never rebind an owner after inference.
+    await store.quotaStatus('evaluate');
+    return who.apply(response);
+  } catch (e) { return ownerFailure(req, e, UNAVAILABLE_TH); }
+}
 
-  const parsed = EvaluateRequestSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      {
-        error: 'Invalid input or disallowed fields detected (Zero-PII violated)',
-        details: parsed.error.issues,
-      },
-      { status: 400 }
-    );
-  }
-
-  const { anonymousId, idea } = parsed.data;
-
-  // Enforce quota (5 evaluations per day)
-  const quotaResult = await quotaStore.consume(anonymousId, 'evaluate', 1);
-  if (!quotaResult.allowed) {
-    return NextResponse.json(
-      {
-        error: 'Quota exceeded',
-        messageTh: getQuotaExceededMessage('evaluate'),
-        remaining: quotaResult.record.remaining,
-        resetAt: quotaResult.record.resetAt,
-      },
-      { status: 429 }
-    );
-  }
-
+async function evaluateIdea(idea: z.infer<typeof IdeaSchema>, quota: { used: number; limit: number; remaining: number; resetAt: string }): Promise<NextResponse> {
   // 1. M1 Rubric preset for goal x gradeLevel
   const preset = getRubricPreset(idea.goal, idea.gradeLevel);
 
@@ -250,23 +248,14 @@ export async function POST(req: Request) {
 
   const evaluation = EvaluationSchema.parse(evaluationCandidate);
 
-  return NextResponse.json({
-    source: gatewayResult.source,
-    evaluation,
-    quota: {
-      used: quotaResult.record.used,
-      limit: quotaResult.record.limit,
-      remaining: quotaResult.record.remaining,
-      resetAt: quotaResult.record.resetAt,
-    },
-  });
+  return json(200, { source: gatewayResult.source, evaluation, quota });
 }
 
+/** Current owner's allowance only; any anonymousId query is ignored. */
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const anonymousId = searchParams.get('anonymousId') || 'guest';
-  const record = await quotaStore.check(anonymousId, 'evaluate');
-  return NextResponse.json({
-    quota: record,
-  });
+  try {
+    const who = await resolvePrincipal(req);
+    const status = await (await foundationForOwner(who.owner)).quotaStatus('evaluate');
+    return who.apply(json(200, { quota: status }));
+  } catch (e) { return ownerFailure(req, e, UNAVAILABLE_TH); }
 }

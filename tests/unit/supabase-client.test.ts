@@ -23,6 +23,11 @@ describe('Supabase Client (src/lib/supabase/client.ts)', () => {
   });
 
   describe('Seam: Configuration & graceful fallback when unconfigured', () => {
+    it('prefers the publishable key while retaining the anon-key compatibility alias', () => {
+      expect(getSupabaseConfig({ NEXT_PUBLIC_SUPABASE_URL: 'https://ppctndzkerwiokjfaklw.supabase.co',
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test', NEXT_PUBLIC_SUPABASE_ANON_KEY: 'old-key' }))
+        .toEqual({ url: 'https://ppctndzkerwiokjfaklw.supabase.co', anonKey: 'sb_publishable_test' });
+    });
     it('detects missing configuration when env vars are absent', () => {
       expect(isSupabaseConfigured()).toBe(false);
       expect(getSupabaseConfig()).toBeNull();

@@ -1,0 +1,11 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/streaming-limits.test.ts tests/unit/legacy-cards-route.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  21:20:45
+   Duration  1.72s (transform 844ms, setup 0ms, import 2.10s, tests 86ms, environment 0ms)
+

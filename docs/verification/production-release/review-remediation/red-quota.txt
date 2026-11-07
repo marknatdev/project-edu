@@ -1,0 +1,9 @@
+PASS mocked exhausted quota disables generation initially
+FAIL server resetAt revalidates exhausted quota WITHOUT reload or foreground events
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\review-remediation\run-browser.py", line 80, in <module>
+    check('server resetAt revalidates exhausted quota WITHOUT reload or foreground events',js('window.__quotaReads>=2') and not ns['button_disabled']('สร้างการ์ด 5 ใบ'),{'reads':js('window.__quotaReads')})
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 353, in check
+    raise AssertionError((name, detail))
+AssertionError: ('server resetAt revalidates exhausted quota WITHOUT reload or foreground events', {'reads': 1})

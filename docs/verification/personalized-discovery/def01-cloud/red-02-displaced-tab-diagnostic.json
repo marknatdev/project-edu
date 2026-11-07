@@ -1,0 +1,560 @@
+{
+  "url": "http://127.0.0.1:3018/idea?topicCardId=generated-browser-fixture",
+  "text": "เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)\nติดตั้งแอป\nปิด\nProject Edu\nเข้าสู่ระบบ Google (ไม่บังคับ)\nเส้นทางค้นหา (Discovery → Idea)\n📌 การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\n🧑‍🏫 ครูที่ปรึกษาโครงงาน Socratic AI\n\nAI ไม่คิดไอเดียสำเร็จรูปแทนคุณ แต่จะถามชวนคิด 3 ระดับ เจาะลึก 4 ด้าน จนได้โครงงานที่คุณเป็นเจ้าของเอง\n\nเชื่อมต่อบทสนทนา / โหลดล่าสุด\nเริ่มบทสนทนาใหม่\n\nคำแนะนำสำรองอัตโนมัติจากเซิร์ฟเวอร์ — ไม่ได้เรียก AI สด แต่บันทึกขั้นตอนสนทนาได้\n\nความคืบหน้าประเด็นสำคัญ (4 ด้าน)\n0/4 ด้าน\nคำถามที่ 1/8\n1. ปัญหา\nProblem\n2. วัตถุประสงค์\nObjective\n3. วิธีการ\nMethodology\n4. สิ่งที่จะวัด\nMeasurement\nระดับความช่วยเหลือจากครูที่ปรึกษา (3-Tier Pedagogy):\nปลดล็อกตามลำดับ\nถามชวนคิด\nTier 1: Socratic\nใช้งานอยู่\nขอคำใบ้\nTier 2: Guided Hints\nล็อก\nคิดไม่ออกจริงๆ\nTier 3: Last Resort\nล็อก\nครูที่ปรึกษา AI\nTier 1 • Socratic Question\n\nคำแนะนำสำรองอัตโนมัติจากเซิร์ฟเวอร์\n\nหัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?\nสัมภาษณ์\nค้นหาหัวข้อ\nพัฒนาไอเดีย\nตัวแปร\nข้อเสนอ\nความเป็นส่วนตัว",
+  "errors": [],
+  "requests": [
+    {
+      "status": 200,
+      "body": {
+        "turn": {
+          "source": "fallback",
+          "tier": 1,
+          "tierDowngraded": false,
+          "aspect": "problem",
+          "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:27:45.977Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "31a265ba-af15-481a-a845-14a788dca5e5",
+          "topicKey": "card:generated-browser-fixture",
+          "revision": 1,
+          "context": {
+            "track": "discovery_track",
+            "gradeLevel": "m_plai",
+            "goal": "ysc",
+            "topicCard": {
+              "id": "generated-browser-fixture",
+              "subjectId": "science",
+              "subfieldId": "sci_physics",
+              "title": "การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ",
+              "phenomenon": "ข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด",
+              "curiosityHook": "จะวัดความต่างได้อย่างไร",
+              "targetGradeLevels": [
+                "m_plai"
+              ],
+              "difficulty": "beginner",
+              "estimatedWeeks": 3,
+              "estimatedBudgetBaht": 300,
+              "requiredEquipment": [
+                "โทรศัพท์"
+              ],
+              "minTeamSize": 1,
+              "maxTeamSize": 3,
+              "requiredSkills": []
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 900,
+              "equipment": [
+                "โทรศัพท์",
+                "ไม้บรรทัด"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "วัดระยะ"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:27:45.977Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "fallback",
+            "tier": 1,
+            "tierDowngraded": false,
+            "aspect": "problem",
+            "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "card:generated-browser-fixture",
+              "turnCount": 1,
+              "unlockedTiers": [
+                1
+              ],
+              "aspectProgress": {
+                "problem": false,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                  "timestamp": "2026-11-06T04:27:45.977Z",
+                  "source": "fallback"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "turn": {
+          "source": "fallback",
+          "tier": 1,
+          "tierDowngraded": false,
+          "aspect": "problem",
+          "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:27:46.475Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "c18b78ed-b59e-4a31-a9d7-7f07da03e7fb",
+          "topicKey": "card:generated-browser-fixture",
+          "revision": 1,
+          "context": {
+            "track": "discovery_track",
+            "gradeLevel": "m_plai",
+            "goal": "ysc",
+            "topicCard": {
+              "id": "generated-browser-fixture",
+              "subjectId": "science",
+              "subfieldId": "sci_physics",
+              "title": "การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ",
+              "phenomenon": "ข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด",
+              "curiosityHook": "จะวัดความต่างได้อย่างไร",
+              "targetGradeLevels": [
+                "m_plai"
+              ],
+              "difficulty": "beginner",
+              "estimatedWeeks": 3,
+              "estimatedBudgetBaht": 300,
+              "requiredEquipment": [
+                "โทรศัพท์"
+              ],
+              "minTeamSize": 1,
+              "maxTeamSize": 3,
+              "requiredSkills": []
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 900,
+              "equipment": [
+                "โทรศัพท์",
+                "ไม้บรรทัด"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "วัดระยะ"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:27:46.475Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "fallback",
+            "tier": 1,
+            "tierDowngraded": false,
+            "aspect": "problem",
+            "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "card:generated-browser-fixture",
+              "turnCount": 1,
+              "unlockedTiers": [
+                1
+              ],
+              "aspectProgress": {
+                "problem": false,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                  "timestamp": "2026-11-06T04:27:46.475Z",
+                  "source": "fallback"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "turn": {
+          "source": "fallback",
+          "tier": 1,
+          "tierDowngraded": false,
+          "aspect": "problem",
+          "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:27:46.475Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "c18b78ed-b59e-4a31-a9d7-7f07da03e7fb",
+          "topicKey": "card:generated-browser-fixture",
+          "revision": 1,
+          "context": {
+            "track": "discovery_track",
+            "gradeLevel": "m_plai",
+            "goal": "ysc",
+            "topicCard": {
+              "id": "generated-browser-fixture",
+              "subjectId": "science",
+              "subfieldId": "sci_physics",
+              "title": "การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ",
+              "phenomenon": "ข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด",
+              "curiosityHook": "จะวัดความต่างได้อย่างไร",
+              "targetGradeLevels": [
+                "m_plai"
+              ],
+              "difficulty": "beginner",
+              "estimatedWeeks": 3,
+              "estimatedBudgetBaht": 300,
+              "requiredEquipment": [
+                "โทรศัพท์"
+              ],
+              "minTeamSize": 1,
+              "maxTeamSize": 3,
+              "requiredSkills": []
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 900,
+              "equipment": [
+                "โทรศัพท์",
+                "ไม้บรรทัด"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "วัดระยะ"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:27:46.475Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "fallback",
+            "tier": 1,
+            "tierDowngraded": false,
+            "aspect": "problem",
+            "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "card:generated-browser-fixture",
+              "turnCount": 1,
+              "unlockedTiers": [
+                1
+              ],
+              "aspectProgress": {
+                "problem": false,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                  "timestamp": "2026-11-06T04:27:46.475Z",
+                  "source": "fallback"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "turn": {
+          "source": "fallback",
+          "tier": 1,
+          "tierDowngraded": false,
+          "aspect": "problem",
+          "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:28:44.668Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          }
+        },
+        "conversation": {
+          "id": "3d2b98be-cc2f-402d-b5cd-dbca4ee80927",
+          "topicKey": "card:generated-browser-fixture",
+          "revision": 1,
+          "context": {
+            "track": "discovery_track",
+            "gradeLevel": "m_plai",
+            "goal": "ysc",
+            "topicCard": {
+              "id": "generated-browser-fixture",
+              "subjectId": "science",
+              "subfieldId": "sci_physics",
+              "title": "การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ",
+              "phenomenon": "ข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด",
+              "curiosityHook": "จะวัดความต่างได้อย่างไร",
+              "targetGradeLevels": [
+                "m_plai"
+              ],
+              "difficulty": "beginner",
+              "estimatedWeeks": 3,
+              "estimatedBudgetBaht": 300,
+              "requiredEquipment": [
+                "โทรศัพท์"
+              ],
+              "minTeamSize": 1,
+              "maxTeamSize": 3,
+              "requiredSkills": []
+            },
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 900,
+              "equipment": [
+                "โทรศัพท์",
+                "ไม้บรรทัด"
+              ],
+              "teamSize": 2,
+              "skills": [
+                "วัดระยะ"
+              ]
+            }
+          },
+          "state": {
+            "anonymousId": "guest",
+            "ideaId": "card:generated-browser-fixture",
+            "turnCount": 1,
+            "unlockedTiers": [
+              1
+            ],
+            "aspectProgress": {
+              "problem": false,
+              "objective": false,
+              "methodology": false,
+              "measurement": false
+            },
+            "history": [
+              {
+                "turnIndex": 1,
+                "tier": 1,
+                "aspect": "problem",
+                "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                "timestamp": "2026-11-06T04:28:44.668Z",
+                "source": "fallback"
+              }
+            ],
+            "isComplete": false
+          },
+          "turn": {
+            "source": "fallback",
+            "tier": 1,
+            "tierDowngraded": false,
+            "aspect": "problem",
+            "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+            "state": {
+              "anonymousId": "guest",
+              "ideaId": "card:generated-browser-fixture",
+              "turnCount": 1,
+              "unlockedTiers": [
+                1
+              ],
+              "aspectProgress": {
+                "problem": false,
+                "objective": false,
+                "methodology": false,
+                "measurement": false
+              },
+              "history": [
+                {
+                  "turnIndex": 1,
+                  "tier": 1,
+                  "aspect": "problem",
+                  "content": "หัวข้อ: การ์ดจำลองทดสอบ: ช่องลมกับอุณหภูมิ\nข้อมูลจำลองเพื่อทดสอบการส่ง snapshot ไม่ใช่ผลสร้าง AI สด\nลองสังเกตปัญหาในชีวิตประจำวัน โรงเรียน หรือชุมชนรอบตัว มีปัญหาหรือจุดติดขัดอะไรที่พบบ่อยและอยากแก้ไขมากที่สุดครับ?",
+                  "timestamp": "2026-11-06T04:28:44.668Z",
+                  "source": "fallback"
+                }
+              ],
+              "isComplete": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "keys": [
+    "edtech:coaching-invalidation",
+    "edtech:coaching:card%3Asci-phy-01",
+    "edtech:topic-card:generated-browser-fixture",
+    "edtech:state",
+    "unrelated-verification",
+    "edtech:coaching:card%3Asci-phy-02",
+    "edtech:coaching:card%3Agenerated-browser-fixture"
+  ]
+}

@@ -1,0 +1,41 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/unit/eval-client.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+ ❯ tests/unit/eval-client.test.ts (10 tests | 4 failed) 140ms
+     × does not turn identity/workspace refusal 401 into a saved fallback success 31ms
+     × does not turn identity/workspace refusal 403 into a saved fallback success 5ms
+     × does not turn identity/workspace refusal 409 into a saved fallback success 2ms
+     × does not turn identity/workspace refusal 410 into a saved fallback success 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/eval-client.test.ts > Evaluation & Pivot Client (ADR 0001 & ADR 0002) > does not turn identity/workspace refusal 401 into a saved fallback success
+ FAIL  tests/unit/eval-client.test.ts > Evaluation & Pivot Client (ADR 0001 & ADR 0002) > does not turn identity/workspace refusal 403 into a saved fallback success
+ FAIL  tests/unit/eval-client.test.ts > Evaluation & Pivot Client (ADR 0001 & ADR 0002) > does not turn identity/workspace refusal 409 into a saved fallback success
+ FAIL  tests/unit/eval-client.test.ts > Evaluation & Pivot Client (ADR 0001 & ADR 0002) > does not turn identity/workspace refusal 410 into a saved fallback success
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/unit/eval-client.test.ts:105:28
+    103|     vi.stubGlobal('fetch', vi.fn(async () => Response.json({ error: 'W…
+    104|     const result = await fetchEvaluation({ idea: sampleIdea });
+    105|     expect(result.success).toBe(false);
+       |                            ^
+    106|     expect(result.evaluation).toBeUndefined();
+    107|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 6 passed (10)
+   Start at  21:21:18
+   Duration  2.43s (transform 560ms, setup 0ms, import 961ms, tests 140ms, environment 0ms)
+

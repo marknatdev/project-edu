@@ -1,0 +1,2019 @@
+{
+  "name": "new interview/topic does not renew the daily allowance (button disabled, quota 0)",
+  "detail": null,
+  "text": "เพิ่ม Project Edu ไว้บนหน้าจอหลัก (ยังต้องใช้อินเทอร์เน็ต)\nติดตั้งแอป\nปิด\nProject Edu\nเข้าสู่ระบบ Google (ไม่บังคับ)\n\nค้นหาเรื่องที่อยากทำ (Discovery)\n\nคุยสั้น ๆ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้นเฉพาะคุณ ครั้งละ 5 ใบ · บันทึกในเบราว์เซอร์นี้ รีเฟรชแล้วทำต่อได้\n\n1 คุยความสนใจ\n2 สำรวจการ์ด\n3 คัดเลือก (2/5)\n\nฟรีเหลือ 0/5 ใบ · ขอเพิ่มเหลือ 0/30 ใบ\n\nวันนี้ใช้แล้ว 35 ใบ · เริ่มนับใหม่ 7 พ.ย. 2569 00:00 (เวลาประเทศไทย)\n\nนับเฉพาะการ์ดที่สร้างสำเร็จและไม่ซ้ำ · เปลี่ยนเรื่องหรือเริ่มคุยใหม่ไม่ได้คืนสิทธิ์\n\nข้อจำกัดที่ทราบแล้ว (นำไปใช้ต่อ ไม่ถามซ้ำ)\nเริ่มคุยใหม่ · ไม่คืนโควตา\n\n01 / สรุปก่อนสำรวจ\n\nฟังดูเป็นเรื่องที่คุณสนใจไหม?\n\nแก้สรุปให้ตรงใจ แล้วให้ AI สร้างการ์ดไอเดียตั้งต้น 5 ใบจากคำตอบและข้อจำกัดของคุณ\n\nสิ่งที่อยากทำ / ปัญหาที่สนใจ\n\nแก้ได้ตามใจ · ข้อจำกัดเดิมถูกนำไปใช้ต่อ · การ์ดเป็นไอเดียตั้งต้น ไม่ใช่โครงงานสำเร็จรูป\n\nวันนี้ใช้สิทธิ์สร้างการ์ดครบแล้ว การ์ดที่สร้างไว้ยังอยู่ สร้างใหม่ได้หลังเที่ยงคืนตามเวลาประเทศไทย\n\nสร้างการ์ดเพิ่ม 5 ใบ →\nกลับไปดูบทสนทนา\nดูการ์ดเดิม (35)\n\nเริ่มคุยใหม่แล้ว การ์ดเดิมและโควตาวันนี้ยังคงอยู่\n\nสัมภาษณ์\nค้นหาหัวข้อ\nพัฒนาไอเดีย\nตัวแปร\nข้อเสนอ\nความเป็นส่วนตัว",
+  "session": {
+    "version": 1,
+    "stage": "summary",
+    "answers": [
+      {
+        "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+        "answer": "พืชและการปลูก"
+      },
+      {
+        "question": "จากเรื่อง “พืชและการปลูก” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?",
+        "answer": "ต้นไม้แห้งเร็ว"
+      }
+    ],
+    "answerDraft": "",
+    "summary": "พืชและการปลูก · ต้นไม้แห้งเร็ว",
+    "refinement": "",
+    "cards": [
+      {
+        "id": "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ตัวกรองน้ำตู้ปลาจากกะลามะพร้าว",
+        "phenomenon": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "น้ำในตู้ปลาที่บ้านขุ่นเร็วจนต้องเปลี่ยนน้ำบ่อย",
+          "roughDirection": "เทียบความใสของน้ำเมื่อใช้วัสดุกรองราคาถูกสามแบบ ถ่ายภาพด้วยมือถือทุกวัน",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "596f631e-63eb-4501-ae99-69ebd9f38da3",
+          "generatedAt": "2026-11-06T05:44:02.742Z"
+        }
+      },
+      {
+        "id": "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "แสงไฟกับตะไคร่ในตู้ปลา",
+        "phenomenon": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ผนังตู้มีตะไคร่ขึ้นเร็วเมื่อเปิดไฟนาน",
+          "roughDirection": "เปลี่ยนชั่วโมงเปิดไฟแล้ววัดพื้นที่ตะไคร่จากภาพถ่าย",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "596f631e-63eb-4501-ae99-69ebd9f38da3",
+          "generatedAt": "2026-11-06T05:44:02.742Z"
+        }
+      },
+      {
+        "id": "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "พืชน้ำช่วยให้น้ำใสได้แค่ไหน",
+        "phenomenon": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ไม่แน่ใจว่าพืชน้ำช่วยลดความขุ่นจริงหรือไม่",
+          "roughDirection": "เทียบตู้จำลองที่มีและไม่มีพืชน้ำ วัดความขุ่นด้วยแผ่นสีขาว",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "596f631e-63eb-4501-ae99-69ebd9f38da3",
+          "generatedAt": "2026-11-06T05:44:02.742Z"
+        }
+      },
+      {
+        "id": "fresh_85898c81-f431-4248-847e-dbe65f59093e",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ปริมาณอาหารปลากับความขุ่นของน้ำ",
+        "phenomenon": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ให้อาหารปลามากเกินไปอาจทำให้น้ำเสียเร็ว",
+          "roughDirection": "แบ่งปริมาณอาหารเป็นสามระดับในภาชนะจำลองแล้วบันทึกความขุ่น",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "596f631e-63eb-4501-ae99-69ebd9f38da3",
+          "generatedAt": "2026-11-06T05:44:02.742Z"
+        }
+      },
+      {
+        "id": "fresh_9feabe7e-2af8-4f6c-b040-62ff3e5e8c74",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "สมุดบันทึกตู้ปลาบนสเปรดชีต",
+        "phenomenon": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "safetyCategories": [
+          "vertebrate_animals"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ลืมว่าเปลี่ยนน้ำหรือล้างกรองครั้งล่าสุดเมื่อไร",
+          "roughDirection": "ออกแบบตารางบันทึกแล้วทดลองใช้สองสัปดาห์ เทียบจำนวนครั้งที่ลืม",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "596f631e-63eb-4501-ae99-69ebd9f38da3",
+          "generatedAt": "2026-11-06T05:44:02.742Z"
+        }
+      },
+      {
+        "id": "fresh_6dd7f5fe-203a-4af1-97d2-210ae6005e28",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ผ้าคลุมตู้กับอุณหภูมิน้ำตอนกลางคืน",
+        "phenomenon": "น้ำในตู้เย็นลงมากช่วงเช้ามืด",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "น้ำในตู้เย็นลงมากช่วงเช้ามืด",
+          "roughDirection": "วัดอุณหภูมิน้ำทุกชั่วโมงเมื่อคลุมด้วยวัสดุต่างกัน",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "993a013e-87e5-4987-a642-f40855192aaa",
+          "generatedAt": "2026-11-06T05:44:03.843Z"
+        }
+      },
+      {
+        "id": "fresh_15965aae-b302-487e-9395-3f79c30a04cb",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ความถี่ในการเปลี่ยนน้ำที่เหมาะกับตู้เล็ก",
+        "phenomenon": "เปลี่ยนน้ำบ่อยเหนื่อย แต่เปลี่ยนน้อยน้ำขุ่น",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "เปลี่ยนน้ำบ่อยเหนื่อย แต่เปลี่ยนน้อยน้ำขุ่น",
+          "roughDirection": "ทดลองรอบเปลี่ยนน้ำสามแบบในตู้จำลองแล้วบันทึกความใส",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "993a013e-87e5-4987-a642-f40855192aaa",
+          "generatedAt": "2026-11-06T05:44:03.843Z"
+        }
+      },
+      {
+        "id": "fresh_dff241f0-56a9-495f-a66c-1ccbf1780553",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ตะแกรงกันเศษใบไม้ลงอ่างน้ำ",
+        "phenomenon": "เศษใบไม้ร่วงลงอ่างน้ำหน้าบ้านทำให้น้ำเน่า",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "เศษใบไม้ร่วงลงอ่างน้ำหน้าบ้านทำให้น้ำเน่า",
+          "roughDirection": "ทำตะแกรงจากวัสดุเหลือใช้แล้วนับเศษใบไม้ที่ดักได้ต่อวัน",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "993a013e-87e5-4987-a642-f40855192aaa",
+          "generatedAt": "2026-11-06T05:44:03.843Z"
+        }
+      },
+      {
+        "id": "fresh_180112e4-08a9-4f04-bae5-cb55c4068259",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ภาชนะเก็บน้ำฝนไว้รดต้นไม้",
+        "phenomenon": "น้ำประปาที่ใช้รดต้นไม้มีค่าใช้จ่าย",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "น้ำประปาที่ใช้รดต้นไม้มีค่าใช้จ่าย",
+          "roughDirection": "เทียบปริมาณน้ำฝนที่เก็บได้จากภาชนะรูปทรงต่างกัน",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "993a013e-87e5-4987-a642-f40855192aaa",
+          "generatedAt": "2026-11-06T05:44:03.843Z"
+        }
+      },
+      {
+        "id": "fresh_bd47b916-2f75-43ac-bfd8-e4cef0b31e75",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "สีของภาชนะกับการเกิดตะไคร่",
+        "phenomenon": "ภาชนะใสมีตะไคร่ขึ้นเร็ว",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ภาชนะใสมีตะไคร่ขึ้นเร็ว",
+          "roughDirection": "ใส่น้ำเท่ากันในภาชนะต่างสีแล้ววัดตะไคร่จากภาพ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "993a013e-87e5-4987-a642-f40855192aaa",
+          "generatedAt": "2026-11-06T05:44:03.843Z"
+        }
+      },
+      {
+        "id": "fresh_9bbc2710-7852-41bf-a32c-f21b6e708c59",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบฟลมภมบขทธกนพ",
+        "phenomenon": "ปัญหาทดสอบนกบยตอมนมฟฟลพขนฟ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบนกบยตอมนมฟฟลพขนฟ",
+          "roughDirection": "ทดลองทดสอบญธจฉยซวนขอวยภปพศ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "090feb18-99a9-45f8-bbec-945441dd4196",
+          "generatedAt": "2026-11-06T05:44:03.940Z"
+        }
+      },
+      {
+        "id": "fresh_568573e0-9601-4b0a-ad59-30f64f30db68",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบฉพอลรดดหฟวฉด",
+        "phenomenon": "ปัญหาทดสอบงหชฮคงยหศซฉจหวญจ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบงหชฮคงยหศซฉจหวญจ",
+          "roughDirection": "ทดลองทดสอบงนชกยธฉลนทรญสศชว",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "090feb18-99a9-45f8-bbec-945441dd4196",
+          "generatedAt": "2026-11-06T05:44:03.940Z"
+        }
+      },
+      {
+        "id": "fresh_73275ff4-0d1c-4d36-9c58-3e0184f27704",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบวธกรยผจขตญทย",
+        "phenomenon": "ปัญหาทดสอบตมทตฮสซภชนรงนธธศ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบตมทตฮสซภชนรงนธธศ",
+          "roughDirection": "ทดลองทดสอบรพสมลสกฮบผทศตลกย",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "14f85d39-0212-4474-9381-052acac8a819",
+          "generatedAt": "2026-11-06T05:44:05.312Z"
+        }
+      },
+      {
+        "id": "fresh_5f2991fc-7fc4-41ea-a8b6-372b118060e9",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบกฟฟมพจขฉปสทง",
+        "phenomenon": "ปัญหาทดสอบซบรอมกพศฮงวนทพฮภ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบซบรอมกพศฮงวนทพฮภ",
+          "roughDirection": "ทดลองทดสอบอภนจภหชกตชคตฟกรป",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "14f85d39-0212-4474-9381-052acac8a819",
+          "generatedAt": "2026-11-06T05:44:05.312Z"
+        }
+      },
+      {
+        "id": "fresh_e798f203-5875-40db-85b8-31ae677c002b",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบจกทดรชจหฟพฟอ",
+        "phenomenon": "ปัญหาทดสอบยปมตธงอพฉมจญดภอต",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบยปมตธงอพฉมจญดภอต",
+          "roughDirection": "ทดลองทดสอบขหสอจนดจหฮฮภถผซธ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "14f85d39-0212-4474-9381-052acac8a819",
+          "generatedAt": "2026-11-06T05:44:05.312Z"
+        }
+      },
+      {
+        "id": "fresh_fe2e1807-c597-4c73-af69-c31fa8345002",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบงจวพญลบวคบฮด",
+        "phenomenon": "ปัญหาทดสอบถฉธญมดฮธดผกงคพชต",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบถฉธญมดฮธดผกงคพชต",
+          "roughDirection": "ทดลองทดสอบขซจดดขหซขจนญญยปย",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "14f85d39-0212-4474-9381-052acac8a819",
+          "generatedAt": "2026-11-06T05:44:05.312Z"
+        }
+      },
+      {
+        "id": "fresh_eb568f15-5220-459d-a463-2e7ea029011d",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบสฟผดฉภทปอมมม",
+        "phenomenon": "ปัญหาทดสอบรชถฟภธปภทอศสบฉตญ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบรชถฟภธปภทอศสบฉตญ",
+          "roughDirection": "ทดลองทดสอบขฟจพผสดบภญชทมบอพ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "14f85d39-0212-4474-9381-052acac8a819",
+          "generatedAt": "2026-11-06T05:44:05.312Z"
+        }
+      },
+      {
+        "id": "fresh_89528d1d-3bf5-467c-a2d6-945519165047",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบผฮผวธกอปงยสก",
+        "phenomenon": "ปัญหาทดสอบพอรขลจวมงบมชขญฮข",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบพอรขลจวมงบมชขญฮข",
+          "roughDirection": "ทดลองทดสอบขฮสศรงตผหฟธภหตจห",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "4b4469c1-100f-4f0a-8d11-9668165bfa12",
+          "generatedAt": "2026-11-06T05:45:02.255Z"
+        }
+      },
+      {
+        "id": "fresh_c08783b4-8b3f-4cb2-8ddc-910be8a13ccd",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบผถฉคนนอภอฟวก",
+        "phenomenon": "ปัญหาทดสอบฟภขมนงวบวญธงพบภฉ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบฟภขมนงวบวญธงพบภฉ",
+          "roughDirection": "ทดลองทดสอบกธพอชงมภซขดซอชทท",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "4b4469c1-100f-4f0a-8d11-9668165bfa12",
+          "generatedAt": "2026-11-06T05:45:02.255Z"
+        }
+      },
+      {
+        "id": "fresh_2147a442-987c-466f-ad9e-fa8351b5ca88",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบตภวฉมฟหฉลสปซ",
+        "phenomenon": "ปัญหาทดสอบฉฉปวพรธทฟศนอภวอว",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบฉฉปวพรธทฟศนอภวอว",
+          "roughDirection": "ทดลองทดสอบอพกปปฉศจอลขบขฟพฉ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "4b4469c1-100f-4f0a-8d11-9668165bfa12",
+          "generatedAt": "2026-11-06T05:45:02.255Z"
+        }
+      },
+      {
+        "id": "fresh_5194381e-43e0-4df5-b427-6707b6502cba",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบวมงลพกยชธขทญ",
+        "phenomenon": "ปัญหาทดสอบซวซพตขอจปซบจทศซป",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบซวซพตขอจปซบจทศซป",
+          "roughDirection": "ทดลองทดสอบมพญศปงบหคธชจจฮคพ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "4b4469c1-100f-4f0a-8d11-9668165bfa12",
+          "generatedAt": "2026-11-06T05:45:02.255Z"
+        }
+      },
+      {
+        "id": "fresh_d71de809-72c6-4ae8-9b76-8ea199924867",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบทถซฉฮหตดงซฟค",
+        "phenomenon": "ปัญหาทดสอบจญสชตฟทกรขวนหศญฉ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบจญสชตฟทกรขวนหศญฉ",
+          "roughDirection": "ทดลองทดสอบชมวกซบทงถรตกญดยร",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "4b4469c1-100f-4f0a-8d11-9668165bfa12",
+          "generatedAt": "2026-11-06T05:45:02.255Z"
+        }
+      },
+      {
+        "id": "fresh_db6cb431-3631-423a-99f2-9a8876f660e9",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบกรรบซฉงยฮภรน",
+        "phenomenon": "ปัญหาทดสอบญฮฉบทลวทญบยกทผหซ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบญฮฉบทลวทญบยกทผหซ",
+          "roughDirection": "ทดลองทดสอบรชรคงลจฮชฉพฉศบฮอ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "31d1f41c-2814-48fe-8698-d472919d0339",
+          "generatedAt": "2026-11-06T05:45:07.916Z"
+        }
+      },
+      {
+        "id": "fresh_a9ea7b3a-c73c-4900-a6a8-b2f0d8d94318",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบสสบจบภฮญถญพน",
+        "phenomenon": "ปัญหาทดสอบอถชพญอคขผลถนสมคญ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบอถชพญอคขผลถนสมคญ",
+          "roughDirection": "ทดลองทดสอบบจผชบงตครผผพฉปขก",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "31d1f41c-2814-48fe-8698-d472919d0339",
+          "generatedAt": "2026-11-06T05:45:07.916Z"
+        }
+      },
+      {
+        "id": "fresh_a06511b0-a913-4fd7-956b-759616f603a8",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบบยตศกนฉฮกมพญ",
+        "phenomenon": "ปัญหาทดสอบลผฮดยงภศชสวฟอรขบ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบลผฮดยงภศชสวฟอรขบ",
+          "roughDirection": "ทดลองทดสอบปซฉคงจรกบยทงสกลบ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "31d1f41c-2814-48fe-8698-d472919d0339",
+          "generatedAt": "2026-11-06T05:45:07.916Z"
+        }
+      },
+      {
+        "id": "fresh_1424a1c7-9708-4c54-9a4e-a36b20d29a68",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบคฉสขงปปนซผขน",
+        "phenomenon": "ปัญหาทดสอบบฉฮมมฟกหลหจชดบหน",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบบฉฮมมฟกหลหจชดบหน",
+          "roughDirection": "ทดลองทดสอบบฟปกวซศบผซทพรจขฟ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "31d1f41c-2814-48fe-8698-d472919d0339",
+          "generatedAt": "2026-11-06T05:45:07.916Z"
+        }
+      },
+      {
+        "id": "fresh_06534ae4-ea6e-4def-85c3-f1dbf34e3487",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบตรจตนนถสอชทธ",
+        "phenomenon": "ปัญหาทดสอบภจธผบฉวญอปวยภฮภย",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบภจธผบฉวญอปวยภฮภย",
+          "roughDirection": "ทดลองทดสอบสฮปภลทภคททนดตหฉจ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "31d1f41c-2814-48fe-8698-d472919d0339",
+          "generatedAt": "2026-11-06T05:45:07.916Z"
+        }
+      },
+      {
+        "id": "fresh_7b759557-45d5-4d38-a6b3-4085f72a10ea",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบงหขลธตศชหฮขข",
+        "phenomenon": "ปัญหาทดสอบดภศศลนหพรดถพลบศญ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบดภศศลนหพรดถพลบศญ",
+          "roughDirection": "ทดลองทดสอบศงนฉนขสอหปฉผดขคห",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+          "generatedAt": "2026-11-06T05:45:08.141Z"
+        }
+      },
+      {
+        "id": "fresh_be6a5125-af67-4363-978c-055e6ac4952d",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบขยดชญศศอกจทฉ",
+        "phenomenon": "ปัญหาทดสอบตชพอขมชงทชทตธจกฮ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบตชพอขมชงทชทตธจกฮ",
+          "roughDirection": "ทดลองทดสอบศศกผยขธคทถวฮคซชช",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+          "generatedAt": "2026-11-06T05:45:08.141Z"
+        }
+      },
+      {
+        "id": "fresh_7c8c502e-8d16-4448-b821-d06d4897a7fb",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบวยยตวฟรคกซศฉ",
+        "phenomenon": "ปัญหาทดสอบซธทมมวปฮพสนทปญผก",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบซธทมมวปฮพสนทปญผก",
+          "roughDirection": "ทดลองทดสอบซอตสฉฉสคยงกภพภตศ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+          "generatedAt": "2026-11-06T05:45:08.141Z"
+        }
+      },
+      {
+        "id": "fresh_45931d1b-a80c-4fce-a1a4-a0d5cc5a5309",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบฟชฉฮงมชขถคลน",
+        "phenomenon": "ปัญหาทดสอบทศขสถตชภทผมลฮวศฉ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบทศขสถตชภทผมลฮวศฉ",
+          "roughDirection": "ทดลองทดสอบศจงรตชถชวปฮภนมยซ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+          "generatedAt": "2026-11-06T05:45:08.141Z"
+        }
+      },
+      {
+        "id": "fresh_8730ccce-a337-4fd8-9760-13b80f4ba03c",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบอพลรงธอดหฮหง",
+        "phenomenon": "ปัญหาทดสอบญผญมชจกสหอธสยภกข",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบญผญมชจกสหอธสยภกข",
+          "roughDirection": "ทดลองทดสอบบหควกถพบฮงปตหลวท",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+          "generatedAt": "2026-11-06T05:45:08.141Z"
+        }
+      },
+      {
+        "id": "fresh_ba3a9363-2c82-4737-a967-30ccded85d12",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบปวคมฮผยซนผปย",
+        "phenomenon": "ปัญหาทดสอบมผสพภขงนดซอทงฟพจ",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบมผสพภขงนดซอทงฟพจ",
+          "roughDirection": "ทดลองทดสอบคกอจรทยธมฮชตทฉฮญ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+          "generatedAt": "2026-11-06T05:45:08.330Z"
+        }
+      },
+      {
+        "id": "fresh_fca9f679-44d2-42ff-a326-fbbc65ee9683",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบยลถกวฮออฮสปฉ",
+        "phenomenon": "ปัญหาทดสอบธสปดถดสถพงตธญรฟช",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบธสปดถดสถพงตธญรฟช",
+          "roughDirection": "ทดลองทดสอบจคดจผซยยญผสสผนกธ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+          "generatedAt": "2026-11-06T05:45:08.330Z"
+        }
+      },
+      {
+        "id": "fresh_c956571f-eb63-4d18-a06c-51ed9d5725b1",
+        "subjectId": "science",
+        "subfieldId": "sci_environment",
+        "title": "ไอเดียทดสอบภซตงอมหญฮฟสห",
+        "phenomenon": "ปัญหาทดสอบจศมฟยลจวญบชขธภซช",
+        "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+        "targetGradeLevels": [
+          "m_plai"
+        ],
+        "difficulty": "beginner",
+        "estimatedWeeks": 5,
+        "estimatedBudgetBaht": 300,
+        "requiredEquipment": [
+          "มือถือ",
+          "ขวดพลาสติก"
+        ],
+        "minTeamSize": 1,
+        "maxTeamSize": 3,
+        "requiredSkills": [
+          "การสังเกต"
+        ],
+        "starter": {
+          "origin": "ai_fresh",
+          "problem": "ปัญหาทดสอบจศมฟยลจวญบชขธภซช",
+          "roughDirection": "ทดลองทดสอบฟญผญมซอญบชภหฉฉผบ",
+          "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+          "fitNotes": [
+            "ใช้งบไม่เกินที่มี",
+            "ทำเสร็จได้ในเวลาที่กำหนด"
+          ],
+          "safetyScreen": "preliminary",
+          "noveltyChecked": false,
+          "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+          "generatedAt": "2026-11-06T05:45:08.330Z"
+        }
+      }
+    ],
+    "batch": [
+      "fresh_ba3a9363-2c82-4737-a967-30ccded85d12",
+      "fresh_fca9f679-44d2-42ff-a326-fbbc65ee9683",
+      "fresh_c956571f-eb63-4d18-a06c-51ed9d5725b1"
+    ],
+    "cursor": 0,
+    "reactions": [
+      {
+        "id": "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+        "action": "skip",
+        "addedToShortlist": false,
+        "batch": [
+          "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+          "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+          "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+          "fresh_85898c81-f431-4248-847e-dbe65f59093e",
+          "fresh_9feabe7e-2af8-4f6c-b040-62ff3e5e8c74"
+        ],
+        "cursor": 0
+      },
+      {
+        "id": "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+        "action": "like",
+        "addedToShortlist": true,
+        "batch": [
+          "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+          "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+          "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+          "fresh_85898c81-f431-4248-847e-dbe65f59093e",
+          "fresh_9feabe7e-2af8-4f6c-b040-62ff3e5e8c74"
+        ],
+        "cursor": 1
+      },
+      {
+        "id": "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+        "action": "like",
+        "addedToShortlist": true,
+        "batch": [
+          "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+          "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+          "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+          "fresh_85898c81-f431-4248-847e-dbe65f59093e",
+          "fresh_9feabe7e-2af8-4f6c-b040-62ff3e5e8c74"
+        ],
+        "cursor": 2
+      }
+    ],
+    "shortlist": [
+      "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+      "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254"
+    ],
+    "compare": [
+      "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+      "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254"
+    ],
+    "selectedId": "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+    "pending": null,
+    "quota": {
+      "day": "2026-11-06",
+      "used": 35,
+      "reserved": 0,
+      "remaining": 0,
+      "freeRemaining": 0,
+      "extraRemaining": 0,
+      "resetAt": "2026-11-06T17:00:00Z"
+    },
+    "notice": null
+  },
+  "requests": [
+    {
+      "url": "/api/discovery/cards",
+      "method": "POST",
+      "body": {
+        "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+        "count": 5,
+        "learner": {
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "teamSize": 2,
+            "equipment": [
+              "สมาร์ตโฟน / แท็บเล็ต",
+              "คอมพิวเตอร์ / โน้ตบุ๊ก"
+            ],
+            "skills": [
+              "การเขียนโค้ด / โปรแกรมมิ่ง",
+              "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+            ]
+          }
+        },
+        "interest": {
+          "answers": [
+            {
+              "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+              "answer": "ยังไม่รู้"
+            },
+            {
+              "question": "ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?",
+              "answer": "ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก"
+            },
+            {
+              "question": "ถ้าเริ่มจาก “ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?",
+              "answer": "เปรียบเทียบสิ่งที่วัดได้"
+            }
+          ],
+          "summary": "อยากทำให้น้ำในตู้ปลาที่บ้านใสนานขึ้นด้วยของราคาถูก"
+        },
+        "refinement": {
+          "text": "ไม่ต้องซื้ออุปกรณ์เพิ่ม ใช้ของในบ้าน",
+          "likedCardIds": [
+            "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+            "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254"
+          ],
+          "skippedCardIds": [
+            "fresh_90a51284-90e4-4d48-baa8-c266ac946d78"
+          ]
+        },
+        "seenCardIds": [
+          "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+          "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+          "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+          "fresh_85898c81-f431-4248-847e-dbe65f59093e",
+          "fresh_9feabe7e-2af8-4f6c-b040-62ff3e5e8c74",
+          "fresh_6dd7f5fe-203a-4af1-97d2-210ae6005e28",
+          "fresh_15965aae-b302-487e-9395-3f79c30a04cb",
+          "fresh_dff241f0-56a9-495f-a66c-1ccbf1780553",
+          "fresh_180112e4-08a9-4f04-bae5-cb55c4068259",
+          "fresh_bd47b916-2f75-43ac-bfd8-e4cef0b31e75",
+          "fresh_9bbc2710-7852-41bf-a32c-f21b6e708c59",
+          "fresh_568573e0-9601-4b0a-ad59-30f64f30db68",
+          "fresh_73275ff4-0d1c-4d36-9c58-3e0184f27704",
+          "fresh_5f2991fc-7fc4-41ea-a8b6-372b118060e9",
+          "fresh_e798f203-5875-40db-85b8-31ae677c002b",
+          "fresh_fe2e1807-c597-4c73-af69-c31fa8345002",
+          "fresh_eb568f15-5220-459d-a463-2e7ea029011d",
+          "fresh_89528d1d-3bf5-467c-a2d6-945519165047",
+          "fresh_c08783b4-8b3f-4cb2-8ddc-910be8a13ccd",
+          "fresh_2147a442-987c-466f-ad9e-fa8351b5ca88",
+          "fresh_5194381e-43e0-4df5-b427-6707b6502cba",
+          "fresh_d71de809-72c6-4ae8-9b76-8ea199924867",
+          "fresh_db6cb431-3631-423a-99f2-9a8876f660e9",
+          "fresh_a9ea7b3a-c73c-4900-a6a8-b2f0d8d94318",
+          "fresh_a06511b0-a913-4fd7-956b-759616f603a8",
+          "fresh_1424a1c7-9708-4c54-9a4e-a36b20d29a68",
+          "fresh_06534ae4-ea6e-4def-85c3-f1dbf34e3487"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "status": "ok",
+        "source": "ai",
+        "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+        "replayed": false,
+        "cards": [
+          {
+            "id": "fresh_7b759557-45d5-4d38-a6b3-4085f72a10ea",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบงหขลธตศชหฮขข",
+            "phenomenon": "ปัญหาทดสอบดภศศลนหพรดถพลบศญ",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบดภศศลนหพรดถพลบศญ",
+              "roughDirection": "ทดลองทดสอบศงนฉนขสอหปฉผดขคห",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+              "generatedAt": "2026-11-06T05:45:08.141Z"
+            }
+          },
+          {
+            "id": "fresh_be6a5125-af67-4363-978c-055e6ac4952d",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบขยดชญศศอกจทฉ",
+            "phenomenon": "ปัญหาทดสอบตชพอขมชงทชทตธจกฮ",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบตชพอขมชงทชทตธจกฮ",
+              "roughDirection": "ทดลองทดสอบศศกผยขธคทถวฮคซชช",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+              "generatedAt": "2026-11-06T05:45:08.141Z"
+            }
+          },
+          {
+            "id": "fresh_7c8c502e-8d16-4448-b821-d06d4897a7fb",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบวยยตวฟรคกซศฉ",
+            "phenomenon": "ปัญหาทดสอบซธทมมวปฮพสนทปญผก",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบซธทมมวปฮพสนทปญผก",
+              "roughDirection": "ทดลองทดสอบซอตสฉฉสคยงกภพภตศ",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+              "generatedAt": "2026-11-06T05:45:08.141Z"
+            }
+          },
+          {
+            "id": "fresh_45931d1b-a80c-4fce-a1a4-a0d5cc5a5309",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบฟชฉฮงมชขถคลน",
+            "phenomenon": "ปัญหาทดสอบทศขสถตชภทผมลฮวศฉ",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบทศขสถตชภทผมลฮวศฉ",
+              "roughDirection": "ทดลองทดสอบศจงรตชถชวปฮภนมยซ",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+              "generatedAt": "2026-11-06T05:45:08.141Z"
+            }
+          },
+          {
+            "id": "fresh_8730ccce-a337-4fd8-9760-13b80f4ba03c",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบอพลรงธอดหฮหง",
+            "phenomenon": "ปัญหาทดสอบญผญมชจกสหอธสยภกข",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบญผญมชจกสหอธสยภกข",
+              "roughDirection": "ทดลองทดสอบบหควกถพบฮงปตหลวท",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "589910b3-aaef-46d5-998e-858f1228c9da",
+              "generatedAt": "2026-11-06T05:45:08.141Z"
+            }
+          }
+        ],
+        "accepted": 5,
+        "requested": 5,
+        "partial": false,
+        "rejected": {
+          "invalid": 0,
+          "unsupportedClaims": 0,
+          "repeats": 0
+        },
+        "quota": {
+          "day": "2026-11-06",
+          "used": 32,
+          "reserved": 0,
+          "remaining": 3,
+          "freeRemaining": 0,
+          "extraRemaining": 3,
+          "resetAt": "2026-11-06T17:00:00Z"
+        },
+        "noticeTh": "การ์ดเหล่านี้เป็นไอเดียตั้งต้นที่ AI สร้างจากคำตอบของคุณ ยังไม่ใช่โครงงานสำเร็จรูป ไม่รับรองว่าไม่มีใครทำมาก่อน และการตรวจความปลอดภัยเป็นเพียงการตรวจเบื้องต้น ต้องคิดต่อ ปรับ และอธิบายด้วยภาษาของคุณเอง"
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "GET",
+      "body": null,
+      "status": 200,
+      "response": {
+        "quota": {
+          "day": "2026-11-06",
+          "used": 32,
+          "reserved": 0,
+          "remaining": 3,
+          "freeRemaining": 0,
+          "extraRemaining": 3,
+          "resetAt": "2026-11-06T17:00:00Z"
+        }
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "POST",
+      "body": {
+        "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+        "count": 5,
+        "learner": {
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "teamSize": 2,
+            "equipment": [
+              "สมาร์ตโฟน / แท็บเล็ต",
+              "คอมพิวเตอร์ / โน้ตบุ๊ก"
+            ],
+            "skills": [
+              "การเขียนโค้ด / โปรแกรมมิ่ง",
+              "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+            ]
+          }
+        },
+        "interest": {
+          "answers": [
+            {
+              "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+              "answer": "ยังไม่รู้"
+            },
+            {
+              "question": "ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?",
+              "answer": "ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก"
+            },
+            {
+              "question": "ถ้าเริ่มจาก “ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?",
+              "answer": "เปรียบเทียบสิ่งที่วัดได้"
+            }
+          ],
+          "summary": "อยากทำให้น้ำในตู้ปลาที่บ้านใสนานขึ้นด้วยของราคาถูก"
+        },
+        "refinement": {
+          "text": "ไม่ต้องซื้ออุปกรณ์เพิ่ม ใช้ของในบ้าน",
+          "likedCardIds": [
+            "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+            "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254"
+          ],
+          "skippedCardIds": [
+            "fresh_90a51284-90e4-4d48-baa8-c266ac946d78"
+          ]
+        },
+        "seenCardIds": [
+          "fresh_90a51284-90e4-4d48-baa8-c266ac946d78",
+          "fresh_f35b3c4e-389c-4ae3-92a9-79b3b5b50c42",
+          "fresh_997aabc5-6817-4a64-90e3-b0ef8fc2e254",
+          "fresh_85898c81-f431-4248-847e-dbe65f59093e",
+          "fresh_9feabe7e-2af8-4f6c-b040-62ff3e5e8c74",
+          "fresh_6dd7f5fe-203a-4af1-97d2-210ae6005e28",
+          "fresh_15965aae-b302-487e-9395-3f79c30a04cb",
+          "fresh_dff241f0-56a9-495f-a66c-1ccbf1780553",
+          "fresh_180112e4-08a9-4f04-bae5-cb55c4068259",
+          "fresh_bd47b916-2f75-43ac-bfd8-e4cef0b31e75",
+          "fresh_9bbc2710-7852-41bf-a32c-f21b6e708c59",
+          "fresh_568573e0-9601-4b0a-ad59-30f64f30db68",
+          "fresh_73275ff4-0d1c-4d36-9c58-3e0184f27704",
+          "fresh_5f2991fc-7fc4-41ea-a8b6-372b118060e9",
+          "fresh_e798f203-5875-40db-85b8-31ae677c002b",
+          "fresh_fe2e1807-c597-4c73-af69-c31fa8345002",
+          "fresh_eb568f15-5220-459d-a463-2e7ea029011d",
+          "fresh_89528d1d-3bf5-467c-a2d6-945519165047",
+          "fresh_c08783b4-8b3f-4cb2-8ddc-910be8a13ccd",
+          "fresh_2147a442-987c-466f-ad9e-fa8351b5ca88",
+          "fresh_5194381e-43e0-4df5-b427-6707b6502cba",
+          "fresh_d71de809-72c6-4ae8-9b76-8ea199924867",
+          "fresh_db6cb431-3631-423a-99f2-9a8876f660e9",
+          "fresh_a9ea7b3a-c73c-4900-a6a8-b2f0d8d94318",
+          "fresh_a06511b0-a913-4fd7-956b-759616f603a8",
+          "fresh_1424a1c7-9708-4c54-9a4e-a36b20d29a68",
+          "fresh_06534ae4-ea6e-4def-85c3-f1dbf34e3487",
+          "fresh_7b759557-45d5-4d38-a6b3-4085f72a10ea",
+          "fresh_be6a5125-af67-4363-978c-055e6ac4952d",
+          "fresh_7c8c502e-8d16-4448-b821-d06d4897a7fb",
+          "fresh_45931d1b-a80c-4fce-a1a4-a0d5cc5a5309",
+          "fresh_8730ccce-a337-4fd8-9760-13b80f4ba03c"
+        ]
+      },
+      "status": 200,
+      "response": {
+        "status": "ok",
+        "source": "ai",
+        "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+        "replayed": false,
+        "cards": [
+          {
+            "id": "fresh_ba3a9363-2c82-4737-a967-30ccded85d12",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบปวคมฮผยซนผปย",
+            "phenomenon": "ปัญหาทดสอบมผสพภขงนดซอทงฟพจ",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบมผสพภขงนดซอทงฟพจ",
+              "roughDirection": "ทดลองทดสอบคกอจรทยธมฮชตทฉฮญ",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+              "generatedAt": "2026-11-06T05:45:08.330Z"
+            }
+          },
+          {
+            "id": "fresh_fca9f679-44d2-42ff-a326-fbbc65ee9683",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบยลถกวฮออฮสปฉ",
+            "phenomenon": "ปัญหาทดสอบธสปดถดสถพงตธญรฟช",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบธสปดถดสถพงตธญรฟช",
+              "roughDirection": "ทดลองทดสอบจคดจผซยยญผสสผนกธ",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+              "generatedAt": "2026-11-06T05:45:08.330Z"
+            }
+          },
+          {
+            "id": "fresh_c956571f-eb63-4d18-a06c-51ed9d5725b1",
+            "subjectId": "science",
+            "subfieldId": "sci_environment",
+            "title": "ไอเดียทดสอบภซตงอมหญฮฟสห",
+            "phenomenon": "ปัญหาทดสอบจศมฟยลจวญบชขธภซช",
+            "curiosityHook": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+            "targetGradeLevels": [
+              "m_plai"
+            ],
+            "difficulty": "beginner",
+            "estimatedWeeks": 5,
+            "estimatedBudgetBaht": 300,
+            "requiredEquipment": [
+              "มือถือ",
+              "ขวดพลาสติก"
+            ],
+            "minTeamSize": 1,
+            "maxTeamSize": 3,
+            "requiredSkills": [
+              "การสังเกต"
+            ],
+            "starter": {
+              "origin": "ai_fresh",
+              "problem": "ปัญหาทดสอบจศมฟยลจวญบชขธภซช",
+              "roughDirection": "ทดลองทดสอบฟญผญมซอญบชภหฉฉผบ",
+              "interestLink": "ต่อยอดจากตู้ปลาที่บ้านของผู้เรียน",
+              "fitNotes": [
+                "ใช้งบไม่เกินที่มี",
+                "ทำเสร็จได้ในเวลาที่กำหนด"
+              ],
+              "safetyScreen": "preliminary",
+              "noveltyChecked": false,
+              "requestId": "6732e0de-03cd-4242-a5d1-887c7e33bb22",
+              "generatedAt": "2026-11-06T05:45:08.330Z"
+            }
+          }
+        ],
+        "accepted": 3,
+        "requested": 3,
+        "partial": false,
+        "rejected": {
+          "invalid": 0,
+          "unsupportedClaims": 0,
+          "repeats": 0
+        },
+        "quota": {
+          "day": "2026-11-06",
+          "used": 35,
+          "reserved": 0,
+          "remaining": 0,
+          "freeRemaining": 0,
+          "extraRemaining": 0,
+          "resetAt": "2026-11-06T17:00:00Z"
+        },
+        "noticeTh": "การ์ดเหล่านี้เป็นไอเดียตั้งต้นที่ AI สร้างจากคำตอบของคุณ ยังไม่ใช่โครงงานสำเร็จรูป ไม่รับรองว่าไม่มีใครทำมาก่อน และการตรวจความปลอดภัยเป็นเพียงการตรวจเบื้องต้น ต้องคิดต่อ ปรับ และอธิบายด้วยภาษาของคุณเอง"
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "GET",
+      "body": null,
+      "status": 200,
+      "response": {
+        "quota": {
+          "day": "2026-11-06",
+          "used": 35,
+          "reserved": 0,
+          "remaining": 0,
+          "freeRemaining": 0,
+          "extraRemaining": 0,
+          "resetAt": "2026-11-06T17:00:00Z"
+        }
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "POST",
+      "body": {
+        "requestId": "15508653-1d3a-4033-8655-a6c7be3ccf45",
+        "count": 5,
+        "learner": {
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "equipment": [],
+            "teamSize": 2,
+            "skills": []
+          }
+        },
+        "interest": {
+          "answers": [
+            {
+              "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+              "answer": "ยังไม่รู้"
+            },
+            {
+              "question": "ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?",
+              "answer": "ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก"
+            },
+            {
+              "question": "ถ้าเริ่มจาก “ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?",
+              "answer": "เปรียบเทียบสิ่งที่วัดได้"
+            }
+          ]
+        },
+        "seenCardIds": []
+      },
+      "status": 429,
+      "response": {
+        "status": "quota_exhausted",
+        "requestId": "15508653-1d3a-4033-8655-a6c7be3ccf45",
+        "quota": {
+          "day": "2026-11-06",
+          "used": 35,
+          "reserved": 0,
+          "remaining": 0,
+          "freeRemaining": 0,
+          "extraRemaining": 0,
+          "resetAt": "2026-11-06T17:00:00Z"
+        },
+        "messageTh": "วันนี้สร้างการ์ดครบโควตาแล้ว (ฟรี 5 ใบ และขอเพิ่มได้อีก 30 ใบต่อวัน) การ์ดที่สร้างไว้ยังอยู่ สร้างใหม่ได้หลังเที่ยงคืนตามเวลาประเทศไทย"
+      }
+    },
+    {
+      "url": "/api/discovery/cards",
+      "method": "GET",
+      "body": null,
+      "status": 200,
+      "response": {
+        "quota": {
+          "day": "2026-11-06",
+          "used": 35,
+          "reserved": 0,
+          "remaining": 0,
+          "freeRemaining": 0,
+          "extraRemaining": 0,
+          "resetAt": "2026-11-06T17:00:00Z"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "name": "wipe cancels queued Web Lock intent before it can mint a new Guest owner",
+    "passed": true,
+    "detail": [
+      {
+        "url": "/api/discovery/cards",
+        "method": "GET",
+        "body": null,
+        "status": 200,
+        "response": {
+          "quota": {
+            "day": "2026-11-06",
+            "used": 0,
+            "reserved": 0,
+            "remaining": 35,
+            "freeRemaining": 5,
+            "extraRemaining": 30,
+            "resetAt": "2026-11-06T17:00:00Z"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "queued intent cannot restore erased local work",
+    "passed": true,
+    "detail": null
+  }
+]

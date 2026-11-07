@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { getWorkspaceScope } from '@/lib/auth/workspace-client';
 import { PROJECT_RECORD_KINDS, projectRecordKey } from './project-records';
 import { BomSchema } from '@/lib/bom/budget';
 import {
@@ -28,6 +29,18 @@ export const CURRENT_STORAGE_VERSION = 2;
 export const STORAGE_PREFIX = 'edtech:';
 export const STORAGE_KEY = `${STORAGE_PREFIX}state`;
 export const BOM_RECOVERY_KEY = `${STORAGE_PREFIX}bom-recovery`;
+export const WIPE_GENERATION_KEY = `${STORAGE_PREFIX}meta:wipe-generation`;
+
+export function getWipeGeneration(storage: StorageAdapter = getDefaultStorage()): string {
+  return storage.getItem(WIPE_GENERATION_KEY) ?? '0';
+}
+
+export function bumpWipeGeneration(storage: StorageAdapter = getDefaultStorage()): string {
+  // Unique tokens avoid lost increments/ABA when different tabs wipe concurrently.
+  const next = crypto.randomUUID();
+  storage.setItem(WIPE_GENERATION_KEY, next);
+  return next;
+}
 
 /** Quarantine only the new optional BOM field; never discard other learner work. */
 function recoverInvalidBom(raw: unknown): { value: unknown; recovered: boolean } {
@@ -90,14 +103,26 @@ let ssrMemoryStorage: StorageAdapter | null = null;
 /**
  * Returns localStorage when running in a browser, or an in-memory fallback during SSR.
  */
-function getDefaultStorage(): StorageAdapter {
+export function getDefaultStorage(): StorageAdapter {
   if (typeof window !== 'undefined' && window.localStorage) {
-    return window.localStorage;
+    return scopedStorage(window.localStorage, getWorkspaceScope());
   }
   if (!ssrMemoryStorage) {
     ssrMemoryStorage = createMemoryStorage();
   }
   return ssrMemoryStorage;
+}
+
+/** Legacy/unscoped data is Guest provenance. Account rows NEVER fall through
+ * to it; captured adapters stay in their original scope across async work. */
+export function scopedStorage(raw: StorageAdapter, scope: string): StorageAdapter {
+  if (scope === 'guest') return raw;
+  const prefix = `${STORAGE_PREFIX}${scope}:`;
+  const keys = () => raw.getAllKeys?.() ?? Array.from({ length: raw.length ?? 0 }, (_, i) => raw.key?.(i)).filter((k): k is string => Boolean(k));
+  const owned = () => keys().filter(k => k.startsWith(prefix));
+  const scopedKey = (k: string) => k === WIPE_GENERATION_KEY ? k : prefix + k;
+  return { getItem: k => raw.getItem(scopedKey(k)), setItem: (k,v) => raw.setItem(scopedKey(k),v), removeItem: k => raw.removeItem(scopedKey(k)),
+    clear: () => { for (const k of owned()) raw.removeItem(k); }, getAllKeys: () => owned().map(k => k.slice(prefix.length)) };
 }
 
 // PDPA Consent Schema
@@ -282,10 +307,12 @@ export function getLearner(storage: StorageAdapter = getDefaultStorage()): Learn
   return state.learner;
 }
 
-export function saveLearner(learner: Learner, storage: StorageAdapter = getDefaultStorage()): void {
+export function saveLearner(learner: Learner, storage: StorageAdapter = getDefaultStorage(), generation = getWipeGeneration(storage)): boolean {
+  if (generation !== getWipeGeneration(storage)) return false;
   const { state } = loadState(storage);
   state.learner = learner;
   saveState(state, storage);
+  return true;
 }
 
 export function getInterview(storage: StorageAdapter = getDefaultStorage()): Interview | null {
@@ -293,10 +320,12 @@ export function getInterview(storage: StorageAdapter = getDefaultStorage()): Int
   return state.interview;
 }
 
-export function saveInterview(interview: Interview, storage: StorageAdapter = getDefaultStorage()): void {
+export function saveInterview(interview: Interview, storage: StorageAdapter = getDefaultStorage(), generation = getWipeGeneration(storage)): boolean {
+  if (generation !== getWipeGeneration(storage)) return false;
   const { state } = loadState(storage);
   state.interview = interview;
   saveState(state, storage);
+  return true;
 }
 
 export function getSwipeHistory(storage: StorageAdapter = getDefaultStorage()): SwipeAction[] {
@@ -371,7 +400,8 @@ export function getActiveProject(storage: StorageAdapter = getDefaultStorage()):
   return state.projects.find((p) => p.id === state.activeProjectId) ?? null;
 }
 
-export function setActiveProjectId(id: string | null, storage: StorageAdapter = getDefaultStorage()): boolean {
+export function setActiveProjectId(id: string | null, storage: StorageAdapter = getDefaultStorage(), generation = getWipeGeneration(storage)): boolean {
+  if (generation !== getWipeGeneration(storage)) return false;
   const { state } = loadState(storage);
   if (id === null) {
     state.activeProjectId = null;
@@ -396,10 +426,16 @@ export interface CreateProjectParams {
   status?: ProjectStatus;
 }
 
+/** Writers that run after an await must pass the generation captured before it;
+ * a stale generation (wipe in any tab) is refused instead of recreating erased data. */
+export function createProject(params?: CreateProjectParams, storage?: StorageAdapter): Project;
+export function createProject(params: CreateProjectParams, storage: StorageAdapter, generation: string): Project | null;
 export function createProject(
   params: CreateProjectParams = {},
-  storage: StorageAdapter = getDefaultStorage()
-): Project {
+  storage: StorageAdapter = getDefaultStorage(),
+  generation = getWipeGeneration(storage)
+): Project | null {
+  if (generation !== getWipeGeneration(storage)) return null;
   const { state } = loadState(storage);
   const now = new Date().toISOString();
   const id = params.id ?? `proj-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
@@ -482,8 +518,10 @@ export function deleteProject(id: string, storage: StorageAdapter = getDefaultSt
 export function updateProjectProposal(
   projectId: string,
   proposal: Proposal,
-  storage: StorageAdapter = getDefaultStorage()
+  storage: StorageAdapter = getDefaultStorage(),
+  generation = getWipeGeneration(storage)
 ): Project | null {
+  if (generation !== getWipeGeneration(storage)) return null;
   const { state } = loadState(storage);
   const project = state.projects.find((p) => p.id === projectId);
   if (!project) return null;
@@ -542,7 +580,9 @@ export function getEvaluations(storage: StorageAdapter = getDefaultStorage()): E
   return state.evaluations;
 }
 
-export function saveEvaluation(evaluation: Evaluation, storage: StorageAdapter = getDefaultStorage()): void {
+/** Async callers must capture both storage scope and generation before starting work. */
+export function saveEvaluation(evaluation: Evaluation, storage: StorageAdapter = getDefaultStorage(), generation = getWipeGeneration(storage)): boolean {
+  if (generation !== getWipeGeneration(storage)) return false;
   const { state } = loadState(storage);
   const existingIdx = state.evaluations.findIndex((e) => e.id === evaluation.id);
   if (existingIdx >= 0) {
@@ -551,6 +591,7 @@ export function saveEvaluation(evaluation: Evaluation, storage: StorageAdapter =
     state.evaluations.push(evaluation);
   }
   saveState(state, storage);
+  return true;
 }
 
 export function getPivots(storage: StorageAdapter = getDefaultStorage()): Pivot[] {
@@ -558,7 +599,8 @@ export function getPivots(storage: StorageAdapter = getDefaultStorage()): Pivot[
   return state.pivots ?? [];
 }
 
-export function savePivot(pivot: Pivot, storage: StorageAdapter = getDefaultStorage()): void {
+export function savePivot(pivot: Pivot, storage: StorageAdapter = getDefaultStorage(), generation = getWipeGeneration(storage)): boolean {
+  if (generation !== getWipeGeneration(storage)) return false;
   const { state } = loadState(storage);
   if (!state.pivots) {
     state.pivots = [];
@@ -570,6 +612,7 @@ export function savePivot(pivot: Pivot, storage: StorageAdapter = getDefaultStor
     state.pivots.push(pivot);
   }
   saveState(state, storage);
+  return true;
 }
 
 export function getConsent(storage: StorageAdapter = getDefaultStorage()): PdpaConsent {
@@ -587,20 +630,22 @@ export function saveConsent(consent: PdpaConsent, storage: StorageAdapter = getD
  * Completely wipes all app-namespaced data (keys starting with STORAGE_PREFIX).
  * Preserves non-app external keys.
  */
-export function wipeAllLearnerData(storage: StorageAdapter = getDefaultStorage()): void {
+export function wipeAllLearnerData(storage: StorageAdapter = typeof window === 'undefined' ? getDefaultStorage() : window.localStorage): void {
+  // Publish the fence first and never delete it during the wipe.
+  bumpWipeGeneration(storage);
   const keysToRemove: string[] = [];
 
   if (typeof storage.getAllKeys === 'function') {
     const keys = storage.getAllKeys();
     for (const k of keys) {
-      if (k.startsWith(STORAGE_PREFIX)) {
+      if (k.startsWith(STORAGE_PREFIX) && k !== WIPE_GENERATION_KEY) {
         keysToRemove.push(k);
       }
     }
   } else if (typeof storage.length === 'number' && typeof storage.key === 'function') {
     for (let i = 0; i < storage.length; i++) {
       const k = storage.key(i);
-      if (k && k.startsWith(STORAGE_PREFIX)) {
+      if (k && k.startsWith(STORAGE_PREFIX) && k !== WIPE_GENERATION_KEY) {
         keysToRemove.push(k);
       }
     }
@@ -614,4 +659,6 @@ export function wipeAllLearnerData(storage: StorageAdapter = getDefaultStorage()
   for (const k of keysToRemove) {
     storage.removeItem(k);
   }
+  // Also fence work that read the old state during deletion in another tab.
+  bumpWipeGeneration(storage);
 }

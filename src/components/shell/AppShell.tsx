@@ -9,14 +9,13 @@ import {
   ShieldCheck,
   Trash2,
   Sparkles,
-  LogIn,
-  AlertCircle,
-  X,
+
   GraduationCap,
   FileText,
 } from 'lucide-react';
-import { wipeAllLearnerData } from '@/lib/storage/store';
-import { signInWithGoogle } from '@/lib/supabase/client';
+import { wipeLearnerDataWithCoaching } from '@/lib/advisor/privacy-client';
+import { AccountButton } from '@/components/auth/AccountAccess';
+
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -24,21 +23,14 @@ interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMessage, setAuthMessage] = useState<string | null>(null);
+
   const [showWipeModal, setShowWipeModal] = useState(false);
   const [wipeSuccess, setWipeSuccess] = useState(false);
 
-  const handleGoogleSignIn = async () => {
-    const res = await signInWithGoogle();
-    if (!res.success && res.error) {
-      setAuthMessage(res.error);
-      setShowAuthModal(true);
-    }
-  };
 
-  const handleConfirmWipe = () => {
-    wipeAllLearnerData();
+  const handleConfirmWipe = async () => {
+    try { await wipeLearnerDataWithCoaching(); }
+    catch { window.alert('ยังลบบทสนทนาบนเซิร์ฟเวอร์ไม่ได้ ข้อมูลในเครื่องยังอยู่ กรุณาเชื่อมต่อแล้วลองใหม่'); return; }
     setShowWipeModal(false);
     setWipeSuccess(true);
     setTimeout(() => {
@@ -131,11 +123,11 @@ export function AppShell({ children }: AppShellProps) {
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-700">โหมดการใช้งาน</span>
               <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-medium">
-                Guest (Zero-PII)
+                Guest / บัญชีเสริม
               </span>
             </div>
             <p className="text-slate-500 text-[11px] leading-relaxed">
-              ข้อมูลถูกจัดเก็บเฉพาะในเบราว์เซอร์นี้ ไม่มีการเก็บชื่อหรือข้อมูลติดต่อ
+              ไอเดียและฉบับร่างเก็บในเบราว์เซอร์ บทสนทนาชวนคิดเก็บบนเซิร์ฟเวอร์ด้วยรหัสนิรนามเพื่อคุยต่อได้ ไม่ต้องระบุชื่อหรือโรงเรียน
             </p>
           </div>
 
@@ -163,19 +155,12 @@ export function AppShell({ children }: AppShellProps) {
             </span>
             <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 border border-indigo-200/60 text-xs font-medium text-indigo-700">
               <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Zero-PII Privacy Protection</span>
+              <span>ไม่ถามชื่อจริงหรือโรงเรียน</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleGoogleSignIn}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 shadow-2xs transition min-h-[40px]"
-            >
-              <LogIn className="w-3.5 h-3.5 text-indigo-600" />
-              <span>เข้าสู่ระบบ Google</span>
-            </button>
+            <AccountButton />
           </div>
         </header>
 
@@ -211,38 +196,6 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </nav>
 
-      {/* Google Auth / Supabase Fallback Explanation Modal */}
-      {showAuthModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4 animate-in fade-in zoom-in-95">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-2 text-indigo-600 font-bold text-base">
-                <AlertCircle className="w-5 h-5 text-indigo-600" />
-                <span>การเชื่อมต่อระบบบัญชี</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowAuthModal(false)}
-                className="p-1 text-slate-400 hover:text-slate-600 rounded-lg min-h-[40px] min-w-[40px] flex items-center justify-center"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <p className="text-sm text-slate-600 leading-relaxed font-prompt">
-              {authMessage}
-            </p>
-            <div className="pt-2 flex justify-end">
-              <button
-                type="button"
-                onClick={() => setShowAuthModal(false)}
-                className="px-4 py-2.5 rounded-xl bg-indigo-600 text-white font-medium text-sm hover:bg-indigo-700 min-h-[44px]"
-              >
-                รับทราบและใช้งานต่อในโหมด Guest
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Wipe Confirmation Modal */}
       {showWipeModal && (
@@ -253,7 +206,7 @@ export function AppShell({ children }: AppShellProps) {
               <span>ยืนยันการลบข้อมูลทั้งหมด</span>
             </div>
             <p className="text-sm text-slate-600 leading-relaxed font-prompt">
-              คุณต้องการลบข้อมูลโครงงาน ประวัติการปัดการ์ด การประเมิน และการตั้งค่าทั้งหมดออกจากอุปกรณ์นี้ใช่หรือไม่? ข้อมูลทั้งหมดจะถูกล้างและไม่สามารถกู้คืนได้
+              ต้องการลบข้อมูลในอุปกรณ์และบทสนทนาชวนคิดบนเซิร์ฟเวอร์ทั้งหมดใช่หรือไม่? ต้องเชื่อมต่ออินเทอร์เน็ตเพื่อยืนยันการลบ ข้อมูลที่ลบแล้วกู้คืนไม่ได้
             </p>
             <div className="pt-3 flex items-center justify-end gap-2">
               <button

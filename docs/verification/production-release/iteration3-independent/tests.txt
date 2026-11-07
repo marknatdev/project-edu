@@ -1,0 +1,9 @@
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+
+ Test Files  64 passed (64)
+      Tests  513 passed (513)
+   Start at  21:59:56
+   Duration  38.90s (transform 14.02s, setup 0ms, import 42.10s, tests 186.08s, environment 31ms)
+

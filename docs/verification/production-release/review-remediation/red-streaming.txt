@@ -1,0 +1,92 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/streaming-limits.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+stderr | tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > cancels oversized upstream response while reading, including absent or lying lengths
+[AiGateway] too_large
+
+ ❯ tests/integration/streaming-limits.test.ts (8 tests | 6 failed) 45ms
+     × owner AI routes cancels the twenty-chunk allocation probe before consuming it 15ms
+     × coaching cancels the twenty-chunk allocation probe before consuming it 3ms
+     × Discovery cancels the twenty-chunk allocation probe before consuming it 3ms
+     × OAuth login cancels the twenty-chunk allocation probe before consuming it 7ms
+     × rejects oversized Content-Length without reading; ignores lying small length as authority 6ms
+     × cancels oversized upstream response while reading, including absent or lying lengths 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > owner AI routes cancels the twenty-chunk allocation probe before consuming it
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > coaching cancels the twenty-chunk allocation probe before consuming it
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > Discovery cancels the twenty-chunk allocation probe before consuming it
+AssertionError: expected 20 to be less than or equal to 3
+ ❯ tests/integration/streaming-limits.test.ts:33:32
+     31|     const f = fixture();
+     32|     expect(await handle(request(f.stream))).toBe(413);
+     33|     expect(f.stats().produced).toBeLessThanOrEqual(3);
+       |                                ^
+     34|     expect(f.stats().cancelled).toBe(true);
+     35|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > OAuth login cancels the twenty-chunk allocation probe before consuming it
+AssertionError: expected 400 to be 413 // Object.is equality
+
+- Expected
++ Received
+
+- 413
++ 400
+
+ ❯ tests/integration/streaming-limits.test.ts:32:45
+     30|   ] as const)('%s cancels the twenty-chunk allocation probe before con…
+     31|     const f = fixture();
+     32|     expect(await handle(request(f.stream))).toBe(413);
+       |                                             ^
+     33|     expect(f.stats().produced).toBeLessThanOrEqual(3);
+     34|     expect(f.stats().cancelled).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > rejects oversized Content-Length without reading; ignores lying small length as authority
+AssertionError: expected { produced: 20, cancelled: false } to deeply equal { produced: +0, cancelled: true }
+
+- Expected
++ Received
+
+  {
+-   "cancelled": true,
+-   "produced": 0,
++   "cancelled": false,
++   "produced": 20,
+  }
+
+ ❯ tests/integration/streaming-limits.test.ts:40:27
+     38|     const large = fixture();
+     39|     expect(await readBody(request(large.stream, { 'content-length': '1…
+     40|     expect(large.stats()).toEqual({ produced: 0, cancelled: true });
+       |                           ^
+     41|     const lie = fixture();
+     42|     expect(await readBody(request(lie.stream, { 'content-length': '1' …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > cancels oversized upstream response while reading, including absent or lying lengths
+AssertionError: expected 20 to be less than or equal to 2
+ ❯ tests/integration/streaming-limits.test.ts:66:34
+     64|       vi.stubGlobal('fetch', vi.fn(async () => new Response(f.stream, …
+     65|       expect(await callAiStrict({ schema: z.object({}), prompt: 'synth…
+     66|       expect(f.stats().produced).toBeLessThanOrEqual(2);
+       |                                  ^
+     67|       expect(f.stats().cancelled).toBe(true);
+     68|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 2 passed (8)
+   Start at  20:29:25
+   Duration  2.25s (transform 435ms, setup 0ms, import 1.21s, tests 45ms, environment 0ms)
+

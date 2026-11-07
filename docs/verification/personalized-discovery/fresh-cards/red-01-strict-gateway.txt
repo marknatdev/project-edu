@@ -1,0 +1,85 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/unit/fresh-cards-gateway.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/unit/fresh-cards-gateway.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m8 failed[39m[2m)[22m[32m 20[2mms[22m[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mreports unconfigured without calling the network[39m[32m 8[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mmaps upstream_http to a typed failure and logs no learner text / upstream body[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mmaps empty to a typed failure and logs no learner text / upstream body[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mmaps malformed_json to a typed failure and logs no learner text / upstream body[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mmaps schema to a typed failure and logs no learner text / upstream body[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mmaps too_large to a typed failure and logs no learner text / upstream body[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mmaps network errors and timeouts[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+[31m   [31m×[31m callAiStrict (S1) — never returns fallback data[2m > [22mreturns validated data on success and sends bounded max_tokens[39m[32m 1[2mms[22m[39m
+[31m     → (0 , callAiStrict) is not a function[39m
+   [32m✓[39m callAiStrict (S1) — never returns fallback data[2m > [22mleaves callAiGateway offline fallback intact for other features[32m 5[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mreports unconfigured without calling the network
+[31m[1mTypeError[22m: (0 , callAiStrict) is not a function[39m
+[36m [2m❯[22m tests/unit/fresh-cards-gateway.test.ts:[2m24:18[22m[39m
+    [90m 22| [39m    vi.stubEnv('AI_BASE_URL', ''); vi.stubEnv('AI_API_KEY', ''); vi.st…
+    [90m 23| [39m    [35mconst[39m fetchMock [33m=[39m vi[33m.[39m[34mfn[39m()[33m;[39m vi[33m.[39m[34mstubGlobal[39m([32m'fetch'[39m[33m,[39m fetchMock)[33m;[39m
+    [90m 24| [39m    expect(await callAiStrict({ schema, prompt: LEARNER_TEXT })).toEqu…
+    [90m   | [39m                 [31m^[39m
+    [90m 25| [39m    [34mexpect[39m(fetchMock)[33m.[39mnot[33m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+    [90m 26| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mmaps upstream_http to a typed failure and logs no learner text / upstream body
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mmaps empty to a typed failure and logs no learner text / upstream body
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mmaps malformed_json to a typed failure and logs no learner text / upstream body
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mmaps schema to a typed failure and logs no learner text / upstream body
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mmaps too_large to a typed failure and logs no learner text / upstream body
+[31m[1mTypeError[22m: (0 , callAiStrict) is not a function[39m
+[36m [2m❯[22m tests/unit/fresh-cards-gateway.test.ts:[2m39:26[22m[39m
+    [90m 37| [39m    const error = vi.spyOn(console, 'error').mockImplementation(() => …
+    [90m 38| [39m    vi[33m.[39m[34mstubGlobal[39m([32m'fetch'[39m[33m,[39m vi[33m.[39m[34mfn[39m([35masync[39m () [33m=>[39m [34mrespond[39m()))[33m;[39m
+    [90m 39| [39m    const result = await callAiStrict({ schema, prompt: LEARNER_TEXT, …
+    [90m   | [39m                         [31m^[39m
+    [90m 40| [39m    [34mexpect[39m(result)[33m.[39m[34mtoMatchObject[39m({ ok[33m:[39m [35mfalse[39m[33m,[39m reason })[33m;[39m
+    [90m 41| [39m    [34mexpect[39m([32m'data'[39m [35min[39m result)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mmaps network errors and timeouts
+[31m[1mTypeError[22m: (0 , callAiStrict) is not a function[39m
+[36m [2m❯[22m tests/unit/fresh-cards-gateway.test.ts:[2m51:18[22m[39m
+    [90m 49| [39m    vi[33m.[39m[34mspyOn[39m(console[33m,[39m [32m'warn'[39m)[33m.[39m[34mmockImplementation[39m(() [33m=>[39m {})[33m;[39m
+    [90m 50| [39m    vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('fe…
+    [90m 51| [39m    expect(await callAiStrict({ schema, prompt: 'x' })).toMatchObject(…
+    [90m   | [39m                 [31m^[39m
+    [90m 52| [39m    vi.stubGlobal('fetch', vi.fn((_u: unknown, init?: RequestInit) => …
+    [90m 53| [39m      init?.signal?.addEventListener('abort', () => fail(Object.assign…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/fresh-cards-gateway.test.ts[2m > [22mcallAiStrict (S1) — never returns fallback data[2m > [22mreturns validated data on success and sends bounded max_tokens
+[31m[1mTypeError[22m: (0 , callAiStrict) is not a function[39m
+[36m [2m❯[22m tests/unit/fresh-cards-gateway.test.ts:[2m62:18[22m[39m
+    [90m 60| [39m    const fetchMock = vi.fn(async () => completion(JSON.stringify({ ca…
+    [90m 61| [39m    vi[33m.[39m[34mstubGlobal[39m([32m'fetch'[39m[33m,[39m fetchMock)[33m;[39m
+    [90m 62| [39m    expect(await callAiStrict({ schema, prompt: 'x', maxTokens: 1200 }…
+    [90m   | [39m                 [31m^[39m
+    [90m 63| [39m    const body = JSON.parse(String((fetchMock.mock.calls[0] as unknown…
+    [90m 64| [39m    [34mexpect[39m(body[33m.[39mmax_tokens)[33m.[39m[34mtoBe[39m([34m1200[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 11:47:58
+[2m   Duration [22m 1.05s[2m (transform 56ms, setup 0ms, collect 100ms, tests 20ms, environment 0ms, prepare 99ms)[22m
+

@@ -1,0 +1,5 @@
+npm run test: 0
+npm run lint: 0
+npm run typecheck: 0
+npm run build: 0
+git diff --check: 0

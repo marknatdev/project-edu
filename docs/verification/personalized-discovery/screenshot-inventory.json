@@ -1,0 +1,135 @@
+[
+  {
+    "path": "docs/verification/personalized-discovery/mockup/desktop-chat.png",
+    "bytes": 235333,
+    "width": 1280,
+    "height": 900,
+    "sha256": "8b0ec972dfb4d076e719393de124942f5118f190d93738bb862c8abc5123b8b0"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/desktop-compare.png",
+    "bytes": 234189,
+    "width": 1265,
+    "height": 1064,
+    "sha256": "8110c4e10c8003cd469f17363370db04c96e89ba0a969efc478ffabe8e4e30ca"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/desktop-deck.png",
+    "bytes": 275341,
+    "width": 1265,
+    "height": 1366,
+    "sha256": "25a07918128f8d4f963d9870bf864258ef90072a9e5e8d24535340baaab36051"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/desktop-storage-unavailable.png",
+    "bytes": 240097,
+    "width": 1280,
+    "height": 960,
+    "sha256": "44a116900216cd9d2b4c0ffa2af65cd08588f50be682ea1ffb3e66ba324e3d79"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/desktop-unavailable-no-charge.png",
+    "bytes": 302107,
+    "width": 1280,
+    "height": 960,
+    "sha256": "ca0ed76b36fb928cebd72a6d5611e229dacfd83bed615074b22992ab5e14b3e8"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-320-chat.png",
+    "bytes": 110362,
+    "width": 320,
+    "height": 1298,
+    "sha256": "2a3dd7794c3461ab2f71bda6f893e733f8321f317227b5f4f19ff4e4ba256f05"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-chat.png",
+    "bytes": 114831,
+    "width": 360,
+    "height": 1276,
+    "sha256": "f3976b46d1027159b00d880162dd5ec5a0c0116e14de057b64feab2bad6b49a7"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-coaching.png",
+    "bytes": 170585,
+    "width": 360,
+    "height": 2045,
+    "sha256": "cef85791ef47cd12fd8d55ee63920d2c2846f18222275302f3993afe02bdec23"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-compare.png",
+    "bytes": 164817,
+    "width": 360,
+    "height": 2125,
+    "sha256": "833903bb325e25a70e5cec6134900d59014b411117b9cf5b410fea079f3c2438"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-deck.png",
+    "bytes": 175488,
+    "width": 360,
+    "height": 1894,
+    "sha256": "fae77fb76384bcf20aa67e5a06f2890aed698d591a84945d124cbc4cf62a421c"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-drag.png",
+    "bytes": 180431,
+    "width": 360,
+    "height": 1923,
+    "sha256": "147cdd74aa578df77151d6eab3bb870cccde8b4da54d060a597bc9fe7ca103dc"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-loading.png",
+    "bytes": 102499,
+    "width": 360,
+    "height": 1065,
+    "sha256": "e8cfd2830b7ad56fd1a471282daa7d2859f19443059771aa5c2c062656c98404"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-partial-three.png",
+    "bytes": 178096,
+    "width": 360,
+    "height": 1968,
+    "sha256": "fb8f0de2baef7632f2d33ba08f58ba8890fcae89891e73840a571375b891c038"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-quota-exhausted.png",
+    "bytes": 203043,
+    "width": 360,
+    "height": 2446,
+    "sha256": "2b953b092647b143cc977f371c9d3d2754e971dd7e05a803c33553b227c2bb59"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-shortlist.png",
+    "bytes": 188547,
+    "width": 360,
+    "height": 3012,
+    "sha256": "24ec22fddfd3735c463b575b21fefc7eed10f965e927e0ebae142f45952344d0"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-summary-four-questions.png",
+    "bytes": 111368,
+    "width": 360,
+    "height": 1170,
+    "sha256": "91c5f84de66ab732f4a5e1a3f2d326d62f5f6426a8ce608df60c64b913999bbb"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-summary.png",
+    "bytes": 113573,
+    "width": 360,
+    "height": 1171,
+    "sha256": "42963bab571083c5c3cb7b607ba4cd0ca151aa7e29645f902da12d647cd26930"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-360-unavailable-no-charge.png",
+    "bytes": 111314,
+    "width": 360,
+    "height": 1155,
+    "sha256": "6ecff25baae45d220421ab4671e99f8ce11753c369e3d1882e69b723714d0316"
+  },
+  {
+    "path": "docs/verification/personalized-discovery/mockup/mobile-390-chat.png",
+    "bytes": 116270,
+    "width": 390,
+    "height": 1276,
+    "sha256": "ffe3cc9137d8df4349d55c5067d6c634e2935cd4351a564afe41db4faec91270"
+  }
+]

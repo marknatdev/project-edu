@@ -1,0 +1,6 @@
+{
+  "browser": "Chrome/156.0.8078.81",
+  "passed": 48,
+  "total": 48,
+  "note": "Real browser/Next/PG; REST shim; AI unconfigured; provider navigation interrupted (NOT live OAuth)."
+}

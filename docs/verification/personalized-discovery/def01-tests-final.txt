@@ -1,0 +1,62 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/unit/competition-calendar.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 202[2mms[22m[39m
+ [32m✓[39m tests/unit/prior-work.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 114[2mms[22m[39m
+ [32m✓[39m tests/unit/share-link.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 155[2mms[22m[39m
+ [32m✓[39m tests/unit/advisor-signoff.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 205[2mms[22m[39m
+ [32m✓[39m tests/unit/presentation-templates.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 197[2mms[22m[39m
+ [32m✓[39m tests/unit/docx-export.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 762[2mms[22m[39m
+   [33m[2m✓[22m[39m DOCX Export (Seam 1)[2m > [22mappends TCAS, bounded abstract and 3-minute pitch only on explicit opt-in [33m 339[2mms[22m[39m
+ [32m✓[39m tests/unit/bom.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 50[2mms[22m[39m
+ [32m✓[39m tests/unit/rubrics-engine.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-shortlist.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 85[2mms[22m[39m
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully when fetch rejects (network error)
+[22m[39m[AiGateway] Call failed: Connection refused
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on non-2xx status code
+[22m[39m[AiGateway] Non-2xx response from AI endpoint (500): Internal Server Error
+
+[90mstderr[2m | tests/unit/socratic-and-ai.test.ts[2m > [22m[2mAI Gateway (ADR 0001)[2m > [22m[2mfalls back gracefully on malformed JSON or Zod validation failure
+[22m[39m[AiGateway] Failed to parse JSON from AI response: SyntaxError: Unexpected token 'o', "not valid j"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at callAiGateway [90m(D:\millmaker\EdTech\[39msrc\lib\ai\gateway.ts:132:25[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at [90mD:\millmaker\EdTech\[39mtests\unit\socratic-and-ai.test.ts:158:20
+    at [90mfile:///D:/millmaker/EdTech/[39mnode_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+ [32m✓[39m tests/unit/variable-isolator.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 95[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-and-ai.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 160[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-api.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1221[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-screener.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 53[2mms[22m[39m
+ [32m✓[39m tests/unit/supabase-client.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/multi-project-store.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32m✓[39m tests/unit/store.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/domain-schemas.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-client.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-chat-reducer.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+ [32m✓[39m tests/unit/safety-checklist.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/unit/eval-client.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m tests/unit/interview-logic.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-ai-cards.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/unit/smoke.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/pivot-flow-reducer.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/proposal-assemble.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/mock-judge.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/weekly-plan.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-privacy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-session.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/evaluation-view-model.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-local.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/unit/proposal-quota.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-authority.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/unit/discovery-deck.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/unit/topic-catalog.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 103[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m36 passed[39m[22m[90m (36)[39m
+[2m      Tests [22m [1m[32m334 passed[39m[22m[90m (334)[39m
+[2m   Start at [22m 22:32:21
+[2m   Duration [22m 8.82s[2m (transform 6.68s, setup 0ms, collect 21.46s, tests 3.94s, environment 14ms, prepare 8.31s)[22m
+

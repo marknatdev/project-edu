@@ -1,0 +1,10 @@
+   ▲ Next.js 15.5.29
+   - Local:        http://127.0.0.1:3026
+   - Network:      http://127.0.0.1:3026
+
+ ✓ Starting...
+ ✓ Ready in 925ms
+[14384:25420:1106/111611.235:ERROR:chrome\browser\extensions\external_registry_loader_win.cc:147] Missing value path for key Software\Google\Chrome\Extensions\dngcpimnedloihjnnfngkgjoidhnaolf.
+[14384:25420:1106/111611.235:ERROR:chrome\browser\extensions\external_registry_loader_win.cc:147] Missing value path for key Software\Google\Chrome\Extensions\fcoeoabgfenejglbffodgkkbkcdhcgfn.
+
+DevTools listening on ws://127.0.0.1:50369/devtools/browser/cadb885d-1493-4ef8-9292-56cc18068782

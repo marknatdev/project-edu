@@ -9,6 +9,7 @@ import type {
   VerifiedPriorWork,
 } from '@/types/domain';
 import { evaluateIsolator } from '@/lib/variables/rigor';
+import { appFetch } from '@/lib/auth/workspace-client';
 import { getRubricPreset } from '@/lib/rubrics/presets';
 import { computeEvaluationScore } from '@/lib/rubrics/engine';
 import { screenIdea } from '@/lib/safety/screener';
@@ -23,8 +24,8 @@ export interface QuotaInfo {
   resetAt: string;
 }
 
+// DEF-04: no anonymousId — the server binds quota to the verified owner.
 export interface FetchEvaluationParams {
-  anonymousId: string;
   idea: Idea;
   constraints?: Constraints;
 }
@@ -32,24 +33,6 @@ export interface FetchEvaluationParams {
 export interface EvaluationApiResponse {
   success: boolean;
   evaluation?: Evaluation;
-  quota?: QuotaInfo;
-  source?: 'ai' | 'fallback';
-  error?: string;
-  quotaExceeded?: boolean;
-}
-
-export interface FetchPivotParams {
-  anonymousId: string;
-  idea: Idea;
-  redAxes: EvaluationAxis[];
-  tier: CoachingTier;
-  constraints?: Constraints;
-  unlockedTiers?: CoachingTier[];
-}
-
-export interface PivotApiResponse {
-  success: boolean;
-  coaching?: PivotCoaching;
   quota?: QuotaInfo;
   source?: 'ai' | 'fallback';
   error?: string;
@@ -126,18 +109,19 @@ export function generateOfflineEvaluation(idea: Idea): Evaluation {
 }
 
 /**
- * Pure local deterministic pivot coaching generator used when offline or AI call fails.
+ * Pure local deterministic pivot guidance for offline use. ADR 0002: offline
+ * steps are never Tier 3 evidence, so this never returns Tier 3 examples.
  */
 export function generateOfflinePivotCoaching(
   primaryAxis: EvaluationAxis,
   tier: CoachingTier
 ): PivotCoaching {
   const guide = AXIS_PIVOT_GUIDES[primaryAxis] ?? AXIS_PIVOT_GUIDES.feasibility;
+  const offlineTier: CoachingTier = tier >= 2 ? 2 : 1;
   return {
-    tier,
+    tier: offlineTier,
     tier1Prompt: guide.tier1,
-    tier2Lenses: tier >= 2 ? guide.tier2Lenses : undefined,
-    tier3Examples: tier === 3 ? guide.tier3Examples.slice(0, 3) : undefined,
+    tier2Lenses: offlineTier === 2 ? guide.tier2Lenses : undefined,
   };
 }
 
@@ -148,21 +132,26 @@ export async function fetchEvaluation(
   params: FetchEvaluationParams
 ): Promise<EvaluationApiResponse> {
   try {
-    const res = await fetch('/api/ai/evaluate', {
+    const res = await appFetch('/api/ai/evaluate', {
       method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-store',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(params),
+      body: JSON.stringify({ idea: params.idea, constraints: params.constraints }),
     });
 
     if (res.status === 429) {
       const data = await res.json().catch(() => ({}));
+      if (data.error === 'RATE_LIMITED') {
+        return { success: false, quotaExceeded: false, error: data.messageTh || 'ขอประเมินถี่เกินไป กรุณารอสักครู่แล้วลองใหม่' };
+      }
       return {
         success: false,
         quotaExceeded: true,
         error:
           data.messageTh ||
           'วันนี้คุณประเมินโครงงานครบตามโควตา 5 ครั้งแล้ว สามารถกลับมาใหม่ได้ในวันพรุ่งนี้',
-        quota: {
+        quota: data.quota ?? {
           used: 5,
           limit: 5,
           remaining: 0,
@@ -171,6 +160,9 @@ export async function fetchEvaluation(
       };
     }
 
+    if ([401, 403, 409, 410].includes(res.status)) {
+      return { success: false, error: 'สิทธิ์หรือพื้นที่งานเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ก่อนประเมิน งานเดิมยังอยู่' };
+    }
     if (!res.ok) {
       // Offline / server error fallback
       const offlineEval = generateOfflineEvaluation(params.idea);
@@ -197,56 +189,6 @@ export async function fetchEvaluation(
       evaluation: offlineEval,
       source: 'fallback',
       error: err instanceof Error ? err.message : 'Network error, using offline fallback',
-    };
-  }
-}
-
-/**
- * Fetch pivot guidance from /api/ai/pivot with automatic offline and quota fallback.
- */
-export async function fetchPivot(params: FetchPivotParams): Promise<PivotApiResponse> {
-  const primaryAxis = params.redAxes[0] ?? 'feasibility';
-
-  try {
-    const res = await fetch('/api/ai/pivot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(params),
-    });
-
-    if (res.status === 429) {
-      const offlineCoaching = generateOfflinePivotCoaching(primaryAxis, params.tier);
-      return {
-        success: true,
-        coaching: offlineCoaching,
-        source: 'fallback',
-        quotaExceeded: true,
-        error: 'โควตาข้อเสนอแนะพิเศษเต็มแล้ว ใช้คำแนะนำชวนคิดจากฐานข้อมูลระบบ',
-      };
-    }
-
-    if (!res.ok) {
-      const offlineCoaching = generateOfflinePivotCoaching(primaryAxis, params.tier);
-      return {
-        success: true,
-        coaching: offlineCoaching,
-        source: 'fallback',
-      };
-    }
-
-    const data = await res.json();
-    return {
-      success: true,
-      coaching: data.coaching,
-      quota: data.quota,
-      source: data.source ?? 'ai',
-    };
-  } catch {
-    const offlineCoaching = generateOfflinePivotCoaching(primaryAxis, params.tier);
-    return {
-      success: true,
-      coaching: offlineCoaching,
-      source: 'fallback',
     };
   }
 }

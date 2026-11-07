@@ -1,0 +1,25 @@
+* 880e3a3 (HEAD) docs(review): final review M1–M5
+* 48cc22b (main) feat(m5): mock judge, advisor sign-off and TCAS/pitch templates
+* 49d0671 feat(m5): BOM estimator and competition calendar
+* 5fd4647 feat(m5): variable isolator and safety form checklist
+* 5038cd7 feat(m4): multi-format export and PWA manifest
+* 731d72a feat(m4): proposal and weekly plan editor with multi-project
+* eebd9d9 feat(m4): evaluation dashboard and socratic pivot
+* 6b8f989 feat(m3): socratic advisor chat for both tracks
+* e9197bf feat(m3): discovery track swipe deck and shortlist
+* cb1c18a feat(m3): local store, PDPA consent and interview wizard
+* 290aba8 feat(m2): AI gateway, quota and socratic coach routes
+* 3f82488 feat(m2): verified prior work database and matcher
+* 648ba56 feat(m2): subfields and 90 curated topic cards
+* fe5313d feat(m1): SRC/ISEF safety screener
+* 9cc547e feat(m1): rubric presets and fit score engine
+* 5458fb8 feat(m1): domain types and zod schemas
+* 4b83233 chore(m1): scaffold Next.js 15 app + tooling
+* fe49613 (origin/main, origin/HEAD) feat(mockup): mobile-first pass — touch drag-to-swipe, BOM cards w/ substitute switches + sticky budget, calendar carousel + checklist progress, doc tabs, 40px+ touch targets, toast top on mobile, overflow-x clip
+* 995e12c feat(mockup): mobile-first Shortlist — ranked cards, Fit ring, budget/time meters, sort, compare-2 bottom sheet; container-query 2-col on wide
+* 52b41a1 fix(mockup): browser-tested prototype; remove raw LaTeX, start shortlist at 0/5, mobile chat/table/badge layout, full-page bg; add screenshots
+* 6fadb98 docs(ui): add full-feature interactive UI prototype (Theme A+B hybrid)
+* 523a3af docs(research): add Section 10 feature gap analysis and 8 expansion opportunities
+* b9c76bf docs(spec): add Milestone 1 folder structure and package.json specification
+* f0cd21f docs(ui): add interactive HTML mockup with 3 design variants (Neo-Pop, Clean Glass, Cyber Glow)
+* 2d3f50a docs: Gate 2 approved, prepare UI design mockups for user selection

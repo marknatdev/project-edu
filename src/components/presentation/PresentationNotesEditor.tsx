@@ -11,7 +11,7 @@ const fields: { key: keyof PresentationNotes; label: string; hint: string }[] = 
   { key: 'learning', label: 'สิ่งที่เรียนรู้ ข้อจำกัด & ขั้นต่อไป', hint: 'พบอะไรที่ไม่เป็นไปตามคาด และจะปรับอย่างไร' },
 ];
 
-export function PresentationNotesEditor({ notes, onSave }: { notes: PresentationNotes | null; onSave: (notes: PresentationNotes) => void }) {
+export function PresentationNotesEditor({ notes, onSave }: { notes: PresentationNotes | null; onSave: (notes: PresentationNotes) => boolean | void }) {
   const [draft, setDraft] = useState(notes ?? EMPTY_PRESENTATION_NOTES);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -20,7 +20,15 @@ export function PresentationNotesEditor({ notes, onSave }: { notes: Presentation
     <summary className="min-h-11 cursor-pointer font-semibold text-sm text-indigo-800 py-3">เติมบทบาท ทักษะ และผลจริงด้วยตนเอง</summary>
     <form className="mt-3 space-y-4" onSubmit={e => {
       e.preventDefault(); setMessage(''); setError('');
-      try { onSave(draft); setMessage('บันทึกข้อความของคุณแล้ว เทมเพลตและไฟล์ส่งออกใช้ฉบับนี้'); }
+      try {
+        const ok = onSave(draft);
+        if (ok === false) {
+          setDraft(EMPTY_PRESENTATION_NOTES);
+          setError('โครงงานถูกลบแล้ว จึงไม่บันทึกข้อความลงพื้นที่จัดเก็บ');
+          return;
+        }
+        setMessage('บันทึกข้อความของคุณแล้ว เทมเพลตและไฟล์ส่งออกใช้ฉบับนี้');
+      }
       catch { setError('ยังไม่บันทึก กรุณาตรวจพื้นที่จัดเก็บและลองใหม่ ข้อความที่พิมพ์ยังอยู่'); }
     }}>
       <p className="text-xs text-slate-600">ไม่บังคับกรอก เว้นว่างได้ แอปจะไม่แต่งข้อมูลแทนคุณ เก็บแยกตาม Project ในเบราว์เซอร์นี้ ไม่ใส่ชื่อจริง โรงเรียน หรือข้อมูลติดต่อ</p>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { MessageSquare, Compass, HelpCircle, Lock } from 'lucide-react';
-import type { CoachingTier } from '@/lib/ai/socratic-coach';
+import type { CoachingTier } from '@/lib/advisor/coach-contract';
 import { canRequestTier, type ChatState } from '@/lib/advisor/chat-reducer';
 
 export interface TierButtonsProps {
@@ -22,11 +22,11 @@ export function TierButtons({
 
   return (
     <div className="w-full space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-slate-500 font-prompt">
+      <div className="flex items-center justify-between gap-3">
+        <span className="min-w-0 text-xs font-bold text-slate-500 font-prompt">
           ระดับความช่วยเหลือจากครูที่ปรึกษา (3-Tier Pedagogy):
         </span>
-        <span className="text-[11px] text-slate-400 font-prompt">
+        <span className="shrink-0 text-[11px] text-slate-400 font-prompt">
           ปลดล็อกตามลำดับ
         </span>
       </div>

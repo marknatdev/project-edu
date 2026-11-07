@@ -89,6 +89,24 @@ export interface TopicCard {
   maxTeamSize: number;
   requiredSkills: string[];
   safetyCategories?: SafetyCategory[];
+  /** Present only on fresh personalized starter ideas (never on catalog cards). */
+  starter?: StarterIdeaMeta;
+}
+
+// 9b. StarterIdeaMeta (การ์ดไอเดียตั้งต้นที่สร้างใหม่จากความสนใจ — ยังไม่ใช่โครงงานสำเร็จรูป)
+// `phenomenon` on the card carries the problem text for backwards compatibility.
+export interface StarterIdeaMeta {
+  origin: 'ai_fresh';
+  problem: string;
+  roughDirection: string;
+  interestLink: string;
+  fitNotes: string[];
+  /** Keyword screening + model hints only: preliminary, never proof of safety. */
+  safetyScreen: 'preliminary';
+  /** Fresh generation is never a novelty check; Prior Work is evaluated separately. */
+  noveltyChecked: false;
+  requestId: string;
+  generatedAt: string;
 }
 
 // 10. SwipeAction (การตอบสนองต่อการ์ด: ข้าม, สนใจ, อยากทำเลย, ย้อนกลับ)
@@ -145,6 +163,7 @@ export interface Idea {
   description: string;
   source: Track;
   sourceTopicCardId?: string;
+  coachingTopicKey?: string;
   gradeLevel: GradeLevel;
   goal: Goal;
   variables?: IdeaVariablesLite;

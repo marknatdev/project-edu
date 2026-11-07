@@ -1,0 +1,11 @@
+[
+  {
+    "name": "DEFECT REPRODUCED: foreground refresh before reset drops sole boundary refresh",
+    "passed": true,
+    "detail": {
+      "reads": 2,
+      "disabled": true,
+      "elapsedPastResetMs": 1516
+    }
+  }
+]

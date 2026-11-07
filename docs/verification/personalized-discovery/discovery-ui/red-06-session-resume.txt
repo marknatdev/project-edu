@@ -1,0 +1,20 @@
+   [32m✓[39m discovery session: generation request (D2)[2m > [22mreuses the interview constraints (as Thai labels), the interest answers and the edited summary[32m 5[2mms[22m[39m
+   [32m✓[39m discovery session: generation request (D2)[2m > [22mclamps out-of-range interview values to the API limits instead of failing[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: generation results (D2)[2m > [22madds accepted cards to the deck, reports a partial batch honestly and never duplicates a replay[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: generation results (D2)[2m > [22mkeeps answers and previous cards on every failure; same intent only where the server may already hold it[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: generation results (D2)[2m > [22mignores a late result for an intent that is no longer pending[32m 0[2mms[22m[39m
+   [32m✓[39m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mlike adds to the shortlist, skip moves on without removing other cards of the same subject, undo restores[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mcaps the shortlist at 5, compares exactly 2 and selects any saved card[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22masks for more using likes, skips, typed refinement and every seen idea[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mrestarting the interview keeps generated cards, shortlist and the real quota[32m 0[2mms[22m[39m
+[31m   [31m×[31m discovery session: refresh resume (D2)[2m > [22mround-trips the whole session (answers, cards, swipes, shortlist, pending intent) under the app storage prefix[39m[32m 4[2mms[22m[39m
+[31m   [31m×[31m discovery session: refresh resume (D2)[2m > [22mrejects corrupt or tampered data without inventing cards, and drops dangling references[39m[32m 0[2mms[22m[39m
+[31m   [31m×[31m discovery session: refresh resume (D2)[2m > [22mreturns a fresh session when nothing is stored[39m[32m 0[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: refresh resume (D2)[2m > [22mround-trips the whole session (answers, cards, swipes, shortlist, pending intent) under the app storage prefix
+[31m[1mTypeError[22m: (0 , saveDiscoverySession) is not a function[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: refresh resume (D2)[2m > [22mrejects corrupt or tampered data without inventing cards, and drops dangling references
+[31m[1mTypeError[22m: (0 , loadDiscoverySession) is not a function[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: refresh resume (D2)[2m > [22mreturns a fresh session when nothing is stored
+[31m[1mTypeError[22m: (0 , loadDiscoverySession) is not a function[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m9 passed[39m[22m[90m (12)[39m

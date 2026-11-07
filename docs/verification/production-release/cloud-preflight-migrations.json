@@ -1,0 +1,49 @@
+{
+  "task_id": "t_612d32f5",
+  "observed_at": "2026-11-06T13:22:46.010226+00:00",
+  "scope": "Point-in-time local SQL inventory, not final release approval. No hosted migrations applied.",
+  "supabase_project_id": "ppctndzkerwiokjfaklw",
+  "hosted_migrations": [],
+  "files": [
+    {
+      "file": "supabase/migrations/202611060001_foundation.sql",
+      "sha256": "177d847b817057a90c228c4fc0c083bda86f0e6d5c1a8165300def9a079025a4",
+      "tables": ["edu_owners", "edu_records", "edu_record_receipts"],
+      "functions": ["edu_bind_owner", "edu_foundation"],
+      "rls_enabled": ["edu_owners", "edu_records", "edu_record_receipts"],
+      "policies": ["edu_records_read_own"]
+    },
+    {
+      "file": "supabase/migrations/202611060002_card_quota.sql",
+      "sha256": "9e5ca1ce3d7ed633ef42136e9c496a1dee58603d80a499ce92577dfa8a84609e",
+      "tables": ["edu_daily_quota", "edu_card_batches", "edu_generated_cards", "edu_quota_receipts"],
+      "functions": ["edu_bangkok_day", "edu_card_quota", "edu_card_operation"],
+      "rls_enabled": ["edu_daily_quota", "edu_card_batches", "edu_generated_cards", "edu_quota_receipts"],
+      "policies": ["edu_quota_read_own", "edu_cards_read_own"]
+    },
+    {
+      "file": "supabase/migrations/202611060003_rate_admission.sql",
+      "sha256": "9936b872594aa0006dd2e31a0d7f6b9e31b438bfe208eebe5c729b5e22dae823",
+      "tables": ["edu_rate_windows"],
+      "functions": ["edu_rate_take", "edu_rate_admission"],
+      "rls_enabled": ["edu_rate_windows"],
+      "policies": []
+    },
+    {
+      "file": "supabase/migrations/202611060004_card_generation_admission.sql",
+      "sha256": "9f01b7561e73ef5f8eb1af266feefee730a5ed8be17cba89ef36d99210e7717d",
+      "tables": [],
+      "functions": ["edu_rate_admission"],
+      "rls_enabled": [],
+      "policies": []
+    },
+    {
+      "file": "supabase/migrations/202611060005_evaluate_pivot_admission.sql",
+      "sha256": "edd655d964076b4addf137087ca8c705faac7cab4bc1409bb38357758ca29be1",
+      "tables": [],
+      "functions": ["edu_rate_admission"],
+      "rls_enabled": [],
+      "policies": []
+    }
+  ]
+}

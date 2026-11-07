@@ -1,0 +1,8 @@
+[31m   [31m×[31m generated card → per-topic coaching handoff (D4)[2m > [22mopens coaching from the generated card’s own problem, rough direction and interest link, isolated per card topic[39m[32m 155[2mms[22m[39m
+[31m     → expected 'หัวข้อ: ตัวกรองน้ำตู้ปลาจากกะลามะพร้า…' to contain 'เทียบความใสของน้ำเมื่อใช้วัสดุกรองสาม…'[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/integration/discovery-coaching-handoff.test.ts[2m > [22mgenerated card → per-topic coaching handoff (D4)[2m > [22mopens coaching from the generated card’s own problem, rough direction and interest link, isolated per card topic
+[31m[1mAssertionError[22m: expected 'หัวข้อ: ตัวกรองน้ำตู้ปลาจากกะลามะพร้า…' to contain 'เทียบความใสของน้ำเมื่อใช้วัสดุกรองสาม…'[39m
+[32m- Expected[39m
+[31m+ Received[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[90m (1)[39m

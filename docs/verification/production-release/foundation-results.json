@@ -1,0 +1,44 @@
+{
+  "tests": 375,
+  "test_files": 45,
+  "browser": {
+    "checks": 19,
+    "passed": 19,
+    "failed": 0,
+    "browser": "Chrome/156.0.8078.81",
+    "live_oauth": false,
+    "live_ai": false,
+    "mode": "Real production Next/Chromium; backend intentionally missing and auth unavailable; local Save remains usable"
+  },
+  "head": "880e3a30a62e5fd61791bb3e7bab4025afdc2a30",
+  "index_empty": true,
+  "pinned_files_unchanged": [
+    "REVIEW.md",
+    "CONTEXT.md",
+    "docs/adr/0002-socratic-advisor-first-ai-pedagogy.md",
+    "docs/specs/production-release.md",
+    "docs/specs/personalized-discovery-and-def01.md",
+    "docs/mockups/personalized-discovery.html",
+    "docs/mockups/interactive-prototype.html"
+  ],
+  "public_env_inlined": true,
+  "server_sentinel_bundle_leaks": 0,
+  "audit": {
+    "audit-initial.json": {
+      "info": 0,
+      "low": 0,
+      "moderate": 8,
+      "high": 2,
+      "critical": 2,
+      "total": 12
+    },
+    "audit-runtime.json": {
+      "info": 0,
+      "low": 0,
+      "moderate": 1,
+      "high": 2,
+      "critical": 0,
+      "total": 3
+    }
+  }
+}

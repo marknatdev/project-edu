@@ -1,0 +1,19 @@
+PASS first Idea server progression tier 1
+PASS first Idea server progression tier 2
+PASS first Idea server progression tier 3
+PASS two saved own Ideas open separate stable server conversations
+PASS second own Idea cannot inherit first Idea Tier 3/history
+PASS saved Idea context, not current interview, reaches PostgreSQL
+PASS first Idea context and Tier 3 resume after real app restart
+PASS saved-idea-resume: no horizontal page overflow at 360px
+PASS saved-idea-resume: interactive controls at least 40px at 360px
+PASS saved-idea-resume: screenshot rendered (not blank) at 360px
+PASS saved-idea-resume: no browser JS errors
+PASS evaluation edit returns to second own Idea
+PASS explicit genuinely new own topic has fresh id, context and gates
+PASS generated-card evaluation edit preserves snapshot and original conversation
+PASS generated-evaluation-edit: no horizontal page overflow at 1280px
+PASS generated-evaluation-edit: interactive controls at least 40px at 1280px
+PASS generated-evaluation-edit: screenshot rendered (not blank) at 1280px
+PASS generated-evaluation-edit: no browser JS errors
+{'case': 'routing', 'browser': 'Chrome/156.0.8078.81', 'passed': 18, 'total': 18, 'mode': 'real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers'}

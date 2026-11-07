@@ -1,0 +1,186 @@
+[
+  {
+    "name": "two-tab Wipe prevents old-answer resurrection",
+    "passed": true,
+    "detail": {
+      "beforeAnswers": 2,
+      "after": null
+    }
+  },
+  {
+    "name": "mounted Discovery writer stops and shows erased state",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "two-tab-erased: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "two-tab-erased: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "two-tab-erased: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "two-tab-erased: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "delayed model fixture actually started before erase",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "late model response cannot recreate local cards/answers/pending intent",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "server tombstone fences late model acceptance",
+    "passed": true,
+    "detail": {
+      "url": "/api/discovery/cards",
+      "method": "POST",
+      "body": {
+        "requestId": "c8f28dec-8a00-4582-9fda-f73b2306ab8e",
+        "count": 5,
+        "learner": {
+          "gradeLevel": "m_plai",
+          "goal": "classroom",
+          "constraints": {
+            "timeWeeks": 6,
+            "budgetBaht": 1000,
+            "teamSize": 2,
+            "equipment": [
+              "สมาร์ตโฟน / แท็บเล็ต",
+              "คอมพิวเตอร์ / โน้ตบุ๊ก"
+            ],
+            "skills": [
+              "การเขียนโค้ด / โปรแกรมมิ่ง",
+              "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+            ]
+          }
+        },
+        "interest": {
+          "answers": [
+            {
+              "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+              "answer": "สิ่งแวดล้อมรอบตัว"
+            },
+            {
+              "question": "จากเรื่อง “สิ่งแวดล้อมรอบตัว” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?",
+              "answer": "อยากลดขยะ"
+            }
+          ],
+          "summary": "สิ่งแวดล้อมรอบตัว · อยากลดขยะ"
+        },
+        "seenCardIds": []
+      },
+      "status": 410,
+      "response": {
+        "error": "PERSISTENCE_410",
+        "messageTh": "สิทธิ์เข้าถึงข้อมูลเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ คำตอบในเครื่องยังอยู่"
+      }
+    }
+  },
+  {
+    "name": "no follow-up quota/poll writer after erase",
+    "passed": true,
+    "detail": [
+      {
+        "url": "/api/discovery/cards",
+        "method": "GET",
+        "body": null,
+        "status": 200,
+        "response": {
+          "quota": {
+            "day": "2026-11-06",
+            "used": 0,
+            "reserved": 0,
+            "remaining": 35,
+            "freeRemaining": 5,
+            "extraRemaining": 30,
+            "resetAt": "2026-11-06T17:00:00Z"
+          }
+        }
+      },
+      {
+        "url": "/api/discovery/cards",
+        "method": "POST",
+        "body": {
+          "requestId": "c8f28dec-8a00-4582-9fda-f73b2306ab8e",
+          "count": 5,
+          "learner": {
+            "gradeLevel": "m_plai",
+            "goal": "classroom",
+            "constraints": {
+              "timeWeeks": 6,
+              "budgetBaht": 1000,
+              "teamSize": 2,
+              "equipment": [
+                "สมาร์ตโฟน / แท็บเล็ต",
+                "คอมพิวเตอร์ / โน้ตบุ๊ก"
+              ],
+              "skills": [
+                "การเขียนโค้ด / โปรแกรมมิ่ง",
+                "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+              ]
+            }
+          },
+          "interest": {
+            "answers": [
+              {
+                "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+                "answer": "สิ่งแวดล้อมรอบตัว"
+              },
+              {
+                "question": "จากเรื่อง “สิ่งแวดล้อมรอบตัว” มีปัญหาหรือสิ่งที่เธออยากเข้าใจให้มากขึ้นตรงไหน?",
+                "answer": "อยากลดขยะ"
+              }
+            ],
+            "summary": "สิ่งแวดล้อมรอบตัว · อยากลดขยะ"
+          },
+          "seenCardIds": []
+        },
+        "status": 410,
+        "response": {
+          "error": "PERSISTENCE_410",
+          "messageTh": "สิทธิ์เข้าถึงข้อมูลเปลี่ยนแล้ว กรุณาโหลดหน้าใหม่ คำตอบในเครื่องยังอยู่"
+        }
+      }
+    ]
+  },
+  {
+    "name": "late-response-erased: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "late-response-erased: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "late-response-erased: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "late-response-erased: no browser JS errors",
+    "passed": true,
+    "detail": []
+  }
+]

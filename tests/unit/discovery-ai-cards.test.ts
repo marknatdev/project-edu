@@ -20,7 +20,7 @@ const mockAiCard: TopicCard = {
 };
 
 describe('Seam 5: AI Card Generation Client Helper (fetchAiGeneratedCards)', () => {
-  it('successfully fetches and validates AI-generated cards with verified badge', async () => {
+  it('fetches and validates AI-generated cards without a misleading verified badge (spec §8)', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
@@ -43,7 +43,8 @@ describe('Seam 5: AI Card Generation Client Helper (fetchAiGeneratedCards)', () 
     expect(result.cards.length).toBe(1);
     expect(result.cards[0].id).toBe('ai_card_1');
     expect(result.cards[0].isAiGenerated).toBe(true);
-    expect(result.cards[0].verified).toBe(true);
+    // Keyword screening is preliminary, never proof of safety/novelty: no 'verified' claim.
+    expect(result.cards[0]).not.toHaveProperty('verified');
     expect(result.remaining).toBe(29);
   });
 

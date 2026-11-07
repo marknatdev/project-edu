@@ -1,0 +1,23 @@
+PASS optional login discloses Auth PII and no silent cloud sync
+PASS unsaved proposal draft is preserved BEFORE OAuth navigation
+PASS proposal-optional-login: no horizontal page overflow at 360px
+PASS proposal-optional-login: interactive controls at least 40px at 360px
+PASS proposal-optional-login: screenshot rendered (not blank) at 360px
+PASS proposal-optional-login: no browser JS errors
+PASS proposal-optional-login: no horizontal page overflow at 1280px
+PASS proposal-optional-login: interactive controls at least 40px at 1280px
+PASS proposal-optional-login: screenshot rendered (not blank) at 1280px
+PASS proposal-optional-login: no browser JS errors
+PASS evaluation accepts the browser Guest with its own quota
+PASS new Pivot room offers Tier 1 only
+PASS axis switches cannot race an in-flight Pivot turn
+PASS answer then hints then explicit examples works
+PASS rewritten idea starts a fresh content-bound Pivot room
+FAIL exhausted allowance creates a manual blank draft, never automatic source assembly
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\repairs\run-repairs-browser.py", line 96, in <module>
+    check('exhausted allowance creates a manual blank draft, never automatic source assembly',saved()['projects'][-1]['proposal']['problemStatement']=='')
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 353, in check
+    raise AssertionError((name, detail))
+AssertionError: ('exhausted allowance creates a manual blank draft, never automatic source assembly', None)

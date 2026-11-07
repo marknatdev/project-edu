@@ -1,0 +1,29 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/unit/coaching-local.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/coaching-local.test.ts[2m [ tests/unit/coaching-local.test.ts ][22m
+[31m[1mError[22m: Cannot find module '@/lib/advisor/coaching-local' imported from 'D:/millmaker/EdTech/tests/unit/coaching-local.test.ts'.
+
+- If you rely on tsconfig.json's "paths" to resolve modules, please install "vite-tsconfig-paths" plugin to handle module resolution.
+- Make sure you don't have relative aliases in your Vitest config. Use absolute paths instead. Read more: https://vitest.dev/guide/common-errors[39m
+[36m [2m❯[22m tests/unit/coaching-local.test.ts:[2m4:1[22m[39m
+    [90m  2| [39m[35mimport[39m { [33mTOPIC_CARDS[39m } [35mfrom[39m [32m'@/data/topic-cards'[39m[33m;[39m
+    [90m  3| [39mimport { createMemoryStorage, wipeAllLearnerData } from '@/lib/storage…
+    [90m  4| [39mimport { saveTopicCardSnapshot, resolveCoachingCard, saveCoachingLocal…
+    [90m   | [39m[31m^[39m
+    [90m  5| [39m
+    [90m  6| [39mdescribe('DEF-01 local snapshot/draft seam (never authorization)', () …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [2mno tests[22m
+[2m   Start at [22m 21:30:11
+[2m   Duration [22m 2.57s[2m (transform 531ms, setup 0ms, collect 0ms, tests 0ms, environment 0ms, prepare 1.09s)[22m
+

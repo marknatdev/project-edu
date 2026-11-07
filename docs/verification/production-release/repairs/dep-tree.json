@@ -1,0 +1,105 @@
+{
+  "version": "0.1.0",
+  "name": "project-edu",
+  "problems": [
+    "invalid: postcss@8.4.31 D:\\millmaker\\EdTech\\node_modules\\next\\node_modules\\postcss"
+  ],
+  "dependencies": {
+    "autoprefixer": {
+      "version": "10.6.2",
+      "resolved": "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.6.2.tgz",
+      "overridden": false,
+      "dependencies": {
+        "postcss": {
+          "version": "8.5.32"
+        }
+      }
+    },
+    "next": {
+      "version": "15.5.29",
+      "resolved": "https://registry.npmjs.org/next/-/next-15.5.29.tgz",
+      "overridden": false,
+      "dependencies": {
+        "postcss": {
+          "version": "8.4.31",
+          "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz",
+          "overridden": false,
+          "invalid": "\"8.5.32\" from node_modules/next",
+          "problems": [
+            "invalid: postcss@8.4.31 D:\\millmaker\\EdTech\\node_modules\\next\\node_modules\\postcss"
+          ]
+        }
+      }
+    },
+    "postcss": {
+      "version": "8.5.32",
+      "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.32.tgz",
+      "overridden": false
+    },
+    "tailwindcss": {
+      "version": "3.4.19",
+      "resolved": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.19.tgz",
+      "overridden": false,
+      "dependencies": {
+        "postcss-import": {
+          "version": "15.1.0",
+          "resolved": "https://registry.npmjs.org/postcss-import/-/postcss-import-15.1.0.tgz",
+          "overridden": false,
+          "dependencies": {
+            "postcss": {
+              "version": "8.5.32"
+            }
+          }
+        },
+        "postcss-js": {
+          "version": "4.1.0",
+          "resolved": "https://registry.npmjs.org/postcss-js/-/postcss-js-4.1.0.tgz",
+          "overridden": false,
+          "dependencies": {
+            "postcss": {
+              "version": "8.5.32"
+            }
+          }
+        },
+        "postcss-load-config": {
+          "version": "6.0.1",
+          "resolved": "https://registry.npmjs.org/postcss-load-config/-/postcss-load-config-6.0.1.tgz",
+          "overridden": false,
+          "dependencies": {
+            "postcss": {
+              "version": "8.5.32"
+            }
+          }
+        },
+        "postcss-nested": {
+          "version": "6.2.0",
+          "resolved": "https://registry.npmjs.org/postcss-nested/-/postcss-nested-6.2.0.tgz",
+          "overridden": false,
+          "dependencies": {
+            "postcss": {
+              "version": "8.5.32"
+            }
+          }
+        },
+        "postcss": {
+          "version": "8.5.32"
+        }
+      }
+    },
+    "vite": {
+      "version": "7.3.7",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-7.3.7.tgz",
+      "overridden": false,
+      "dependencies": {
+        "postcss": {
+          "version": "8.5.32"
+        }
+      }
+    }
+  },
+  "error": {
+    "code": "ELSPROBLEMS",
+    "summary": "invalid: postcss@8.4.31 D:\\millmaker\\EdTech\\node_modules\\next\\node_modules\\postcss",
+    "detail": ""
+  }
+}

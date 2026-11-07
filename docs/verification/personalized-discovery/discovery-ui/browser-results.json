@@ -1,0 +1,815 @@
+[
+  {
+    "name": "discovery opens with the adaptive interest chat, not the seed catalog deck",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "real server quota shown before any generation (5 free / 30 extra)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "01-chat-start: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "01-chat-start: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "01-chat-start: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "01-chat-start: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "“ยังไม่รู้” gets a guiding near-life question (no silent subject pick, no cards)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "02-chat-unknown-guided: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "02-chat-unknown-guided: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "02-chat-unknown-guided: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "02-chat-unknown-guided: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "follow-up question adapts to the typed answer",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "interest questions never ask known constraints or identity",
+    "passed": true,
+    "detail": [
+      "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+      "ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?",
+      "ถ้าเริ่มจาก “ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?"
+    ]
+  },
+  {
+    "name": "summary after 3 answers (first was “ยังไม่รู้”), one question at a time",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "03-summary-editable: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "03-summary-editable: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "03-summary-editable: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "03-summary-editable: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "truthful loading state: no quota charged until accepted",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "04-loading: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "04-loading: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "04-loading: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "04-loading: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "generation request carried the edited summary, answers and interview constraints",
+    "passed": true,
+    "detail": {
+      "requestId": "b8079cea-9abd-4f8e-ab3d-a65c84feb820",
+      "count": 5,
+      "learner": {
+        "gradeLevel": "m_plai",
+        "goal": "classroom",
+        "constraints": {
+          "timeWeeks": 6,
+          "budgetBaht": 1000,
+          "teamSize": 2,
+          "equipment": [
+            "สมาร์ตโฟน / แท็บเล็ต",
+            "คอมพิวเตอร์ / โน้ตบุ๊ก"
+          ],
+          "skills": [
+            "การเขียนโค้ด / โปรแกรมมิ่ง",
+            "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+          ]
+        }
+      },
+      "interest": {
+        "answers": [
+          {
+            "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+            "answer": "ยังไม่รู้"
+          },
+          {
+            "question": "ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?",
+            "answer": "ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก"
+          },
+          {
+            "question": "ถ้าเริ่มจาก “ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?",
+            "answer": "เปรียบเทียบสิ่งที่วัดได้"
+          }
+        ],
+        "summary": "อยากทำให้น้ำในตู้ปลาที่บ้านใสนานขึ้นด้วยของราคาถูก"
+      },
+      "seenCardIds": []
+    }
+  },
+  {
+    "name": "server prompt to the (MOCK) upstream contained the learner interest + constraints; key only server-side",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "5 accepted fresh cards persisted with snapshots",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "quota after first 5: free 0/5, extra 30/30 (server truth)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "card shows truthful source/limits; no “verified” or safety-passed claim",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "05-deck: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "05-deck: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "05-deck: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "05-deck: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "one skip does not remove other same-subject cards from the batch",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "refresh resumes the same deck position, cards, swipes and shortlist (no new generation)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "active card after refresh is the 4th card of the batch",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "more5 request used likes, skips, typed refinement and all seen ids",
+    "passed": true,
+    "detail": {
+      "requestId": "2cdb0c41-16fb-478c-a21a-3d14831cf25b",
+      "count": 5,
+      "learner": {
+        "gradeLevel": "m_plai",
+        "goal": "classroom",
+        "constraints": {
+          "timeWeeks": 6,
+          "budgetBaht": 1000,
+          "teamSize": 2,
+          "equipment": [
+            "สมาร์ตโฟน / แท็บเล็ต",
+            "คอมพิวเตอร์ / โน้ตบุ๊ก"
+          ],
+          "skills": [
+            "การเขียนโค้ด / โปรแกรมมิ่ง",
+            "คณิตศาสตร์และการวิเคราะห์ข้อมูล"
+          ]
+        }
+      },
+      "interest": {
+        "answers": [
+          {
+            "question": "ช่วงนี้มีเรื่องอะไรที่เธออยากลองทำหรือสงสัยเป็นพิเศษ?",
+            "answer": "ยังไม่รู้"
+          },
+          {
+            "question": "ไม่เป็นไรเลย ลองเริ่มจากสิ่งใกล้ตัว เรื่องไหนที่เธออยากสังเกตดู?",
+            "answer": "ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก"
+          },
+          {
+            "question": "ถ้าเริ่มจาก “ตู้ปลาที่บ้าน น้ำขุ่นเร็วมาก” เธออยากสังเกตความแตกต่างหรือช่วยแก้ปัญหาส่วนไหน?",
+            "answer": "เปรียบเทียบสิ่งที่วัดได้"
+          }
+        ],
+        "summary": "อยากทำให้น้ำในตู้ปลาที่บ้านใสนานขึ้นด้วยของราคาถูก"
+      },
+      "refinement": {
+        "text": "ไม่ต้องซื้ออุปกรณ์เพิ่ม ใช้ของในบ้าน",
+        "likedCardIds": [
+          "fresh_f40a824e-12dc-45a4-87ed-267db1a05496",
+          "fresh_71b292f5-98b3-47f1-9424-440361888889"
+        ],
+        "skippedCardIds": [
+          "fresh_24d46139-6257-410d-af4d-20ecd69d3372"
+        ]
+      },
+      "seenCardIds": [
+        "fresh_24d46139-6257-410d-af4d-20ecd69d3372",
+        "fresh_f40a824e-12dc-45a4-87ed-267db1a05496",
+        "fresh_71b292f5-98b3-47f1-9424-440361888889",
+        "fresh_dc51e718-5a17-4add-a7ef-9cff8dc971d5",
+        "fresh_4c38da7f-5da9-461d-91d6-5e648a554d0c"
+      ]
+    }
+  },
+  {
+    "name": "server prompt carried liked/skipped ideas and seen titles to avoid (MOCK upstream)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "previous cards kept and 5 new unique cards added (10 total, no repeats)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "quota: extra 25/30 after second batch",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "partial batch: honest “2 จาก 5”, charged 2, no filler cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "06-partial: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "06-partial: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "06-partial: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "06-partial: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "unavailable: Thai error, answers + 12 cards kept, quota unchanged, no fake cards",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "07-unavailable-retry: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "07-unavailable-retry: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "07-unavailable-retry: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "07-unavailable-retry: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "retry after a failed intent uses a NEW requestId and succeeds",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "network failure: truthful “เชื่อมต่อเซิร์ฟเวอร์ไม่ได้”, pending intent kept with its exact body",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "retry after network failure resent the SAME requestId; 5 cards added once",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "08-shortlist: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "08-shortlist: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "08-shortlist: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "08-shortlist: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "compare view shows both cards with constraint fit text",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "09-compare: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "09-compare: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "09-compare: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "09-compare: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "coach open sent the selected generated card snapshot + constraints (not a catalog lookup)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "server coaching prompt was built from that card’s problem + rough direction + interest link (MOCK upstream)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "coaching page shows the selected generated card’s own problem/direction/interest link",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "10-coach-selected-card: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "10-coach-selected-card: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "10-coach-selected-card: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "10-coach-selected-card: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "10-coach-selected-card: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "10-coach-selected-card: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "10-coach-selected-card: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "10-coach-selected-card: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "Tier 3 locked on the first turn of this generated-card conversation",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "Tier 3 still locked after the answer, before a Tier-2 hint",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "explicit Tier 3 (after answer + Tier-2 hint) issues examples and opens the own-words gate",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "copying an issued example is rejected by the rewrite gate",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "11-rewrite-gate: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "11-rewrite-gate: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "11-rewrite-gate: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "11-rewrite-gate: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "second card: separate conversation, its own context, fresh Tier-1 gate",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "returning to the first card resumes its own conversation history",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "after a real Next restart: same saved cards and server quota (22 used)",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "allowance consumed honestly to 27",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "allowance consumed honestly to 32",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "allowance consumed honestly to 35",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "at 35/35 the UI shows 0 free / 0 extra and disables more",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "server refuses the 36th card: 429 quota_exhausted, no upstream call",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "12-quota-exhausted: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "12-quota-exhausted: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "12-quota-exhausted: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "12-quota-exhausted: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "new interview/topic does not renew the daily allowance (button disabled, quota 0, all 35 cards kept)",
+    "passed": true,
+    "detail": {
+      "button_disabled": true,
+      "server_quota": {
+        "day": "2026-11-06",
+        "used": 35,
+        "reserved": 0,
+        "remaining": 0,
+        "freeRemaining": 0,
+        "extraRemaining": 0,
+        "resetAt": "2026-11-06T17:00:00Z"
+      },
+      "cards": 35
+    }
+  },
+  {
+    "name": "13-deck-320: no horizontal page overflow at 320px",
+    "passed": true,
+    "detail": {
+      "width": 320,
+      "scroll": 320
+    }
+  },
+  {
+    "name": "13-deck-320: interactive controls at least 40px at 320px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "13-deck-320: screenshot rendered (not blank) at 320px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "13-deck-320: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "13-deck-390: no horizontal page overflow at 390px",
+    "passed": true,
+    "detail": {
+      "width": 390,
+      "scroll": 390
+    }
+  },
+  {
+    "name": "13-deck-390: interactive controls at least 40px at 390px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "13-deck-390: screenshot rendered (not blank) at 390px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "13-deck-390: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "13-deck-1280: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "13-deck-1280: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "13-deck-1280: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "13-deck-1280: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "14-shortlist-desktop: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "14-shortlist-desktop: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "14-shortlist-desktop: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "14-shortlist-desktop: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "15-summary-desktop: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "15-summary-desktop: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "15-summary-desktop: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "15-summary-desktop: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "AI unconfigured: 503 AI_UNCONFIGURED, Thai message, zero cards, nothing charged, no upstream call",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "16-ai-unconfigured: no horizontal page overflow at 360px",
+    "passed": true,
+    "detail": {
+      "width": 360,
+      "scroll": 360
+    }
+  },
+  {
+    "name": "16-ai-unconfigured: interactive controls at least 40px at 360px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "16-ai-unconfigured: screenshot rendered (not blank) at 360px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "16-ai-unconfigured: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "16-ai-unconfigured: no horizontal page overflow at 1280px",
+    "passed": true,
+    "detail": {
+      "width": 1280,
+      "scroll": 1265
+    }
+  },
+  {
+    "name": "16-ai-unconfigured: interactive controls at least 40px at 1280px",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "16-ai-unconfigured: screenshot rendered (not blank) at 1280px",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "16-ai-unconfigured: no browser JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "regression smoke /: loads without JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "regression smoke /interview: loads without JS errors and shows “สัมภาษณ์”",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "regression smoke /idea: loads without JS errors and shows “ครูที่ปรึกษา”",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "regression smoke /evaluation: loads without JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "regression smoke /proposal: loads without JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "regression smoke /consent: loads without JS errors",
+    "passed": true,
+    "detail": []
+  },
+  {
+    "name": "server logs contain no learner interest text or synthetic secrets",
+    "passed": true,
+    "detail": null
+  }
+]

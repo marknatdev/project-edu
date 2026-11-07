@@ -1,0 +1,134 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/integration/fresh-cards-service.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/fresh-cards-service.test.ts [2m([22m[2m17 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[33m 984[2mms[22m[39m
+[31m   [31m×[31m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mreplays a completed intent without a second model call or charge[39m[32m 91[2mms[22m[39m
+[31m     → expected { status: 'unavailable', …(5) } to match object { status: 'ok', replayed: true, …(2) }
+(12 matching properties omitted from actual)[39m
+[31m   [31m×[31m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mrefuses reuse of a request id for a different intent[39m[32m 42[2mms[22m[39m
+[31m     → PERSISTENCE_409[39m
+[31m   [31m×[31m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mkeeps a failed intent failed (no silent re-generation) and asks for a new request id[39m[32m 37[2mms[22m[39m
+[31m     → expected { status: 'unavailable', …(5) } to match object { status: 'failed_intent', …(1) }
+(12 matching properties omitted from actual)[39m
+[31m   [31m×[31m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mdouble-submits of one intent produce exactly one model call and one charge[39m[32m 249[2mms[22m[39m
+[31m     → expected [ { body: { …(5) }, …(2) }, …(5) ] to have a length of 1 but got 6[39m
+[31m   [31m×[31m generateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mconcurrent different intents can never spend more than 35 accepted cards per day[39m[32m 94[2mms[22m[39m
+[31m     → PERSISTENCE_429[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mbuilds 5 starter ideas from interest + constraints, charges the free allowance, never uses the seed catalog[32m 38[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22munconfigured → truthful unavailable, no cards, no charge, reservation released[32m 29[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22munreachable → truthful unavailable, no cards, no charge, reservation released[32m 31[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mmalformed output → truthful unavailable, no cards, no charge, reservation released[32m 29[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mevery candidate invalid → truthful unavailable, no cards, no charge, reservation released[32m 30[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22ma timed-out model call is unavailable and charges nothing[32m 73[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mkeeps only valid, claim-free candidates and charges exactly the accepted partial count (no fillers)[32m 30[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mnever accepts more cards than the reserved capacity even if the model returns extra[32m 33[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mrejects semantic and exact repeats of already-seen ideas and of each other, charging only unique cards[32m 47[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22muses own liked/skipped/seen cards as context without vetoing a subject, and ignores foreign ids[32m 70[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mredacts contact details from learner text before it reaches the model[32m 29[2mms[22m[39m
+   [32m✓[39m generateFreshCards (S3) — personalization (MOCKED upstream)[2m > [22mmarks keyword-screened safety categories as preliminary, without blocking the idea[32m 29[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 5 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mreplays a completed intent without a second model call or charge
+[31m[1mAssertionError[22m: expected { status: 'unavailable', …(5) } to match object { status: 'ok', replayed: true, …(2) }
+(12 matching properties omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "accepted": 5,[39m
+[32m-   "rejected": null,[39m
+[32m-   "replayed": true,[39m
+[32m-   "status": "ok",[39m
+[31m+   "status": "unavailable",[39m
+[2m  }[22m
+
+[36m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m48:19[22m[39m
+    [90m 46| [39m    [35mconst[39m first [33m=[39m [35mawait[39m [34mgenerateFreshCards[39m(s[33m,[39m intent)[33m;[39m
+    [90m 47| [39m    [35mconst[39m retry [33m=[39m [35mawait[39m [34mgenerateFreshCards[39m([35mawait[39m [34mstore[39m()[33m,[39m intent)[33m;[39m
+    [90m 48| [39m    expect(retry).toMatchObject({ status: 'ok', replayed: true, accept…
+    [90m   | [39m                  [31m^[39m
+    [90m 49| [39m    expect(retry.status === 'ok' && retry.cards).toEqual(first.status …
+    [90m 50| [39m    [34mexpect[39m(upstream[33m.[39mcalls)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mrefuses reuse of a request id for a different intent
+[31m[1mError[22m: PERSISTENCE_409[39m
+[36m [2m❯[22m fail src/lib/persistence/sqlite-store.server.ts:[2m17:49[22m[39m
+
+[90m [2m❯[22m src/lib/persistence/sqlite-store.server.ts:[2m124:87[22m[39m
+[90m [2m❯[22m transact src/lib/persistence/sqlite-store.server.ts:[2m50:22[22m[39m
+[90m [2m❯[22m run src/lib/persistence/sqlite-store.server.ts:[2m57:60[22m[39m
+[90m [2m❯[22m Object.beginBatch src/lib/persistence/sqlite-store.server.ts:[2m122:38[22m[39m
+[90m [2m❯[22m generateFreshCards src/lib/discovery/fresh-cards.server.ts:[2m99:29[22m[39m
+[90m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m60:18[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mkeeps a failed intent failed (no silent re-generation) and asks for a new request id
+[31m[1mAssertionError[22m: expected { status: 'unavailable', …(5) } to match object { status: 'failed_intent', …(1) }
+(12 matching properties omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "retryWithNewRequestId": true,[39m
+[32m-   "status": "failed_intent",[39m
+[31m+   "status": "unavailable",[39m
+[2m  }[22m
+
+[36m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m69:49[22m[39m
+    [90m 67| [39m    [35mconst[39m intent [33m=[39m [34mrequest[39m()[33m;[39m
+    [90m 68| [39m    expect(await generateFreshCards(s, intent)).toMatchObject({ status…
+    [90m 69| [39m    expect(await generateFreshCards(s, intent)).toMatchObject({ status…
+    [90m   | [39m                                                [31m^[39m
+    [90m 70| [39m    [34mexpect[39m(upstream[33m.[39mcalls)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m 71| [39m    expect(await s.cardQuota()).toMatchObject({ used: 0, reserved: 0 }…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mdouble-submits of one intent produce exactly one model call and one charge
+[31m[1mAssertionError[22m: expected [ { body: { …(5) }, …(2) }, …(5) ] to have a length of 1 but got 6[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 1[39m
+[31m+ 6[39m
+
+[36m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m78:28[22m[39m
+    [90m 76| [39m    [35mconst[39m intent [33m=[39m [34mrequest[39m()[33m;[39m
+    [90m 77| [39m    const results = await Promise.all(Array.from({ length: 6 }, async …
+    [90m 78| [39m    [34mexpect[39m(upstream[33m.[39mcalls)[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 79| [39m    [34mexpect[39m(results[33m.[39m[34mfilter[39m(r [33m=>[39m r[33m.[39mstatus [33m===[39m [32m'ok'[39m))[33m.[39m[34mtoHaveLength[39m([34m1[39m)[33m;[39m
+    [90m 80| [39m    expect(results.filter(r => r.status === 'pending')).toHaveLength(5…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/integration/fresh-cards-service.test.ts[2m > [22mgenerateFreshCards (S3) — idempotency and concurrency (MOCKED upstream)[2m > [22mconcurrent different intents can never spend more than 35 accepted cards per day
+[31m[1mError[22m: PERSISTENCE_429[39m
+[36m [2m❯[22m fail src/lib/persistence/sqlite-store.server.ts:[2m17:49[22m[39m
+
+[90m [2m❯[22m src/lib/persistence/sqlite-store.server.ts:[2m127:51[22m[39m
+[90m [2m❯[22m transact src/lib/persistence/sqlite-store.server.ts:[2m50:22[22m[39m
+[90m [2m❯[22m run src/lib/persistence/sqlite-store.server.ts:[2m57:60[22m[39m
+[90m [2m❯[22m Object.beginBatch src/lib/persistence/sqlite-store.server.ts:[2m122:38[22m[39m
+[90m [2m❯[22m generateFreshCards src/lib/discovery/fresh-cards.server.ts:[2m99:29[22m[39m
+[90m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m90:78[22m[39m
+[90m [2m❯[22m tests/integration/fresh-cards-service.test.ts:[2m90:21[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (17)[39m
+[2m   Start at [22m 11:56:42
+[2m   Duration [22m 2.02s[2m (transform 250ms, setup 0ms, collect 565ms, tests 984ms, environment 0ms, prepare 139ms)[22m
+

@@ -1,0 +1,41 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/foundation-postgres.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/foundation-postgres.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 8639[2mms[22m[39m
+[31m   [31m×[31m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22muses signed guest ownership and Postgres for the real coaching route in production (REST transport simulated)[39m[32m 32[2mms[22m[39m
+[31m     → expected 'edu-coaching-owner=6cd3bb9e3c8b3f71c4…' to contain '=v1.'[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mreserves capacity and charges only accepted unique cards, replaying the same completed intent[32m 30[2mms[22m[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mhas one CAS winner over independent database connections and idempotent same-payload replay[32m 87[2mms[22m[39m
+   [33m[2m✓[22m[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mreserves the 35-card limit across concurrent connections without duplicate generation claims [33m 323[2mms[22m[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mcounts duplicates/malformed candidates as zero and preserves successful partial work[32m 13[2mms[22m[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mrevokes an old guest and in-flight leases; account wipe fences old operations but allows new work[32m 21[2mms[22m[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mexecutes RLS as two authenticated roles, denies anonymous access and denies client writes/RPC[32m 8[2mms[22m[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mconsumes evaluation/proposal allowances idempotently and refuses excess without consuming the other kind[32m 10[2mms[22m[39m
+   [32m✓[39m real PostgreSQL 17 foundation RPC, not mocked storage[2m > [22mresumes owner-bound records across independent adapters and denies another owner[32m 6[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/foundation-postgres.test.ts[2m > [22mreal PostgreSQL 17 foundation RPC, not mocked storage[2m > [22muses signed guest ownership and Postgres for the real coaching route in production (REST transport simulated)
+[31m[1mAssertionError[22m: expected 'edu-coaching-owner=6cd3bb9e3c8b3f71c4…' to contain '=v1.'[39m
+
+Expected: [32m"=v1."[39m
+Received: [31m"edu-coaching-owner=6cd3bb9e3c8b3f71c40666329a2267fe372446eccf42d836919b997c9a4bde78; Path=/; Expires=Sat, 06 Nov 2027 02:34:05 GMT; Max-Age=31536000; Secure; HttpOnly; SameSite=strict"[39m
+
+[36m [2m❯[22m tests/integration/foundation-postgres.test.ts:[2m31:48[22m[39m
+    [90m 29| [39m      body:JSON.stringify({action:'open',topicKey:'cloud-route',contex…
+    [90m 30| [39m    [34mexpect[39m(response[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;[39m
+    [90m 31| [39m    [34mexpect[39m(response[33m.[39mheaders[33m.[39m[35mget[39m([32m'set-cookie'[39m))[33m.[39m[34mtoContain[39m([32m'=v1.'[39m)[33m;[39m
+    [90m   | [39m                                               [31m^[39m
+    [90m 32| [39m    [35mconst[39m cookie[33m=[39mresponse[33m.[39mheaders[33m.[39m[35mget[39m([32m'set-cookie'[39m)[33m![39m[33m.[39m[34msplit[39m([32m';'[39m)[[34m0[39m][33m;[39m
+    [90m 33| [39m    [35mconst[39m data[33m=[39m[35mawait[39m response[33m.[39m[34mjson[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 09:33:56
+[2m   Duration [22m 9.94s[2m (transform 236ms, setup 0ms, collect 613ms, tests 8.64s, environment 0ms, prepare 327ms)[22m
+

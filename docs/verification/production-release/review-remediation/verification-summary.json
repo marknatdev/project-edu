@@ -1,0 +1,81 @@
+{
+  "suite": {
+    "files": 64,
+    "passed": 513,
+    "evidence": "tests-final.txt"
+  },
+  "browser_cases": [
+    {
+      "case": "wipe",
+      "browser": "Chrome/156.0.8078.81",
+      "passed": 14,
+      "total": 14,
+      "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+    },
+    {
+      "case": "wipe-queued",
+      "browser": "Chrome/156.0.8078.81",
+      "passed": 2,
+      "total": 2,
+      "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+    },
+    {
+      "case": "routing",
+      "browser": "Chrome/156.0.8078.81",
+      "passed": 18,
+      "total": 18,
+      "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+    },
+    {
+      "case": "import",
+      "browser": "Chrome/156.0.8078.81",
+      "passed": 16,
+      "total": 16,
+      "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+    },
+    {
+      "case": "import-save",
+      "browser": "Chrome/156.0.8078.81",
+      "passed": 10,
+      "total": 10,
+      "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+    },
+    {
+      "case": "quota",
+      "browser": "Chrome/156.0.8078.81",
+      "passed": 8,
+      "total": 8,
+      "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+    }
+  ],
+  "browser_total": 68,
+  "browser_passed": 68,
+  "audit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 6,
+    "high": 1,
+    "critical": 0,
+    "total": 7
+  },
+  "commands": {
+    "npm test": 0,
+    "npm run lint": 0,
+    "npm run typecheck": 0,
+    "npm run build": 0,
+    "git diff --check": 0,
+    "npm audit --json": 1,
+    "npm audit --package-lock-only --json": 1
+  },
+  "runtime_ports_listening": {
+    "3043": false,
+    "55554": false,
+    "55553": false,
+    "55555": false
+  },
+  "root_review_sha256": "387653b158f17b41aabffd33b5de4d7fef8e5663d71484b5b9a19a5ba49d3d9d",
+  "release_review_sha256": "111b90beb03e54bd08ae4d19d53f1ec669972eab5bd3ab0d9c45c5575539b28a",
+  "package_lock_sha256": "ca25d6f74628530b7cbe3e2086a5986c11a9b621618c3525649262c66167c057",
+  "publication_performed": false,
+  "live_google_ai_hosted_supabase_verified": false
+}

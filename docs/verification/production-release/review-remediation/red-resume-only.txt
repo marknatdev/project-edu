@@ -1,0 +1,30 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/workspace-boundary.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+ ❯ tests/integration/workspace-boundary.test.ts (5 tests | 1 failed) 381ms
+     × resumes an existing account room without importing a missing Guest-local card snapshot 64ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/workspace-boundary.test.ts > Guest/account context opt-in at authenticated HTTP persistence boundary (synthetic Auth) > resumes an existing account room without importing a missing Guest-local card snapshot
+AssertionError: expected 400 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 400
+
+ ❯ tests/integration/workspace-boundary.test.ts:76:28
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  21:25:47
+   Duration  2.46s (transform 706ms, setup 0ms, import 1.70s, tests 381ms, environment 0ms)
+

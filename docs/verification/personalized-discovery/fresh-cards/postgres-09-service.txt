@@ -1,0 +1,14 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/integration/fresh-cards-postgres.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/integration/fresh-cards-postgres.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 9375[2mms[22m[39m
+   [33m[2m✓[22m[39m fresh cards on real PostgreSQL 17 (MOCKED upstream)[2m > [22mpersists starter snapshots (jsonb round-trip) and replays them after a real database restart [33m 958[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 11:58:42
+[2m   Duration [22m 10.41s[2m (transform 194ms, setup 0ms, collect 519ms, tests 9.37s, environment 0ms, prepare 156ms)[22m
+

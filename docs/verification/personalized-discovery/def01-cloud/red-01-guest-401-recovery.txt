@@ -1,0 +1,30 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/integration/coaching-cloud.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 12341[2mms[22m[39m
+   [33m[2m✓[22m[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mgates Tier 3 on server history and resumes the exact conversation after a real Postgres restart [33m 1101[2mms[22m[39m
+   [32m✓[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22misolates topics and owners, rejects forged state/cookies, and fences an old handle after start-new[32m 93[2mms[22m[39m
+[31m   [31m×[31m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mclears an unverifiable Guest capability (e.g. rotated secret) so the browser can recover instead of a permanent 401[39m[32m 13[2mms[22m[39m
+[31m     → .toMatch() expects to receive a string, but got object[39m
+   [32m✓[39m DEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mwipe erases every topic for that owner, revokes its capability, and leaves other owners untouched[32m 69[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/coaching-cloud.test.ts[2m > [22mDEF-01 coaching on the production Supabase/Postgres backend (REST hop simulated, AI unconfigured)[2m > [22mclears an unverifiable Guest capability (e.g. rotated secret) so the browser can recover instead of a permanent 401
+[31m[1mTypeError[22m: .toMatch() expects to receive a string, but got object[39m
+[36m [2m❯[22m tests/integration/coaching-cloud.test.ts:[2m116:25[22m[39m
+    [90m114| [39m    [34mexpect[39m(refused[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m401[39m)[33m;[39m
+    [90m115| [39m    [34mexpect[39m(refused[33m.[39mdata)[33m.[39mnot[33m.[39m[34mtoHaveProperty[39m([32m'turn'[39m)[33m;[39m
+    [90m116| [39m    [34mexpect[39m(refused[33m.[39m[35mset[39m)[33m.[39m[34mtoMatch[39m([36m/edu-coaching-owner=;.*Max-Age=0/i[39m)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m117| [39m    // Next request carries no capability -> a fresh signed owner, no …
+    [90m118| [39m    learner[33m.[39mcookie [33m=[39m [32m''[39m[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 11:22:13
+[2m   Duration [22m 14.08s[2m (transform 244ms, setup 0ms, collect 799ms, tests 12.34s, environment 0ms, prepare 551ms)[22m
+

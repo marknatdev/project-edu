@@ -1,0 +1,19 @@
+   [32m✓[39m discovery session: generation request (D2)[2m > [22mreuses the interview constraints (as Thai labels), the interest answers and the edited summary[32m 5[2mms[22m[39m
+   [32m✓[39m discovery session: generation request (D2)[2m > [22mclamps out-of-range interview values to the API limits instead of failing[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: generation results (D2)[2m > [22madds accepted cards to the deck, reports a partial batch honestly and never duplicates a replay[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: generation results (D2)[2m > [22mkeeps answers and previous cards on every failure; same intent only where the server may already hold it[32m 1[2mms[22m[39m
+   [32m✓[39m discovery session: generation results (D2)[2m > [22mignores a late result for an intent that is no longer pending[32m 0[2mms[22m[39m
+[31m   [31m×[31m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mlike adds to the shortlist, skip moves on without removing other cards of the same subject, undo restores[39m[32m 5[2mms[22m[39m
+[31m   [31m×[31m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mcaps the shortlist at 5, compares exactly 2 and selects any saved card[39m[32m 1[2mms[22m[39m
+[31m   [31m×[31m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22masks for more using likes, skips, typed refinement and every seen idea[39m[32m 1[2mms[22m[39m
+[31m   [31m×[31m discovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mrestarting the interview keeps generated cards, shortlist and the real quota[39m[32m 7[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mlike adds to the shortlist, skip moves on without removing other cards of the same subject, undo restores
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'cursor')[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mcaps the shortlist at 5, compares exactly 2 and selects any saved card
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'shortlist')[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: swipes, shortlist, compare and refinement (D2)[2m > [22masks for more using likes, skips, typed refinement and every seen idea
+[31m[1mTypeError[22m: Cannot read properties of undefined (reading 'summary')[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: swipes, shortlist, compare and refinement (D2)[2m > [22mrestarting the interview keeps generated cards, shortlist and the real quota
+[31m[1mAssertionError[22m: expected undefined to match object { stage: 'chat', answers: [], …(5) }[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (9)[39m

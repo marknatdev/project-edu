@@ -1,0 +1,27 @@
+PASS initial quota
+PASS generate 5 personalized starter cards (200)
+PASS cards are fresh starter snapshots, not seed catalog
+PASS prompt carries learner answer + constraints; bearer key sent server-side only
+PASS same request id replays without a model call or charge
+PASS same request id with different intent -> 409 conflict
+PASS partial: only valid unique claim-free cards accepted and charged
+PASS upstream 502 -> 503 AI_UNAVAILABLE, no charge
+PASS retrying a failed intent -> 409 failed_intent (new request id required)
+PASS 7th request in a minute: per-owner admission -> 429 rate_limited before any model call
+PASS malformed model output -> 503 AI_OUTPUT_UNUSABLE, no charge
+PASS 5 concurrent submits of one intent -> one model call, one 200 + pending 202s
+PASS concurrent intent charged exactly once
+PASS caller-chosen anonymousId rejected (400)
+PASS cross-site request rejected (403)
+PASS oversized body rejected (413)
+PASS forged guest capability rejected (401)
+PASS after Next restart: per-owner admission window is durable (still 429 inside the minute)
+PASS after Next restart: completed intent replays identical cards, no model call
+PASS after Next restart: daily counter persisted (no silent reset)
+PASS after DB + Next restart: replay still identical
+PASS topic switches do not renew allowance: 7 topics x 5 = 35 then exhausted
+PASS 36th card -> 429 quota_exhausted without model call
+PASS AI unconfigured -> 503 AI_UNCONFIGURED, nothing charged
+PASS coaching keeps its documented offline fallback (labelled fallback)
+PASS server logs contain no learner text or synthetic keys
+{"harness": "next start (production) + supabase-js + rest-shim + local PostgreSQL 17; MOCK upstream (not live AI)", "passed": 26, "total": 26, "mock_upstream_calls": 12}

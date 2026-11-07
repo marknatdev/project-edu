@@ -1,0 +1,25 @@
+{
+  "browser": "Chrome/156.0.8078.81",
+  "checks": 93,
+  "passed": 93,
+  "failed": 0,
+  "mode": "Real next start (production) + PERSISTENCE_BACKEND=supabase -> supabase-js -> local REST RPC shim -> real PostgreSQL 17 with repo migrations; synthetic per-run keys; upstream AI unconfigured; deterministic server coaching; generated snapshot explicitly test fixture; hosted Supabase/Vercel NOT exercised",
+  "server_processes": [
+    35896,
+    3608
+  ],
+  "database_processes": [
+    6520,
+    26848
+  ],
+  "database_restart": true,
+  "widths": [
+    320,
+    360,
+    390,
+    1280
+  ],
+  "full_browser_restart": true,
+  "server_restart": true,
+  "live_ai": false
+}

@@ -15,6 +15,8 @@ import { POST as cardsGenerateRoute } from '@/app/api/ai/cards/generate/route';
 import { POST as evaluateRoute } from '@/app/api/ai/evaluate/route';
 import { POST as pivotRoute } from '@/app/api/ai/pivot/route';
 import type { Idea, Constraints } from '@/types/domain';
+import { cookieJar } from '../fixtures/repairs';
+import { POST as proposalRoute } from '@/app/api/ai/proposal/route';
 
 describe('AI Gateway (ADR 0001)', () => {
   beforeEach(() => {
@@ -426,12 +428,8 @@ describe('AI API Routes', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          anonymousId: anonId,
-          requestedTier: 1,
-          ideaContext: {
-            title: sampleIdea.title,
-            description: sampleIdea.description,
-          },
+          action: 'open', topicKey: 'idea:route-test',
+          context: { track: 'idea_track', gradeLevel: 'm_plai', goal: 'ysc' },
         }),
       });
 
@@ -466,7 +464,8 @@ describe('AI API Routes', () => {
       expect(json.messageTh).toContain('30 ใบ');
     });
 
-    it('generates valid topic cards adhering to TopicCardSchema with fallback', async () => {
+    it('does not fabricate template cards when AI is unavailable (truthful 503, see legacy-cards-route.test.ts)', async () => {
+      vi.stubEnv('AI_BASE_URL', '');
       const req = new Request('http://localhost:3000/api/ai/cards/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -479,32 +478,19 @@ describe('AI API Routes', () => {
       });
 
       const res = await cardsGenerateRoute(req);
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(503);
       const json = await res.json();
-      expect(json.cards).toHaveLength(2);
-      expect(json.cards[0].subfieldId).toBe('sci_physics');
-      expect(json.cards[0].phenomenon).toBeDefined();
+      expect(json.cards).toEqual([]);
     });
   });
 
   describe('POST /api/ai/evaluate', () => {
     it('enforces evaluate daily quota (5) and returns 429 when exhausted', async () => {
-      await quotaStore.consume(anonId, 'evaluate', 5);
-
-      const req = new Request('http://localhost:3000/api/ai/evaluate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          anonymousId: anonId,
-          idea: sampleIdea,
-          constraints: sampleConstraints,
-        }),
-      });
-
-      const res = await evaluateRoute(req);
+      const jar = cookieJar();
+      for (let i = 0; i < 5; i++) expect((await jar.send(evaluateRoute, '/api/ai/evaluate', { body: { idea: sampleIdea } })).status).toBe(200);
+      const res = await jar.send(evaluateRoute, '/api/ai/evaluate', { body: { idea: sampleIdea } });
       expect(res.status).toBe(429);
-      const json = await res.json();
-      expect(json.messageTh).toContain('5 ครั้ง');
+      expect(res.data.messageTh).toContain('5 ครั้ง');
     });
 
     it('evaluates with 5 axes (1-10 integer scores + badges) and only DB citations', async () => {
@@ -512,7 +498,6 @@ describe('AI API Routes', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          anonymousId: anonId,
           idea: sampleIdea,
           constraints: sampleConstraints,
         }),
@@ -579,7 +564,6 @@ describe('AI API Routes', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          anonymousId: anonId,
           idea: sampleIdea,
           constraints: sampleConstraints,
         }),
@@ -598,24 +582,12 @@ describe('AI API Routes', () => {
   });
 
   describe('POST /api/ai/pivot', () => {
-    it('enforces proposal daily quota (2) and returns 429 when exhausted', async () => {
-      await quotaStore.consume(anonId, 'proposal', 2);
-
-      const req = new Request('http://localhost:3000/api/ai/pivot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          anonymousId: anonId,
-          idea: sampleIdea,
-          redAxes: ['feasibility', 'rigor'],
-          tier: 1,
-        }),
-      });
-
-      const res = await pivotRoute(req);
-      expect(res.status).toBe(429);
-      const json = await res.json();
-      expect(json.messageTh).toContain('2 ครั้ง');
+    it('keeps Pivot available after the independent 2/day proposal allowance is exhausted', async () => {
+      const jar = cookieJar();
+      for (let i = 0; i < 2; i++) await jar.send(proposalRoute, '/api/ai/proposal', { body: { action: 'consume', requestId: crypto.randomUUID() } });
+      const res = await jar.send(pivotRoute, '/api/ai/pivot', { body: { action: 'open', idea: sampleIdea, axis: 'rigor' } });
+      expect(res.status).toBe(200);
+      expect(res.data.pivot.unlockedTiers).toEqual([1]);
     });
 
     it('returns socratic pivot coaching shoring up red axes', async () => {
@@ -623,19 +595,18 @@ describe('AI API Routes', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          anonymousId: anonId,
+          action: 'open',
           idea: sampleIdea,
-          redAxes: ['feasibility'],
-          tier: 1,
+          axis: 'feasibility',
         }),
       });
 
       const res = await pivotRoute(req);
       expect(res.status).toBe(200);
       const json = await res.json();
-      expect(json.coaching).toBeDefined();
-      expect(json.coaching.tier).toBe(1);
-      expect(json.coaching.tier1Prompt.length).toBeGreaterThan(10);
+      expect(json.pivot.unlockedTiers).toEqual([1]);
+      expect(json.pivot.tier3Examples).toBeUndefined();
+      expect(json.pivot.tier1Prompt.length).toBeGreaterThan(10);
     });
   });
 });

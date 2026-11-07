@@ -1,0 +1,57 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/integration/repairs-postgres.test.ts -t production refuses
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+[90mstderr[2m | tests/integration/repairs-postgres.test.ts[2m > [22m[2mrelease repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22m[2mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys
+[22m[39m[AiGateway] upstream_http (HTTP 400)
+
+[90mstderr[2m | tests/integration/repairs-postgres.test.ts[2m > [22m[2mrelease repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22m[2mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys
+[22m[39m[AiGateway] upstream_http (HTTP 400)
+
+[90mstderr[2m | tests/integration/repairs-postgres.test.ts[2m > [22m[2mrelease repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22m[2mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys
+[22m[39m[AiGateway] upstream_http (HTTP 400)
+
+[90mstderr[2m | tests/integration/repairs-postgres.test.ts[2m > [22m[2mrelease repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22m[2mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys
+[22m[39m[AiGateway] upstream_http (HTTP 400)
+
+[90mstderr[2m | tests/integration/repairs-postgres.test.ts[2m > [22m[2mrelease repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22m[2mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys
+[22m[39m[AiGateway] upstream_http (HTTP 400)
+
+ [31m❯[39m tests/integration/repairs-postgres.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 8777[2mms[22m[39m
+[31m   [31m×[31m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys[39m[32m 101[2mms[22m[39m
+[31m     → expected [ [ …(2) ], [ …(2) ], [ …(2) ], …(2) ] to have a length of +0 but got 5[39m
+   [2m[90m↓[39m[22m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mconcurrent independent Guests and accounts each get exactly 5 evaluations; no shared or caller-chosen pool
+   [2m[90m↓[39m[22m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mPivot progression is owner-bound, CAS-serialized, restart-durable and never writes evaluate/proposal usage
+   [2m[90m↓[39m[22m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mapplies migration 0005 admission: Pivot 12/owner/min independent of proposal allowance
+   [2m[90m↓[39m[22m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mproposal 2/day is idempotent per owner and resets on the next Bangkok database day
+   [2m[90m↓[39m[22m release repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mexplicit wipe erases Pivot progression; a new capability starts again at Tier 1
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/repairs-postgres.test.ts[2m > [22mrelease repairs on real PostgreSQL 17 (production config; REST/Auth hop simulated; AI unconfigured)[2m > [22mproduction refuses private or non-HTTPS AI endpoints before sending learner data or keys
+[31m[1mAssertionError[22m: expected [ [ …(2) ], [ …(2) ], [ …(2) ], …(2) ] to have a length of +0 but got 5[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 0[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m tests/integration/repairs-postgres.test.ts:[2m69:22[22m[39m
+    [90m 67| [39m    }
+    [90m 68| [39m    const upstream = vi.mocked(fetch).mock.calls.filter(([url]) => Str…
+    [90m 69| [39m    [34mexpect[39m(upstream)[33m.[39m[34mtoHaveLength[39m([34m0[39m)[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m 70| [39m  })[33m;[39m
+    [90m 71| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[33m5 skipped[39m[90m (6)[39m
+[2m   Start at [22m 15:01:00
+[2m   Duration [22m 10.61s[2m (transform 333ms, setup 0ms, collect 1.09s, tests 8.78s, environment 0ms, prepare 375ms)[22m
+

@@ -1,0 +1,36 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/unit/coaching-client.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [31m❯[39m tests/unit/coaching-client.test.ts [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 16[2mms[22m[39m
+[31m   [31m×[31m DEF-01 client/server public DTO and hydration[2m > [22munwraps the actual {turn, conversation} response and rejects malformed successful responses[39m[32m 15[2mms[22m[39m
+[31m     → expected undefined to be 'คุณอยากแก้ปัญหาอะไร?' // Object.is equality[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/coaching-client.test.ts[2m > [22mDEF-01 client/server public DTO and hydration[2m > [22munwraps the actual {turn, conversation} response and rejects malformed successful responses
+[31m[1mAssertionError[22m: expected undefined to be 'คุณอยากแก้ปัญหาอะไร?' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"คุณอยากแก้ปัญหาอะไร?"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2m❯[22m tests/unit/coaching-client.test.ts:[2m22:34[22m[39m
+    [90m 20| [39m    const result = await fetchCoachTurn({ action: 'open', topicKey: 'c…
+    [90m 21| [39m    [34mexpect[39m(result[33m.[39msuccess)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m 22| [39m    [34mexpect[39m(result[33m.[39mdata[33m?.[39mcontent)[33m.[39m[34mtoBe[39m([32m'คุณอยากแก้ปัญหาอะไร?'[39m)[33m;[39m
+    [90m   | [39m                                 [31m^[39m
+    [90m 23| [39m    [34mexpect[39m(result[33m.[39mconversation[33m?.[39mid)[33m.[39m[34mtoBe[39m(conversation[33m.[39mid)[33m;[39m
+    [90m 24| [39m    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m   Start at [22m 21:26:43
+[2m   Duration [22m 827ms[2m (transform 53ms, setup 0ms, collect 93ms, tests 16ms, environment 0ms, prepare 366ms)[22m
+

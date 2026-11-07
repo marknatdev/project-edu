@@ -1,0 +1,5 @@
+[31m   [31m×[31m discovery session: bounded local history (D2)[2m > [22mkeeps at most MAX_SAVED_CARDS, dropping the oldest unshortlisted cards first[39m[32m 20[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m tests/unit/discovery-fresh-session.test.ts[2m > [22mdiscovery session: bounded local history (D2)[2m > [22mkeeps at most MAX_SAVED_CARDS, dropping the oldest unshortlisted cards first
+[31m[1mAssertionError[22m: expected [ { id: 'fresh_1', …(14) }, …(202) ] to have a length of 200 but got 203[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m

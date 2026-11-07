@@ -1,0 +1,11 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+
+ Test Files  61 passed (61)
+      Tests  489 passed (489)
+   Start at  15:43:13
+   Duration  34.13s (transform 11.52s, setup 0ms, import 32.98s, tests 135.87s, environment 20ms)
+

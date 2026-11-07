@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "D:\millmaker\EdTech\docs\verification\production-release\repairs\run-repairs-browser.py", line 37, in <module>
+    ns['build_for_harness']()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\millmaker\EdTech\docs\verification\personalized-discovery\discovery-ui\run-discovery-ui-browser.py", line 181, in build_for_harness
+    raise RuntimeError('harness build failed; see harness-build.txt')
+RuntimeError: harness build failed; see harness-build.txt

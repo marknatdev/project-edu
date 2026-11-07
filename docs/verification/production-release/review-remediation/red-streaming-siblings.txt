@@ -1,0 +1,35 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/streaming-limits.test.ts
+
+ RUN  v4.1.12 D:/millmaker/EdTech
+
+ ❯ tests/integration/streaming-limits.test.ts (13 tests | 1 failed) 73ms
+     × legacy local cards cancels the twenty-chunk allocation probe before consuming it 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/streaming-limits.test.ts > bounded HTTP stream admission > legacy local cards cancels the twenty-chunk allocation probe before consuming it
+AssertionError: expected 400 to be 413 // Object.is equality
+
+- Expected
++ Received
+
+- 413
++ 400
+
+ ❯ tests/integration/streaming-limits.test.ts:42:45
+     40|   ] as const)('%s cancels the twenty-chunk allocation probe before con…
+     41|     const f = fixture();
+     42|     expect(await handle(request(f.stream))).toBe(413);
+       |                                             ^
+     43|     expect(f.stats().produced).toBeLessThanOrEqual(3);
+     44|     expect(f.stats().cancelled).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  21:20:06
+   Duration  2.07s (transform 799ms, setup 0ms, import 1.76s, tests 73ms, environment 0ms)
+

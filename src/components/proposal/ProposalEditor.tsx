@@ -13,6 +13,7 @@ import {
 import type { Proposal, ProposalVariables } from '@/types/domain';
 import { updateProposalSection } from '@/lib/proposal/assemble';
 import type { ProposalQuotaStatus } from '@/lib/proposal/quota-client';
+import { OptionalLoginOffer } from '@/components/auth/AccountAccess';
 
 interface ProposalEditorProps {
   proposal: Proposal;
@@ -20,6 +21,8 @@ interface ProposalEditorProps {
   isSaving?: boolean;
   onSave: (updatedProposal: Proposal) => void;
   onReassemble: () => void;
+  /** True when the stored proposal no longer matches the one this editor loaded. */
+  changedElsewhere?: () => boolean;
 }
 
 export function ProposalEditor({
@@ -28,15 +31,37 @@ export function ProposalEditor({
   isSaving = false,
   onSave,
   onReassemble,
+  changedElsewhere,
 }: ProposalEditorProps) {
   const [proposal, setProposal] = useState<Proposal>(initialProposal);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [showReassembleConfirm, setShowReassembleConfirm] = useState(false);
 
+  const proposalRef = React.useRef(proposal);
+  proposalRef.current = proposal;
+  const onSaveRef = React.useRef(onSave);
+  onSaveRef.current = onSave;
+  const loadedRef = React.useRef(initialProposal);
+  loadedRef.current = initialProposal;
+  const changedElsewhereRef = React.useRef(changedElsewhere);
+  changedElsewhereRef.current = changedElsewhere;
+
   // Sync state if initialProposal changes from outside (e.g. project switch)
   React.useEffect(() => {
     setProposal(initialProposal);
   }, [initialProposal]);
+
+  React.useEffect(() => {
+    const preserve = (event: Event) => {
+      // Unedited: nothing to flush (a stale snapshot would overwrite newer saves from other tabs).
+      if (JSON.stringify(proposalRef.current) === JSON.stringify(loadedRef.current)) return;
+      // Edited but the stored copy changed since load: veto so the learner decides.
+      if (changedElsewhereRef.current?.()) { event.preventDefault(); return; }
+      try { onSaveRef.current(proposalRef.current); } catch { event.preventDefault(); }
+    };
+    window.addEventListener('edtech:before-account-navigation', preserve);
+    return () => window.removeEventListener('edtech:before-account-navigation', preserve);
+  }, []);
 
   const handleTitleChange = (val: string) => {
     setProposal((prev) => updateProposalSection(prev, 'title', val));
@@ -152,7 +177,7 @@ export function ProposalEditor({
         <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2">
           <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
           <div>
-            <div className="font-bold mb-0.5">โควตาสร้างข้อเสนอสำหรับวันนี้ครบแล้ว</div>
+            <div className="font-bold mb-0.5">{quotaStatus.unavailable ? 'ยังตรวจสิทธิ์สร้างข้อเสนอไม่ได้' : 'โควตาสร้างข้อเสนอสำหรับวันนี้ครบแล้ว'}</div>
             <div>{quotaStatus.messageTh} คุณยังคงสามารถพิมพ์แก้ไขและบันทึกข้อความได้ตลอดเวลา</div>
           </div>
         </div>
@@ -282,7 +307,7 @@ export function ProposalEditor({
             <button
               type="button"
               onClick={() => handleAddVariable('independent')}
-              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 min-h-[36px] px-2"
+              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 min-h-[40px] px-2"
             >
               <Plus className="w-3 h-3" />
               <span>เพิ่ม</span>
@@ -321,7 +346,7 @@ export function ProposalEditor({
             <button
               type="button"
               onClick={() => handleAddVariable('dependent')}
-              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 min-h-[36px] px-2"
+              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 min-h-[40px] px-2"
             >
               <Plus className="w-3 h-3" />
               <span>เพิ่ม</span>
@@ -360,7 +385,7 @@ export function ProposalEditor({
             <button
               type="button"
               onClick={() => handleAddVariable('controlled')}
-              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 min-h-[36px] px-2"
+              className="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 min-h-[40px] px-2"
             >
               <Plus className="w-3 h-3" />
               <span>เพิ่ม</span>
@@ -456,6 +481,7 @@ export function ProposalEditor({
         </div>
       </div>
 
+      <OptionalLoginOffer />
       {/* Reassemble Confirmation Modal */}
       {showReassembleConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">

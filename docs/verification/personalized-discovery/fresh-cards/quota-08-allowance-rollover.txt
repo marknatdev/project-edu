@@ -1,0 +1,13 @@
+npm warn install-scripts .npmrc: ignoring unparseable entry "omniroute keytar onnxruntime-node @parcel/watcher @swc/core protobufjs esbuild"
+npm notice run project-edu@0.1.0 npx
+npm notice run vitest run tests/integration/fresh-cards-service.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/integration/fresh-cards-service.test.ts [2m([22m[2m22 tests[22m[2m)[22m[33m 1710[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m22 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 11:58:14
+[2m   Duration [22m 2.95s[2m (transform 223ms, setup 0ms, collect 484ms, tests 1.71s, environment 0ms, prepare 135ms)[22m
+

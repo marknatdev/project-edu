@@ -1,0 +1,61 @@
+    elif args.case=='quota-race':
+        js("""window.__quotaReads=0;window.__reset=Date.now()+5000;window.__qFetch=window.fetch;
+        window.fetch=async(...a)=>{if(String(a[0])==='/api/discovery/cards'&&(!a[1]?.method||a[1].method==='GET')){
+          window.__quotaReads++;const renewed=Date.now()>window.__reset;
+          return Response.json({quota:{day:renewed?'2026-11-07':'2026-11-06',used:renewed?0:35,reserved:0,remaining:renewed?35:0,freeRemaining:renewed?5:0,extraRemaining:renewed?30:0,resetAt:new Date(renewed?window.__reset+86400000:window.__reset).toISOString()}})}return window.__qFetch(...a)}""")
+        wait("document.querySelector('a[href=\"/discovery\"]')")
+        js("document.querySelector('a[href=\"/discovery\"]').click()")
+        wait("document.querySelector('[data-testid=interest-question]')")
+        click('สิ่งแวดล้อมรอบตัว');wait("document.querySelector('[data-testid=interest-question]')?.textContent.includes('สิ่งแวดล้อมรอบตัว')")
+        click('อยากลดขยะ');wait("document.querySelector('#interest-summary')")
+        wait('window.__reset-Date.now()<500')
+        js("window.dispatchEvent(new Event('focus'))")
+        wait('window.__quotaReads===2');time.sleep(2)
+        detail={'reads':js('window.__quotaReads'),'disabled':ns['button_disabled']('สร้างการ์ด 5 ใบ'),'elapsedPastResetMs':js('Date.now()-window.__reset')}
+        (EVIDENCE/'reproduction.json').write_text(json.dumps(detail,indent=2),encoding='utf-8')
+        check('DEFECT REPRODUCED: foreground refresh before reset drops sole boundary refresh',detail['reads']==2 and detail['disabled'] and detail['elapsedPastResetMs']>1000,detail)
+    elif args.case in ['evaluation-wipe','notes-wipe','session-draft']:
+        now='2026-11-06T03:00:00Z'
+        idea={'id':'privacy-probe-idea','learnerId':'browser-fixture-learner','title':'ไอเดียส่วนตัวที่ต้องถูกลบ','description':'รายละเอียดเดิมที่ไม่ควรกลับมาหลังการลบ','goal':'classroom','gradeLevel':'m_plai','source':'idea_track','createdAt':now,'updatedAt':now}
+        js("(()=>{let s=JSON.parse(localStorage.getItem('edtech:state'));s.ideas="+json.dumps([idea],ensure_ascii=False)+";localStorage.setItem('edtech:state',JSON.stringify(s))})()")
+        if args.case=='evaluation-wipe':
+            script="""const base=window.fetch;window.fetch=async(...a)=>{const r=await base(...a);if(String(a[0])==='/api/ai/evaluate'&&a[1]?.method==='POST'){window.__heldEvaluation={status:r.status,data:await r.clone().json()};await new Promise(ok=>window.__releaseEvaluation=ok)}return r}"""
+            cdp('Page.addScriptToEvaluateOnNewDocument',source=script)
+            navigate('/evaluation?ideaId=privacy-probe-idea');wait('window.__heldEvaluation')
+            held=js('window.__heldEvaluation');main=ns['session_id'];tab('/consent');wipe()
+            deleted=js("localStorage.getItem('edtech:state')===null")
+            ns['session_id']=main;js('window.__releaseEvaluation()');time.sleep(1)
+            state=js("JSON.parse(localStorage.getItem('edtech:state')||'null')")
+            detail={'deletedInitially':deleted,'responseStatus':held['status'],'beforeResponseHadEvaluation':bool(held['data'].get('evaluation')),'afterState':state}
+            (EVIDENCE/'reproduction.json').write_text(json.dumps(detail,ensure_ascii=False,indent=2),encoding='utf-8')
+            check('DEFECT REPRODUCED: late real evaluation response recreates erased evaluation',deleted and bool(state and state.get('evaluations')),detail)
+        else:
+            navigate('/proposal?ideaId=privacy-probe-idea')
+            selector='input[placeholder="ระบุชื่อโครงงานฉบับสมบูรณ์..."]';wait('document.querySelector('+json.dumps(selector)+')')
+            if args.case=='session-draft':
+                draft='ร่างยังไม่บันทึกต้องไม่หายเมื่อ auth ตรวจสอบไม่ได้'
+                fill(selector,draft)
+                js("window.__sessionFetch=window.fetch;window.fetch=(...a)=>String(a[0])==='/auth/session'?Promise.reject(Error('synthetic connection lost')):window.__sessionFetch(...a)")
+                js("window.dispatchEvent(new Event('focus'))")
+                wait("document.body.innerText.includes('ตรวจสอบบัญชีไม่ได้')")
+                beforeReload=js("JSON.parse(localStorage.getItem('edtech:state')).projects.at(-1).proposal.title")
+                ns['reload']();wait('document.querySelector('+json.dumps(selector)+')')
+                after=js('document.querySelector('+json.dumps(selector)+').value')
+                detail={'draft':draft,'savedTitleAfterFailure':beforeReload,'titleAfterRecoveryReload':after}
+                (EVIDENCE/'reproduction.json').write_text(json.dumps(detail,ensure_ascii=False,indent=2),encoding='utf-8')
+                check('DEFECT REPRODUCED: transient session verification unmount loses unsaved Proposal draft',beforeReload!=draft and after!=draft,detail)
+            else:
+                projectid=js("JSON.parse(localStorage.getItem('edtech:state')).projects.at(-1).id")
+                navigate('/proposal?projectId='+projectid+'&tab=tcas')
+                wait("[...document.querySelectorAll('summary')].some(e=>e.textContent.includes('เติมบทบาท'))")
+                js("[...document.querySelectorAll('summary')].find(e=>e.textContent.includes('เติมบทบาท')).click()")
+                role='บทบาทส่วนตัวเดิมที่ลบแล้ว';skills='ทักษะเดิมที่ต้องไม่ฟื้นคืน'
+                fill('textarea[aria-label="บทบาทที่ลงมือทำจริง"]',role);fill('textarea[aria-label="ทักษะที่ได้ฝึก"]',skills)
+                click('บันทึกข้อความประกอบพอร์ต & Pitch');wait("document.body.innerText.includes('บันทึกข้อความของคุณแล้ว')")
+                before=js("Object.fromEntries(Object.keys(localStorage).filter(k=>k.includes('presentation')).map(k=>[k,localStorage.getItem(k)]))")
+                main=ns['session_id'];tab('/consent');wipe();deleted=js("!Object.keys(localStorage).some(k=>k.includes('presentation'))")
+                ns['session_id']=main;click('บันทึกข้อความประกอบพอร์ต & Pitch');time.sleep(.3)
+                after=js("Object.fromEntries(Object.keys(localStorage).filter(k=>k.includes('presentation')).map(k=>[k,localStorage.getItem(k)]))")
+                detail={'deletedInitially':deleted,'before':before,'after':after}
+                (EVIDENCE/'reproduction.json').write_text(json.dumps(detail,ensure_ascii=False,indent=2),encoding='utf-8')
+                check('DEFECT REPRODUCED: mounted TCAS editor restores same erased notes',deleted and before==after and bool(after),detail)

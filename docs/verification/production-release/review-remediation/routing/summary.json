@@ -1,0 +1,7 @@
+{
+  "case": "routing",
+  "browser": "Chrome/156.0.8078.81",
+  "passed": 18,
+  "total": 18,
+  "mode": "real Chrome + Next production + local PG17; synthetic AI/Auth; no hosted providers"
+}

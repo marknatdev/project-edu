@@ -1,0 +1,12 @@
+npm notice run project-edu@0.1.0 lint
+npm notice run eslint .
+
+D:\millmaker\EdTech\src\components\evaluation\PivotWorkshop.tsx
+  86:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps')
+
+D:\millmaker\EdTech\tests\fixtures\repairs.ts
+  34:92  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 2 problems (1 error, 1 warning)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

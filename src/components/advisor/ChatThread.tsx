@@ -18,6 +18,7 @@ export function ChatThread({ messages, isWaitingForResponse }: ChatThreadProps) 
 
   return (
     <div className="flex-1 overflow-y-auto space-y-4 p-3 sm:p-5 bg-slate-50/70 rounded-3xl border border-slate-200/80 min-h-[340px] max-h-[520px]">
+      {messages.length === 0 && <p className="text-sm text-slate-600">กำลังเปิดคำถามชวนคิดระดับ 1 จากเซิร์ฟเวอร์ หากเชื่อมต่อไม่ได้ คุณยังพิมพ์เก็บฉบับร่างไว้ได้</p>}
       {messages.map((msg) => {
         const isCoach = msg.role === 'coach';
 
@@ -66,7 +67,8 @@ export function ChatThread({ messages, isWaitingForResponse }: ChatThreadProps) 
                   : 'bg-indigo-600 text-white rounded-tr-sm shadow-indigo-100'
               }`}
             >
-              <div className="whitespace-pre-wrap">{msg.content}</div>
+              {isCoach && msg.source === 'fallback' && <p className="mb-2 text-[11px] text-slate-500">คำแนะนำสำรองอัตโนมัติจากเซิร์ฟเวอร์</p>}
+              <div className="whitespace-pre-wrap break-words">{msg.content}</div>
 
               {/* Tier 2 Lenses */}
               {isCoach && msg.lenses && msg.lenses.length > 0 && (

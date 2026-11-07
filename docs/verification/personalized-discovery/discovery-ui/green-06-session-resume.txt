@@ -1,0 +1,2 @@
+ [32m✓[39m tests/unit/discovery-fresh-session.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+[2m      Tests [22m [1m[32m12 passed[39m[22m[90m (12)[39m

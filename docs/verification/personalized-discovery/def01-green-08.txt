@@ -1,0 +1,16 @@
+npm notice run project-edu@0.1.0 test
+npm notice run vitest run tests/integration/coaching-api.test.ts tests/unit/coaching-client.test.ts tests/unit/coaching-local.test.ts tests/unit/coaching-privacy.test.ts tests/unit/socratic-chat-reducer.test.ts
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mD:/millmaker/EdTech[39m
+
+ [32m✓[39m tests/unit/coaching-privacy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/unit/socratic-chat-reducer.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-client.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m tests/unit/coaching-local.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/integration/coaching-api.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 187[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m      Tests [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m 21:42:26
+[2m   Duration [22m 2.04s[2m (transform 1.09s, setup 0ms, collect 2.66s, tests 275ms, environment 2ms, prepare 2.76s)[22m
+

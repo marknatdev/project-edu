@@ -1,0 +1,7 @@
+{
+  "browser": "Chrome/156.0.8078.80",
+  "mode": "Headless real Chromium via CDP; all AI content fixed/demo fixtures",
+  "checks": 94,
+  "passed": 94,
+  "failed": 0
+}

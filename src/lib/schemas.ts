@@ -19,6 +19,7 @@ import type {
   Subfield,
   DifficultyLevel,
   TopicCard,
+  StarterIdeaMeta,
   SwipeDirection,
   SwipeAction,
   FitScoreBreakdown,
@@ -147,8 +148,20 @@ export const TopicCardSchema = z.object({
   maxTeamSize: z.number().int().min(1),
   requiredSkills: z.array(z.string()),
   safetyCategories: z.array(SafetyCategorySchema).optional(),
+  starter: z.object({
+    origin: z.literal('ai_fresh'),
+    problem: z.string().min(1).max(600),
+    roughDirection: z.string().min(1).max(700),
+    interestLink: z.string().min(1).max(300),
+    fitNotes: z.array(z.string().min(1).max(240)).max(4),
+    safetyScreen: z.literal('preliminary'),
+    noveltyChecked: z.literal(false),
+    requestId: z.string().uuid(),
+    generatedAt: z.string().datetime(),
+  }).optional(),
 });
 export type _TopicCardCheck = Assert<Equals<z.infer<typeof TopicCardSchema>, TopicCard>>;
+export type _StarterIdeaMetaCheck = Assert<Equals<NonNullable<z.infer<typeof TopicCardSchema>['starter']>, StarterIdeaMeta>>;
 
 // 10. SwipeAction
 export const SwipeDirectionSchema = z.enum(SWIPE_DIRECTIONS);
@@ -219,6 +232,7 @@ export const IdeaSchema = z.object({
   description: z.string().min(1),
   source: TrackSchema,
   sourceTopicCardId: z.string().optional(),
+  coachingTopicKey: z.string().min(1).max(200).optional(),
   gradeLevel: GradeLevelSchema,
   goal: GoalSchema,
   variables: IdeaVariablesLiteSchema.optional(),

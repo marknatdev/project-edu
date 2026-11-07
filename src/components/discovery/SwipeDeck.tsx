@@ -15,7 +15,6 @@ import {
   Wrench,
   BookOpen,
   ChevronRight,
-  ShieldCheck,
 } from 'lucide-react';
 import type { TopicCard } from '@/types/domain';
 import { SUBFIELDS } from '@/data/subfields';
@@ -53,7 +52,7 @@ export function SwipeDeck({
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const prefersReducedMotion = useReducedMotion();
-  const activeCard = deck[0] as (TopicCard & { isAiGenerated?: boolean; verified?: boolean }) | undefined;
+  const activeCard = deck[0] as (TopicCard & { isAiGenerated?: boolean }) | undefined;
   const nextCard = deck[1] as TopicCard | undefined;
 
   const showToast = useCallback((msg: string) => {
@@ -295,15 +294,6 @@ export function SwipeDeck({
                     </span>
 
                     <div className="flex items-center gap-1.5">
-                      {activeCard.verified && (
-                        <span
-                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold"
-                          title="ผ่านการตรวจความปลอดภัยและโครงสร้างมาตรฐานแล้ว"
-                        >
-                          <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                          <span>Verified</span>
-                        </span>
-                      )}
                       {getDifficultyBadge(activeCard.difficulty)}
 
                       <button

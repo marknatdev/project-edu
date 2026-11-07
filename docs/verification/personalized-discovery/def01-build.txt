@@ -1,0 +1,46 @@
+npm notice run project-edu@0.1.0 build
+npm notice run next build
+   ▲ Next.js 15.5.29
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 7.5s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/17) ...
+   Generating static pages (4/17) 
+   Generating static pages (8/17) 
+   Generating static pages (12/17) 
+ ✓ Generating static pages (17/17)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    2.66 kB         200 kB
+├ ○ /_not-found                            991 B         104 kB
+├ ○ /advisor-review                      3.37 kB         125 kB
+├ ƒ /api/ai/cards/generate                 136 B         103 kB
+├ ƒ /api/ai/coach                          136 B         103 kB
+├ ƒ /api/ai/evaluate                       136 B         103 kB
+├ ƒ /api/ai/pivot                          136 B         103 kB
+├ ƒ /api/ai/proposal                       136 B         103 kB
+├ ○ /bom                                 4.87 kB         202 kB
+├ ○ /calendar                             4.6 kB         201 kB
+├ ○ /consent                             4.56 kB         201 kB
+├ ○ /discovery                           60.7 kB         293 kB
+├ ○ /evaluation                          17.5 kB         240 kB
+├ ○ /idea                                10.4 kB         237 kB
+├ ○ /interview                           6.96 kB         204 kB
+├ ○ /judge                               5.91 kB         220 kB
+├ ○ /print                               2.06 kB         127 kB
+├ ○ /proposal                            23.7 kB         148 kB
+├ ○ /share                               2.06 kB         127 kB
+└ ○ /variables                           6.54 kB         213 kB
++ First Load JS shared by all             103 kB
+  ├ chunks/255-73938ce8a8eac1ad.js       46.6 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          2.08 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
