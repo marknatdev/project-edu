@@ -3,23 +3,15 @@
 import React, { Suspense, useEffect, useReducer, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  Lightbulb,
-  Send,
-  ArrowRight,
-  CheckCircle2,
-  AlertTriangle,
-  Layers,
-} from 'lucide-react';
+import { ArrowRight, ArrowUp, CheckCircle2, MoreHorizontal, WifiOff } from 'lucide-react';
 import { AppShell } from '@/components/shell/AppShell';
 import {
   chatReducer,
   createInitialChatState,
-  canRequestTier,
   localWorkFromChat,
 } from '@/lib/advisor/chat-reducer';
 import { fetchCoachTurn } from '@/lib/advisor/coach-client';
-import { TierButtons } from '@/components/advisor/TierButtons';
+import { ModePicker } from '@/components/advisor/ModePicker';
 import { ProgressChips } from '@/components/advisor/ProgressChips';
 import { ChatThread } from '@/components/advisor/ChatThread';
 import { RewriteGate } from '@/components/advisor/RewriteGate';
@@ -29,7 +21,7 @@ import { clearCoachingLocal, ideaTopicKey, loadCoachingLocal, resolveCoachingCar
 import { COACH_INVALIDATION_EVENT, COACH_INVALIDATION_KEY, notifyCoachingInvalidation, type CoachingInvalidation } from '@/lib/advisor/coaching-invalidation';
 import { getWipeGeneration, wipeAllLearnerData } from '@/lib/storage/store';
 import type { CoachContext } from '@/lib/advisor/coach-dto';
-import type { CoachingTier } from '@/lib/advisor/coach-contract';
+import type { CoachMode } from '@/lib/advisor/coach-contract';
 import type { Idea, IdeaVariablesLite } from '@/types/domain';
 
 function IdeaChatView({ topicCardId, topicKey, savedIdea, resumeOnly = false }: { topicCardId: string | null; topicKey: string; savedIdea?: Idea | null; resumeOnly?: boolean }) {
@@ -47,6 +39,7 @@ function IdeaChatView({ topicCardId, topicKey, savedIdea, resumeOnly = false }: 
   // stale and must never be written back over the shared local cache.
   const displaced = useRef(false);
   const [isErased, setIsErased] = useState(false);
+  const [mode, setMode] = useState<CoachMode>('auto');
   const context = useRef<CoachContext>({ track: 'idea_track', gradeLevel: 'm_ton', goal: 'curiosity' });
   const [state, dispatch] = useReducer(chatReducer, null, () => createInitialChatState({ track: topicCardId ? 'discovery_track' : 'idea_track' }));
   const topicCard = state.topicCard;
@@ -120,20 +113,20 @@ function IdeaChatView({ topicCardId, topicKey, savedIdea, resumeOnly = false }: 
     } catch { setStorageError('เครื่องนี้บันทึกฉบับร่างไม่ได้ กรุณาคัดลอกข้อความก่อนปิดหน้า'); }
   }, [state, inputMessage, rewriteInput, isClientReady, topicKey]);
 
-  const requestTurn = async (tier: CoachingTier, text?: string, draftId?: string) => {
+  const requestTurn = async (text?: string, draftId?: string) => {
     if (busy.current || invalidated.current) return;
     const epoch = requestEpoch.current;
     const id = draftId ?? crypto.randomUUID();
     if (text && !draftId) dispatch({ type: 'STUDENT_SEND_MESSAGE', content: text, id });
     else dispatch({ type: 'REQUEST_STARTED' });
     if (!state.conversation || !state.serverVerified) {
-      dispatch({ type: 'COACH_RESPONSE_FAILURE', error: 'ข้อความเก็บเป็นฉบับร่างแล้ว กดเชื่อมต่อบทสนทนา จากนั้นส่งฉบับร่างเพื่อตอบคำถามระดับ 1 บนเซิร์ฟเวอร์' });
+      dispatch({ type: 'COACH_RESPONSE_FAILURE', error: 'ข้อความเก็บเป็นฉบับร่างแล้ว กดเชื่อมต่อใหม่ แล้วส่งฉบับร่างอีกครั้ง' });
       return;
     }
     busy.current = true;
     try {
       const result = await fetchCoachTurn({ action: 'turn', conversationId: state.conversation.id,
-        revision: state.conversation.revision, requestId: id, requestedTier: tier, learnerResponse: text }, lifetime.current.signal);
+        revision: state.conversation.revision, requestId: id, mode, learnerResponse: text }, lifetime.current.signal);
       if (invalidated.current || epoch !== requestEpoch.current) return;
       if (result.success && result.conversation) dispatch({ type: 'SERVER_HYDRATE', conversation: result.conversation, acknowledgedDraftId: text ? id : undefined });
       else dispatch({ type: 'COACH_RESPONSE_FAILURE', error: result.error });
@@ -144,12 +137,7 @@ function IdeaChatView({ topicCardId, topicKey, savedIdea, resumeOnly = false }: 
     if (!inputMessage.trim() || busy.current) return;
     const text = inputMessage.trim();
     setInputMessage('');
-    // A normal answer never implicitly requests Tier 3.
-    await requestTurn(1, text);
-  };
-  const handleSelectTier = async (tier: CoachingTier) => {
-    if (!canRequestTier(state, tier).allowed || busy.current) return;
-    await requestTurn(tier);
+    await requestTurn(text);
   };
   const reconnect = async () => {
     if (busy.current || invalidated.current) return;
@@ -201,249 +189,125 @@ function IdeaChatView({ topicCardId, topicKey, savedIdea, resumeOnly = false }: 
     });
   };
 
-  if (isErased) return <section role="status" className="space-y-4 rounded-2xl bg-white p-6"><h1 className="text-lg font-bold">ลบข้อมูลแล้ว</h1><p>บทสนทนาและฉบับร่างในหน้านี้ถูกลบแล้ว ไม่มีการบันทึกประวัติเก่ากลับคืน</p><Link href="/interview" className="inline-flex min-h-[44px] items-center rounded-xl bg-indigo-600 px-4 text-white">เริ่มต้นใหม่</Link></section>;
-  if (!isClientReady) {
-    return (
-      <div className="p-8 text-center text-slate-500 font-prompt text-sm">
-        กำลังโหลดข้อมูลครูที่ปรึกษา AI...
-      </div>
-    );
-  }
+  const secondary = 'inline-flex min-h-11 items-center justify-center rounded-xl bg-surface-2 px-4 font-medium text-ink hover:bg-separator disabled:opacity-40';
+  const primary = 'inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl bg-accent px-5 font-medium text-accent-on hover:bg-accent-press disabled:opacity-40';
+  const topicTitle = state.savedIdea?.title ?? topicCard?.title;
+
+  if (isErased) return <section role="status" className="flex flex-col gap-4 rounded-3xl bg-surface p-6"><h1 className="text-title">ลบข้อมูลแล้ว</h1><p className="text-ink-2">บทสนทนาและฉบับร่างในหน้านี้ถูกลบแล้ว ไม่มีการบันทึกประวัติเก่ากลับคืน</p><Link href="/interview" className={primary}>เริ่มต้นใหม่</Link></section>;
+  if (!isClientReady) return <p role="status" className="py-12 text-center text-ink-2">กำลังเปิดบทสนทนากับครูที่ปรึกษา…</p>;
 
   return (
-    <div className="max-w-3xl min-w-0 mx-auto space-y-5 pb-12 break-words">
-      {/* Header Bar */}
-      <div className="bg-white/90 backdrop-blur-md border border-indigo-100 rounded-3xl p-4 sm:p-6 shadow-xs space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-semibold text-indigo-700 font-prompt">
-            <Lightbulb className="w-4 h-4 text-indigo-600" />
-            <span>
-              {state.track === 'discovery_track'
-                ? 'เส้นทางค้นหา (Discovery → Idea)'
-                : 'เส้นทางมีไอเดีย (Idea Track)'}
-            </span>
-          </div>
-
-          {topicCard && (
-            <span className="px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700 font-prompt truncate max-w-[260px]">
-              📌 {topicCard.title}
-            </span>
-          )}
+    <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-col gap-5">
+      <header className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="text-large-title">ที่ปรึกษา</h1>
+          {topicTitle && <p className="text-callout text-ink-2 [overflow-wrap:anywhere]">{topicTitle}</p>}
         </div>
-
-        <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 font-prompt">
-            🧑‍🏫 ครูที่ปรึกษาโครงงาน Socratic AI
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-600 font-prompt mt-1 leading-relaxed">
-            AI ไม่คิดไอเดียสำเร็จรูปแทนคุณ แต่จะถามชวนคิด 3 ระดับ เจาะลึก 4 ด้าน จนได้โครงงานที่คุณเป็นเจ้าของเอง
-          </p>
-        </div>
-
-        {/* Offline notice if fallback is active */}
-        {state.isOffline && (
-          <div className="p-2.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-prompt flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-<span>ออฟไลน์ / ยังไม่ยืนยันกับเซิร์ฟเวอร์: เก็บข้อความเป็นฉบับร่าง ไม่ใช้ปลดล็อกระดับคำแนะนำ</span>
+        <details className="relative shrink-0">
+          <summary aria-label="ตัวเลือกบทสนทนา" className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full text-accent-text hover:bg-surface-2 [&::-webkit-details-marker]:hidden"><MoreHorizontal className="h-6 w-6" aria-hidden /></summary>
+          <div className="absolute right-0 z-20 mt-2 flex w-64 flex-col rounded-2xl bg-surface p-2 shadow-e2">
+            <button type="button" onClick={() => window.location.assign(`/idea?new=${crypto.randomUUID()}`)} className="min-h-11 rounded-lg px-3 text-left hover:bg-surface-2">เริ่มไอเดียเรื่องใหม่</button>
+            {topicKey !== 'idea:own' && <Link href="/idea" className="flex min-h-11 items-center rounded-lg px-3 hover:bg-surface-2">กลับบทสนทนาไอเดียเดิม</Link>}
+            <button type="button" onClick={reconnect} disabled={state.isWaitingForResponse} className="min-h-11 rounded-lg px-3 text-left hover:bg-surface-2 disabled:opacity-40">โหลดบทสนทนาล่าสุด</button>
+            <button type="button" onClick={startNew} disabled={state.isWaitingForResponse || !state.conversation} className="min-h-11 rounded-lg px-3 text-left text-risk hover:bg-risk-tint disabled:opacity-40">เริ่มบทสนทนานี้ใหม่</button>
           </div>
-        )}
-      </div>
+        </details>
+      </header>
 
       {topicCard?.starter && (
-        <details open className="min-w-0 rounded-2xl border border-purple-200 bg-purple-50/70 p-3 text-sm text-slate-800" data-testid="selected-starter">
-          <summary className="min-h-[44px] cursor-pointer py-2 font-bold text-purple-900">การ์ดตั้งต้นที่เลือก (AI สร้างจากคำตอบของคุณ)</summary>
-          <p><b>ปัญหา:</b> {topicCard.starter.problem}</p>
-          <p><b>แนวทางทดลองคร่าว ๆ:</b> {topicCard.starter.roughDirection}</p>
-          <p><b>เชื่อมกับความสนใจ:</b> {topicCard.starter.interestLink}</p>
-          <p className="mt-1 text-xs text-slate-600">ยังไม่ใช่โครงงานสำเร็จรูปและยังไม่ตรวจความใหม่ ครูที่ปรึกษาจะชวนคิดต่อจากการ์ดนี้ให้เป็นไอเดียของคุณเอง</p>
+        <details className="rounded-2xl bg-surface p-4 shadow-e1" data-testid="selected-starter">
+          <summary className="min-h-11 cursor-pointer py-2 font-medium">การ์ดตั้งต้นที่เลือก (AI สร้างจากคำตอบของคุณ)</summary>
+          <dl className="flex flex-col gap-2 text-callout">
+            <div><dt className="text-ink-2">ปัญหา</dt><dd>{topicCard.starter.problem}</dd></div>
+            <div><dt className="text-ink-2">แนวทางทดลองคร่าว ๆ</dt><dd>{topicCard.starter.roughDirection}</dd></div>
+            <div><dt className="text-ink-2">เชื่อมกับความสนใจ</dt><dd>{topicCard.starter.interestLink}</dd></div>
+          </dl>
+          <p className="mt-2 text-caption text-ink-2">ยังไม่ใช่โครงงานสำเร็จรูปและยังไม่ตรวจความใหม่ ครูที่ปรึกษาจะชวนคิดต่อให้เป็นไอเดียของคุณเอง</p>
         </details>
       )}
-      <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={() => window.location.assign(`/idea?new=${crypto.randomUUID()}`)} className="min-h-[44px] rounded-xl border border-indigo-200 bg-white px-4 text-sm font-bold text-indigo-800">เริ่มไอเดียของฉันเรื่องใหม่</button>
-        {topicKey !== 'idea:own' && <Link href="/idea" className="inline-flex min-h-[44px] items-center px-3 text-sm underline">กลับบทสนทนาไอเดียเดิม (ก่อนแยกหัวข้อ)</Link>}
-        <button type="button" onClick={reconnect} disabled={state.isWaitingForResponse} className="min-h-[44px] rounded-xl border border-indigo-200 bg-white px-4 text-sm font-bold text-indigo-800 disabled:opacity-50">เชื่อมต่อบทสนทนา / โหลดล่าสุด</button>
-        <button type="button" onClick={startNew} disabled={state.isWaitingForResponse || !state.conversation} className="min-h-[44px] rounded-xl border border-slate-300 bg-white px-4 text-sm font-bold text-slate-700 disabled:opacity-50">เริ่มบทสนทนาใหม่</button>
-      </div>
-      {(state.error || storageError) && <p role="alert" className="rounded-2xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">{state.error || storageError}</p>}
-      {!state.serverVerified && <p role="status" className="text-sm text-amber-900">ประวัติในเครื่องยังไม่ใช่หลักฐานปลดล็อก กรุณาเชื่อมต่อเพื่อยืนยันคำถามระดับ 1 ส่งคำตอบ (ตอบว่ายังคิดไม่ออกได้) แล้วขอคำใบ้ระดับ 2</p>}
-      {state.serverVerified && state.conversation?.turn.source === 'fallback' && <p className="rounded-xl bg-slate-100 p-3 text-xs text-slate-700">คำแนะนำสำรองอัตโนมัติจากเซิร์ฟเวอร์ — ไม่ได้เรียก AI สด แต่บันทึกขั้นตอนสนทนาได้</p>}
-      {/* Phase 1: Chatting & Socratic Exploration */}
+
+      {state.isOffline && <p role="status" className="flex items-start gap-2 rounded-xl bg-caution-tint px-4 py-3 text-callout text-caution"><WifiOff className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />ยังเชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ข้อความจะเก็บเป็นฉบับร่างในเครื่อง</p>}
+      {(state.error || storageError) && <p role="alert" className="flex flex-wrap items-center gap-2 rounded-xl bg-caution-tint px-4 py-3 text-callout text-caution">{state.error || storageError}{!state.serverVerified && <button type="button" onClick={reconnect} disabled={state.isWaitingForResponse} className="min-h-11 rounded-lg px-2 font-medium underline underline-offset-4">เชื่อมต่อใหม่</button>}</p>}
+
       {(state.phase === 'chatting' || state.phase === 'rewrite') && (
-        <div className="space-y-4">
-          {/* Progress chips & Question Counter */}
-          <ProgressChips
-            progress={state.aspectProgress}
-            questionCount={state.questionCount}
-            maxQuestions={8}
-          />
+        <>
+          <div className="sticky top-14 z-10 -mx-5 flex flex-col gap-3 border-b border-separator bg-bg/95 px-5 pb-3 pt-1 backdrop-blur-xl md:top-0 md:mx-0 md:px-0">
+            <ModePicker value={mode} onChange={setMode} disabled={state.isWaitingForResponse || state.phase === 'rewrite'} />
+            <ProgressChips progress={state.aspectProgress} questionCount={state.questionCount} maxQuestions={8} />
+          </div>
 
-          {/* 3-Tier Switcher Buttons */}
-          <TierButtons
-            state={state}
-            onSelectTier={handleSelectTier}
-            disabled={state.isWaitingForResponse || state.phase === 'rewrite'}
-          />
+          <ChatThread messages={state.messages} isWaitingForResponse={state.isWaitingForResponse} />
 
-          {/* Chat Messages View */}
-          <ChatThread
-            messages={state.messages}
-            isWaitingForResponse={state.isWaitingForResponse}
-          />
-
-          {state.drafts.length > 0 && <section aria-label="ฉบับร่างที่ยังไม่ยืนยัน" className="space-y-3 rounded-2xl border border-amber-200 bg-amber-50 p-3">
-            <h2 className="text-sm font-bold">ฉบับร่างที่ยังไม่ยืนยันกับเซิร์ฟเวอร์</h2>
-            {state.drafts.map(draft => <div key={draft.id} className="space-y-2">
-              <p className="whitespace-pre-wrap text-sm">{draft.content}</p>
-              <button type="button" disabled={state.isWaitingForResponse || !state.serverVerified} onClick={() => requestTurn(1, draft.content, draft.id)} className="min-h-[44px] rounded-xl bg-indigo-600 px-4 text-sm font-bold text-white disabled:opacity-50">ส่งฉบับร่างเพื่อตอบคำถาม</button>
+          {state.drafts.length > 0 && <section aria-label="ฉบับร่างที่ยังไม่ได้ส่ง" className="flex flex-col gap-3 rounded-2xl bg-caution-tint p-4">
+            <h2 className="font-medium text-caution">ฉบับร่างที่ยังไม่ได้ส่ง</h2>
+            {state.drafts.map(draft => <div key={draft.id} className="flex flex-col gap-2">
+              <p className="whitespace-pre-wrap text-callout">{draft.content}</p>
+              <button type="button" disabled={state.isWaitingForResponse || !state.serverVerified} onClick={() => requestTurn(draft.content, draft.id)} className={secondary}>ส่งฉบับร่างนี้</button>
             </div>)}
           </section>}
-          {/* Tier 3 Rewrite Gate (if triggered) */}
+
           {state.phase === 'rewrite' && state.pendingTier3Example && (
             <RewriteGate
               exampleText={state.pendingTier3Example}
-              issuedExamples={state.conversation?.state.history.flatMap(h => h.examples ?? [])}
+              issuedExamples={[...(state.conversation?.state.history ?? [])].reverse().find(h => h.examples?.length)?.examples}
               initialText={rewriteInput}
               onDraftChange={setRewriteInput}
               onSubmitRewrite={handleSubmitRewrite}
+              onDefer={() => dispatch({ type: 'DEFER_REWRITE' })}
               error={state.error}
             />
           )}
 
-          {/* Chat Input Row (hidden during rewrite gate) */}
           {state.phase === 'chatting' && (
-            <form onSubmit={handleSendMessage} className="space-y-2">
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  disabled={state.isWaitingForResponse}
-                  placeholder="พิมพ์คำตอบหรือมุมมองของคุณที่นี่..."
-                  aria-label="คำตอบของคุณ"
-                  maxLength={8000}
-                  className="flex-1 min-w-0 min-h-[44px] px-4 py-2.5 rounded-2xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm font-prompt text-slate-800 placeholder:text-slate-400 outline-none transition-all shadow-xs"
-                />
-                <button
-                  type="submit"
-                  aria-label="ส่งคำตอบ"
-                  disabled={!inputMessage.trim() || state.isWaitingForResponse}
-                  className="min-h-[44px] px-4 sm:px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold font-prompt text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-xs disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
-                >
-                  <Send className="w-4 h-4" />
-                  <span className="hidden sm:inline">ส่งคำตอบ</span>
-                </button>
+            <form onSubmit={handleSendMessage} className="sticky bottom-[92px] z-10 flex flex-col gap-2 md:bottom-6">
+              <div className="flex items-center gap-2 rounded-3xl border border-control bg-surface py-1.5 pl-4 pr-1.5 shadow-e1">
+                <label htmlFor="coach-input" className="sr-only">ข้อความถึงครูที่ปรึกษา</label>
+                <input id="coach-input" type="text" value={inputMessage} onChange={e => setInputMessage(e.target.value)} disabled={state.isWaitingForResponse}
+                  placeholder="พิมพ์ข้อความถึงครูที่ปรึกษา…" maxLength={8000} enterKeyHint="send"
+                  className="min-h-11 min-w-0 flex-1 bg-transparent placeholder:text-ink-3 focus:outline-none" />
+                <button type="submit" aria-label="ส่งข้อความ" disabled={!inputMessage.trim() || state.isWaitingForResponse}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-accent-on hover:bg-accent-press disabled:opacity-40"><ArrowUp className="h-5 w-5" aria-hidden /></button>
               </div>
-
-              {/* Skip to variables button when at least 2 questions answered */}
               {state.questionCount >= 2 && (
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => dispatch({ type: 'GO_TO_VARIABLES' })}
-                    className="text-xs font-bold text-indigo-600 hover:text-indigo-800 font-prompt py-1 px-2 flex items-center gap-1 min-h-[44px]"
-                  >
-                    <span>พร้อมแล้ว ข้ามไปสรุปตัวแปรต่อ →</span>
-                  </button>
-                </div>
+                <button type="button" onClick={() => dispatch({ type: 'GO_TO_VARIABLES' })} className="self-end rounded-lg px-3 py-2 text-callout font-medium text-accent-text hover:bg-surface-2 min-h-11">พร้อมแล้ว ไปสรุปตัวแปร</button>
               )}
             </form>
           )}
-        </div>
+        </>
       )}
 
-      {/* Phase 2: Variables Step Lite */}
-      {state.phase === 'variables' && (
-        <div className="space-y-4">
-          <VariablesLiteForm
-            initialValues={state.variablesDraft}
-            onSubmitVariables={handleSubmitVariables}
-          />
-        </div>
-      )}
+      {state.phase === 'variables' && <VariablesLiteForm initialValues={state.variablesDraft} onSubmitVariables={handleSubmitVariables} />}
 
-      {/* Phase 3: Done & Saved Idea Summary */}
       {state.phase === 'done' && state.savedIdea && (
-        <div className="bg-white/95 border border-emerald-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <section aria-labelledby="saved-title" className="flex flex-col gap-5 rounded-3xl bg-surface p-6 shadow-e1">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-            </div>
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold font-prompt">
-                <span>✨ บันทึกโครงงานสำเร็จ!</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-prompt mt-1">
-                {state.savedIdea.title}
-              </h2>
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-good-tint text-good"><CheckCircle2 className="h-6 w-6" aria-hidden /></span>
+            <div className="min-w-0">
+              <p className="text-caption text-good">บันทึกไอเดียแล้ว</p>
+              <h2 id="saved-title" className="text-title [overflow-wrap:anywhere]">{state.savedIdea.title}</h2>
             </div>
           </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs sm:text-sm font-prompt text-slate-700">
-            <div>
-              <span className="font-bold text-slate-900">คำอธิบายโครงงาน:</span>
-              <p className="mt-1 whitespace-pre-wrap">{state.savedIdea.description}</p>
-            </div>
-
+          <div className="flex flex-col gap-3 rounded-2xl bg-surface-2 p-4 text-callout">
+            <div><p className="text-ink-2">คำอธิบาย</p><p className="whitespace-pre-wrap">{state.savedIdea.description}</p></div>
             {state.savedIdea.variables && (
-              <div className="pt-3 border-t border-slate-200/80 space-y-1.5">
-                <span className="font-bold text-slate-900">ตัวแปรและการทดลอง (Variables Lite):</span>
-                <ul className="list-disc pl-5 space-y-1 text-slate-600">
-                  <li>
-                    <strong className="text-slate-800">ตัวแปรต้น:</strong>{' '}
-                    {state.savedIdea.variables.independent}
-                  </li>
-                  <li>
-                    <strong className="text-slate-800">ตัวแปรตาม:</strong>{' '}
-                    {state.savedIdea.variables.dependent}
-                  </li>
-                  <li>
-                    <strong className="text-slate-800">ตัวแปรควบคุม:</strong>{' '}
-                    {state.savedIdea.variables.controlled.join(', ')}
-                  </li>
-                  <li>
-                    <strong className="text-slate-800">ชุดควบคุม:</strong>{' '}
-                    {state.savedIdea.variables.controlGroup}
-                  </li>
-                  <li>
-                    <strong className="text-slate-800">จำนวนซ้ำ:</strong>{' '}
-                    n = {state.savedIdea.variables.replicates}
-                  </li>
-                </ul>
-              </div>
+              <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 border-t border-separator pt-3">
+                <dt className="text-ink-2">ตัวแปรต้น</dt><dd>{state.savedIdea.variables.independent}</dd>
+                <dt className="text-ink-2">ตัวแปรตาม</dt><dd>{state.savedIdea.variables.dependent}</dd>
+                <dt className="text-ink-2">ตัวแปรควบคุม</dt><dd>{state.savedIdea.variables.controlled.join(', ')}</dd>
+                <dt className="text-ink-2">ชุดควบคุม</dt><dd>{state.savedIdea.variables.controlGroup}</dd>
+                <dt className="text-ink-2">จำนวนซ้ำ</dt><dd>n = {state.savedIdea.variables.replicates}</dd>
+              </dl>
             )}
-
             {state.savedIdea.usedTier3Example && state.savedIdea.tier3Rewrite && (
-              <div className="pt-3 border-t border-slate-200/80">
-                <span className="font-bold text-rose-800">
-                  สำนวนภาษาของผู้เรียน (Tier 3 Rewrite):
-                </span>
-                <p className="mt-1 italic text-slate-600">&ldquo;{state.savedIdea.tier3Rewrite}&rdquo;</p>
-              </div>
+              <div className="border-t border-separator pt-3"><p className="text-ink-2">แนวทางที่คุณเขียนเอง</p><p>“{state.savedIdea.tier3Rewrite}”</p></div>
             )}
           </div>
-
-          <Link href={`/variables?ideaId=${encodeURIComponent(state.savedIdea.id)}`} className="flex min-h-[44px] items-center justify-center rounded-2xl border border-indigo-200 bg-indigo-50 p-3 text-sm font-bold text-indigo-800">
-            ตารางแยกตัวแปร & ชุดควบคุม + เช็กลิสต์ความปลอดภัย →
-          </Link>
-          {/* Action Links */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-            <Link
-              href={`/evaluation?ideaId=${state.savedIdea.id}`}
-              className="w-full sm:flex-1 min-h-[44px] px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold font-prompt text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-indigo-100"
-            >
-              <span>ไปประเมินโครงงาน 5 ด้านต่อ (Evaluation) →</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
-              href="/discovery"
-              className="w-full sm:w-auto min-h-[44px] px-5 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold font-prompt text-xs sm:text-sm flex items-center justify-center gap-2 transition-all"
-            >
-              <Layers className="w-4 h-4" />
-              <span>กลับสู่ Discovery</span>
-            </Link>
+          <Link href={`/evaluation?ideaId=${encodeURIComponent(state.savedIdea.id)}`} className={primary}>ไปประเมินไอเดีย<ArrowRight className="h-5 w-5" aria-hidden /></Link>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link href={`/variables?ideaId=${encodeURIComponent(state.savedIdea.id)}`} className={`${secondary} flex-1`}>ตารางตัวแปรและความปลอดภัย</Link>
+            <Link href="/discovery" className={`${secondary} flex-1`}>กลับไปดูหัวข้ออื่น</Link>
           </div>
-        </div>
+        </section>
       )}
     </div>
   );
@@ -474,8 +338,8 @@ function IdeaChatRouter() {
       idea ? `idea:${idea.id}` : search.get('new') ? `idea:${search.get('new')}` : 'idea:own');
     setRoute({ topicCardId: cardId, topicKey, savedIdea: idea });
   }, [query]);
-  if (missing) return <p role="alert">ไม่พบไอเดียนี้ในเครื่อง ไม่มีการเปิดหรือเขียนทับบทสนทนาอื่น <Link href="/idea">กลับไอเดียเดิม</Link></p>;
-  return route ? <IdeaChatView key={route.topicKey} {...route} /> : <p>กำลังโหลดไอเดีย…</p>;
+  if (missing) return <p role="alert" className="rounded-xl bg-caution-tint px-4 py-3 text-caution">ไม่พบไอเดียนี้ในเครื่อง ไม่มีการเปิดหรือเขียนทับบทสนทนาอื่น <Link href="/idea" className="font-medium underline">กลับไอเดียเดิม</Link></p>;
+  return route ? <IdeaChatView key={route.topicKey} {...route} /> : <p role="status" className="py-12 text-center text-ink-2">กำลังโหลดไอเดีย…</p>;
 }
 
 export default function IdeaPage() {
@@ -483,9 +347,7 @@ export default function IdeaPage() {
     <AppShell>
       <Suspense
         fallback={
-          <div className="p-8 text-center text-slate-500 font-prompt text-sm">
-            กำลังโหลดหน้าสนทนากับครูที่ปรึกษา AI...
-          </div>
+          <p role="status" className="py-12 text-center text-ink-2">กำลังเปิดบทสนทนากับครูที่ปรึกษา…</p>
         }
       >
         <IdeaChatRouter />

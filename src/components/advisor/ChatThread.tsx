@@ -1,140 +1,102 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Bot, User, Compass, AlertCircle } from 'lucide-react';
+import { BookOpen, Compass, ExternalLink, Info } from 'lucide-react';
 import type { ChatMessage } from '@/lib/advisor/chat-reducer';
+import { PRIOR_WORK } from '@/data/prior-work';
+import { MODE_LABEL_TH } from '@/lib/ai/coach-modes';
 
 export interface ChatThreadProps {
   messages: ChatMessage[];
   isWaitingForResponse: boolean;
 }
 
+// Pre-ADR 0004 turns carry only a tier; a tier-1 question reads as the ask mode, hints/examples get no mode label.
+const LEGACY_TIER_LABEL = { 1: 'ถาม', 2: null, 3: null } as const;
+
+function PriorWorkList({ ids }: { ids: string[] }) {
+  const works = ids.map(id => PRIOR_WORK.find(w => w.id === id)).filter(w => w !== undefined);
+  return (
+    <div className="mt-3 overflow-hidden rounded-2xl border border-separator bg-surface">
+      {works.length === 0 && <p className="px-4 py-3 text-callout text-ink-2">ยังไม่มีงานในคลังที่ใกล้เคียงเรื่องนี้</p>}
+      <ul>
+        {works.map(work => (
+          <li key={work.id} className="flex items-center gap-3 border-b border-separator px-3.5 py-3 last:border-b-0">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-tint text-accent-text"><BookOpen className="h-[18px] w-[18px]" aria-hidden /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-callout text-ink [overflow-wrap:anywhere]">{work.title}</span>
+              <span className="block text-caption text-ink-2">{work.competitionOrVenue} · {work.year}</span>
+            </span>
+            <a href={work.url} target="_blank" rel="noopener noreferrer" aria-label={`เปิดแหล่งข้อมูล: ${work.title}`}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-accent-text hover:bg-surface-2"><ExternalLink className="h-5 w-5" aria-hidden /></a>
+          </li>
+        ))}
+      </ul>
+      <p className="flex items-start gap-1.5 bg-surface-2 px-3.5 py-2.5 text-caption text-ink-2"><Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />แสดงเฉพาะงานจากคลังที่ทีมคัดไว้ AI ไม่สร้างแหล่งอ้างอิงเอง</p>
+    </div>
+  );
+}
+
 export function ChatThread({ messages, isWaitingForResponse }: ChatThreadProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    bottomRef.current?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'nearest' });
   }, [messages, isWaitingForResponse]);
 
   return (
-    <div className="flex-1 overflow-y-auto space-y-4 p-3 sm:p-5 bg-slate-50/70 rounded-3xl border border-slate-200/80 min-h-[340px] max-h-[520px]">
-      {messages.length === 0 && <p className="text-sm text-slate-600">กำลังเปิดคำถามชวนคิดระดับ 1 จากเซิร์ฟเวอร์ หากเชื่อมต่อไม่ได้ คุณยังพิมพ์เก็บฉบับร่างไว้ได้</p>}
-      {messages.map((msg) => {
-        const isCoach = msg.role === 'coach';
-
+    <div role="log" aria-live="polite" aria-label="บทสนทนากับครูที่ปรึกษา" className="flex flex-col gap-4">
+      {messages.length === 0 && <p className="text-callout text-ink-2">กำลังเปิดบทสนทนา หากเชื่อมต่อไม่ได้ คุณยังพิมพ์เก็บเป็นฉบับร่างได้</p>}
+      {messages.map(msg => {
+        if (msg.role === 'student') {
+          return (
+            <div key={msg.id} className="flex justify-end">
+              <p className="max-w-[80%] whitespace-pre-wrap rounded-2xl rounded-tr-md bg-accent px-3.5 py-3 text-accent-on [overflow-wrap:anywhere]">
+                <span className="sr-only">คุณ: </span>{msg.content}
+              </p>
+            </div>
+          );
+        }
+        const modeLabel = msg.mode ? MODE_LABEL_TH[msg.mode] : msg.tier ? LEGACY_TIER_LABEL[msg.tier] : null;
         return (
-          <div
-            key={msg.id}
-            className={`flex flex-col ${isCoach ? 'items-start' : 'items-end'} space-y-1.5`}
-          >
-            {/* Header Badge */}
-            <div className="flex items-center gap-1.5 px-2 text-[11px] font-prompt text-slate-500">
-              {isCoach ? (
-                <>
-                  <Bot className="w-3.5 h-3.5 text-indigo-600" />
-                  <span className="font-bold text-slate-700">ครูที่ปรึกษา AI</span>
-                  {msg.tier && (
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        msg.tier === 1
-                          ? 'bg-indigo-50 text-indigo-700 border border-indigo-100'
-                          : msg.tier === 2
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-rose-50 text-rose-700 border border-rose-200'
-                      }`}
-                    >
-                      {msg.tier === 1
-                        ? 'Tier 1 • Socratic Question'
-                        : msg.tier === 2
-                          ? 'Tier 2 • Guided Hint'
-                          : 'Tier 3 • Last Resort'}
-                    </span>
-                  )}
-                </>
-              ) : (
-                <>
-                  <span className="font-bold text-slate-700">คำตอบของคุณ</span>
-                  <User className="w-3.5 h-3.5 text-emerald-600" />
-                </>
-              )}
-            </div>
-
-            {/* Bubble */}
-            <div
-              className={`max-w-[92%] sm:max-w-[80%] rounded-2xl p-3.5 sm:p-4 text-xs sm:text-sm font-prompt leading-relaxed shadow-xs ${
-                isCoach
-                  ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm'
-                  : 'bg-indigo-600 text-white rounded-tr-sm shadow-indigo-100'
-              }`}
-            >
-              {isCoach && msg.source === 'fallback' && <p className="mb-2 text-[11px] text-slate-500">คำแนะนำสำรองอัตโนมัติจากเซิร์ฟเวอร์</p>}
-              <div className="whitespace-pre-wrap break-words">{msg.content}</div>
-
-              {/* Tier 2 Lenses */}
-              {isCoach && msg.lenses && msg.lenses.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-amber-800">
-                    <Compass className="w-3.5 h-3.5 text-amber-600" />
-                    <span>กรอบคิดแนะนำ (Thinking Lenses):</span>
-                  </div>
-                  <ul className="space-y-1 pl-1">
-                    {msg.lenses.map((lens, i) => (
-                      <li
-                        key={i}
-                        className="text-xs text-slate-700 bg-amber-50/60 border border-amber-200/60 rounded-xl p-2"
-                      >
-                        • {lens}
-                      </li>
-                    ))}
+          <div key={msg.id} className="flex max-w-[88%] flex-col gap-1.5 md:max-w-[75%]">
+            <span className="flex items-center gap-1.5 text-caption text-ink-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-tint text-accent-text"><Compass className="h-3.5 w-3.5" aria-hidden /></span>
+              ครูที่ปรึกษา{modeLabel ? ` · โหมด${modeLabel}` : ''}
+            </span>
+            <div className="rounded-2xl rounded-tl-md border border-separator bg-surface px-3.5 py-3">
+              {msg.source === 'fallback' && <p className="mb-1.5 text-caption text-ink-3">คำแนะนำสำรองจากเซิร์ฟเวอร์ (ไม่ได้เรียก AI สด)</p>}
+              <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">{msg.content}</p>
+              {msg.lenses && msg.lenses.length > 0 && (
+                <div className="mt-3 border-t border-separator pt-3">
+                  <p className="text-caption text-ink-2">{msg.mode === 'research' ? 'คำค้นและที่ค้นแนะนำ' : 'กรอบชวนคิด'}</p>
+                  <ul className="mt-1.5 flex flex-col gap-1.5">
+                    {msg.lenses.map((lens, i) => <li key={i} className="rounded-xl bg-surface-2 px-3 py-2 text-callout">{lens}</li>)}
                   </ul>
                 </div>
               )}
-
-              {/* Tier 3 Examples */}
-              {isCoach && msg.examples && msg.examples.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-rose-800">
-                    <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
-                    <span>ตัวอย่างแนวทางตั้งต้น (จำเป็นต้องเขียนใหม่ในสำนวนของคุณเอง):</span>
-                  </div>
-                  <ul className="space-y-1 pl-1">
-                    {msg.examples.map((example, i) => (
-                      <li
-                        key={i}
-                        className="text-xs text-slate-700 bg-rose-50/60 border border-rose-200/60 rounded-xl p-2.5 font-medium"
-                      >
-                        📌 {example}
-                      </li>
-                    ))}
+              {msg.examples && msg.examples.length > 0 && (
+                <div className="mt-3 border-t border-separator pt-3">
+                  <p className="text-caption text-ink-2">จุดตั้งต้น · เลือกแล้วเขียนใหม่ด้วยภาษาของคุณ</p>
+                  <ul className="mt-1.5 flex flex-col gap-1.5">
+                    {msg.examples.map((example, i) => <li key={i} className="rounded-xl bg-accent-tint px-3 py-2 text-callout text-ink">{example}</li>)}
                   </ul>
                 </div>
               )}
             </div>
+            {msg.priorWorkIds && <PriorWorkList ids={msg.priorWorkIds} />}
           </div>
         );
       })}
-
-      {/* Waiting Indicator */}
       {isWaitingForResponse && (
-        <div className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-indigo-100 max-w-fit shadow-xs">
-          <Bot className="w-4 h-4 text-indigo-600 animate-pulse" />
-          <span className="text-xs font-prompt text-slate-600">
-            ครูที่ปรึกษากำลังคิดคำถามชวนคิด...
+        <p role="status" className="flex w-fit items-center gap-2 rounded-2xl border border-separator bg-surface px-3.5 py-2.5 text-callout text-ink-2">
+          <span className="flex gap-1" aria-hidden>
+            {[0, 150, 300].map(d => <span key={d} className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" style={{ animationDelay: `${d}ms` }} />)}
           </span>
-          <div className="flex gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" />
-            <span
-              className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce"
-              style={{ animationDelay: '0.15s' }}
-            />
-            <span
-              className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce"
-              style={{ animationDelay: '0.3s' }}
-            />
-          </div>
-        </div>
+          ครูที่ปรึกษากำลังคิด…
+        </p>
       )}
-
       <div ref={bottomRef} />
     </div>
   );

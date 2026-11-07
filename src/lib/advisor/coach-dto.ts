@@ -1,9 +1,12 @@
 import { z } from 'zod';
 import { GoalSchema, TopicCardSchema, ConstraintsSchema, IdeaVariablesLiteSchema, IdeaSchema } from '@/lib/schemas';
-import type { CoachSessionState, CoachTurnResult } from './coach-contract';
+import { COACH_MODES, type CoachSessionState, type CoachTurnResult } from './coach-contract';
 
 const tier = z.union([z.literal(1), z.literal(2), z.literal(3)]);
 const aspect = z.enum(['problem', 'objective', 'methodology', 'measurement']);
+export const CoachModeSchema = z.enum(COACH_MODES);
+const resolvedMode = z.enum(['ask', 'research', 'ideate']);
+const priorWorkIds = z.array(z.string().min(1).max(200)).max(5);
 const text = z.string().max(8000);
 export const CoachContextSchema = z.object({
   track: z.enum(['idea_track', 'discovery_track']),
@@ -20,19 +23,19 @@ export const CoachRequestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('open'), topicKey: z.string().min(1).max(200), context: CoachContextSchema }).strict(),
   z.object({ action: z.literal('reset'), topicKey: z.string().min(1).max(200), conversationId: z.string().uuid(), context: CoachContextSchema }).strict(),
   z.object({ action: z.literal('turn'), conversationId: z.string().uuid(), revision: z.number().int().min(1),
-    requestId: z.string().uuid(), requestedTier: tier.optional(), targetAspect: aspect.optional(), learnerResponse: text.optional() }).strict(),
+    requestId: z.string().uuid(), mode: CoachModeSchema.optional(), requestedTier: tier.optional(), targetAspect: aspect.optional(), learnerResponse: text.optional() }).strict(),
 ]);
 export type CoachApiRequest = z.infer<typeof CoachRequestSchema>;
 
 const progress = z.object({ problem: z.boolean(), objective: z.boolean(), methodology: z.boolean(), measurement: z.boolean() });
-const history = z.object({ turnIndex: z.number(), tier, aspect: aspect.optional(), content: text,
+const history = z.object({ turnIndex: z.number(), tier, mode: resolvedMode.optional(), priorWorkIds: priorWorkIds.optional(), aspect: aspect.optional(), content: text,
   lenses: z.array(text).optional(), examples: z.array(text).optional(), learnerResponse: text.optional(), timestamp: z.string(), source: z.enum(['ai', 'fallback']).optional() });
 export const CoachStateSchema: z.ZodType<CoachSessionState> = z.object({
   anonymousId: z.string(), ideaId: z.string().optional(), turnCount: z.number(), unlockedTiers: z.array(tier),
   aspectProgress: progress, history: z.array(history), isComplete: z.boolean(),
 });
 export const CoachTurnSchema: z.ZodType<CoachTurnResult> = z.object({
-  source: z.enum(['ai', 'fallback']), tier, tierDowngraded: z.boolean().optional(), aspect: z.union([aspect, z.literal('completed')]),
+  source: z.enum(['ai', 'fallback']), tier, tierDowngraded: z.boolean().optional(), mode: resolvedMode.optional(), priorWorkIds: priorWorkIds.optional(), aspect: z.union([aspect, z.literal('completed')]),
   content: text, lenses: z.array(text).optional(), examples: z.array(text).optional(), state: CoachStateSchema,
 });
 export const CoachConversationSchema = z.object({

@@ -46,7 +46,7 @@ export async function coachingOperation(store: FoundationStore, request: CoachAp
   const row = await store.readById('coaching', request.conversationId);
   if (!row) throw new CoachingError(404, 'ไม่พบบทสนทนานี้ กรุณาเปิดหัวข้ออีกครั้ง');
   const record = decode(row);
-  const fingerprint = createHash('sha256').update(JSON.stringify({ requestedTier: request.requestedTier ?? 1, learnerResponse: request.learnerResponse?.trim() ?? '', targetAspect: request.targetAspect ?? null })).digest('hex');
+  const fingerprint = createHash('sha256').update(JSON.stringify({ ...(request.mode ? { mode: request.mode } : {}), requestedTier: request.requestedTier ?? 1, learnerResponse: request.learnerResponse?.trim() ?? '', targetAspect: request.targetAspect ?? null })).digest('hex');
   if (record.receipts[request.requestId]) {
     if (record.receipts[request.requestId] !== fingerprint) throw new CoachingError(409, 'รหัสคำขอเดิมมีข้อมูลไม่ตรงกัน');
     return CoachConversationSchema.parse(record);
