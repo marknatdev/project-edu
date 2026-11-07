@@ -4,13 +4,16 @@ import { usePathname } from 'next/navigation';
 import { setWorkspaceScope, getWorkspaceScope, reloadWorkspace } from '@/lib/auth/workspace-client';
 import { getWipeGeneration } from '@/lib/storage/store';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { safeNext } from '@/lib/auth/paths';
 
 const CHANGE = 'edtech:workspace-change';
+const PUBLIC = /^\/(auth|consent|share|advisor-review)(\/|$)/;
 type Session = { authenticated: boolean; scope: string; workspace: 'guest' | 'account'; decisionRequired: boolean };
 /** Do not mount ANY local-state reader/writer until verified identity and local
  * provenance agree. Legacy local work always stays Guest; never copy on login. */
 export function WorkspaceBoundary({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isPublic = PUBLIC.test(pathname);
   const [session, setSession] = useState<Session | null>(null);
   const [error, setError] = useState('');
   const mountedScope = useRef<string | null>(null);
@@ -34,9 +37,14 @@ export function WorkspaceBoundary({ children }: { children: React.ReactNode }) {
       reading = true;
       try {
         const r = await fetch('/auth/session', { credentials: 'same-origin', cache: 'no-store' });
-        if (r.status === 401 && isSupabaseConfigured()) { // Signed out or expired: sign in again (ADR 0003), keeping drafts if an editor vetoes.
-          if (active && window.dispatchEvent(new Event('edtech:before-account-navigation', { cancelable: true }))) window.location.assign('/auth?next=' + encodeURIComponent(window.location.pathname + window.location.search));
-          else if (active) setError('เซสชันหมดอายุ กรุณาบันทึกหรือยกเลิกการแก้ไข แล้วเข้าสู่ระบบใหม่');
+        if (r.status === 401) {
+          if (isPublic) return;
+          if (isSupabaseConfigured()) { // Signed out or expired: sign in again (ADR 0003), keeping drafts if an editor vetoes.
+            const target = safeNext(window.location.pathname + window.location.search);
+            const loginUrl = target !== '/' ? `/auth?next=${encodeURIComponent(target)}` : '/auth';
+            if (active && window.dispatchEvent(new Event('edtech:before-account-navigation', { cancelable: true }))) window.location.assign(loginUrl);
+            else if (active) setError('เซสชันหมดอายุ กรุณาบันทึกหรือยกเลิกการแก้ไข แล้วเข้าสู่ระบบใหม่');
+          }
           return;
         }
         const data = await r.json();
@@ -47,7 +55,7 @@ export function WorkspaceBoundary({ children }: { children: React.ReactNode }) {
         mountedScope.current = data.scope;
         setWorkspaceScope(data.scope); setSession(data); setError('');
       } catch {
-        if (active) {
+        if (active && !isPublic) {
           if (mountedScope.current !== null && sessionRef.current !== null) {
             // Transient check failure while already verified: preserve mounted children and unsaved drafts
             setError('ตรวจสอบบัญชีไม่ได้ชั่วคราว งานที่แก้ไขยังบันทึกในอุปกรณ์นี้ได้ตามปกติ ส่วนการเชื่อมกับบัญชีจะหยุดไว้จนกว่าการเชื่อมต่อจะกลับมา');
@@ -64,7 +72,8 @@ export function WorkspaceBoundary({ children }: { children: React.ReactNode }) {
     const changed = (e: StorageEvent) => { if (e.key === CHANGE) leave(); };
     window.addEventListener('focus', foreground); document.addEventListener('visibilitychange', foreground); window.addEventListener('storage', changed);
     return () => { active = false; window.removeEventListener('focus', foreground); document.removeEventListener('visibilitychange', foreground); window.removeEventListener('storage', changed); };
-  }, [pathname]);
+  }, [pathname, isPublic]);
+  if (isPublic) return <>{children}</>;
   if (error && !session) return <p role="alert">{error}</p>;
   if (!session) return <p role="status">กำลังตรวจสอบพื้นที่งาน…</p>;
   return <>
