@@ -393,16 +393,19 @@ class LearnerState extends ChangeNotifier {
       availableResources.add(resource);
     }
     notifyListeners();
+    _savePersistedState();
   }
 
   void setStrictSafetyOnly(bool val) {
     strictSafetyOnly = val;
     notifyListeners();
+    _savePersistedState();
   }
 
   void setCitePriorWorkOnly(bool val) {
     citePriorWorkOnly = val;
     notifyListeners();
+    _savePersistedState();
   }
 
   Future<void> loadPersistedState() async {
@@ -452,6 +455,13 @@ class LearnerState extends ChangeNotifier {
       budgetConstraint = prefs.getString('budget_constraint') ?? budgetConstraint;
       timelineWeeks = prefs.getInt('timeline_weeks') ?? timelineWeeks;
       teamSize = prefs.getInt('team_size') ?? teamSize;
+      final resList = prefs.getStringList('available_resources');
+      if (resList != null) {
+        availableResources.clear();
+        availableResources.addAll(resList);
+      }
+      strictSafetyOnly = prefs.getBool('strict_safety_only') ?? strictSafetyOnly;
+      citePriorWorkOnly = prefs.getBool('cite_prior_work_only') ?? citePriorWorkOnly;
 
       notifyListeners();
     } catch (e) {
@@ -471,6 +481,9 @@ class LearnerState extends ChangeNotifier {
       await prefs.setString('budget_constraint', budgetConstraint);
       await prefs.setInt('timeline_weeks', timelineWeeks);
       await prefs.setInt('team_size', teamSize);
+      await prefs.setStringList('available_resources', availableResources.toList());
+      await prefs.setBool('strict_safety_only', strictSafetyOnly);
+      await prefs.setBool('cite_prior_work_only', citePriorWorkOnly);
     } catch (e) {
       debugPrint('Error saving learner state: $e');
     }
