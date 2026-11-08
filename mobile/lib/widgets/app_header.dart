@@ -27,7 +27,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           height: 60.0,
           child: Row(
             children: [
-              // Hamburger Menu with Orange Dot
+              // Hamburger Menu with Cyan Dot
               InkWell(
                 onTap: onOpenDrawer,
                 borderRadius: BorderRadius.circular(8.0),
@@ -43,7 +43,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                             width: 22,
                             height: 2.5,
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryOrange,
+                              color: AppTheme.primaryCyan,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -74,7 +74,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                           width: 7,
                           height: 7,
                           decoration: const BoxDecoration(
-                            color: AppTheme.primaryOrange,
+                            color: AppTheme.primaryCyan,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -92,14 +92,14 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     width: 26,
                     height: 26,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryOrange.withValues(alpha: 0.15),
+                      color: AppTheme.primaryCyan.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
-                        'A',
+                        'P',
                         style: TextStyle(
-                          color: AppTheme.primaryOrange,
+                          color: AppTheme.primaryCyan,
                           fontWeight: FontWeight.w900,
                           fontSize: 18,
                         ),
@@ -107,10 +107,10 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    'AIITCAS',
+                  const Text(
+                    'Project Edu',
                     style: TextStyle(
-                      color: AppTheme.primaryOrange,
+                      color: AppTheme.primaryCyan,
                       fontWeight: FontWeight.w800,
                       fontSize: 19,
                       letterSpacing: 0.5,

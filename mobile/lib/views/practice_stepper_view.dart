@@ -17,56 +17,56 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
 
   final List<Map<String, dynamic>> _subjects = [
     {
-      'name': 'TGAT1',
-      'title': 'การสื่อสารภาษาอังกฤษ',
-      'types': '5 Question Types',
-      'color': AppTheme.accentBlue,
-      'icon': Icons.chat_bubble_outline_rounded,
+      'name': 'คอมพิวเตอร์ & AI',
+      'title': 'Computer Science & AI',
+      'types': '12 สาขาย่อย',
+      'color': AppTheme.primaryCyan,
+      'icon': Icons.memory_rounded,
     },
     {
-      'name': 'TGAT2',
-      'title': 'การคิดอย่างมีเหตุผล',
-      'types': '17 Question Types',
-      'color': const Color(0xFF6366F1),
-      'icon': Icons.psychology_outlined,
-    },
-    {
-      'name': 'ชีววิทยา',
-      'title': 'A-Level ชีววิทยา',
-      'types': '5 หมวดหมู่หลัก',
+      'name': 'ชีววิทยา & การแพทย์',
+      'title': 'Biological & Health Sciences',
+      'types': '8 สาขาย่อย',
       'color': AppTheme.accentGreen,
-      'icon': Icons.eco_outlined,
+      'icon': Icons.eco_rounded,
     },
     {
-      'name': 'TPAT3',
-      'title': 'ความถนัดด้านวิทยาศาสตร์ เทคโนโลยี',
-      'types': '2 ส่วนสอบ',
-      'color': const Color(0xFFEF4444),
-      'icon': Icons.science_outlined,
+      'name': 'ฟิสิกส์ & พลังงาน',
+      'title': 'Physics & Clean Energy',
+      'types': '6 สาขาย่อย',
+      'color': AppTheme.secondaryViolet,
+      'icon': Icons.bolt_rounded,
     },
     {
-      'name': 'คณิตศาสตร์ 1',
-      'title': 'A-Level คณิตประยุกต์ 1',
-      'types': '3 สาระหลัก',
-      'color': AppTheme.primaryOrange,
-      'icon': Icons.calculate_outlined,
+      'name': 'วิศวกรรม & หุ่นยนต์',
+      'title': 'Robotics & Embedded Systems',
+      'types': '9 สาขาย่อย',
+      'color': AppTheme.accentAmber,
+      'icon': Icons.precision_manufacturing_rounded,
     },
     {
-      'name': 'TPAT1',
-      'title': 'ความถนัดแพทย์ กสพท',
-      'types': '3 ฉบับ',
-      'color': const Color(0xFFF43F5E),
-      'icon': Icons.medical_services_outlined,
+      'name': 'สิ่งแวดล้อม',
+      'title': 'Environmental Science',
+      'types': '7 สาขาย่อย',
+      'color': const Color(0xFF14B8A6),
+      'icon': Icons.forest_rounded,
+    },
+    {
+      'name': 'คณิตศาสตร์ประยุกต์',
+      'title': 'Applied Mathematics',
+      'types': '5 สาขาย่อย',
+      'color': const Color(0xFF3B82F6),
+      'icon': Icons.calculate_rounded,
     },
   ];
 
   final List<Map<String, dynamic>> _topics = [
-    {'title': 'ระบบย่อยอาหาร', 'icon': '🍎', 'desc': 'Digestive System'},
-    {'title': 'ระบบหายใจ', 'icon': '🫁', 'desc': 'Respiratory System'},
-    {'title': 'ระบบหมุนเวียนเลือด', 'icon': '🫀', 'desc': 'Circulatory System'},
-    {'title': 'ระบบขับถ่าย', 'icon': '🧪', 'desc': 'Excretory System'},
-    {'title': 'ระบบน้ำเหลืองและภูมิคุ้มกัน', 'icon': '🛡️', 'desc': 'Lymphatic & Immune'},
-    {'title': 'ระบบประสาทและการเคลื่อนที่', 'icon': '🧠', 'desc': 'Nervous & Locomotor'},
+    {'title': 'ปัญหาและความสำคัญ', 'icon': '🎯', 'desc': 'Problem Statement & Significance'},
+    {'title': 'สมมติฐานและการทดลอง', 'icon': '🧪', 'desc': 'Hypothesis & Experimental Design'},
+    {'title': 'ตัวแปรต้น ตัวแปรตาม ตัวแปรควบคุม', 'icon': '🔬', 'desc': 'Independent & Dependent Variables'},
+    {'title': 'ประเมินความเสี่ยงแล็บ SRC/ISEF', 'icon': '🛡️', 'desc': 'Safety Flags & Bio-Risk Protocol'},
+    {'title': 'งบประมาณและเซนเซอร์ BOM', 'icon': '📦', 'desc': 'Bill of Materials & Hardware Budget'},
+    {'title': 'ไทม์ไลน์แข่งขัน YSC 2027', 'icon': '🗓️', 'desc': 'Weekly Plan & Milestone Countdown'},
   ];
 
   @override
@@ -92,7 +92,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
           children: [
             _StepBadge(
               stepNumber: '1',
-              title: 'เลือกวิชา',
+              title: 'เลือกสาขา',
               isCompleted: _currentStep > 0,
               isActive: _currentStep == 0,
             ),
@@ -101,7 +101,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
             const SizedBox(width: 8),
             _StepBadge(
               stepNumber: '2',
-              title: 'ตั้งค่า',
+              title: 'ตั้งค่าโครงงาน',
               isCompleted: false,
               isActive: _currentStep == 1,
             ),
@@ -128,7 +128,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
       padding: const EdgeInsets.all(16.0),
       children: [
         const Text(
-          'เลือกวิชาที่ต้องการฝึก',
+          'เลือกสาขาวิทยาศาสตร์ที่สนใจ',
           style: TextStyle(
             color: AppTheme.textPrimary,
             fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
         ),
         const SizedBox(height: 4),
         const Text(
-          'ข้อสอบจำลองเสมือนจริง อัปเดตตามโครงสร้างพิมพ์เขียว TCAS ล่าสุด',
+          'รองรับหมวดการแข่งขัน YSC, สพฐ. และมาตรฐานโครงงานระดับชาติ',
           style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
         ),
         const SizedBox(height: 16),
@@ -203,7 +203,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'ประเภทโจทย์',
+                        'ขอบเขตและข้อจำกัดโครงงาน',
                         style: TextStyle(
                           color: AppTheme.textPrimary,
                           fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                         ),
                       ),
                       Text(
-                        'วิชา: ${learner.selectedSubject}',
+                        'สาขา: ${learner.selectedSubject}',
                         style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
                       ),
                     ],
@@ -220,10 +220,10 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                     onPressed: () {
                       learner.selectAllTopics(_topics.map((t) => t['title'] as String).toList());
                     },
-                    icon: const Icon(Icons.shuffle_rounded, size: 16, color: AppTheme.primaryOrange),
+                    icon: const Icon(Icons.select_all_rounded, size: 16, color: AppTheme.primaryCyan),
                     label: const Text(
-                      'สุ่มทุกประเภท',
-                      style: TextStyle(color: AppTheme.primaryOrange, fontWeight: FontWeight.bold),
+                      'เลือกทั้งหมด',
+                      style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

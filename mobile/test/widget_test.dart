@@ -20,7 +20,7 @@ void main() {
     );
 
     // Verify brand logo and core text renders
-    expect(find.text('AIITCAS'), findsOneWidget);
+    expect(find.text('Project Edu'), findsOneWidget);
     expect(find.text('YSC 2027 รอบแรก'), findsOneWidget);
   });
 }

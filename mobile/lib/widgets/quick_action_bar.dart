@@ -25,35 +25,33 @@ class QuickActionBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _QuickItem(
-            icon: Icons.auto_awesome_rounded,
-            label: 'AI Tutor',
-            badgeText: 'BETA',
-            badgeColor: AppTheme.accentGreen,
+            icon: Icons.mic_none_rounded,
+            label: 'สัมภาษณ์',
+            badgeText: 'START',
+            badgeColor: AppTheme.primaryCyan,
             onTap: onAiTutor,
           ),
           _QuickItem(
-            icon: Icons.refresh_rounded,
-            label: 'ทบทวน',
-            countBadge: '1',
-            badgeColor: AppTheme.accentRed,
+            icon: Icons.auto_awesome_rounded,
+            label: 'ปรับมุม Pivot',
+            badgeColor: AppTheme.secondaryViolet,
             onTap: onReview,
           ),
           _QuickItem(
-            icon: Icons.description_outlined,
-            label: 'All Exam',
-            badgeText: 'NEW',
-            badgeColor: AppTheme.accentGreen,
+            icon: Icons.inventory_2_outlined,
+            label: 'BOM อุปกรณ์',
             onTap: onAllExam,
           ),
           _QuickItem(
-            icon: Icons.bookmark_border_rounded,
-            label: 'โจทย์ที่บันทึก',
+            icon: Icons.calendar_month_outlined,
+            label: 'ปฏิทินแข่ง',
+            countBadge: '1',
+            badgeColor: AppTheme.accentAmber,
             onTap: onSaved,
           ),
           _QuickItem(
-            icon: Icons.add_rounded,
-            label: 'เพิ่ม/แก้ไข',
-            isDashed: true,
+            icon: Icons.file_download_outlined,
+            label: 'ส่งออก .docx',
             onTap: onAddEdit,
           ),
         ],
@@ -68,7 +66,6 @@ class _QuickItem extends StatelessWidget {
   final String? badgeText;
   final String? countBadge;
   final Color? badgeColor;
-  final bool isDashed;
   final VoidCallback? onTap;
 
   const _QuickItem({
@@ -77,7 +74,6 @@ class _QuickItem extends StatelessWidget {
     this.badgeText,
     this.countBadge,
     this.badgeColor,
-    this.isDashed = false,
     this.onTap,
   });
 
@@ -99,18 +95,17 @@ class _QuickItem extends StatelessWidget {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: isDashed ? Colors.transparent : AppTheme.surface1,
+                    color: AppTheme.surface1,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: isDashed ? AppTheme.textMuted : AppTheme.borderStroke,
-                      style: isDashed ? BorderStyle.solid : BorderStyle.solid,
+                      color: AppTheme.borderStroke,
                       width: 1.2,
                     ),
                   ),
                   child: Center(
                     child: Icon(
                       icon,
-                      color: isDashed ? AppTheme.textMuted : AppTheme.textPrimary,
+                      color: AppTheme.textPrimary,
                       size: 24,
                     ),
                   ),

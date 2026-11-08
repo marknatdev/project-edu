@@ -3,21 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 /// Design tokens strictly derived from AllTCAS UI/UX Study
 class AppTheme {
-  // Colors
-  static const Color background = Color(0xFF0D111A);
-  static const Color surface1 = Color(0xFF191E2B);
-  static const Color surface2 = Color(0xFF222938);
-  static const Color surface3 = Color(0xFF2A3347);
+  // Colors - Deep Tech Cyan & Violet Palette
+  static const Color background = Color(0xFF0B0F17);
+  static const Color surface1 = Color(0xFF131B2A);
+  static const Color surface2 = Color(0xFF1B263B);
+  static const Color surface3 = Color(0xFF24334D);
 
-  static const Color primaryCyan = Color(0xFF00B0FF);
+  static const Color primaryCyan = Color(0xFF00E5FF);
+  static const Color secondaryViolet = Color(0xFF8B5CF6);
   static const Color primaryOrange = Color(0xFFFF6D00);
   static const Color orangeLight = Color(0xFFFF8A00);
   static const Color orangeGlow = Color(0x4DFF6D00);
-  static const Color cyanGlow = Color(0x4D00B0FF);
+  static const Color cyanGlow = Color(0x4D00E5FF);
+  static const Color violetGlow = Color(0x4D8B5CF6);
 
-  static const Color accentGreen = Color(0xFF00E676);
-  static const Color accentBlue = Color(0xFF00B0FF);
+  static const Color accentGreen = Color(0xFF10B981);
+  static const Color accentBlue = Color(0xFF00E5FF);
   static const Color accentPurple = Color(0xFF8B5CF6);
+  static const Color accentAmber = Color(0xFFF59E0B);
   static const Color accentFire = Color(0xFFFF9100);
   static const Color accentRed = Color(0xFFEF4444);
 
