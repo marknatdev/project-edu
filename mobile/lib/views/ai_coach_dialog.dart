@@ -328,7 +328,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
                         child: Text(
                           msg.text,
                           style: TextStyle(
-                            color: isUser ? Colors.white : AppTheme.textPrimary,
+                            color: isUser ? (AppTheme.isDark ? Colors.white : AppTheme.textPrimary) : AppTheme.textPrimary,
                             fontSize: 13.5,
                             height: 1.4,
                           ),
@@ -397,9 +397,9 @@ class _AiCoachModalState extends State<AiCoachModal> {
                                             child: Text(
                                               choice,
                                               style: TextStyle(
-                                                color: AppTheme.primaryCyan,
+                                                color: AppTheme.isDark ? AppTheme.primaryCyan : const Color(0xFF0D5C54),
                                                 fontSize: 12,
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
@@ -474,8 +474,12 @@ class _AiCoachModalState extends State<AiCoachModal> {
                       color: AppTheme.primaryCyan,
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(
-                      child: Icon(Icons.arrow_upward_rounded, color: Colors.black, size: 20),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_upward_rounded,
+                        color: AppTheme.isDark ? Colors.black : Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
