@@ -92,7 +92,7 @@ class ProfileView extends StatelessWidget {
           children: [
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () => _showResearcherBadgeDialog(context, learner),
                 icon: Icon(Icons.badge_outlined, size: 16, color: AppTheme.primaryCyan),
                 label: Text('บัตรนักวิจัย', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                 style: OutlinedButton.styleFrom(
@@ -105,7 +105,7 @@ class ProfileView extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () => _showSharePortfolioDialog(context, learner),
                 icon: Icon(Icons.share_outlined, size: 16, color: AppTheme.secondaryViolet),
                 label: Text('แชร์โครงงาน', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                 style: OutlinedButton.styleFrom(
@@ -254,7 +254,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => _showAdvisorSignOffDialog(context, learner),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.secondaryViolet,
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -334,4 +334,268 @@ class ProfileView extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showResearcherBadgeDialog(BuildContext context, LearnerState learner) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: AppTheme.surface1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      contentPadding: const EdgeInsets.all(20),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.primaryCyan.withValues(alpha: 0.15),
+                  AppTheme.secondaryViolet.withValues(alpha: 0.15),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.primaryCyan.withValues(alpha: 0.3)),
+            ),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 34,
+                  backgroundColor: AppTheme.surface3,
+                  child: const Icon(Icons.person, color: Colors.white, size: 36),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  learner.displayName,
+                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  learner.schoolTier,
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface1,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: AppTheme.borderStroke),
+                  ),
+                  child: Text(
+                    'ID: EDU-YSC-2027-TH',
+                    style: TextStyle(
+                      color: AppTheme.primaryCyan,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.1,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shield_rounded, size: 14, color: AppTheme.accentGreen),
+                    const SizedBox(width: 4),
+                    Text(
+                      'SRC Safety Qualified • Zero-PII Protected',
+                      style: TextStyle(color: AppTheme.accentGreen, fontSize: 10.5, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryCyan,
+              minimumSize: const Size.fromHeight(42),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Text(
+              'ปิด',
+              style: TextStyle(
+                color: AppTheme.isDark ? Colors.black : Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+void _showSharePortfolioDialog(BuildContext context, LearnerState learner) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: AppTheme.surface1,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.share_outlined, color: AppTheme.secondaryViolet, size: 24),
+                const SizedBox(width: 8),
+                Text(
+                  'แชร์พอร์ตโฟลิโอโครงงานวิจัย',
+                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Text(
+              'สร้างลิงก์สำหรับนำเสนอผลงานบนเว็บ (รองรับทั้งมือถือและแท็บเล็ต)',
+              style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppTheme.surface2,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.borderStroke),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'https://project-edu.vercel.app/share/ysc-th-2027',
+                      style: TextStyle(color: AppTheme.primaryCyan, fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('คัดลอกลิงก์แชร์พอร์ตโครงงานวิจัยแล้ว!')),
+                      );
+                    },
+                    child: Icon(Icons.copy_rounded, size: 18, color: AppTheme.textSecondary),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('กำลังส่งออกรูปภาพ QR Code สำหรับติดโปสเตอร์...')),
+                );
+              },
+              icon: const Icon(Icons.qr_code_2_rounded, size: 18),
+              label: const Text('สร้าง QR Code ติดโปสเตอร์นำเสนอ'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.secondaryViolet,
+                minimumSize: const Size.fromHeight(44),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void _showAdvisorSignOffDialog(BuildContext context, LearnerState learner) {
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: AppTheme.surface1,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (ctx) => Padding(
+      padding: EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 20,
+        bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.supervisor_account_rounded, color: AppTheme.secondaryViolet, size: 24),
+              const SizedBox(width: 8),
+              Text(
+                'ส่งให้อาจารย์ที่ปรึกษาตรวจรับรอง',
+                style: TextStyle(color: AppTheme.textPrimary, fontSize: 17, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'อาจารย์สามารถเปิดอ่านเค้าโครง ประเมินคะแนน และลงนามรับรองความปลอดภัย SRC ผ่านเว็บได้โดยตรง',
+            style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: nameController,
+            style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5),
+            decoration: InputDecoration(
+              labelText: 'ชื่อ-นามสกุลอาจารย์ที่ปรึกษา',
+              labelStyle: TextStyle(color: AppTheme.textMuted, fontSize: 12),
+              filled: true,
+              fillColor: AppTheme.surface2,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppTheme.borderStroke)),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            controller: emailController,
+            style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5),
+            decoration: InputDecoration(
+              labelText: 'อีเมลโรงเรียนของอาจารย์',
+              labelStyle: TextStyle(color: AppTheme.textMuted, fontSize: 12),
+              filled: true,
+              fillColor: AppTheme.surface2,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppTheme.borderStroke)),
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('ส่งคำขอตรวจและรหัส PIN ให้อาจารย์ที่ปรึกษาเรียบร้อย!')),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryCyan,
+              minimumSize: const Size.fromHeight(46),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Text(
+              'ส่งคำขอตรวจเค้าโครงงาน',
+              style: TextStyle(
+                color: AppTheme.isDark ? Colors.black : Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
