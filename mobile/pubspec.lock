@@ -209,7 +209,7 @@ packages:
     source: hosted
     version: "2.0.2"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
@@ -544,6 +544,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  shorebird_code_push:
+    dependency: "direct main"
+    description:
+      name: shorebird_code_push
+      sha256: "32df9946782c6ca95d7065c7f2156df74675e931b816d0dc391a3d8f8917930f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.7"
   sky_engine:
     dependency: transitive
     description: flutter

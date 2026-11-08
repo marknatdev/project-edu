@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
+import '../views/ai_coach_dialog.dart';
 
 class FloatingDock extends StatelessWidget {
   const FloatingDock({super.key});
@@ -46,25 +47,23 @@ class FloatingDock extends StatelessWidget {
               onTap: () => learner.setTab(1),
             ),
 
-            // Tab 2: Elevated Center AI Coach Button
+            // Tab 2: Elevated Center AI Coach Button (Opens Live Socratic Modal)
             GestureDetector(
-              onTap: () => learner.setTab(2),
+              onTap: () => AiCoachModal.show(context),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [AppTheme.primaryCyan, Color(0xFF00E5FF)],
+                    colors: [AppTheme.primaryCyan, AppTheme.secondaryViolet],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: learner.activeTab == 2
-                          ? AppTheme.cyanGlow
-                          : Colors.transparent,
+                      color: AppTheme.cyanGlow,
                       blurRadius: 16,
                       spreadRadius: 2,
                       offset: const Offset(0, 2),

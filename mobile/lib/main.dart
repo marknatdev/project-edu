@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/learner_state.dart';
+import 'services/code_push_service.dart';
 import 'services/supabase_service.dart';
 import 'theme/app_theme.dart';
 import 'views/dashboard_view.dart';
@@ -15,6 +16,8 @@ import 'widgets/floating_dock.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SupabaseService.initialize();
+  // Check for OTA updates in background via Shorebird CodePush
+  CodePushService.checkForUpdatesInBackground();
   runApp(
     ChangeNotifierProvider(
       create: (_) => LearnerState(),
