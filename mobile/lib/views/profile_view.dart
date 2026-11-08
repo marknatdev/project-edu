@@ -41,7 +41,11 @@ class ProfileView extends StatelessWidget {
                       color: AppTheme.primaryCyan,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.verified_rounded, color: Colors.black, size: 14),
+                    child: Icon(
+                      Icons.verified_rounded,
+                      color: AppTheme.isDark ? Colors.black : Colors.white,
+                      size: 14,
+                    ),
                   ),
                 ),
               ],
@@ -153,11 +157,11 @@ class ProfileView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'เป้าหมายการแข่งขัน: YSC 2027',
+                      'เป้าหมายการแข่งขัน: ${learner.projectGoal}',
                       style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5),
                     ),
                     Text(
-                      'สาขาวิทยาการคอมพิวเตอร์และปัญญาประดิษฐ์ • รอบแรก',
+                      'สาขา${learner.selectedField} • ${learner.gradeLevel}',
                       style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
                     ),
                   ],
@@ -192,24 +196,36 @@ class ProfileView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Project 1
+              // Main Active Lab Project
               _buildProjectItem(
-                title: 'การคัดแยกสารตกค้างไมโครพลาสติกด้วย AI & Microscopic Vision',
-                field: 'คอมพิวเตอร์ & AI',
-                status: 'ร่างเค้าโครง (Proposal)',
+                title: learner.currentLabSessionTitle,
+                field: learner.selectedField,
+                status: 'กำลังทดลองแล็บ (${learner.labObservations.length} บันทึก)',
                 statusColor: AppTheme.primaryCyan,
-                progress: 0.65,
+                progress: 0.70,
               ),
               const SizedBox(height: 10),
 
-              // Project 2
-              _buildProjectItem(
-                title: 'แผ่นกรองฝุ่นไฟฟ้าสถิตจากวัสดุชีวภาพเหลือใช้',
-                field: 'วัสดุศาสตร์ & สิ่งแวดล้อม',
-                status: 'ผ่านตรวจความปลอดภัย SRC',
-                statusColor: AppTheme.accentGreen,
-                progress: 0.40,
-              ),
+              // Shortlisted Topics or Secondary Project
+              if (learner.shortlistedCards.isNotEmpty)
+                ...learner.shortlistedCards.take(2).map((card) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: _buildProjectItem(
+                    title: card.title,
+                    field: card.subject,
+                    status: 'Shortlisted (สนใจทำ)',
+                    statusColor: AppTheme.secondaryViolet,
+                    progress: 0.35,
+                  ),
+                ))
+              else
+                _buildProjectItem(
+                  title: 'แผ่นกรองฝุ่นไฟฟ้าสถิตจากวัสดุชีวภาพเหลือใช้',
+                  field: 'วัสดุศาสตร์ & สิ่งแวดล้อม',
+                  status: 'ผ่านตรวจความปลอดภัย SRC',
+                  statusColor: AppTheme.accentGreen,
+                  progress: 0.40,
+                ),
             ],
           ),
         ),
