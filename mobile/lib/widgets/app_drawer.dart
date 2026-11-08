@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
 import '../views/ai_coach_dialog.dart';
+import '../views/dashboard_view.dart';
 import '../views/topic_discovery_view.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -405,53 +406,203 @@ class _ThemeButton extends StatelessWidget {
 void _showBomDialog(BuildContext context) {
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
     backgroundColor: AppTheme.surface1,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
-    builder: (ctx) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+    builder: (ctx) {
+      return Consumer<LearnerState>(
+        builder: (context, learner, _) {
+          return Padding(
+            padding: EdgeInsets.only(
+              left: 20.0,
+              right: 20.0,
+              top: 20.0,
+              bottom: MediaQuery.of(ctx).viewInsets.bottom + 20.0,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.inventory_2_outlined, color: AppTheme.primaryCyan, size: 24),
-                  const SizedBox(width: 8),
-                  Text(
-                    'รายการอุปกรณ์ & งบประมาณ (BOM)',
-                    style: TextStyle(color: AppTheme.textPrimary, fontSize: 17, fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.inventory_2_outlined, color: AppTheme.primaryCyan, size: 24),
+                          const SizedBox(width: 8),
+                          Text(
+                            'รายการอุปกรณ์ & งบประมาณ (BOM)',
+                            style: TextStyle(color: AppTheme.textPrimary, fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      IconButton(onPressed: () => Navigator.pop(ctx), icon: const Icon(Icons.close_rounded)),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.surface2,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppTheme.borderStroke),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('งบประมาณรวมที่ใช้:', style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+                        Text(
+                          '${learner.totalBomCost} / ${learner.budgetConstraint}',
+                          style: TextStyle(color: AppTheme.accentGreen, fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  if (learner.bomItems.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Center(
+                        child: Text('ยังไม่มีรายการอุปกรณ์ แตะปุ่มด้านล่างเพื่อเพิ่ม', style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
+                      ),
+                    )
+                  else
+                    ...learner.bomItems.map((item) {
+                      Color statusColor;
+                      switch (item.status) {
+                        case 'จัดซื้อแล้ว':
+                          statusColor = AppTheme.accentGreen;
+                          break;
+                        case 'ยืมแล็บโรงเรียน':
+                          statusColor = AppTheme.primaryCyan;
+                          break;
+                        case 'มีแล้วในสต็อก':
+                          statusColor = AppTheme.secondaryViolet;
+                          break;
+                        default:
+                          statusColor = AppTheme.accentAmber;
+                      }
+                      return _BomTile(
+                        title: item.title,
+                        cost: '${item.costBaht} ฿',
+                        status: item.status,
+                        statusColor: statusColor,
+                        onDelete: () => learner.deleteBomItem(item.id),
+                      );
+                    }),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _showAddBomItemDialog(context, learner),
+                      icon: Icon(Icons.add_rounded, size: 18, color: AppTheme.isDark ? Colors.black : Colors.white),
+                      label: Text(
+                        'เพิ่มรายการอุปกรณ์ / ค่าใช้จ่าย',
+                        style: TextStyle(
+                          color: AppTheme.isDark ? Colors.black : Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.5,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryCyan,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              IconButton(onPressed: () => Navigator.pop(ctx), icon: const Icon(Icons.close_rounded)),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppTheme.surface2,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppTheme.borderStroke),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('งบประมาณรวมที่ใช้:', style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
-                Text('810 / 1,500 บาท', style: TextStyle(color: AppTheme.accentGreen, fontWeight: FontWeight.bold, fontSize: 15)),
-              ],
+          );
+        },
+      );
+    },
+  );
+}
+
+void _showAddBomItemDialog(BuildContext context, LearnerState learner) {
+  final titleController = TextEditingController();
+  final costController = TextEditingController();
+  String selectedStatus = 'จัดซื้อแล้ว';
+  final statuses = ['จัดซื้อแล้ว', 'ยืมแล็บโรงเรียน', 'มีแล้วในสต็อก', 'รอจัดซื้อ'];
+
+  showDialog(
+    context: context,
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, setDialogState) => AlertDialog(
+        backgroundColor: AppTheme.surface1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('เพิ่มรายการอุปกรณ์ / วัสดุ', style: TextStyle(color: AppTheme.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: titleController,
+              autofocus: true,
+              style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5),
+              decoration: InputDecoration(
+                hintText: 'ชื่ออุปกรณ์ เช่น เซนเซอร์ CO2, หลอดแก้ว...',
+                hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 12.5),
+                filled: true,
+                fillColor: AppTheme.surface2,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppTheme.borderStroke)),
+              ),
             ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: costController,
+              keyboardType: TextInputType.number,
+              style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5),
+              decoration: InputDecoration(
+                hintText: 'ราคาโดยประมาณ (บาท เช่น 150)',
+                hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 12.5),
+                filled: true,
+                fillColor: AppTheme.surface2,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppTheme.borderStroke)),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text('สถานะการจัดหา:', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              children: statuses.map((st) {
+                final isSel = st == selectedStatus;
+                return ChoiceChip(
+                  label: Text(st, style: TextStyle(fontSize: 11, color: isSel ? Colors.white : AppTheme.textPrimary)),
+                  selected: isSel,
+                  selectedColor: AppTheme.secondaryViolet,
+                  backgroundColor: AppTheme.surface2,
+                  onSelected: (val) {
+                    if (val) setDialogState(() => selectedStatus = st);
+                  },
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('ยกเลิก', style: TextStyle(color: AppTheme.textMuted)),
           ),
-          const SizedBox(height: 14),
-          _BomTile(title: 'เซนเซอร์วัดฝุ่น PMS7003 Optical Scattering', cost: '420 ฿', status: 'จัดซื้อแล้ว', statusColor: AppTheme.accentGreen),
-          _BomTile(title: 'บอร์ดไมโครคอนโทรลเลอร์ ESP32 NodeMCU', cost: '160 ฿', status: 'ยืมแล็บโรงเรียน', statusColor: AppTheme.primaryCyan),
-          _BomTile(title: 'เซนเซอร์อุณหภูมิและความชื้น BME280', cost: '110 ฿', status: 'จัดซื้อแล้ว', statusColor: AppTheme.accentGreen),
-          _BomTile(title: 'แบตเตอรี่ลิเธียม 18650 พร้อมโมดูลชาร์จ TP4056', cost: '120 ฿', status: 'มีแล้วในสต็อก', statusColor: AppTheme.textMuted),
+          ElevatedButton(
+            onPressed: () {
+              final title = titleController.text.trim();
+              final cost = int.tryParse(costController.text.trim()) ?? 0;
+              if (title.isNotEmpty) {
+                learner.addBomItem(title: title, costBaht: cost, status: selectedStatus);
+              }
+              Navigator.pop(ctx);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryCyan),
+            child: Text('บันทึก', style: TextStyle(color: AppTheme.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold)),
+          ),
         ],
       ),
     ),
@@ -463,8 +614,15 @@ class _BomTile extends StatelessWidget {
   final String cost;
   final String status;
   final Color statusColor;
+  final VoidCallback? onDelete;
 
-  const _BomTile({required this.title, required this.cost, required this.status, required this.statusColor});
+  const _BomTile({
+    required this.title,
+    required this.cost,
+    required this.status,
+    required this.statusColor,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -490,6 +648,13 @@ class _BomTile extends StatelessWidget {
             decoration: BoxDecoration(color: statusColor.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
             child: Text(status, style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold)),
           ),
+          if (onDelete != null) ...[
+            const SizedBox(width: 6),
+            InkWell(
+              onTap: onDelete,
+              child: Icon(Icons.close_rounded, size: 14, color: AppTheme.textMuted),
+            ),
+          ],
         ],
       ),
     );
@@ -562,6 +727,7 @@ class _DrawerCalendarRow extends StatelessWidget {
 }
 
 void _showExportDialog(BuildContext context) {
+  final learner = context.read<LearnerState>();
   showModalBottomSheet(
     context: context,
     backgroundColor: AppTheme.surface1,
@@ -583,14 +749,18 @@ void _showExportDialog(BuildContext context) {
           ListTile(
             leading: const Icon(Icons.description, color: Colors.blue),
             title: Text('เค้าโครงงานวิจัย (Research Proposal .docx)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5)),
+            subtitle: Text('พรีวิวและคัดลอกเค้าโครงฉบับสมบูรณ์', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('สร้างไฟล์ Word (.docx) สำเร็จ')));
+              showProposalPreviewDialog(context, learner);
             },
           ),
           ListTile(
             leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
             title: Text('แบบฟอร์มความปลอดภัย SRC Form 1A/1B (.pdf)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5)),
+            subtitle: Text('เอกสารประเมินความเสี่ยงและหนังสือยินยอม', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.pop(ctx);
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('สร้างไฟล์ PDF SRC Form สำเร็จ')));

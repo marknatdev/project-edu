@@ -467,7 +467,7 @@ void _showExportDialog(BuildContext context) {
               onTap: () {
                 Navigator.pop(ctx);
                 final learner = context.read<LearnerState>();
-                _showProposalPreviewDialog(context, learner);
+                showProposalPreviewDialog(context, learner);
               },
             ),
             ListTile(
@@ -593,7 +593,7 @@ void _showEvaluationDialog(BuildContext context) {
   );
 }
 
-void _showProposalPreviewDialog(BuildContext context, LearnerState learner) {
+void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
   final buffer = StringBuffer();
   buffer.writeln('# ข้อเสนอโครงงานวิจัยทางวิทยาศาสตร์ (Research Proposal)');
   buffer.writeln('เป้าหมายโครงงาน: ${learner.projectGoal}');

@@ -55,6 +55,34 @@ class LabObservation {
   );
 }
 
+class BomItem {
+  final String id;
+  final String title;
+  final int costBaht;
+  final String status;
+
+  BomItem({
+    required this.id,
+    required this.title,
+    required this.costBaht,
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'costBaht': costBaht,
+    'status': status,
+  };
+
+  factory BomItem.fromJson(Map<String, dynamic> json) => BomItem(
+    id: json['id'] as String? ?? 'bom_${DateTime.now().millisecondsSinceEpoch}',
+    title: json['title'] as String? ?? '',
+    costBaht: json['costBaht'] as int? ?? 0,
+    status: json['status'] as String? ?? 'จัดซื้อแล้ว',
+  );
+}
+
 class ChatSession {
   final String id;
   String title;
@@ -341,6 +369,33 @@ class LearnerState extends ChangeNotifier {
     _savePersistedState();
   }
 
+  // BOM Management
+  final List<BomItem> bomItems = [
+    BomItem(id: 'bom_1', title: 'เซนเซอร์วัดฝุ่น PMS7003 Optical Scattering', costBaht: 420, status: 'จัดซื้อแล้ว'),
+    BomItem(id: 'bom_2', title: 'บอร์ดไมโครคอนโทรลเลอร์ ESP32 NodeMCU', costBaht: 160, status: 'ยืมแล็บโรงเรียน'),
+    BomItem(id: 'bom_3', title: 'เซนเซอร์อุณหภูมิและความชื้น BME280', costBaht: 110, status: 'จัดซื้อแล้ว'),
+    BomItem(id: 'bom_4', title: 'แบตเตอรี่ลิเธียม 18650 พร้อมโมดูลชาร์จ TP4056', costBaht: 120, status: 'มีแล้วในสต็อก'),
+  ];
+
+  int get totalBomCost => bomItems.fold(0, (sum, item) => sum + item.costBaht);
+
+  void addBomItem({required String title, required int costBaht, required String status}) {
+    bomItems.add(BomItem(
+      id: 'bom_${DateTime.now().millisecondsSinceEpoch}',
+      title: title,
+      costBaht: costBaht,
+      status: status,
+    ));
+    notifyListeners();
+    _savePersistedState();
+  }
+
+  void deleteBomItem(String id) {
+    bomItems.removeWhere((item) => item.id == id);
+    notifyListeners();
+    _savePersistedState();
+  }
+
   // Discovery Project Settings Methods
   void selectField(String field) {
     selectedField = field;
@@ -473,6 +528,18 @@ class LearnerState extends ChangeNotifier {
       citePriorWorkOnly = prefs.getBool('cite_prior_work_only') ?? citePriorWorkOnly;
       currentLabSessionTitle = prefs.getString('lab_session_title') ?? currentLabSessionTitle;
 
+      // 5. BOM Items
+      final bomJson = prefs.getStringList('bom_items');
+      if (bomJson != null && bomJson.isNotEmpty) {
+        bomItems.clear();
+        for (final s in bomJson) {
+          try {
+            final map = jsonDecode(s) as Map<String, dynamic>;
+            bomItems.add(BomItem.fromJson(map));
+          } catch (_) {}
+        }
+      }
+
       notifyListeners();
     } catch (e) {
       debugPrint('Error loading persisted learner state: $e');
@@ -495,6 +562,7 @@ class LearnerState extends ChangeNotifier {
       await prefs.setBool('strict_safety_only', strictSafetyOnly);
       await prefs.setBool('cite_prior_work_only', citePriorWorkOnly);
       await prefs.setString('lab_session_title', currentLabSessionTitle);
+      await prefs.setStringList('bom_items', bomItems.map((b) => jsonEncode(b.toJson())).toList());
     } catch (e) {
       debugPrint('Error saving learner state: $e');
     }
