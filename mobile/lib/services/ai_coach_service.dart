@@ -4,7 +4,9 @@ import 'package:http/http.dart' as http;
 
 /// AI Coach Service powered by Antigravity Gemini 3.8 Flash High via local OmniRoute.
 class AiCoachService {
-  // Endpoints: LAN IP for physical mobile devices on same Wi-Fi, 127.0.0.1 for local/desktop
+  // Endpoints: Public HTTPS Tunnel (accessible anywhere outside LAN), LAN IP for Wi-Fi, 127.0.0.1 for local
+  static const String omniroutePublicUrl =
+      'https://prot-diesel-travel-giving.trycloudflare.com/v1/chat/completions';
   static const String omnirouteLanUrl = 'http://192.168.1.59:20128/v1/chat/completions';
   static const String omnirouteLocalUrl = 'http://127.0.0.1:20128/v1/chat/completions';
   static const String omnirouteApiKey = 'sk-c89b2ce748984920b72a6b0c2a278982';
@@ -83,9 +85,9 @@ class AiCoachService {
     }
   }
 
-  /// Internal caller trying LAN IP first, falling back to localhost
+  /// Internal caller trying Public URL first, then LAN IP, falling back to localhost
   static Future<String> _callOmniRoute(List<Map<String, String>> messages, {int maxTokens = 800}) async {
-    final endpoints = [omnirouteLanUrl, omnirouteLocalUrl];
+    final endpoints = [omniroutePublicUrl, omnirouteLanUrl, omnirouteLocalUrl];
     Exception? lastError;
 
     for (final url in endpoints) {

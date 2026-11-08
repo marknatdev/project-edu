@@ -153,7 +153,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
                         ),
                       ),
                       Text(
-                        'Antigravity Gemini 3.8 Flash High (OmniRoute)',
+                        'Gemini 3.8 Flash High • OmniRoute Cloud',
                         style: TextStyle(color: AppTheme.primaryCyan, fontSize: 11),
                       ),
                     ],
