@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
@@ -198,26 +199,72 @@ class StudyTimerView extends StatelessWidget {
                       fontSize: 15,
                     ),
                   ),
-                  InkWell(
-                    onTap: () => _showAddObservationSheet(context, learner),
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryCyan.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.add_rounded, size: 14, color: AppTheme.primaryCyan),
-                          const SizedBox(width: 4),
-                          Text(
-                            'เพิ่มบันทึก',
-                            style: TextStyle(color: AppTheme.primaryCyan, fontSize: 11.5, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      if (learner.labObservations.isNotEmpty) ...[
+                        InkWell(
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            final buffer = StringBuffer();
+                            buffer.writeln('# ผลการสังเกตการณ์แล็บ: ${learner.currentLabSessionTitle}');
+                            buffer.writeln('วันที่บันทึก: ${DateTime.now().toLocal().toString().split('.')[0]}');
+                            buffer.writeln('----------------------------------------');
+                            buffer.writeln('เวลาแล็บ\t|\tแท็ก\t|\tบันทึกผลการทดลอง');
+                            for (final o in learner.labObservations) {
+                              buffer.writeln('${o.time}\t|\t${o.tag}\t|\t${o.note}');
+                            }
+                            Clipboard.setData(ClipboardData(text: buffer.toString()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('คัดลอกตารางบันทึกผลแล็บลงคลิปบอร์ดแล้ว พร้อมนำไปใส่ในเล่มโครงงาน 📋'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            margin: const EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                              color: AppTheme.surface2,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: AppTheme.borderStroke),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.copy_rounded, size: 13, color: AppTheme.textSecondary),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'คัดลอกตาราง',
+                                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
+                      ],
+                      InkWell(
+                        onTap: () => _showAddObservationSheet(context, learner),
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryCyan.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.add_rounded, size: 14, color: AppTheme.primaryCyan),
+                              const SizedBox(width: 4),
+                              Text(
+                                'เพิ่มบันทึก',
+                                style: TextStyle(color: AppTheme.primaryCyan, fontSize: 11.5, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -358,6 +405,27 @@ void _showAddObservationSheet(BuildContext context, LearnerState learner) {
                 ),
               ],
             ),
+            if (learner.labTimerSeconds > 0) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.secondaryViolet.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.timer_outlined, size: 14, color: AppTheme.secondaryViolet),
+                    const SizedBox(width: 6),
+                    Text(
+                      'บันทึก ณ เวลาแล็บ: ${learner.formattedStudyTime}',
+                      style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 11.5, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
             Text('แท็กประเภทการทดลอง:', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
             const SizedBox(height: 6),
@@ -375,6 +443,43 @@ void _showAddObservationSheet(BuildContext context, LearnerState learner) {
                   },
                 );
               }).toList(),
+            ),
+            const SizedBox(height: 10),
+            Text('ข้อความช่วยพิมพ์ด่วน (Presets):', style: TextStyle(color: AppTheme.textSecondary, fontSize: 11.5)),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: [
+                'อุณหภูมิคงที่',
+                'เกิดฟองก๊าซ/ปฏิกิริยา',
+                'เซนเซอร์แตะค่าสูงสุด',
+                'เริ่มทดสอบรอบถัดไป',
+                'สังเกตเห็นการเปลี่ยนสี',
+              ].map((preset) => InkWell(
+                onTap: () {
+                  setModalState(() {
+                    if (controller.text.isEmpty) {
+                      controller.text = preset;
+                    } else {
+                      controller.text = '${controller.text} • $preset';
+                    }
+                  });
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface2,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: AppTheme.borderStroke),
+                  ),
+                  child: Text(
+                    '+ $preset',
+                    style: TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                  ),
+                ),
+              )).toList(),
             ),
             const SizedBox(height: 12),
             TextField(

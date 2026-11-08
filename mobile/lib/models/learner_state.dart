@@ -318,9 +318,12 @@ class LearnerState extends ChangeNotifier {
     ),
   ];
 
-  void addObservation({required String note, required String tag}) {
+  void addObservation({required String note, required String tag, String? customTime}) {
     final now = DateTime.now();
-    final timeStr = '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+    final timeStr = customTime ??
+        (labTimerSeconds > 0
+            ? '$formattedStudyTime (${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')})'
+            : '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}');
     labObservations.insert(0, LabObservation(
       id: 'obs_${now.millisecondsSinceEpoch}',
       time: timeStr,
