@@ -5,6 +5,7 @@ import 'services/code_push_service.dart';
 import 'services/supabase_service.dart';
 import 'theme/app_theme.dart';
 import 'views/dashboard_view.dart';
+import 'views/judge_defense_view.dart';
 import 'views/practice_stepper_view.dart';
 import 'views/pre_login_view.dart';
 import 'views/profile_view.dart';
@@ -98,7 +99,7 @@ class _MainShellState extends State<MainShell> {
         currentBody = const StudyTimerView();
         break;
       case 3:
-        currentBody = _buildPlaceholderTab('การอภิปรายและคำถามกรรมการ (Mock Judge Defense)');
+        currentBody = const JudgeDefenseView();
         break;
       case 4:
         currentBody = ProfileView(
@@ -129,44 +130,6 @@ class _MainShellState extends State<MainShell> {
           currentBody,
           const FloatingDock(),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPlaceholderTab(String title) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: AppTheme.surface2,
-                shape: BoxShape.circle,
-                border: Border.all(color: AppTheme.borderStroke),
-              ),
-              child: Icon(Icons.hub_outlined, color: AppTheme.primaryCyan, size: 36),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppTheme.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'กำลังเชื่อมต่อข้อมูลกับเซิร์ฟเวอร์ Project Edu Cloud...',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -152,19 +152,8 @@ class AppDrawer extends StatelessWidget {
                     icon: Icons.record_voice_over_outlined,
                     title: 'ซ้อมตอบคำถามกรรมการ (Mock Judge)',
                     onTap: () {
+                      learner.setTab(3);
                       Navigator.pop(context);
-                      final sess = learner.createNewSession(
-                        title: '🧑‍⚖️ ซ้อมตอบคำถามกรรมการ (Mock Judge)',
-                        category: 'Socratic Research',
-                        initialMessages: [
-                          ChatMessage(
-                            text: 'ขอเชิญท่านกรรมการเริ่มตั้งคำถามท้าทายเกี่ยวกับระเบียบวิธีวิจัย การควบคุมตัวแปร และผลกระทบของโครงงานได้เลยครับ',
-                            isUser: true,
-                            timestamp: DateTime.now(),
-                          ),
-                        ],
-                      );
-                      AiCoachModal.show(context, initialSession: sess);
                     },
                   ),
                   _DrawerItem(

@@ -92,6 +92,14 @@ class FloatingDock extends StatelessWidget {
               onTap: () => learner.setTab(2),
             ),
 
+            // Tab 3: Mock Judge Defense
+            _DockTab(
+              icon: Icons.record_voice_over_outlined,
+              activeIcon: Icons.record_voice_over_rounded,
+              isActive: learner.activeTab == 3,
+              onTap: () => learner.setTab(3),
+            ),
+
             // Tab 4: Researcher Profile
             _DockTab(
               icon: Icons.account_circle_outlined,

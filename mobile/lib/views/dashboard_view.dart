@@ -75,20 +75,7 @@ class DashboardView extends StatelessWidget {
           ),
           onVocabTap: () => _showEvaluationDialog(context),
           onExamTap: () => _showExportDialog(context),
-          onNotesTap: () {
-            final sess = context.read<LearnerState>().createNewSession(
-              title: '🧑‍⚖️ ซ้อมตอบคำถามกรรมการ (Mock Judge)',
-              category: 'Socratic Research',
-              initialMessages: [
-                ChatMessage(
-                  text: 'ขอเชิญท่านกรรมการเริ่มตั้งคำถามท้าทายเกี่ยวกับระเบียบวิธีวิจัย การควบคุมตัวแปร และผลกระทบของโครงงานได้เลยครับ',
-                  isUser: true,
-                  timestamp: DateTime.now(),
-                ),
-              ],
-            );
-            AiCoachModal.show(context, initialSession: sess);
-          },
+          onNotesTap: () => context.read<LearnerState>().setTab(3),
         ),
         const SizedBox(height: 16),
 
