@@ -56,7 +56,7 @@ jobs:
           ACTION="${{ inputs.action || 'release' }}"
           if [ "$ACTION" = "patch" ]; then
             echo "🚀 Publishing Shorebird OTA Patch for Android..."
-            shorebird patch android --allow-native-diffs
+            shorebird patch android --allow-native-diffs --allow-asset-diffs
           else
             echo "📦 Creating Shorebird Base Release for Android..."
             shorebird release android
@@ -101,7 +101,7 @@ jobs:
           ACTION="${{ inputs.action || 'release' }}"
           if [ "$ACTION" = "patch" ]; then
             echo "🚀 Publishing Shorebird OTA Patch for iOS..."
-            shorebird patch ios --no-codesign --allow-native-diffs
+            shorebird patch ios --no-codesign --allow-native-diffs --allow-asset-diffs
           else
             echo "📦 Creating Shorebird Base Release for iOS..."
             shorebird release ios --no-codesign
