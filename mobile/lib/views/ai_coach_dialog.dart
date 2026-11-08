@@ -112,12 +112,36 @@ class _AiCoachModalState extends State<AiCoachModal> {
       }
     } catch (e) {
       if (mounted) {
+        final String fallbackText;
+        final String fallbackQuestion;
+        final List<String> fallbackChoices;
+
+        if (isSrc) {
+          fallbackText = '⚠️ (โหมดสำรองออฟไลน์) การตรวจสอบความปลอดภัย SRC ต้องยืนยันว่าไม่มีสารพิษอันตราย สัตว์มีกระดูกสันหลัง หรือแรงดันไฟฟ้าสูง';
+          fallbackQuestion = 'การทดลองของคุณเกี่ยวข้องกับเงื่อนไขความปลอดภัยใดต่อไปนี้?';
+          fallbackChoices = [
+            'ไม่มีสารเคมีอันตรายหรือสิ่งมีชีวิต (Non-hazardous Pass)',
+            'มีการใช้สารเคมีหรือตัวอย่างจุลินทรีย์ (ต้องขอฟอร์ม 2/3)',
+            'ใช้วงจรไฟฟ้าแรงดันต่ำปลอดภัย (< 12V DC)',
+          ];
+        } else {
+          fallbackText = '⚠️ (โหมดสำรองออฟไลน์) หัวใจสำคัญของโครงงาน YSC/ISEF คือการตั้งสมมติฐานที่ทดสอบได้และมีตัวแปรวัดค่าได้เชิงตัวเลข';
+          fallbackQuestion = 'คุณต้องการให้โค้ชช่วยแนะนำในส่วนใดต่อไปนี้?';
+          fallbackChoices = [
+            'นิยามตัวแปรต้น-ตัวแปรตามเชิงปริมาณ',
+            'ออกแบบชุดการทดลองและกลุ่มควบคุม (Control Group)',
+            'ค้นหางานวิจัยอ้างอิงเดิม (Prior Work)',
+          ];
+        }
+
         setState(() {
           _session.messages.add(
             ChatMessage(
-              text: '⚠️ ไม่สามารถติดต่อ OmniRoute ได้ กรุณาตรวจสอบการเชื่อมต่อ: $e',
+              text: fallbackText,
               isUser: false,
               timestamp: DateTime.now(),
+              userAskQuestion: fallbackQuestion,
+              userAskChoices: fallbackChoices,
             ),
           );
           _isLoading = false;

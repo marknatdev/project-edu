@@ -32,20 +32,59 @@ class DashboardView extends StatelessWidget {
 
         // 2. Quick Action Bar
         QuickActionBar(
-          onAiTutor: () {},
-          onReview: () {},
+          onAiTutor: () {
+            final sess = context.read<LearnerState>().createNewSession(
+              title: '🎤 สัมภาษณ์ขุดไอเดียวิจัย (Interview)',
+              category: 'Socratic Research',
+              initialMessages: [
+                ChatMessage(
+                  text: 'สวัสดีครับโค้ช ผมอยากเริ่มทำโครงงานวิทย์แต่ยังไม่มีไอเดีย ช่วยสัมภาษณ์เจาะลึกความสนใจและปัญหาที่ผมอยากแก้หน่อยครับ',
+                  isUser: true,
+                  timestamp: DateTime.now(),
+                ),
+              ],
+            );
+            AiCoachModal.show(context, initialSession: sess);
+          },
+          onReview: () {
+            final sess = context.read<LearnerState>().createNewSession(
+              title: '🔄 เวิร์กช็อป Pivot ปรับมุมมองวิจัย',
+              category: 'Pivot Workshop',
+              initialMessages: [
+                ChatMessage(
+                  text: 'สวัสดีครับโค้ช ไอเดียโครงงานของผมต้องการปรับมุมมอง (Pivot) ให้มี Novelty และความเป็นไปได้สูงขึ้นตามเกณฑ์ YSC/ISEF ครับ',
+                  isUser: true,
+                  timestamp: DateTime.now(),
+                ),
+              ],
+            );
+            AiCoachModal.show(context, initialSession: sess);
+          },
           onAllExam: onOpenPractice,
-          onSaved: () {},
-          onAddEdit: () {},
+          onSaved: () => _showCalendarDialog(context),
+          onAddEdit: () => _showExportDialog(context),
         ),
         const SizedBox(height: 14),
 
         // 3. Feature Grid 2x2 (Research Modules)
         FeatureGrid(
           onPracticeTap: onOpenPractice,
-          onVocabTap: onOpenPractice,
-          onExamTap: onOpenPractice,
-          onNotesTap: () {},
+          onVocabTap: () => _showEvaluationDialog(context),
+          onExamTap: () => _showExportDialog(context),
+          onNotesTap: () {
+            final sess = context.read<LearnerState>().createNewSession(
+              title: '🧑‍⚖️ ซ้อมตอบคำถามกรรมการ (Mock Judge)',
+              category: 'Socratic Research',
+              initialMessages: [
+                ChatMessage(
+                  text: 'ขอเชิญท่านกรรมการเริ่มตั้งคำถามท้าทายเกี่ยวกับระเบียบวิธีวิจัย การควบคุมตัวแปร และผลกระทบของโครงงานได้เลยครับ',
+                  isUser: true,
+                  timestamp: DateTime.now(),
+                ),
+              ],
+            );
+            AiCoachModal.show(context, initialSession: sess);
+          },
         ),
         const SizedBox(height: 16),
 
@@ -240,4 +279,324 @@ class _EvalBar extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showCalendarDialog(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: AppTheme.surface1,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.calendar_month_rounded, color: AppTheme.primaryCyan, size: 24),
+                const SizedBox(width: 8),
+                Text(
+                  'ปฏิทินการแข่งขันวิจัย YSC & ISEF',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _TimelineItem(
+              title: 'ส่งข้อเสนอโครงงาน (Proposal Submission)',
+              date: '1 ก.ค. - 31 ส.ค. 2026',
+              status: 'กำลังเปิดรับสมัคร',
+              statusColor: AppTheme.accentGreen,
+              isCurrent: true,
+            ),
+            _TimelineItem(
+              title: 'ประกาศผลรอบคัดเลือก & อนุมัติทุนวิจัย 3,000 บ.',
+              date: '15 ก.ย. 2026',
+              status: 'รอดำเนินการ',
+              statusColor: AppTheme.textMuted,
+            ),
+            _TimelineItem(
+              title: 'ส่งรายงานฉบับสมบูรณ์ (Full Paper)',
+              date: '15 ธ.ค. 2026',
+              status: 'รอดำเนินการ',
+              statusColor: AppTheme.textMuted,
+            ),
+            _TimelineItem(
+              title: 'นำเสนอผลงานรอบชิงชนะเลิศ (National Finals)',
+              date: 'มกราคม 2027',
+              status: 'รอดำเนินการ',
+              statusColor: AppTheme.textMuted,
+            ),
+            _TimelineItem(
+              title: 'ผู้แทนประเทศไทยสู่ Regeneron ISEF (สหรัฐอเมริกา)',
+              date: 'พฤษภาคม 2027',
+              status: 'เป้าหมายสูงสุด',
+              statusColor: AppTheme.secondaryViolet,
+              isLast: true,
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+class _TimelineItem extends StatelessWidget {
+  final String title;
+  final String date;
+  final String status;
+  final Color statusColor;
+  final bool isCurrent;
+  final bool isLast;
+
+  const _TimelineItem({
+    required this.title,
+    required this.date,
+    required this.status,
+    required this.statusColor,
+    this.isCurrent = false,
+    this.isLast = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          children: [
+            Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isCurrent ? AppTheme.primaryCyan : AppTheme.surface3,
+                border: Border.all(
+                  color: isCurrent ? AppTheme.primaryCyan : AppTheme.borderStroke,
+                  width: 2,
+                ),
+              ),
+            ),
+            if (!isLast)
+              Container(
+                width: 2,
+                height: 38,
+                color: AppTheme.borderStroke,
+              ),
+          ],
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: isCurrent ? AppTheme.primaryCyan : AppTheme.textPrimary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: statusColor.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+              Text(date, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+void _showExportDialog(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: AppTheme.surface1,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.file_download_outlined, color: AppTheme.accentGreen, size: 24),
+                const SizedBox(width: 8),
+                Text(
+                  'ส่งออกเอกสารวิจัย (Research Export)',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: Colors.blue.withValues(alpha: 0.15), shape: BoxShape.circle),
+                child: const Icon(Icons.description, color: Colors.blue),
+              ),
+              title: Text('โครงร่างวิจัย (Research Proposal .docx)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+              subtitle: Text('ฟอร์แมตมาตรฐานพร้อมบทนำ สมมติฐาน และวิธีทดลอง', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('สร้างไฟล์ Word (.docx) สำเร็จ กำลังเปิดดาวน์โหลด...')),
+                );
+              },
+            ),
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: Colors.red.withValues(alpha: 0.15), shape: BoxShape.circle),
+                child: const Icon(Icons.picture_as_pdf, color: Colors.red),
+              ),
+              title: Text('เอกสารรับรองความปลอดภัย SRC Form 1A/1B (.pdf)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+              subtitle: Text('แบบฟอร์มตรวจสอบความเสี่ยงสำหรับอาจารย์ที่ปรึกษาลงนาม', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('สร้างไฟล์ PDF SRC Form สำเร็จ')),
+                );
+              },
+            ),
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: Colors.green.withValues(alpha: 0.15), shape: BoxShape.circle),
+                child: const Icon(Icons.table_chart, color: Colors.green),
+              ),
+              title: Text('รายการวัสดุและอุปกรณ์ BOM (.xlsx)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+              subtitle: Text('แจกแจงงบประมาณและแหล่งจัดซื้ออุปกรณ์', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('สร้างไฟล์ Excel BOM สำเร็จ')),
+                );
+              },
+            ),
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: AppTheme.primaryCyan.withValues(alpha: 0.15), shape: BoxShape.circle),
+                child: Icon(Icons.share, color: AppTheme.primaryCyan),
+              ),
+              title: Text('คัดลอกลิงก์ให้อาจารย์ที่ปรึกษาตรวจ (Share Link)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+              subtitle: Text('อาจารย์สามารถเปิดดูความคืบหน้าและประเมินผ่านเว็บได้', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+              trailing: const Icon(Icons.copy),
+              onTap: () {
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('คัดลอกลิงก์สำหรับอาจารย์ที่ปรึกษาลงคลิปบอร์ดแล้ว!')),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void _showEvaluationDialog(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: AppTheme.surface1,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.analytics_rounded, color: AppTheme.secondaryViolet, size: 24),
+                const SizedBox(width: 8),
+                Text(
+                  'เกณฑ์ประเมินโครงงาน 5 ด้าน (Rubric)',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'เกรดรวมปัจจุบัน: B+ (78/100) • ตามเกณฑ์มาตรฐาน YSC/ISEF',
+              style: TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
+            ),
+            const SizedBox(height: 16),
+            const _EvalBar(label: '1. ความใหม่ (Novelty) - 85%', score: 0.85, color: AppTheme.accentGreen),
+            const _EvalBar(label: '2. ความเป็นไปได้ (Feasibility) - 90%', score: 0.90, color: AppTheme.accentGreen),
+            const _EvalBar(label: '3. ผลกระทบเชิงสังคม (Impact) - 75%', score: 0.75, color: AppTheme.accentGreen),
+            const _EvalBar(label: '4. สมมติฐานและการวัดผล (Testability) - 60%', score: 0.60, color: AppTheme.accentAmber),
+            const _EvalBar(label: '5. ความเหมาะสมตามระดับชั้น (Fit) - 80%', score: 0.80, color: AppTheme.accentGreen),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.surface2,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppTheme.borderStroke),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.lightbulb_outline_rounded, color: AppTheme.accentAmber, size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'คำแนะนำจาก AI Coach: ควรเพิ่มความแม่นยำในการวัดผลตัวแปรตาม โดยระบุหน่วยวัดเชิงตัวเลขและเครื่องมือสอบเทียบให้ชัดเจน',
+                      style: TextStyle(color: AppTheme.textPrimary, fontSize: 11.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

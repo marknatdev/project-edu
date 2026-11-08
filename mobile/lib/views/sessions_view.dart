@@ -57,10 +57,18 @@ class _SessionsViewState extends State<SessionsView> {
                     );
                     AiCoachModal.show(context, initialSession: newSess);
                   },
-                  icon: const Icon(Icons.add_rounded, size: 18, color: Colors.black),
-                  label: const Text(
+                  icon: Icon(
+                    Icons.add_rounded,
+                    size: 18,
+                    color: AppTheme.isDark ? Colors.black : Colors.white,
+                  ),
+                  label: Text(
                     'เริ่มคุยใหม่',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12.5),
+                    style: TextStyle(
+                      color: AppTheme.isDark ? Colors.black : Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.5,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryCyan,
@@ -168,9 +176,52 @@ class _SessionsViewState extends State<SessionsView> {
                                   ],
                                 ),
                               ),
-                              Text(
-                                _formatTimestamp(session.updatedAt),
-                                style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                              Row(
+                                children: [
+                                  Text(
+                                    _formatTimestamp(session.updatedAt),
+                                    style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  PopupMenuButton<String>(
+                                    icon: Icon(Icons.more_horiz_rounded, size: 18, color: AppTheme.textMuted),
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(),
+                                    color: AppTheme.surface1,
+                                    onSelected: (val) {
+                                      if (val == 'delete') {
+                                        learner.deleteSession(session.id);
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text('ลบห้องสนทนาเรียบร้อย')),
+                                        );
+                                      } else if (val == 'rename') {
+                                        _showRenameDialog(context, learner, session);
+                                      }
+                                    },
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        value: 'rename',
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.edit_outlined, size: 16, color: AppTheme.textPrimary),
+                                            const SizedBox(width: 8),
+                                            Text('เปลี่ยนชื่อ', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                                          ],
+                                        ),
+                                      ),
+                                      PopupMenuItem(
+                                        value: 'delete',
+                                        child: Row(
+                                          children: const [
+                                            Icon(Icons.delete_outline_rounded, size: 16, color: AppTheme.accentRed),
+                                            SizedBox(width: 8),
+                                            Text('ลบห้องสนทนา', style: TextStyle(color: AppTheme.accentRed, fontSize: 13)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -217,5 +268,44 @@ class _SessionsViewState extends State<SessionsView> {
     } else {
       return '${dt.day}/${dt.month}/${dt.year}';
     }
+  }
+
+  void _showRenameDialog(BuildContext context, LearnerState learner, ChatSession session) {
+    final controller = TextEditingController(text: session.title);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppTheme.surface1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('เปลี่ยนชื่อห้องสนทนา', style: TextStyle(color: AppTheme.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+        content: TextField(
+          controller: controller,
+          style: TextStyle(color: AppTheme.textPrimary, fontSize: 14),
+          decoration: InputDecoration(
+            hintText: 'ใส่ชื่อห้องสนทนาใหม่...',
+            hintStyle: TextStyle(color: AppTheme.textMuted),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppTheme.borderStroke)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppTheme.primaryCyan)),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('ยกเลิก', style: TextStyle(color: AppTheme.textSecondary)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final newName = controller.text.trim();
+              if (newName.isNotEmpty) {
+                learner.renameSession(session.id, newName);
+              }
+              Navigator.pop(ctx);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryCyan),
+            child: Text('บันทึก', style: TextStyle(color: AppTheme.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -20,6 +20,22 @@ class ChatMessage {
   });
 }
 
+class LabObservation {
+  final String id;
+  final String time;
+  final String note;
+  final String tag;
+  final DateTime createdAt;
+
+  LabObservation({
+    required this.id,
+    required this.time,
+    required this.note,
+    required this.tag,
+    required this.createdAt,
+  });
+}
+
 class ChatSession {
   final String id;
   String title;
@@ -177,6 +193,23 @@ class LearnerState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteSession(String id) {
+    sessions.removeWhere((s) => s.id == id);
+    if (activeSession?.id == id) {
+      activeSession = sessions.isNotEmpty ? sessions.first : null;
+    }
+    notifyListeners();
+  }
+
+  void renameSession(String id, String newTitle) {
+    final idx = sessions.indexWhere((s) => s.id == id);
+    if (idx != -1) {
+      sessions[idx].title = newTitle;
+      sessions[idx].updatedAt = DateTime.now();
+      notifyListeners();
+    }
+  }
+
   // Lab Experiment Timer
   int labTimerSeconds = 0;
   bool isTimerRunning = false;
@@ -239,6 +272,42 @@ class LearnerState extends ChangeNotifier {
     final minutes = ((labTimerSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
     final seconds = (labTimerSeconds % 60).toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
+  }
+
+  // Lab Observations Log
+  final List<LabObservation> labObservations = [
+    LabObservation(
+      id: 'obs_1',
+      time: '14:30',
+      note: 'เริ่มรอบการวัดครั้งที่ 1: อุณหภูมิควบคุม 25.4°C ค่าความต่างศักย์เซนเซอร์คงที่ 3.28V',
+      tag: 'Trial 1',
+      createdAt: DateTime.now().subtract(const Duration(minutes: 30)),
+    ),
+    LabObservation(
+      id: 'obs_2',
+      time: '14:45',
+      note: 'พ่นละอองควันทดสอบ: กราฟ PM2.5 ตอบสนองเพิ่มขึ้น 142 ug/m3 ในเวลา 3.2 วินาที',
+      tag: 'Peak Event',
+      createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+    ),
+  ];
+
+  void addObservation({required String note, required String tag}) {
+    final now = DateTime.now();
+    final timeStr = '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+    labObservations.insert(0, LabObservation(
+      id: 'obs_${now.millisecondsSinceEpoch}',
+      time: timeStr,
+      note: note,
+      tag: tag,
+      createdAt: now,
+    ));
+    notifyListeners();
+  }
+
+  void deleteObservation(String id) {
+    labObservations.removeWhere((o) => o.id == id);
+    notifyListeners();
   }
 
   // Discovery Project Settings Methods

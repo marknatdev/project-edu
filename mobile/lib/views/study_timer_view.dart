@@ -169,26 +169,58 @@ class StudyTimerView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'บันทึกผลสังเกตการณ์ล่าสุด (Lab Observation)',
-                style: TextStyle(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'บันทึกผลสังเกตการณ์แล็บ (${learner.labObservations.length})',
+                    style: TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => _showAddObservationSheet(context, learner),
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryCyan.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.add_rounded, size: 14, color: AppTheme.primaryCyan),
+                          const SizedBox(width: 4),
+                          Text(
+                            'เพิ่มบันทึก',
+                            style: TextStyle(color: AppTheme.primaryCyan, fontSize: 11.5, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 12),
-              _ObservationRow(
-                time: '14:30',
-                note: 'เริ่มรอบการวัดครั้งที่ 1: อุณหภูมิควบคุม 25.4°C ค่าความต่างศักย์เซนเซอร์คงที่ 3.28V',
-                tag: 'Trial 1',
-              ),
-              SizedBox(height: 8),
-              _ObservationRow(
-                time: '14:45',
-                note: 'พ่นละอองควันทดสอบ: กราฟ PM2.5 ตอบสนองเพิ่มขึ้น 142 ug/m3 ในเวลา 3.2 วินาที',
-                tag: 'Peak Event',
-              ),
+              const SizedBox(height: 12),
+              if (learner.labObservations.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Center(
+                    child: Text('ยังไม่มีบันทึกผลการทดลอง แตะ + เพิ่มบันทึก เพื่อเริ่มจดบันทึก', style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
+                  ),
+                )
+              else
+                ...learner.labObservations.map((obs) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: _ObservationRow(
+                    time: obs.time,
+                    note: obs.note,
+                    tag: obs.tag,
+                    onDelete: () => learner.deleteObservation(obs.id),
+                  ),
+                )),
             ],
           ),
         ),
@@ -201,11 +233,13 @@ class _ObservationRow extends StatelessWidget {
   final String time;
   final String note;
   final String tag;
+  final VoidCallback? onDelete;
 
   const _ObservationRow({
     required this.time,
     required this.note,
     required this.tag,
+    this.onDelete,
   });
 
   @override
@@ -230,13 +264,142 @@ class _ObservationRow extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
-              note,
-              style: TextStyle(color: AppTheme.textPrimary, fontSize: 12.5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: AppTheme.surface3,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      child: Text(tag, style: TextStyle(color: AppTheme.textMuted, fontSize: 10, fontWeight: FontWeight.bold)),
+                    ),
+                    if (onDelete != null)
+                      InkWell(
+                        onTap: onDelete,
+                        child: Icon(Icons.close_rounded, size: 14, color: AppTheme.textMuted),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  note,
+                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 12.5),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+}
+
+void _showAddObservationSheet(BuildContext context, LearnerState learner) {
+  final controller = TextEditingController();
+  String selectedTag = 'Trial 1';
+  final tags = ['Trial 1', 'Trial 2', 'Peak Event', 'Calibration', 'Anomaly', 'Final Result'];
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: AppTheme.surface1,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, setModalState) => Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'บันทึกผลการทดลอง (Add Observation)',
+                  style: TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text('แท็กประเภทการทดลอง:', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 8,
+              children: tags.map((t) {
+                final isSel = t == selectedTag;
+                return ChoiceChip(
+                  label: Text(t, style: TextStyle(fontSize: 11, color: isSel ? Colors.white : AppTheme.textPrimary)),
+                  selected: isSel,
+                  selectedColor: AppTheme.secondaryViolet,
+                  backgroundColor: AppTheme.surface2,
+                  onSelected: (val) {
+                    if (val) setModalState(() => selectedTag = t);
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              maxLines: 3,
+              style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5),
+              decoration: InputDecoration(
+                hintText: 'บันทึกค่าที่วัดได้ สภาพแวดล้อม หรือพฤติกรรมของตัวแปร...',
+                hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                filled: true,
+                fillColor: AppTheme.surface2,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: AppTheme.borderStroke),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                final text = controller.text.trim();
+                if (text.isNotEmpty) {
+                  learner.addObservation(note: text, tag: selectedTag);
+                }
+                Navigator.pop(ctx);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryCyan,
+                minimumSize: const Size.fromHeight(46),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: Text(
+                'บันทึกลงสมุดแล็บ',
+                style: TextStyle(
+                  color: AppTheme.isDark ? Colors.black : Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
