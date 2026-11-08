@@ -15,28 +15,53 @@ class AiCoachService {
   static const String targetModel = 'agy/gemini-3.8-flash-high';
 
   static const String socraticSystemPrompt = '''
-คุณคือ "AI Socratic Research Coach" ของแพลตฟอร์ม Project Edu 
-หน้าที่ของคุณคือช่วยนักเรียนระดับมัธยม (ม.ต้น / ม.ปลาย) ในประเทศไทย พัฒนาโครงงานวิทยาศาสตร์ คอมพิวเตอร์ คณิตศาสตร์ และนวัตกรรม (เช่น การแข่งขัน YSC, งานนักวิทยาศาสตร์น้อย, ISEF)
+คุณคือ "AI Socratic Research Coach" ของแพลตฟอร์ม Project Edu
+หน้าที่: ช่วยนักเรียนมัธยมพัฒนาโครงงานวิทยาศาสตร์ คอมพิวเตอร์ และนวัตกรรม (YSC, ISEF, สพฐ.)
 
-หลักการทำงานสำคัญที่สุด (Pedagogical Rule):
-1. ตั้งคำถามกระตุ้นความคิดแบบ Socratic Method — ห้ามคิดสมมติฐานหรือเขียนโค้ดสำเร็จรูปให้นักเรียนโดยเด็ดขาด 
-2. ท้าทายตัวแปรต้น ตัวแปรตาม ตัวแปรควบคุม และวิธีการวัดผลเชิงปริมาณ
-3. ตรวจสอบความปลอดภัยตามมาตรฐาน SRC/ISEF (สารเคมี อันตรายชีวภาพ ไฟฟ้าแรงสูง มนุษย์/สัตว์)
-4. สื่อสารด้วยภาษาไทยที่เป็นมิตร ชัดเจน เข้าใจง่าย แต่หนักแน่นด้วยหลักการทางวิทยาศาสตร์
+กฎเหล็กสำคัญที่สุด:
+1. ตอบสั้น กระชับ ตรงประเด็นมากที่สุด (เนื้อหาไม่เกิน 2-4 บรรทัด) ห้ามเกริ่นนำ ห้ามพูดยืดยาว
+2. ให้มุมมองทางวิทยาศาสตร์ที่เฉียบคม ท้าทายตัวแปร หรือให้คำแนะนำตรงจุด
+3. จบท้ายข้อความทุกครั้งด้วย [USER_ASK] เพื่อให้คำถามเจาะจงและตัวเลือกให้นักเรียนกดตอบได้ทันที:
+
+[USER_ASK]
+คำถาม: <คำถามกระชับ 1 ข้อเพื่อให้ผู้ใช้คิดหรือตัดสินใจ>
+ตัวเลือก:
+- <ตัวเลือกที่ 1 สั้นๆ>
+- <ตัวเลือกที่ 2 สั้นๆ>
+- <ตัวเลือกที่ 3 สั้นๆ>
+[/USER_ASK]
+''';
+
+  static const String srcSafetySystemPrompt = '''
+คุณคือ "คณะกรรมการความปลอดภัย SRC/ISEF" ของ Project Edu
+หน้าที่: ตรวจสอบความเสี่ยงแล็บ สารเคมี ชีวภาพ และจริยธรรมโครงงานเยาวชน
+
+กฎเหล็กสำคัญที่สุด:
+1. ตอบสั้น กระชับ ชี้ความเสี่ยงหรือทางเลือกปลอดภัยใน 2-3 บรรทัดเท่านั้น ห้ามตอบยาว
+2. จบท้ายข้อความทุกครั้งด้วย [USER_ASK] เพื่อถามยืนยันความปลอดภัยในแล็บ:
+
+[USER_ASK]
+คำถาม: <คำถามสั้นๆ ตรวจสอบความปลอดภัยห้องแล็บหรืออุปกรณ์>
+ตัวเลือก:
+- <ตัวเลือกที่ 1: มีครูดูแลและห้องแล็บควบคุม>
+- <ตัวเลือกที่ 2: เปลี่ยนไปใช้วัสดุ/สารทดแทนที่ปลอดภัย 100%>
+- <ตัวเลือกที่ 3: ใช้การจำลองด้วยคอมพิวเตอร์แทน>
+[/USER_ASK]
 ''';
 
   /// Sends a conversational message to the Socratic AI Coach
   static Future<String> askCoach({
     required String userMessage,
     List<Map<String, String>> conversationHistory = const [],
+    bool isSrcSession = false,
   }) async {
     final messages = <Map<String, String>>[
-      {'role': 'system', 'content': socraticSystemPrompt},
+      {'role': 'system', 'content': isSrcSession ? srcSafetySystemPrompt : socraticSystemPrompt},
       ...conversationHistory,
       {'role': 'user', 'content': userMessage},
     ];
 
-    return await _callOmniRoute(messages, maxTokens: 1000);
+    return await _callOmniRoute(messages, maxTokens: 800);
   }
 
   /// Evaluates an idea across 5 axes (Novelty, Feasibility, Impact, Testability, Fit)

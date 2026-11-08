@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
+import '../views/ai_coach_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -97,7 +98,11 @@ class AppDrawer extends StatelessWidget {
                     title: 'คู่มือความปลอดภัยแล็บ SRC/ISEF',
                     badgeText: 'PASS',
                     badgeColor: AppTheme.accentGreen,
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      Navigator.pop(context);
+                      final sess = learner.startSrcSafetySession();
+                      AiCoachModal.show(context, initialSession: sess);
+                    },
                   ),
                   _DrawerItem(
                     icon: Icons.inventory_2_outlined,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
 import '../widgets/countdown_banner.dart';
 import '../widgets/feature_grid.dart';
 import '../widgets/quick_action_bar.dart';
+import 'ai_coach_dialog.dart';
 
 class DashboardView extends StatelessWidget {
   final VoidCallback onOpenPractice;
@@ -99,89 +102,98 @@ class DashboardView extends StatelessWidget {
         const SizedBox(height: 12),
 
         // 5. Research Safety & Advisor Status Card (Safety Flag)
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: AppTheme.cardDecoration(),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 7,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: const [
-                        Icon(Icons.shield_outlined, color: AppTheme.primaryCyan, size: 15),
-                        SizedBox(width: 4),
-                        Text(
-                          'ธงความปลอดภัย (Safety Flag SRC/ISEF)',
-                          style: TextStyle(
-                            color: AppTheme.primaryCyan,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w700,
+        InkWell(
+          onTap: () {
+            final sess = context.read<LearnerState>().startSrcSafetySession();
+            AiCoachModal.show(context, initialSession: sess);
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: AppTheme.cardDecoration(
+              border: AppTheme.accentGreen.withValues(alpha: 0.35),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(Icons.shield_outlined, color: AppTheme.accentGreen, size: 16),
+                          SizedBox(width: 5),
+                          Text(
+                            'ธงความปลอดภัย (Safety Flag SRC/ISEF)',
+                            style: TextStyle(
+                              color: AppTheme.accentGreen,
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'การประเมินตัวแปรและแล็บ',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14.5,
                         ),
-                      ],
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: const [
+                          Icon(Icons.check_circle_rounded, color: AppTheme.accentGreen, size: 14),
+                          SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              'ผ่านเกณฑ์ระดับไม่เป็นอันตราย (Non-hazardous)',
+                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        children: const [
+                          Icon(Icons.chat_outlined, color: AppTheme.primaryCyan, size: 14),
+                          SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              'แตะเพื่อเปิดเซสชันปรึกษากรรมการ SRC ทันที >',
+                              style: TextStyle(color: AppTheme.primaryCyan, fontSize: 11, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: AppTheme.surface2,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderStroke),
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'การประเมินตัวแปรและแล็บ',
-                      style: TextStyle(
-                        color: AppTheme.textPrimary,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 14.5,
+                    child: const Center(
+                      child: Text(
+                        '🛡️\nSRC Chat',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.accentGreen),
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: const [
-                        Icon(Icons.check_circle_rounded, color: AppTheme.accentGreen, size: 14),
-                        SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            'ผ่านเกณฑ์ระดับไม่เป็นอันตราย (Non-hazardous)',
-                            style: TextStyle(color: AppTheme.textSecondary, fontSize: 11),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      children: const [
-                        Icon(Icons.info_outline_rounded, color: AppTheme.accentAmber, size: 14),
-                        SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            'รออาจารย์ที่ปรึกษากดยืนยัน (สามารถส่งออกฉบับร่างได้)',
-                            style: TextStyle(color: AppTheme.textSecondary, fontSize: 11),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 3,
-                child: Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface2,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.borderStroke),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '🔬\nLab Log',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
-                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

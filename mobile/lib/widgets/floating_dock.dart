@@ -39,10 +39,10 @@ class FloatingDock extends StatelessWidget {
               onTap: () => learner.setTab(0),
             ),
 
-            // Tab 1: Saved Shortlist & Prior Work
+            // Tab 1: AI Coaching Sessions
             _DockTab(
-              icon: Icons.bookmarks_outlined,
-              activeIcon: Icons.bookmarks_rounded,
+              icon: Icons.forum_outlined,
+              activeIcon: Icons.forum_rounded,
               isActive: learner.activeTab == 1,
               onTap: () => learner.setTab(1),
             ),

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/learner_state.dart';
 import '../services/ai_coach_service.dart';
 import '../services/project_repository.dart';
 import '../theme/app_theme.dart';
 
 class AiCoachModal extends StatefulWidget {
-  const AiCoachModal({super.key});
+  final ChatSession? initialSession;
 
-  static void show(BuildContext context) {
+  const AiCoachModal({super.key, this.initialSession});
+
+  static void show(BuildContext context, {ChatSession? initialSession}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => const AiCoachModal(),
+      builder: (_) => AiCoachModal(initialSession: initialSession),
     );
   }
 
@@ -23,15 +27,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
-
-  final List<Map<String, String>> _messages = [
-    {
-      'role': 'assistant',
-      'content': 'สวัสดีครับ! ผมคือ AI Socratic Coach ที่ขับเคลื่อนด้วย Gemini 3.8 Flash High '
-          'พร้อมท้าทายสมมติฐาน ตรวจสอบตัวแปร และพาซ้อมตอบกรรมการโครงงานวิทย์ครับ '
-          'วันนี้อยากปรึกษาหรือพัฒนาโครงงานเรื่องอะไรดีครับ?'
-    }
-  ];
+  late ChatSession _session;
 
   final List<String> _quickPrompts = [
     '🧪 ช่วยตรวจสอบตัวแปรต้น-ตาม',
@@ -40,52 +36,127 @@ class _AiCoachModalState extends State<AiCoachModal> {
     '🎤 ซ้อมพรีเซนต์ตอบกรรมการ',
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    final learner = context.read<LearnerState>();
+    _session = widget.initialSession ?? learner.currentSession;
+  }
+
   Future<void> _sendMessage(String text) async {
     final trimmed = text.trim();
     if (trimmed.isEmpty || _isLoading) return;
 
     _controller.clear();
+    final userMsg = ChatMessage(
+      text: trimmed,
+      isUser: true,
+      timestamp: DateTime.now(),
+    );
+
     setState(() {
-      _messages.add({'role': 'user', 'content': trimmed});
+      _session.messages.add(userMsg);
+      _session.updatedAt = DateTime.now();
       _isLoading = true;
     });
 
     _scrollToBottom();
 
+    final isSrc = _session.category == 'SRC Safety';
+
     try {
-      final reply = await AiCoachService.askCoach(
+      final history = _session.messages.map((m) {
+        return {
+          'role': m.isUser ? 'user' : 'assistant',
+          'content': m.text,
+        };
+      }).toList();
+
+      final rawReply = await AiCoachService.askCoach(
         userMessage: trimmed,
-        conversationHistory: _messages
-            .where((m) => m['role'] != 'system')
-            .toList(),
+        conversationHistory: history,
+        isSrcSession: isSrc,
+      );
+
+      final parsed = _parseUserAsk(rawReply);
+
+      final assistantMsg = ChatMessage(
+        text: parsed['cleanText'] as String,
+        isUser: false,
+        timestamp: DateTime.now(),
+        userAskQuestion: parsed['question'] as String?,
+        userAskChoices: parsed['choices'] as List<String>?,
       );
 
       if (mounted) {
         setState(() {
-          _messages.add({'role': 'assistant', 'content': reply});
+          _session.messages.add(assistantMsg);
+          _session.updatedAt = DateTime.now();
           _isLoading = false;
         });
         _scrollToBottom();
 
         // Sync to Supabase in background
         ProjectRepository.saveProjectRecord(
-          collection: 'coaching',
-          recordKey: 'session_${DateTime.now().millisecondsSinceEpoch}',
-          data: {'messages': _messages, 'model': AiCoachService.targetModel},
+          collection: 'coaching_sessions',
+          recordKey: _session.id,
+          data: {
+            'id': _session.id,
+            'title': _session.title,
+            'category': _session.category,
+            'messages_count': _session.messages.length,
+            'last_message': assistantMsg.text,
+            'updated_at': DateTime.now().toIso8601String(),
+          },
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _messages.add({
-            'role': 'assistant',
-            'content': '⚠️ ไม่สามารถติดต่อ OmniRoute ได้ กรุณาตรวจสอบว่า Gateway รันอยู่ที่พอร์ต 20128: $e'
-          });
+          _session.messages.add(
+            ChatMessage(
+              text: '⚠️ ไม่สามารถติดต่อ OmniRoute ได้ กรุณาตรวจสอบการเชื่อมต่อ: $e',
+              isUser: false,
+              timestamp: DateTime.now(),
+            ),
+          );
           _isLoading = false;
         });
         _scrollToBottom();
       }
     }
+  }
+
+  Map<String, dynamic> _parseUserAsk(String raw) {
+    if (!raw.contains('[USER_ASK]')) {
+      return {'cleanText': raw.trim(), 'question': null, 'choices': null};
+    }
+
+    final parts = raw.split('[USER_ASK]');
+    final cleanText = parts[0].trim();
+    final askSection = parts[1].replaceAll('[/USER_ASK]', '').trim();
+
+    String? question;
+    final choices = <String>[];
+
+    final lines = askSection.split('\n');
+    for (final line in lines) {
+      final l = line.trim();
+      if (l.startsWith('คำถาม:') || l.startsWith('คำถามชวนคิด:')) {
+        question = l.replaceFirst(RegExp(r'^(คำถาม:|คำถามชวนคิด:)\s*'), '').trim();
+      } else if (l.startsWith('- ') || l.startsWith('• ') || RegExp(r'^\d+\.\s*').hasMatch(l)) {
+        final choice = l.replaceFirst(RegExp(r'^(-|•|\d+\.)\s*'), '').trim();
+        if (choice.isNotEmpty) {
+          choices.add(choice);
+        }
+      }
+    }
+
+    return {
+      'cleanText': cleanText,
+      'question': question,
+      'choices': choices.isNotEmpty ? choices : null,
+    };
   }
 
   void _scrollToBottom() {
@@ -204,38 +275,121 @@ class _AiCoachModalState extends State<AiCoachModal> {
             child: ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(16),
-              itemCount: _messages.length,
+              itemCount: _session.messages.length,
               itemBuilder: (context, idx) {
-                final msg = _messages[idx];
-                final isUser = msg['role'] == 'user';
+                final msg = _session.messages[idx];
+                final isUser = msg.isUser;
 
-                return Align(
-                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-                    decoration: BoxDecoration(
-                      color: isUser ? AppTheme.primaryCyan.withValues(alpha: 0.2) : AppTheme.surface1,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(16),
-                        topRight: const Radius.circular(16),
-                        bottomLeft: Radius.circular(isUser ? 16 : 4),
-                        bottomRight: Radius.circular(isUser ? 4 : 16),
-                      ),
-                      border: Border.all(
-                        color: isUser ? AppTheme.primaryCyan.withValues(alpha: 0.4) : AppTheme.borderStroke,
+                return Column(
+                  crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.82),
+                        decoration: BoxDecoration(
+                          color: isUser ? AppTheme.primaryCyan.withValues(alpha: 0.2) : AppTheme.surface1,
+                          borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(16),
+                            topRight: const Radius.circular(16),
+                            bottomLeft: Radius.circular(isUser ? 16 : 4),
+                            bottomRight: Radius.circular(isUser ? 4 : 16),
+                          ),
+                          border: Border.all(
+                            color: isUser ? AppTheme.primaryCyan.withValues(alpha: 0.4) : AppTheme.borderStroke,
+                          ),
+                        ),
+                        child: Text(
+                          msg.text,
+                          style: TextStyle(
+                            color: isUser ? Colors.white : AppTheme.textPrimary,
+                            fontSize: 13.5,
+                            height: 1.4,
+                          ),
+                        ),
                       ),
                     ),
-                    child: Text(
-                      msg['content'] ?? '',
-                      style: TextStyle(
-                        color: isUser ? Colors.white : AppTheme.textPrimary,
-                        fontSize: 13.5,
-                        height: 1.4,
+
+                    // Claude-like UserAsk Interactive Section
+                    if (!isUser && msg.userAskQuestion != null)
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 12, left: 4),
+                        padding: const EdgeInsets.all(12),
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.86),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surface2,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: AppTheme.secondaryViolet.withValues(alpha: 0.4)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: const [
+                                Icon(Icons.help_outline_rounded, color: AppTheme.secondaryViolet, size: 16),
+                                SizedBox(width: 6),
+                                Text(
+                                  'คำถามชวนคิดจาก AI (UserAsk)',
+                                  style: TextStyle(
+                                    color: AppTheme.secondaryViolet,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              msg.userAskQuestion!,
+                              style: const TextStyle(
+                                color: AppTheme.textPrimary,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
+                            ),
+                            if (msg.userAskChoices != null && msg.userAskChoices!.isNotEmpty) ...[
+                              const SizedBox(height: 10),
+                              ...msg.userAskChoices!.map((choice) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 6.0),
+                                  child: InkWell(
+                                    onTap: () => _sendMessage(choice),
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.surface1,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: AppTheme.primaryCyan.withValues(alpha: 0.3)),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.touch_app_rounded, color: AppTheme.primaryCyan, size: 14),
+                                          const SizedBox(width: 8),
+                                          Expanded(
+                                            child: Text(
+                                              choice,
+                                              style: const TextStyle(
+                                                color: AppTheme.primaryCyan,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                  ],
                 );
               },
             ),

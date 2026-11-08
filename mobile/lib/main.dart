@@ -8,6 +8,7 @@ import 'views/dashboard_view.dart';
 import 'views/practice_stepper_view.dart';
 import 'views/pre_login_view.dart';
 import 'views/profile_view.dart';
+import 'views/sessions_view.dart';
 import 'views/study_timer_view.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/app_header.dart';
@@ -77,7 +78,7 @@ class _MainShellState extends State<MainShell> {
         );
         break;
       case 1:
-        currentBody = _buildPlaceholderTab('คลังหัวข้อและงานวิจัยเดิมที่บันทึกไว้ (Shortlist & Prior Work)');
+        currentBody = const SessionsView();
         break;
       case 2:
         currentBody = const StudyTimerView();
