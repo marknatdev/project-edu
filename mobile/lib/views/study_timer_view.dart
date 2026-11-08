@@ -54,15 +54,29 @@ class StudyTimerView extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      learner.currentLabSessionTitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: AppTheme.textPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            learner.currentLabSessionTitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppTheme.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => _showEditTitleDialog(context, learner),
+                          borderRadius: BorderRadius.circular(6),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(Icons.edit_outlined, size: 16, color: AppTheme.primaryCyan),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -133,12 +147,16 @@ class StudyTimerView extends StatelessWidget {
               onPressed: () => learner.toggleTimer(),
               icon: Icon(
                 learner.isTimerRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                color: Colors.black,
+                color: AppTheme.isDark ? Colors.black : Colors.white,
                 size: 24,
               ),
               label: Text(
                 learner.isTimerRunning ? 'พักการจับเวลา' : 'เริ่มบันทึกการทดลอง',
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
+                style: TextStyle(
+                  color: AppTheme.isDark ? Colors.black : Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryCyan,
@@ -400,6 +418,47 @@ void _showAddObservationSheet(BuildContext context, LearnerState learner) {
           ],
         ),
       ),
+    ),
+  );
+}
+
+void _showEditTitleDialog(BuildContext context, LearnerState learner) {
+  final controller = TextEditingController(text: learner.currentLabSessionTitle);
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: AppTheme.surface1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      title: Text('แก้ไขชื่อการทดลองแล็บ', style: TextStyle(color: AppTheme.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+      content: TextField(
+        controller: controller,
+        autofocus: true,
+        style: TextStyle(color: AppTheme.textPrimary, fontSize: 14),
+        decoration: InputDecoration(
+          hintText: 'เช่น ทดสอบการเจริญเติบโตของแหนเป็ดในน้ำทิ้ง...',
+          hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 13),
+          filled: true,
+          fillColor: AppTheme.surface2,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: AppTheme.borderStroke)),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: Text('ยกเลิก', style: TextStyle(color: AppTheme.textMuted)),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final t = controller.text.trim();
+            if (t.isNotEmpty) {
+              learner.setLabSessionTitle(t);
+            }
+            Navigator.pop(ctx);
+          },
+          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryCyan),
+          child: Text('บันทึก', style: TextStyle(color: AppTheme.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold)),
+        ),
+      ],
     ),
   );
 }

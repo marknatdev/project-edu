@@ -287,6 +287,12 @@ class LearnerState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLabSessionTitle(String title) {
+    currentLabSessionTitle = title;
+    notifyListeners();
+    _savePersistedState();
+  }
+
   String get formattedStudyTime {
     final hours = (labTimerSeconds ~/ 3600).toString().padLeft(2, '0');
     final minutes = ((labTimerSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
@@ -462,6 +468,7 @@ class LearnerState extends ChangeNotifier {
       }
       strictSafetyOnly = prefs.getBool('strict_safety_only') ?? strictSafetyOnly;
       citePriorWorkOnly = prefs.getBool('cite_prior_work_only') ?? citePriorWorkOnly;
+      currentLabSessionTitle = prefs.getString('lab_session_title') ?? currentLabSessionTitle;
 
       notifyListeners();
     } catch (e) {
@@ -484,6 +491,7 @@ class LearnerState extends ChangeNotifier {
       await prefs.setStringList('available_resources', availableResources.toList());
       await prefs.setBool('strict_safety_only', strictSafetyOnly);
       await prefs.setBool('cite_prior_work_only', citePriorWorkOnly);
+      await prefs.setString('lab_session_title', currentLabSessionTitle);
     } catch (e) {
       debugPrint('Error saving learner state: $e');
     }
