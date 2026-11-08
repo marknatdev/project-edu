@@ -4,16 +4,14 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'android/**'
-      - 'ios/**'
-      - 'capacitor.config.ts'
+      - 'mobile/**'
       - '.github/workflows/build-mobile.yml'
     branches:
       - main
 
 jobs:
   build-android:
-    name: Build Android APK
+    name: Build Android APK (Flutter)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,78 +23,60 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Node.js 24
-        uses: actions/setup-node@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          node-version: 24
-          cache: 'npm'
+          channel: 'stable'
+          cache: true
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          cd mobile
+          flutter pub get
 
-      - name: Sync Capacitor Android
-        run: npx cap sync android
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x android/gradlew
-
-      - name: Build Android Debug APK
-        run: cd android && ./gradlew assembleDebug
+      - name: Build Android Release APK
+        run: |
+          cd mobile
+          flutter build apk --release
 
       - name: Upload Android APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: project-edu-android-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: project-edu-android-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
           retention-days: 14
 
   build-ios:
-    name: Build iOS App
+    name: Build iOS IPA (Flutter)
     runs-on: macos-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 24
-        uses: actions/setup-node@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          node-version: 24
-          cache: 'npm'
+          channel: 'stable'
+          cache: true
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Sync Capacitor iOS
-        run: npx cap sync ios
-
-      - name: Build iOS IPA (unsigned for sideloading)
         run: |
-          mkdir -p build
-          xcodebuild archive \
-            -project ios/App/App.xcodeproj \
-            -scheme App \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            -archivePath build/App.xcarchive \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+          cd mobile
+          flutter pub get
 
-          mkdir -p build/Payload
-          APP_PATH=$(find build/App.xcarchive -name "*.app" -type d | head -n 1)
-          if [ -z "$APP_PATH" ]; then
-            echo "Searching DerivedData..."
-            APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "*.app" -type d | head -n 1)
-          fi
-          echo "Found app at: $APP_PATH"
-          cp -r "$APP_PATH" build/Payload/
-          cd build
-          zip -r -q project-edu.ipa Payload
-          ls -lh project-edu.ipa
+      - name: Build iOS IPA (unsigned for sideloading / AltStore / TrollStore)
+        run: |
+          cd mobile
+          flutter build ios --release --no-codesign
+          mkdir -p build/ios/ipa/Payload
+          cp -r build/ios/iphoneos/Runner.app build/ios/ipa/Payload/
+          cd build/ios/ipa
+          zip -r -q project-edu-mobile.ipa Payload
+          ls -lh project-edu-mobile.ipa
 
       - name: Upload iOS IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: project-edu-ios-ipa
-          path: build/project-edu.ipa
+          path: mobile/build/ios/ipa/project-edu-mobile.ipa
           retention-days: 14
