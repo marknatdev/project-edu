@@ -68,61 +68,70 @@ class AppDrawer extends StatelessWidget {
 
                   const Divider(color: AppTheme.borderStroke, height: 24),
 
-                  // 10 Personal Tools
+                  // Project Edu Research Tools
                   _DrawerItem(
-                    icon: Icons.notifications_none_rounded,
-                    title: 'การแจ้งเตือน',
-                    badgeText: '1',
-                    badgeColor: AppTheme.accentRed,
+                    icon: Icons.folder_special_outlined,
+                    title: 'โครงงานวิจัยของฉัน',
+                    badgeText: '2',
+                    badgeColor: AppTheme.primaryCyan,
+                    onTap: () {
+                      learner.setTab(0);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: Icons.science_outlined,
+                    title: 'บันทึกการทดลองแล็บ (Lab Log)',
+                    onTap: () {
+                      learner.setTab(2);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  _DrawerItem(
+                    icon: Icons.analytics_outlined,
+                    title: 'เกณฑ์ประเมิน 5 มิติ (Evaluation)',
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
-                    icon: Icons.campaign_outlined,
-                    title: 'มีอะไรใหม่?',
+                    icon: Icons.shield_outlined,
+                    title: 'คู่มือความปลอดภัยแล็บ SRC/ISEF',
+                    badgeText: 'PASS',
+                    badgeColor: AppTheme.accentGreen,
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  _DrawerItem(
+                    icon: Icons.inventory_2_outlined,
+                    title: 'รายการอุปกรณ์ & งบประมาณ BOM',
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  _DrawerItem(
+                    icon: Icons.event_note_rounded,
+                    title: 'ปฏิทินส่งผลงาน YSC 2027',
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  _DrawerItem(
+                    icon: Icons.supervisor_account_outlined,
+                    title: 'การตรวจรับรองโดยอาจารย์ที่ปรึกษา',
                     hasDot: true,
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
-                    icon: Icons.auto_awesome_outlined,
-                    title: 'Who Are You',
+                    icon: Icons.record_voice_over_outlined,
+                    title: 'ซ้อมตอบคำถามกรรมการ (Mock Judge)',
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
-                    icon: Icons.emoji_events_outlined,
-                    title: 'เควสการเรียนรู้',
+                    icon: Icons.description_outlined,
+                    title: 'ส่งออกเอกสารเค้าโครงงาน (.DOCX)',
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
-                    icon: Icons.alarm_rounded,
-                    title: 'Study Alarm',
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.psychology_outlined,
-                    title: 'AI Tutor',
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.functions_rounded,
-                    title: 'เครื่องแก้สมการ',
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.pets_rounded,
-                    title: 'Allie ของฉัน',
-                    badgeText: '3',
-                    badgeColor: AppTheme.accentRed,
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.bookmark_border_rounded,
-                    title: 'คลังคำของฉัน',
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.edit_outlined,
-                    title: 'แก้ไขโปรไฟล์',
-                    onTap: () => Navigator.pop(context),
+                    icon: Icons.manage_accounts_outlined,
+                    title: 'ข้อมูลนักวิจัยเยาวชน',
+                    onTap: () {
+                      learner.setTab(4);
+                      Navigator.pop(context);
+                    },
                   ),
 
                   const Divider(color: AppTheme.borderStroke, height: 28),
@@ -177,33 +186,23 @@ class AppDrawer extends StatelessWidget {
 
                   // Secondary & Community
                   _DrawerItem(
-                    icon: Icons.settings_outlined,
-                    title: 'ตั้งค่า',
+                    icon: Icons.menu_book_outlined,
+                    title: 'คลังงานวิจัยเดิม (Prior Work Citations)',
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
                     icon: Icons.help_outline_rounded,
-                    title: 'ช่วยเหลือ และเกี่ยวกับ',
+                    title: 'คู่มือและวิธีใช้ Project Edu',
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
-                    icon: Icons.cloud_upload_outlined,
-                    title: 'บริจาคโจทย์',
+                    icon: Icons.forum_outlined,
+                    title: 'ชุมชนแลกเปลี่ยนความรู้เยาวชน',
                     onTap: () => Navigator.pop(context),
                   ),
                   _DrawerItem(
-                    icon: Icons.report_problem_outlined,
-                    title: 'แจ้งปัญหา-เสนอแนะ',
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.favorite_border_rounded,
-                    title: 'ติดตามเรา',
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  _DrawerItem(
-                    icon: Icons.card_giftcard_rounded,
-                    title: 'Donate ให้ทีมพัฒนา',
+                    icon: Icons.feedback_outlined,
+                    title: 'แจ้งปัญหาหรือข้อเสนอแนะ',
                     onTap: () => Navigator.pop(context),
                   ),
                 ],
@@ -345,7 +344,7 @@ class _ThemeButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 15,
-                color: isSelected ? AppTheme.primaryOrange : AppTheme.textSecondary,
+                color: isSelected ? AppTheme.primaryCyan : AppTheme.textSecondary,
               ),
               const SizedBox(width: 6),
               Text(

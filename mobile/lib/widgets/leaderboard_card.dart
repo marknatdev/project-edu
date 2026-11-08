@@ -34,7 +34,7 @@ class LeaderboardCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'อันดับการเรียนวันนี้ (Top 100)',
+                    'โครงงานเด่นที่ผ่านการตรวจ SRC ล่าสุด',
                     style: TextStyle(
                       color: AppTheme.textPrimary,
                       fontWeight: FontWeight.w700,
@@ -51,13 +51,13 @@ class LeaderboardCard extends StatelessWidget {
                           Text(
                             'ดูทั้งหมด',
                             style: TextStyle(
-                              color: AppTheme.primaryOrange,
+                              color: AppTheme.primaryCyan,
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
                             ),
                           ),
                           SizedBox(width: 2),
-                          Icon(Icons.chevron_right_rounded, color: AppTheme.primaryOrange, size: 16),
+                          Icon(Icons.chevron_right_rounded, color: AppTheme.primaryCyan, size: 16),
                         ],
                       ),
                     ),
@@ -104,7 +104,7 @@ class LeaderboardCard extends StatelessWidget {
           ),
         ),
 
-        // Floating Sticky User Rank Pill
+        // Floating Sticky User Status Pill
         Positioned(
           bottom: 2,
           child: Material(
@@ -115,25 +115,25 @@ class LeaderboardCard extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryOrange,
+                  color: AppTheme.primaryCyan,
                   borderRadius: BorderRadius.circular(AppTheme.radiusPill),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: AppTheme.orangeGlow,
+                      color: AppTheme.cyanGlow,
                       blurRadius: 12,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.emoji_events_rounded, color: Colors.white, size: 16),
+                    const Icon(Icons.biotech_rounded, color: Colors.black, size: 16),
                     const SizedBox(width: 6),
                     Text(
-                      'อันดับของคุณ #${learner.userRank} >',
+                      'โครงงานของคุณ: ${learner.activeProjectsCount} โครงงานพร้อมส่ง >',
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),
@@ -253,7 +253,7 @@ class _LearnerAvatar extends StatelessWidget {
         Text(
           time,
           style: TextStyle(
-            color: rank == 1 ? AppTheme.primaryOrange : AppTheme.textMuted,
+            color: rank == 1 ? AppTheme.primaryCyan : AppTheme.textMuted,
             fontSize: 10.5,
             fontFamily: 'monospace',
             fontWeight: FontWeight.w600,

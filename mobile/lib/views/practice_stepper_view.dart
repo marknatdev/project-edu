@@ -13,9 +13,9 @@ class PracticeStepperView extends StatefulWidget {
 }
 
 class _PracticeStepperViewState extends State<PracticeStepperView> {
-  int _currentStep = 1; // 0: Select Subject, 1: Configure
+  int _currentStep = 1; // 0: Select Field, 1: Configure Constraints
 
-  final List<Map<String, dynamic>> _subjects = [
+  final List<Map<String, dynamic>> _fields = [
     {
       'name': 'คอมพิวเตอร์ & AI',
       'title': 'Computer Science & AI',
@@ -60,13 +60,25 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
     },
   ];
 
-  final List<Map<String, dynamic>> _topics = [
-    {'title': 'ปัญหาและความสำคัญ', 'icon': '🎯', 'desc': 'Problem Statement & Significance'},
-    {'title': 'สมมติฐานและการทดลอง', 'icon': '🧪', 'desc': 'Hypothesis & Experimental Design'},
-    {'title': 'ตัวแปรต้น ตัวแปรตาม ตัวแปรควบคุม', 'icon': '🔬', 'desc': 'Independent & Dependent Variables'},
-    {'title': 'ประเมินความเสี่ยงแล็บ SRC/ISEF', 'icon': '🛡️', 'desc': 'Safety Flags & Bio-Risk Protocol'},
-    {'title': 'งบประมาณและเซนเซอร์ BOM', 'icon': '📦', 'desc': 'Bill of Materials & Hardware Budget'},
-    {'title': 'ไทม์ไลน์แข่งขัน YSC 2027', 'icon': '🗓️', 'desc': 'Weekly Plan & Milestone Countdown'},
+  static const List<String> _goals = [
+    'ประกวดแข่งขัน (YSC, ISEF, สพฐ.)',
+    'ส่งงานในชั้นเรียน',
+    'สะสมผลงาน (Portfolio/TCAS)',
+    'ทำตามความสนใจอิสระ',
+  ];
+
+  static const List<String> _budgets = [
+    '< 500 บาท',
+    '500 - 1,500 บาท',
+    '1,500 - 3,000 บาท',
+    'ไม่จำกัดงบ',
+  ];
+
+  static const List<Map<String, dynamic>> _resourcesList = [
+    {'name': 'คอมพิวเตอร์ / โน้ตบุ๊ก', 'icon': Icons.computer_rounded, 'desc': 'มีเครื่องสำหรับเขียนโปรแกรม/รัน AI'},
+    {'name': 'ห้องแล็บ / สารเคมีพื้นฐาน', 'icon': Icons.biotech_rounded, 'desc': 'มีอุปกรณ์เครื่องแก้ว/สารเคมีในโรงเรียน'},
+    {'name': 'ไมโครคอนโทรลเลอร์ & เซนเซอร์', 'icon': Icons.developer_board_rounded, 'desc': 'ESP32 / Arduino / เซนเซอร์วัดค่า'},
+    {'name': 'ลงพื้นที่สำรวจภาคสนาม', 'icon': Icons.nature_people_rounded, 'desc': 'สะดวกเก็บตัวอย่างดิน/น้ำ/ชุมชน'},
   ];
 
   @override
@@ -110,7 +122,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.key_rounded, color: AppTheme.primaryOrange, size: 20),
+            child: Icon(Icons.tune_rounded, color: AppTheme.primaryCyan, size: 20),
           ),
         ],
         bottom: PreferredSize(
@@ -141,8 +153,8 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
           style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
         ),
         const SizedBox(height: 16),
-        ..._subjects.map((s) {
-          final isSelected = learner.selectedSubject == s['name'];
+        ..._fields.map((s) {
+          final isSelected = learner.selectedField == s['name'];
           return Container(
             margin: const EdgeInsets.only(bottom: 12.0),
             decoration: AppTheme.cardDecoration(
@@ -175,7 +187,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
               ),
               trailing: const Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted),
               onTap: () {
-                learner.selectSubject(s['name'] as String);
+                learner.selectField(s['name'] as String);
                 setState(() => _currentStep = 1);
               },
             ),
@@ -185,17 +197,15 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
     );
   }
 
-  // Step 2: Topic & Quiz Settings
+  // Step 2: Project Edu Topic Discovery Settings
   Widget _buildStep2Config(LearnerState learner) {
-    final canStart = learner.selectedTopics.isNotEmpty;
-
     return Column(
       children: [
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              // Header & Randomize All Action
+              // Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -211,164 +221,236 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                         ),
                       ),
                       Text(
-                        'สาขา: ${learner.selectedSubject}',
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
+                        'สาขา: ${learner.selectedField}',
+                        style: const TextStyle(color: AppTheme.primaryCyan, fontSize: 13, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
-                  TextButton.icon(
-                    onPressed: () {
-                      learner.selectAllTopics(_topics.map((t) => t['title'] as String).toList());
-                    },
-                    icon: const Icon(Icons.select_all_rounded, size: 16, color: AppTheme.primaryCyan),
-                    label: const Text(
-                      'เลือกทั้งหมด',
-                      style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.bold),
+                  OutlinedButton.icon(
+                    onPressed: () => setState(() => _currentStep = 0),
+                    icon: const Icon(Icons.edit_rounded, size: 14, color: AppTheme.secondaryViolet),
+                    label: const Text('เปลี่ยนสาขา', style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 12)),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppTheme.secondaryViolet),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
-              // 6 Topics Grid / List
-              ..._topics.map((t) {
-                final isChecked = learner.selectedTopics.contains(t['title']);
+              // 1. ระดับชั้น (Grade Level)
+              _buildSectionTitle('1. ระดับชั้นการศึกษา'),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildChoicePill(
+                      label: 'ม.ต้น (ม.1 - ม.3)',
+                      isSelected: learner.gradeLevel == 'ม.ต้น',
+                      onTap: () => learner.setGradeLevel('ม.ต้น'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _buildChoicePill(
+                      label: 'ม.ปลาย (ม.4 - ม.6)',
+                      isSelected: learner.gradeLevel == 'ม.ปลาย',
+                      onTap: () => learner.setGradeLevel('ม.ปลาย'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+
+              // 2. เป้าหมายโครงงาน (Goal)
+              _buildSectionTitle('2. เป้าหมายหลักของโครงงาน'),
+              ..._goals.map((goal) {
+                final isSelected = learner.projectGoal == goal;
                 return InkWell(
-                  onTap: () => learner.toggleTopic(t['title'] as String),
-                  borderRadius: BorderRadius.circular(14),
+                  onTap: () => learner.setProjectGoal(goal),
+                  borderRadius: BorderRadius.circular(12),
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
                     decoration: BoxDecoration(
-                      color: isChecked ? AppTheme.surface2 : AppTheme.surface1,
-                      borderRadius: BorderRadius.circular(14),
+                      color: isSelected ? AppTheme.surface2 : AppTheme.surface1,
+                      borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isChecked ? AppTheme.primaryOrange : AppTheme.borderStroke,
-                        width: isChecked ? 1.5 : 1.0,
+                        color: isSelected ? AppTheme.primaryCyan : AppTheme.borderStroke,
+                        width: isSelected ? 1.5 : 1.0,
                       ),
                     ),
                     child: Row(
                       children: [
-                        Text(t['icon'] as String, style: const TextStyle(fontSize: 22)),
-                        const SizedBox(width: 12),
+                        Icon(
+                          isSelected ? Icons.radio_button_checked_rounded : Icons.radio_button_off_rounded,
+                          color: isSelected ? AppTheme.primaryCyan : AppTheme.textMuted,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 10),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                t['title'] as String,
-                                style: const TextStyle(
-                                  color: AppTheme.textPrimary,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14.5,
-                                ),
-                              ),
-                              Text(
-                                t['desc'] as String,
-                                style: const TextStyle(color: AppTheme.textMuted, fontSize: 11.5),
-                              ),
-                            ],
+                          child: Text(
+                            goal,
+                            style: TextStyle(
+                              color: isSelected ? AppTheme.textPrimary : AppTheme.textSecondary,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              fontSize: 13.5,
+                            ),
                           ),
-                        ),
-                        // Sub-topic Gear
-                        IconButton(
-                          icon: const Icon(Icons.settings_outlined, color: AppTheme.textMuted, size: 18),
-                          onPressed: () {},
-                        ),
-                        // Checkbox
-                        Checkbox(
-                          value: isChecked,
-                          activeColor: AppTheme.primaryOrange,
-                          checkColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                          onChanged: (_) => learner.toggleTopic(t['title'] as String),
                         ),
                       ],
                     ),
                   ),
                 );
               }),
+              const SizedBox(height: 14),
 
-              const SizedBox(height: 16),
-              const Divider(color: AppTheme.borderStroke),
-              const SizedBox(height: 12),
-
-              // Number of Questions
-              const Text(
-                'จำนวนข้อ',
-                style: TextStyle(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [5, 10, 20].map((count) {
-                  final isSelected = learner.questionCount == count;
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: InkWell(
-                        onTap: () => learner.setQuestionCount(count),
-                        borderRadius: BorderRadius.circular(AppTheme.radiusPill),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: isSelected ? AppTheme.primaryOrange : AppTheme.surface1,
-                            borderRadius: BorderRadius.circular(AppTheme.radiusPill),
-                            border: Border.all(
-                              color: isSelected ? AppTheme.primaryOrange : AppTheme.borderStroke,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '$count ข้อ',
-                              style: TextStyle(
-                                color: isSelected ? Colors.white : AppTheme.textSecondary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+              // 3. กรอบงบประมาณ (Budget)
+              _buildSectionTitle('3. กรอบงบประมาณค่าอุปกรณ์'),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: _budgets.map((budget) {
+                  final isSelected = learner.budgetConstraint == budget;
+                  return _buildChoicePill(
+                    label: budget,
+                    isSelected: isSelected,
+                    onTap: () => learner.setBudgetConstraint(budget),
                   );
                 }).toList(),
               ),
-
               const SizedBox(height: 18),
 
-              // Additional Options (Toggles)
-              const Text(
-                'ตัวเลือกเพิ่มเติม',
-                style: TextStyle(
-                  color: AppTheme.textPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+              // 4. ระยะเวลา & ขนาดทีม
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildSectionTitle('4. ระยะเวลาทำ'),
+                        Row(
+                          children: [4, 8, 12].map((w) {
+                            final isSelected = learner.timelineWeeks == w;
+                            return Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 6.0),
+                                child: _buildChoicePill(
+                                  label: '$w สัปดาห์',
+                                  isSelected: isSelected,
+                                  onTap: () => learner.setTimelineWeeks(w),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildSectionTitle('5. ขนาดทีม'),
+                        Row(
+                          children: [1, 2, 3].map((size) {
+                            final isSelected = learner.teamSize == size;
+                            final labels = {1: '1 คน', 2: '2 คน', 3: '3 คน'};
+                            return Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 6.0),
+                                child: _buildChoicePill(
+                                  label: labels[size]!,
+                                  isSelected: isSelected,
+                                  onTap: () => learner.setTeamSize(size),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 18),
+
+              // 6. อุปกรณ์ที่มีพร้อม (Resources Checkboxes)
+              _buildSectionTitle('6. อุปกรณ์และความพร้อมที่มี'),
+              ..._resourcesList.map((res) {
+                final name = res['name'] as String;
+                final isChecked = learner.availableResources.contains(name);
+                return InkWell(
+                  onTap: () => learner.toggleResource(name),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: isChecked ? AppTheme.surface2 : AppTheme.surface1,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isChecked ? AppTheme.secondaryViolet : AppTheme.borderStroke,
+                        width: isChecked ? 1.5 : 1.0,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(res['icon'] as IconData, color: isChecked ? AppTheme.secondaryViolet : AppTheme.textMuted, size: 20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                name,
+                                style: const TextStyle(
+                                  color: AppTheme.textPrimary,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13.5,
+                                ),
+                              ),
+                              Text(
+                                res['desc'] as String,
+                                style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: AppTheme.secondaryViolet,
+                          checkColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                          onChanged: (_) => learner.toggleResource(name),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+              const SizedBox(height: 12),
+
+              // 7. Security & Ethics Toggles
+              _buildSectionTitle('7. นโยบายการคัดกรองหัวข้อ'),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
-                activeThumbColor: AppTheme.primaryOrange,
-                secondary: const Icon(Icons.lightbulb_outline_rounded, color: AppTheme.primaryOrange),
-                title: const Text('แสดงเฉลย', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
-                value: learner.showSolutions,
-                onChanged: (val) {
-                  setState(() => learner.showSolutions = val);
-                },
+                activeThumbColor: AppTheme.primaryCyan,
+                secondary: const Icon(Icons.shield_outlined, color: AppTheme.accentGreen),
+                title: const Text('ความปลอดภัยระดับสูง (เลี่ยงอันตราย SRC/ISEF)', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5)),
+                subtitle: const Text('ไม่แนะนำหัวข้อทดลองในสัตว์มีกระดูกสันหลังหรือสารพิษรุนแรง', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+                value: learner.strictSafetyOnly,
+                onChanged: (val) => learner.setStrictSafetyOnly(val),
               ),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
-                activeThumbColor: AppTheme.primaryOrange,
-                secondary: const Icon(Icons.timer_outlined, color: AppTheme.primaryOrange),
-                title: const Text('ตั้งเวลาทำข้อสอบ', style: TextStyle(color: AppTheme.textPrimary, fontSize: 14)),
-                value: learner.enableTimer,
-                onChanged: (val) {
-                  setState(() => learner.enableTimer = val);
-                },
+                activeThumbColor: AppTheme.primaryCyan,
+                secondary: const Icon(Icons.menu_book_rounded, color: AppTheme.secondaryViolet),
+                title: const Text('เน้นหัวข้อที่มีงานวิจัยอ้างอิงชัดเจน (Prior Work)', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5)),
+                subtitle: const Text('มีเอกสารและ Paper ตรวจสอบได้สำหรับเขียนบทนำ', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+                value: learner.citePriorWorkOnly,
+                onChanged: (val) => learner.setCitePriorWorkOnly(val),
               ),
             ],
           ),
@@ -381,52 +463,81 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
             color: AppTheme.surface1,
             border: const Border(top: BorderSide(color: AppTheme.borderStroke)),
           ),
-          child: Row(
-            children: [
-              // Play with friends
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.group_outlined, color: AppTheme.textPrimary, size: 18),
-                label: const Text('เล่นกับเพื่อน', style: TextStyle(color: AppTheme.textPrimary)),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppTheme.borderStroke),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
-                ),
-              ),
-              const SizedBox(width: 12),
-
-              // Start CTA
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: canStart
-                      ? () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('กำลังเปิดข้อสอบ ${learner.selectedSubject} (${learner.questionCount} ข้อ)...'),
-                              backgroundColor: AppTheme.surface2,
-                            ),
-                          );
-                        }
-                      : null,
-                  icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
-                  label: const Text(
-                    'เริ่มทำ ▶',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'กำลังสร้าง Topic Cards สำหรับสาขา ${learner.selectedField} (${learner.gradeLevel}, ทีม ${learner.teamSize} คน)...',
+                    ),
+                    backgroundColor: AppTheme.surface2,
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryOrange,
-                    disabledBackgroundColor: AppTheme.surface3,
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
-                    elevation: canStart ? 4 : 0,
-                  ),
-                ),
+                );
+              },
+              icon: const Icon(Icons.auto_awesome_rounded, color: Colors.black, size: 20),
+              label: const Text(
+                'เริ่มค้นพบหัวข้อโครงงาน (สร้างการ์ดไอเดีย) ▶',
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.5),
               ),
-            ],
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryCyan,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
+                elevation: 4,
+                shadowColor: AppTheme.primaryCyan.withValues(alpha: 0.5),
+              ),
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: AppTheme.textPrimary,
+          fontWeight: FontWeight.bold,
+          fontSize: 14.5,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChoicePill({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppTheme.radiusPill),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+        decoration: BoxDecoration(
+          color: isSelected ? AppTheme.primaryCyan.withValues(alpha: 0.15) : AppTheme.surface1,
+          borderRadius: BorderRadius.circular(AppTheme.radiusPill),
+          border: Border.all(
+            color: isSelected ? AppTheme.primaryCyan : AppTheme.borderStroke,
+            width: isSelected ? 1.5 : 1.0,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? AppTheme.primaryCyan : AppTheme.textSecondary,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              fontSize: 12.5,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -453,16 +564,16 @@ class _StepBadge extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(3),
             decoration: const BoxDecoration(
-              color: AppTheme.primaryOrange,
+              color: AppTheme.primaryCyan,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.check, color: Colors.white, size: 12),
+            child: const Icon(Icons.check, color: Colors.black, size: 12),
           ),
           const SizedBox(width: 6),
           Text(
             title,
             style: const TextStyle(
-              color: AppTheme.primaryOrange,
+              color: AppTheme.primaryCyan,
               fontWeight: FontWeight.bold,
               fontSize: 13,
             ),
@@ -474,16 +585,16 @@ class _StepBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: isActive ? AppTheme.primaryOrange : Colors.transparent,
+        color: isActive ? AppTheme.primaryCyan : Colors.transparent,
         borderRadius: BorderRadius.circular(AppTheme.radiusPill),
         border: Border.all(
-          color: isActive ? AppTheme.primaryOrange : AppTheme.borderStroke,
+          color: isActive ? AppTheme.primaryCyan : AppTheme.borderStroke,
         ),
       ),
       child: Text(
         '$stepNumber $title',
         style: TextStyle(
-          color: isActive ? Colors.white : AppTheme.textMuted,
+          color: isActive ? Colors.black : AppTheme.textMuted,
           fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           fontSize: 12.5,
         ),

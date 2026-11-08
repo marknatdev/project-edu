@@ -13,22 +13,22 @@ class StudyTimerView extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 100.0),
       children: [
-        // Mascot Card
+        // Lab Session Context Card
         Container(
           padding: const EdgeInsets.all(16.0),
-          decoration: AppTheme.cardDecoration(),
+          decoration: AppTheme.cardDecoration(border: AppTheme.primaryCyan.withValues(alpha: 0.3)),
           child: Row(
             children: [
               Container(
-                width: 58,
-                height: 58,
+                width: 52,
+                height: 52,
                 decoration: BoxDecoration(
-                  color: AppTheme.surface2,
+                  color: AppTheme.primaryCyan.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppTheme.primaryOrange, width: 2),
+                  border: Border.all(color: AppTheme.primaryCyan, width: 1.5),
                 ),
                 child: const Center(
-                  child: Text('🐥', style: TextStyle(fontSize: 32)),
+                  child: Icon(Icons.science_rounded, color: AppTheme.primaryCyan, size: 26),
                 ),
               ),
               const SizedBox(width: 14),
@@ -38,29 +38,30 @@ class StudyTimerView extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Text(
-                          'Allie • Level ${learner.companionLevel}',
-                          style: const TextStyle(
-                            color: AppTheme.textPrimary,
+                          'Lab Session • การทดลอง',
+                          style: TextStyle(
+                            color: AppTheme.primaryCyan,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 13,
                           ),
                         ),
                         Text(
-                          '${learner.companionExp} / ${learner.companionNextExp} EXP',
-                          style: const TextStyle(color: AppTheme.primaryOrange, fontSize: 12),
+                          'SRC Safety Pass',
+                          style: TextStyle(color: AppTheme.accentGreen, fontSize: 11, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: LinearProgressIndicator(
-                        value: learner.companionExp / learner.companionNextExp,
-                        backgroundColor: AppTheme.surface3,
-                        valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primaryOrange),
-                        minHeight: 6,
+                    const SizedBox(height: 4),
+                    Text(
+                      learner.currentLabSessionTitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppTheme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
                     ),
                   ],
@@ -81,13 +82,13 @@ class StudyTimerView extends StatelessWidget {
               shape: BoxShape.circle,
               color: AppTheme.surface1,
               border: Border.all(
-                color: learner.isTimerRunning ? AppTheme.primaryOrange : AppTheme.borderStroke,
+                color: learner.isTimerRunning ? AppTheme.primaryCyan : AppTheme.borderStroke,
                 width: 3.0,
               ),
               boxShadow: [
                 if (learner.isTimerRunning)
-                  const BoxShadow(
-                    color: AppTheme.orangeGlow,
+                  BoxShadow(
+                    color: AppTheme.primaryCyan.withValues(alpha: 0.35),
                     blurRadius: 30,
                     spreadRadius: 4,
                   ),
@@ -96,7 +97,7 @@ class StudyTimerView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.alarm_rounded, color: AppTheme.textMuted, size: 28),
+                const Icon(Icons.timer_rounded, color: AppTheme.secondaryViolet, size: 28),
                 const SizedBox(height: 8),
                 Text(
                   learner.formattedStudyTime,
@@ -110,9 +111,9 @@ class StudyTimerView extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  learner.isTimerRunning ? 'กำลังจับเวลาเรียน...' : 'แตะเพื่อเริ่มจับเวลา',
+                  learner.isTimerRunning ? 'กำลังจับเวลาทดลองแล็บ...' : 'แตะเพื่อเริ่มบันทึกการทดลอง',
                   style: TextStyle(
-                    color: learner.isTimerRunning ? AppTheme.primaryOrange : AppTheme.textSecondary,
+                    color: learner.isTimerRunning ? AppTheme.primaryCyan : AppTheme.textSecondary,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                   ),
@@ -124,31 +125,44 @@ class StudyTimerView extends StatelessWidget {
 
         const SizedBox(height: 36),
 
-        // Play/Pause Action Button
-        Center(
-          child: ElevatedButton.icon(
-            onPressed: () => learner.toggleTimer(),
-            icon: Icon(
-              learner.isTimerRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
-              color: Colors.white,
-              size: 24,
+        // Play/Pause Action Button & Reset
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () => learner.toggleTimer(),
+              icon: Icon(
+                learner.isTimerRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                color: Colors.black,
+                size: 24,
+              ),
+              label: Text(
+                learner.isTimerRunning ? 'พักการจับเวลา' : 'เริ่มบันทึกการทดลอง',
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryCyan,
+                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
+                elevation: 4,
+              ),
             ),
-            label: Text(
-              learner.isTimerRunning ? 'พักการอ่าน' : 'เริ่มจับเวลาอ่านหนังสือ',
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+            const SizedBox(width: 12),
+            OutlinedButton(
+              onPressed: () => learner.resetTimer(),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: AppTheme.borderStroke),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
+              ),
+              child: const Icon(Icons.refresh_rounded, color: AppTheme.textSecondary),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryOrange,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
-              elevation: 6,
-            ),
-          ),
+          ],
         ),
 
         const SizedBox(height: 32),
 
-        // Focus Quests
+        // Lab Observation Log Entries
         Container(
           padding: const EdgeInsets.all(16.0),
           decoration: AppTheme.cardDecoration(),
@@ -156,7 +170,7 @@ class StudyTimerView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               Text(
-                'ภารกิจประจำวันนี้',
+                'บันทึกผลสังเกตการณ์ล่าสุด (Lab Observation)',
                 style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.bold,
@@ -164,9 +178,17 @@ class StudyTimerView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 12),
-              _QuestRow(title: 'เวลาเรียน: ครบ 60 นาทีวันนี้', progress: '0 / 60 นาที', exp: '+60 EXP'),
+              _ObservationRow(
+                time: '14:30',
+                note: 'เริ่มรอบการวัดครั้งที่ 1: อุณหภูมิควบคุม 25.4°C ค่าความต่างศักย์เซนเซอร์คงที่ 3.28V',
+                tag: 'Trial 1',
+              ),
               SizedBox(height: 8),
-              _QuestRow(title: 'รักษา Streak: อ่านอย่างน้อย 1 ครั้ง', progress: '0 / 1 ครั้ง', exp: '+20 EXP'),
+              _ObservationRow(
+                time: '14:45',
+                note: 'พ่นละอองควันทดสอบ: กราฟ PM2.5 ตอบสนองเพิ่มขึ้น 142 ug/m3 ในเวลา 3.2 วินาที',
+                tag: 'Peak Event',
+              ),
             ],
           ),
         ),
@@ -175,41 +197,46 @@ class StudyTimerView extends StatelessWidget {
   }
 }
 
-class _QuestRow extends StatelessWidget {
-  final String title;
-  final String progress;
-  final String exp;
+class _ObservationRow extends StatelessWidget {
+  final String time;
+  final String note;
+  final String tag;
 
-  const _QuestRow({
-    required this.title,
-    required this.progress,
-    required this.exp,
+  const _ObservationRow({
+    required this.time,
+    required this.note,
+    required this.tag,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
-            Text(progress, style: const TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          decoration: BoxDecoration(
-            color: AppTheme.primaryOrange.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(6),
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppTheme.surface2,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppTheme.borderStroke),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: AppTheme.secondaryViolet.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(time, style: const TextStyle(color: AppTheme.secondaryViolet, fontSize: 11, fontWeight: FontWeight.bold)),
           ),
-          child: Text(
-            exp,
-            style: const TextStyle(color: AppTheme.primaryOrange, fontWeight: FontWeight.bold, fontSize: 11.5),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              note,
+              style: const TextStyle(color: AppTheme.textPrimary, fontSize: 12.5),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

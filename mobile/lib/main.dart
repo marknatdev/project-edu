@@ -32,7 +32,7 @@ class ProjectEduApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Project Edu (AllTCAS Design)',
+      title: 'Project Edu Mobile',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       home: const MainShell(),
@@ -77,13 +77,13 @@ class _MainShellState extends State<MainShell> {
         );
         break;
       case 1:
-        currentBody = _buildPlaceholderTab('คอมมูนิตี้และห้องพูดคุย (Community & Q&A)');
+        currentBody = _buildPlaceholderTab('คลังหัวข้อและงานวิจัยเดิมที่บันทึกไว้ (Shortlist & Prior Work)');
         break;
       case 2:
         currentBody = const StudyTimerView();
         break;
       case 3:
-        currentBody = _buildPlaceholderTab('กลุ่มเพื่อนและอันดับการแข่งขัน (Study Groups)');
+        currentBody = _buildPlaceholderTab('การอภิปรายและคำถามกรรมการ (Mock Judge Defense)');
         break;
       case 4:
         currentBody = ProfileView(
@@ -135,7 +135,7 @@ class _MainShellState extends State<MainShell> {
                 shape: BoxShape.circle,
                 border: Border.all(color: AppTheme.borderStroke),
               ),
-              child: const Icon(Icons.hub_outlined, color: AppTheme.primaryOrange, size: 36),
+              child: const Icon(Icons.hub_outlined, color: AppTheme.primaryCyan, size: 36),
             ),
             const SizedBox(height: 16),
             Text(

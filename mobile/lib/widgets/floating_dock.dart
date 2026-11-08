@@ -31,23 +31,23 @@ class FloatingDock extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // Tab 0: Practice
+            // Tab 0: Research Dashboard
             _DockTab(
-              icon: Icons.assignment_outlined,
-              activeIcon: Icons.assignment_rounded,
+              icon: Icons.dashboard_outlined,
+              activeIcon: Icons.dashboard_rounded,
               isActive: learner.activeTab == 0,
               onTap: () => learner.setTab(0),
             ),
 
-            // Tab 1: Community
+            // Tab 1: Saved Shortlist & Prior Work
             _DockTab(
-              icon: Icons.chat_bubble_outline_rounded,
-              activeIcon: Icons.chat_bubble_rounded,
+              icon: Icons.bookmarks_outlined,
+              activeIcon: Icons.bookmarks_rounded,
               isActive: learner.activeTab == 1,
               onTap: () => learner.setTab(1),
             ),
 
-            // Tab 2: Elevated Center AI Coach Button (Opens Live Socratic Modal)
+            // Center: Elevated AI Socratic Coach Button
             GestureDetector(
               onTap: () => AiCoachModal.show(context),
               child: AnimatedContainer(
@@ -84,18 +84,18 @@ class FloatingDock extends StatelessWidget {
               ),
             ),
 
-            // Tab 3: Friends / Social
+            // Tab 2: Lab Observation Timer & Log
             _DockTab(
-              icon: Icons.people_outline_rounded,
-              activeIcon: Icons.people_rounded,
-              isActive: learner.activeTab == 3,
-              onTap: () => learner.setTab(3),
+              icon: Icons.science_outlined,
+              activeIcon: Icons.science_rounded,
+              isActive: learner.activeTab == 2,
+              onTap: () => learner.setTab(2),
             ),
 
-            // Tab 4: Profile
+            // Tab 4: Researcher Profile
             _DockTab(
-              icon: Icons.person_outline_rounded,
-              activeIcon: Icons.person_rounded,
+              icon: Icons.account_circle_outlined,
+              activeIcon: Icons.account_circle_rounded,
               isActive: learner.activeTab == 4,
               onTap: () => learner.setTab(4),
             ),
