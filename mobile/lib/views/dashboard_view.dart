@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
@@ -465,9 +466,8 @@ void _showExportDialog(BuildContext context) {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('สร้างไฟล์ Word (.docx) สำเร็จ กำลังเปิดดาวน์โหลด...')),
-                );
+                final learner = context.read<LearnerState>();
+                _showProposalPreviewDialog(context, learner);
               },
             ),
             ListTile(
@@ -513,8 +513,9 @@ void _showExportDialog(BuildContext context) {
               trailing: const Icon(Icons.copy),
               onTap: () {
                 Navigator.pop(ctx);
+                Clipboard.setData(const ClipboardData(text: 'https://project-edu.vercel.app/advisor-review?code=EDU-TH-2027'));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('คัดลอกลิงก์สำหรับอาจารย์ที่ปรึกษาลงคลิปบอร์ดแล้ว!')),
+                  const SnackBar(content: Text('คัดลอกลิงก์สำหรับอาจารย์ที่ปรึกษาลงคลิปบอร์ดแล้ว! (https://project-edu.vercel.app/advisor-review)')),
                 );
               },
             ),
@@ -589,5 +590,118 @@ void _showEvaluationDialog(BuildContext context) {
         ),
       );
     },
+  );
+}
+
+void _showProposalPreviewDialog(BuildContext context, LearnerState learner) {
+  final buffer = StringBuffer();
+  buffer.writeln('# ข้อเสนอโครงงานวิจัยทางวิทยาศาสตร์ (Research Proposal)');
+  buffer.writeln('เป้าหมายโครงงาน: ${learner.projectGoal}');
+  buffer.writeln('สาขาวิชา: ${learner.selectedField}');
+  buffer.writeln('ระดับชั้น: ${learner.gradeLevel} (ขนาดทีม: ${learner.teamSize} คน)');
+  buffer.writeln('--------------------------------------------------');
+  buffer.writeln('## 1. ชื่อโครงงาน (Project Title)');
+  buffer.writeln(learner.currentLabSessionTitle);
+  buffer.writeln('');
+  buffer.writeln('## 2. ที่มาและความสำคัญ');
+  buffer.writeln('โครงงานนี้มุ่งศึกษาและพัฒนาองค์ความรู้ในสาขา ${learner.selectedField} โดยเน้นการตั้งสมมติฐานที่วัดผลได้จริง และการควบคุมตัวแปรทางวิทยาศาสตร์ตามมาตรฐาน SRC/ISEF');
+  buffer.writeln('');
+  buffer.writeln('## 3. วัตถุประสงค์และสมมติฐาน');
+  buffer.writeln('- วัตถุประสงค์: เพื่อเปรียบเทียบผลของตัวแปรต้นต่อตัวแปรตาม');
+  buffer.writeln('- สมมติฐาน: หากตัวแปรต้นได้รับการควบคุมและปรับเปลี่ยน จะส่งผลให้ตัวแปรตามเปลี่ยนแปลงอย่างมีนัยสำคัญทางสถิติ');
+  buffer.writeln('');
+  buffer.writeln('## 4. แผนการดำเนินงานและงบประมาณ');
+  buffer.writeln('- ระยะเวลาการทดลอง: ${learner.timelineWeeks} สัปดาห์');
+  buffer.writeln('- กรอบงบประมาณ: ${learner.budgetConstraint}');
+  buffer.writeln('- ทรัพยากรที่มี: ${learner.availableResources.join(", ")}');
+  buffer.writeln('');
+  buffer.writeln('## 5. บันทึกผลแล็บและการสังเกตการณ์เบื้องต้น (${learner.labObservations.length} รายการ)');
+  if (learner.labObservations.isEmpty) {
+    buffer.writeln('(อยู่ระหว่างเตรียมการทดลอง)');
+  } else {
+    for (final obs in learner.labObservations) {
+      buffer.writeln('- [${obs.time}] (${obs.tag}): ${obs.note}');
+    }
+  }
+  buffer.writeln('');
+  buffer.writeln('## 6. มาตรการความปลอดภัย (SRC Safety)');
+  buffer.writeln(learner.strictSafetyOnly
+      ? '✓ ผ่านเกณฑ์ SRC Form 1A/1B (ไม่ใช้สารพิษอันตรายและไม่ทดลองในสัตว์มีกระดูกสันหลัง)'
+      : '• อยู่ระหว่างการตรวจสอบของคณะกรรมการความปลอดภัยโรงเรียน');
+
+  final proposalText = buffer.toString();
+
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: AppTheme.surface1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      title: Row(
+        children: [
+          Icon(Icons.description_rounded, color: AppTheme.primaryCyan, size: 22),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'เค้าโครงงานวิจัย (.DOCX / Markdown)',
+              style: TextStyle(color: AppTheme.textPrimary, fontSize: 15.5, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: MediaQuery.of(context).size.height * 0.55,
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppTheme.surface2,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppTheme.borderStroke),
+            ),
+            child: SelectableText(
+              proposalText,
+              style: TextStyle(
+                color: AppTheme.textPrimary,
+                fontSize: 12.5,
+                fontFamily: 'monospace',
+                height: 1.4,
+              ),
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: Text('ปิด', style: TextStyle(color: AppTheme.textMuted)),
+        ),
+        ElevatedButton.icon(
+          onPressed: () {
+            Clipboard.setData(ClipboardData(text: proposalText));
+            Navigator.pop(ctx);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('คัดลอกเค้าโครงงานทั้งหมดลงคลิปบอร์ดแล้ว พร้อมนำไปวางใน Word หรือ Docs 📋'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          },
+          icon: Icon(Icons.copy_rounded, size: 16, color: AppTheme.isDark ? Colors.black : Colors.white),
+          label: Text(
+            'คัดลอกทั้งหมด',
+            style: TextStyle(
+              color: AppTheme.isDark ? Colors.black : Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppTheme.primaryCyan,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+      ],
+    ),
   );
 }
