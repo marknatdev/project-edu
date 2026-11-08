@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../models/topic_card.dart';
@@ -135,144 +136,198 @@ class _TopicDiscoveryViewState extends State<TopicDiscoveryView> {
                   ? Center(
                       child: Text('ไม่พบหัวข้อในหมวดนี้', style: TextStyle(color: AppTheme.textMuted)),
                     )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: AppTheme.cardDecoration(
-                          border: isFav ? AppTheme.accentRed.withValues(alpha: 0.5) : null,
+                  : Dismissible(
+                      key: ValueKey('${currentCard.id}_$_currentIndex'),
+                      direction: DismissDirection.horizontal,
+                      background: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          color: AppTheme.accentGreen.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusCard),
+                          border: Border.all(color: AppTheme.accentGreen.withValues(alpha: 0.5), width: 2),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            // Header: Subject & Counter
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.primaryCyan.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    currentCard.subject,
-                                    style: TextStyle(
-                                      color: AppTheme.primaryCyan,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 11.5,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.accentGreen.withValues(alpha: 0.15),
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.shield_rounded, size: 12, color: AppTheme.accentGreen),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            'SRC Safe',
-                                            style: TextStyle(color: AppTheme.accentGreen, fontSize: 10, fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      '${_currentIndex + 1}/${cards.length}',
-                                      style: TextStyle(color: AppTheme.textMuted, fontSize: 12, fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            Icon(Icons.favorite_rounded, color: AppTheme.accentGreen, size: 36),
+                            const SizedBox(width: 8),
+                            Text('สนใจ (Shortlist)', style: TextStyle(color: AppTheme.accentGreen, fontWeight: FontWeight.bold, fontSize: 16)),
+                          ],
+                        ),
+                      ),
+                      secondaryBackground: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        alignment: Alignment.centerRight,
+                        decoration: BoxDecoration(
+                          color: AppTheme.textMuted.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusCard),
+                          border: Border.all(color: AppTheme.textMuted.withValues(alpha: 0.5), width: 2),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('ข้ามไปก่อน', style: TextStyle(color: AppTheme.textMuted, fontWeight: FontWeight.bold, fontSize: 16)),
+                            const SizedBox(width: 8),
+                            Icon(Icons.close_rounded, color: AppTheme.textMuted, size: 36),
+                          ],
+                        ),
+                      ),
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.startToEnd) {
+                          HapticFeedback.mediumImpact();
+                          learner.toggleShortlist(currentCard);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('เก็บเข้า Shortlist เรียบร้อย ❤️'),
+                              duration: Duration(milliseconds: 1000),
                             ),
-                            const SizedBox(height: 12),
-
-                            // Title
-                            Text(
-                              currentCard.title,
-                              style: TextStyle(
-                                color: AppTheme.textPrimary,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                height: 1.3,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Scrollable Body Details
-                            Expanded(
-                              child: ListView(
+                          );
+                        } else {
+                          HapticFeedback.lightImpact();
+                        }
+                        _nextCard();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: AppTheme.cardDecoration(
+                            border: isFav ? AppTheme.accentRed.withValues(alpha: 0.5) : null,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Header: Subject & Counter
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Phenomenon
-                                  _InfoBox(
-                                    icon: Icons.lightbulb_outline_rounded,
-                                    iconColor: AppTheme.accentAmber,
-                                    title: 'ปัญหา / ปรากฏการณ์รอบตัว',
-                                    content: currentCard.phenomenon,
-                                  ),
-                                  const SizedBox(height: 10),
-
-                                  // Curiosity Hook
-                                  _InfoBox(
-                                    icon: Icons.science_outlined,
-                                    iconColor: AppTheme.secondaryViolet,
-                                    title: 'คำถามท้าทายเชิงวิทยาศาสตร์',
-                                    content: currentCard.curiosityHook,
-                                  ),
-                                  const SizedBox(height: 10),
-
-                                  // Variables Container
                                   Container(
-                                    padding: const EdgeInsets.all(12),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: AppTheme.surface2,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: AppTheme.borderStroke),
+                                      color: AppTheme.primaryCyan.withValues(alpha: 0.15),
+                                      borderRadius: BorderRadius.circular(6),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('การออกแบบตัวแปร (Variables):', style: TextStyle(color: AppTheme.textSecondary, fontSize: 11.5, fontWeight: FontWeight.bold)),
-                                        const SizedBox(height: 6),
-                                        Text('• ตัวแปรต้น: ${currentCard.independentVar}', style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
-                                        const SizedBox(height: 4),
-                                        Text('• ตัวแปรตาม: ${currentCard.dependentVar}', style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
-                                      ],
+                                    child: Text(
+                                      currentCard.subject,
+                                      style: TextStyle(
+                                        color: AppTheme.primaryCyan,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 11.5,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
-
-                                  // Resource / Timeline summary
                                   Row(
                                     children: [
-                                      Expanded(
-                                        child: _StatPill(
-                                          icon: Icons.schedule_rounded,
-                                          label: '${currentCard.estimatedWeeks} สัปดาห์',
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.accentGreen.withValues(alpha: 0.15),
+                                          borderRadius: BorderRadius.circular(4),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.shield_rounded, size: 12, color: AppTheme.accentGreen),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              'SRC Safe',
+                                              style: TextStyle(color: AppTheme.accentGreen, fontSize: 10, fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       const SizedBox(width: 8),
-                                      Expanded(
-                                        child: _StatPill(
-                                          icon: Icons.payments_outlined,
-                                          label: currentCard.estimatedBudgetBaht == 0
-                                              ? 'งบ 0 บาท'
-                                              : 'งบ ~${currentCard.estimatedBudgetBaht} ฿',
-                                        ),
+                                      Text(
+                                        '${_currentIndex + 1}/${cards.length}',
+                                        style: TextStyle(color: AppTheme.textMuted, fontSize: 12, fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 12),
+
+                              // Title
+                              Text(
+                                currentCard.title,
+                                style: TextStyle(
+                                  color: AppTheme.textPrimary,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.3,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+
+                              // Scrollable Body Details
+                              Expanded(
+                                child: ListView(
+                                  children: [
+                                    // Phenomenon
+                                    _InfoBox(
+                                      icon: Icons.lightbulb_outline_rounded,
+                                      iconColor: AppTheme.accentAmber,
+                                      title: 'ปัญหา / ปรากฏการณ์รอบตัว',
+                                      content: currentCard.phenomenon,
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    // Curiosity Hook
+                                    _InfoBox(
+                                      icon: Icons.science_outlined,
+                                      iconColor: AppTheme.secondaryViolet,
+                                      title: 'คำถามท้าทายเชิงวิทยาศาสตร์',
+                                      content: currentCard.curiosityHook,
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    // Variables Container
+                                    Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.surface2,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: AppTheme.borderStroke),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('การออกแบบตัวแปร (Variables):', style: TextStyle(color: AppTheme.textSecondary, fontSize: 11.5, fontWeight: FontWeight.bold)),
+                                          const SizedBox(height: 6),
+                                          Text('• ตัวแปรต้น: ${currentCard.independentVar}', style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
+                                          const SizedBox(height: 4),
+                                          Text('• ตัวแปรตาม: ${currentCard.dependentVar}', style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    // Resource / Timeline summary
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _StatPill(
+                                            icon: Icons.schedule_rounded,
+                                            label: '${currentCard.estimatedWeeks} สัปดาห์',
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: _StatPill(
+                                            icon: Icons.payments_outlined,
+                                            label: currentCard.estimatedBudgetBaht == 0
+                                                ? 'งบ 0 บาท'
+                                                : 'งบ ~${currentCard.estimatedBudgetBaht} ฿',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../theme/app_theme.dart';
 import 'topic_card.dart';
 
@@ -35,6 +37,22 @@ class LabObservation {
     required this.tag,
     required this.createdAt,
   });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'time': time,
+    'note': note,
+    'tag': tag,
+    'createdAt': createdAt.toIso8601String(),
+  };
+
+  factory LabObservation.fromJson(Map<String, dynamic> json) => LabObservation(
+    id: json['id'] as String? ?? 'obs_${DateTime.now().millisecondsSinceEpoch}',
+    time: json['time'] as String? ?? '',
+    note: json['note'] as String? ?? '',
+    tag: json['tag'] as String? ?? 'Trial 1',
+    createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+  );
 }
 
 class ChatSession {
@@ -245,6 +263,7 @@ class LearnerState extends ChangeNotifier {
     themeMode = mode;
     AppTheme.isDark = mode == AppThemeMode.dark;
     notifyListeners();
+    _savePersistedState();
   }
 
   // Lab Timer Methods
@@ -304,17 +323,20 @@ class LearnerState extends ChangeNotifier {
       createdAt: now,
     ));
     notifyListeners();
+    _savePersistedState();
   }
 
   void deleteObservation(String id) {
     labObservations.removeWhere((o) => o.id == id);
     notifyListeners();
+    _savePersistedState();
   }
 
   // Discovery Project Settings Methods
   void selectField(String field) {
     selectedField = field;
     notifyListeners();
+    _savePersistedState();
   }
 
   // Topic Cards Shortlist
@@ -327,6 +349,7 @@ class LearnerState extends ChangeNotifier {
       shortlistedCards.add(card);
     }
     notifyListeners();
+    _savePersistedState();
   }
 
   bool isShortlisted(String cardId) {
@@ -336,26 +359,31 @@ class LearnerState extends ChangeNotifier {
   void setGradeLevel(String level) {
     gradeLevel = level;
     notifyListeners();
+    _savePersistedState();
   }
 
   void setProjectGoal(String goal) {
     projectGoal = goal;
     notifyListeners();
+    _savePersistedState();
   }
 
   void setBudgetConstraint(String budget) {
     budgetConstraint = budget;
     notifyListeners();
+    _savePersistedState();
   }
 
   void setTimelineWeeks(int weeks) {
     timelineWeeks = weeks;
     notifyListeners();
+    _savePersistedState();
   }
 
   void setTeamSize(int size) {
     teamSize = size;
     notifyListeners();
+    _savePersistedState();
   }
 
   void toggleResource(String resource) {
@@ -375,6 +403,77 @@ class LearnerState extends ChangeNotifier {
   void setCitePriorWorkOnly(bool val) {
     citePriorWorkOnly = val;
     notifyListeners();
+  }
+
+  Future<void> loadPersistedState() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      // 1. Theme
+      final themeStr = prefs.getString('theme_mode');
+      if (themeStr != null) {
+        if (themeStr == 'dark') {
+          themeMode = AppThemeMode.dark;
+          AppTheme.isDark = true;
+        } else if (themeStr == 'light') {
+          themeMode = AppThemeMode.light;
+          AppTheme.isDark = false;
+        }
+      }
+
+      // 2. Shortlisted Topic Cards
+      final shortIds = prefs.getStringList('shortlisted_ids');
+      if (shortIds != null && shortIds.isNotEmpty) {
+        shortlistedCards.clear();
+        for (final id in shortIds) {
+          final found = seedTopicCards.where((c) => c.id == id);
+          if (found.isNotEmpty) {
+            shortlistedCards.add(found.first);
+          }
+        }
+      }
+
+      // 3. Lab Observations
+      final obsJson = prefs.getStringList('lab_observations');
+      if (obsJson != null && obsJson.isNotEmpty) {
+        labObservations.clear();
+        for (final s in obsJson) {
+          try {
+            final map = jsonDecode(s) as Map<String, dynamic>;
+            labObservations.add(LabObservation.fromJson(map));
+          } catch (_) {}
+        }
+      }
+
+      // 4. Constraints
+      selectedField = prefs.getString('selected_field') ?? selectedField;
+      gradeLevel = prefs.getString('grade_level') ?? gradeLevel;
+      projectGoal = prefs.getString('project_goal') ?? projectGoal;
+      budgetConstraint = prefs.getString('budget_constraint') ?? budgetConstraint;
+      timelineWeeks = prefs.getInt('timeline_weeks') ?? timelineWeeks;
+      teamSize = prefs.getInt('team_size') ?? teamSize;
+
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error loading persisted learner state: $e');
+    }
+  }
+
+  Future<void> _savePersistedState() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('theme_mode', themeMode.name);
+      await prefs.setStringList('shortlisted_ids', shortlistedCards.map((c) => c.id).toList());
+      await prefs.setStringList('lab_observations', labObservations.map((o) => jsonEncode(o.toJson())).toList());
+      await prefs.setString('selected_field', selectedField);
+      await prefs.setString('grade_level', gradeLevel);
+      await prefs.setString('project_goal', projectGoal);
+      await prefs.setString('budget_constraint', budgetConstraint);
+      await prefs.setInt('timeline_weeks', timelineWeeks);
+      await prefs.setInt('team_size', teamSize);
+    } catch (e) {
+      debugPrint('Error saving learner state: $e');
+    }
   }
 
   @override

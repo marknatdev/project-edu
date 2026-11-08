@@ -20,9 +20,13 @@ Future<void> main() async {
   await SupabaseService.initialize();
   // Check for OTA updates in background via Shorebird CodePush
   CodePushService.checkForUpdatesInBackground();
+
+  final learner = LearnerState();
+  await learner.loadPersistedState();
+
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => LearnerState(),
+    ChangeNotifierProvider.value(
+      value: learner,
       child: const ProjectEduApp(),
     ),
   );
