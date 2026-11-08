@@ -51,13 +51,16 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isInPracticeMode = false;
-  bool _isLoggedOut = false;
+  bool _isGuestSession = false;
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoggedOut) {
+    final user = SupabaseService.currentUser;
+    final isLoggedIn = user != null || _isGuestSession;
+
+    if (!isLoggedIn) {
       return PreLoginView(
-        onLoginSuccess: () => setState(() => _isLoggedOut = false),
+        onLoginSuccess: () => setState(() => _isGuestSession = true),
       );
     }
 
@@ -89,6 +92,7 @@ class _MainShellState extends State<MainShell> {
       case 4:
         currentBody = ProfileView(
           onGoPractice: () => setState(() => _isInPracticeMode = true),
+          onSignOut: () => setState(() => _isGuestSession = false),
         );
         break;
       default:

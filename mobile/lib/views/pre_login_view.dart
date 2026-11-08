@@ -1,10 +1,62 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/supabase_service.dart';
 import '../theme/app_theme.dart';
 
-class PreLoginView extends StatelessWidget {
+class PreLoginView extends StatefulWidget {
   final VoidCallback onLoginSuccess;
 
   const PreLoginView({super.key, required this.onLoginSuccess});
+
+  @override
+  State<PreLoginView> createState() => _PreLoginViewState();
+}
+
+class _PreLoginViewState extends State<PreLoginView> {
+  bool _isLoading = false;
+  StreamSubscription<AuthState>? _authSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    if (SupabaseService.isInitialized) {
+      _authSubscription = SupabaseService.client.auth.onAuthStateChange.listen((data) {
+        if (data.session != null && mounted) {
+          widget.onLoginSuccess();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
+
+    try {
+      await SupabaseService.signInWithGoogle();
+      // On web/desktop or deep link callback, onAuthStateChange handles transition.
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('เข้าสู่ระบบไม่สำเร็จ: $e'),
+            backgroundColor: AppTheme.accentRed,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +153,21 @@ class PreLoginView extends StatelessWidget {
 
               // Google OAuth Button
               _SocialButton(
-                icon: const Text('G', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Colors.blueAccent)),
-                label: 'เข้าสู่ระบบด้วย Google (Supabase Auth)',
-                onTap: onLoginSuccess,
+                icon: _isLoading
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primaryCyan),
+                      )
+                    : const Text('G', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Colors.blueAccent)),
+                label: _isLoading ? 'กำลังเปิดหน้าเข้าสู่ระบบ...' : 'เข้าสู่ระบบด้วย Google (Supabase Auth)',
+                onTap: _handleGoogleSignIn,
               ),
               const SizedBox(height: 12),
 
               // Zero-PII Guest Mode
               OutlinedButton.icon(
-                onPressed: onLoginSuccess,
+                onPressed: widget.onLoginSuccess,
                 icon: const Icon(Icons.lock_clock_outlined, color: AppTheme.primaryCyan, size: 18),
                 label: const Text(
                   'ทดลองใช้งานทันที (Guest Zero-PII Mode)',

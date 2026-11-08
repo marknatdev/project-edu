@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
+import '../services/supabase_service.dart';
 import '../theme/app_theme.dart';
 
 class ProfileView extends StatelessWidget {
   final VoidCallback onGoPractice;
+  final VoidCallback? onSignOut;
 
-  const ProfileView({super.key, required this.onGoPractice});
+  const ProfileView({
+    super.key,
+    required this.onGoPractice,
+    this.onSignOut,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +78,14 @@ class ProfileView extends StatelessWidget {
 
         const SizedBox(height: 14),
 
-        // Action Buttons: Edit Profile, Share Profile
+        // Action Buttons: Edit Profile, Share Profile, Sign Out
         Row(
           children: [
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () {},
                 icon: const Icon(Icons.badge_outlined, size: 16, color: AppTheme.primaryCyan),
-                label: const Text('บัตรนักวิจัยเยาวชน', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                label: const Text('บัตรนักวิจัย', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppTheme.borderStroke),
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -87,7 +93,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () {},
@@ -98,6 +104,19 @@ class ProfileView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
                 ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            IconButton(
+              onPressed: () async {
+                await SupabaseService.signOut();
+                onSignOut?.call();
+              },
+              tooltip: 'ออกจากระบบ',
+              icon: const Icon(Icons.logout_rounded, size: 18, color: AppTheme.accentRed),
+              style: IconButton.styleFrom(
+                side: const BorderSide(color: AppTheme.borderStroke),
+                backgroundColor: AppTheme.surface1,
               ),
             ),
           ],

@@ -19,8 +19,14 @@ void main() {
       ),
     );
 
-    // Verify brand logo and core text renders
+    // Verify brand logo renders on PreLoginView
     expect(find.text('Project Edu'), findsOneWidget);
+
+    // Tap Guest Zero-PII mode to enter Main Dashboard
+    await tester.tap(find.text('ทดลองใช้งานทันที (Guest Zero-PII Mode)'));
+    await tester.pumpAndSettle();
+
+    // Verify Dashboard renders
     expect(find.text('YSC 2027 รอบแรก'), findsOneWidget);
   });
 }
