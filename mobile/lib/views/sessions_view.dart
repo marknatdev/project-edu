@@ -35,7 +35,7 @@ class _SessionsViewState extends State<SessionsView> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'ห้องสนทนากับ AI Coach',
                       style: TextStyle(
                         color: AppTheme.textPrimary,
@@ -45,7 +45,7 @@ class _SessionsViewState extends State<SessionsView> {
                     ),
                     Text(
                       '${learner.sessions.length} บทสนทนาที่บันทึกไว้ • ซิงค์ Supabase',
-                      style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
+                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
                     ),
                   ],
                 ),
@@ -112,11 +112,11 @@ class _SessionsViewState extends State<SessionsView> {
                 child: Center(
                   child: Column(
                     children: [
-                      const Icon(Icons.chat_bubble_outline_rounded, size: 40, color: AppTheme.textMuted),
+                      Icon(Icons.chat_bubble_outline_rounded, size: 40, color: AppTheme.textMuted),
                       const SizedBox(height: 12),
                       Text(
                         'ไม่มีบทสนทนาในหมวด $_selectedCategory',
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                       ),
                     ],
                   ),
@@ -170,7 +170,7 @@ class _SessionsViewState extends State<SessionsView> {
                               ),
                               Text(
                                 _formatTimestamp(session.updatedAt),
-                                style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                                style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
                               ),
                             ],
                           ),
@@ -179,7 +179,7 @@ class _SessionsViewState extends State<SessionsView> {
                             session.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppTheme.textPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 14.5,
@@ -190,7 +190,7 @@ class _SessionsViewState extends State<SessionsView> {
                             session.lastMessagePreview,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppTheme.textSecondary,
                               fontSize: 12.5,
                               height: 1.3,

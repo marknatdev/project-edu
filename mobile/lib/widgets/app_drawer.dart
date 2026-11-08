@@ -45,7 +45,7 @@ class AppDrawer extends StatelessWidget {
                                   learner.displayName,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: AppTheme.textPrimary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
@@ -54,7 +54,7 @@ class AppDrawer extends StatelessWidget {
                                 const SizedBox(height: 2),
                                 Text(
                                   learner.handle,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: AppTheme.textMuted,
                                     fontSize: 13,
                                   ),
@@ -67,7 +67,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
 
-                  const Divider(color: AppTheme.borderStroke, height: 24),
+                  Divider(color: AppTheme.borderStroke, height: 24),
 
                   // Project Edu Research Tools
                   _DrawerItem(
@@ -139,11 +139,11 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
 
-                  const Divider(color: AppTheme.borderStroke, height: 28),
+                  Divider(color: AppTheme.borderStroke, height: 28),
 
                   // Theme Switcher Section
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.contrast_rounded, size: 18, color: AppTheme.textSecondary),
                       SizedBox(width: 8),
                       Text(
@@ -187,7 +187,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
 
-                  const Divider(color: AppTheme.borderStroke, height: 28),
+                  Divider(color: AppTheme.borderStroke, height: 28),
 
                   // Secondary & Community
                   _DrawerItem(
@@ -277,7 +277,7 @@ class _DrawerItem extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontSize: 14.5,
                   fontWeight: FontWeight.w500,
@@ -310,7 +310,7 @@ class _DrawerItem extends StatelessWidget {
                 ),
               ),
             const SizedBox(width: 6),
-            const Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted, size: 20),
+            Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted, size: 20),
           ],
         ),
       ),

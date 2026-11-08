@@ -60,7 +60,7 @@ class DashboardView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.analytics_rounded, color: AppTheme.secondaryViolet, size: 16),
                       SizedBox(width: 6),
                       Text(
@@ -136,7 +136,7 @@ class DashboardView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      const Text(
+                      Text(
                         'การประเมินตัวแปรและแล็บ',
                         style: TextStyle(
                           color: AppTheme.textPrimary,
@@ -146,7 +146,7 @@ class DashboardView extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       Row(
-                        children: const [
+                        children: [
                           Icon(Icons.check_circle_rounded, color: AppTheme.accentGreen, size: 14),
                           SizedBox(width: 4),
                           Expanded(
@@ -159,7 +159,7 @@ class DashboardView extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Row(
-                        children: const [
+                        children: [
                           Icon(Icons.chat_outlined, color: AppTheme.primaryCyan, size: 14),
                           SizedBox(width: 4),
                           Expanded(
@@ -222,7 +222,7 @@ class _EvalBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+              Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
               Text('${(score * 100).toInt()}%', style: TextStyle(color: color, fontSize: 11.5, fontWeight: FontWeight.bold)),
             ],
           ),

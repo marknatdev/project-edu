@@ -17,14 +17,14 @@ class FloatingDock extends StatelessWidget {
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xE6141A26),
+          color: AppTheme.isDark ? const Color(0xE6141A26) : Colors.white.withValues(alpha: 0.95),
           borderRadius: BorderRadius.circular(32),
           border: Border.all(color: AppTheme.borderStroke, width: 1.2),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Colors.black45,
+              color: AppTheme.isDark ? Colors.black45 : Colors.black.withValues(alpha: 0.08),
               blurRadius: 20,
-              offset: Offset(0, 8),
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -55,7 +55,7 @@ class FloatingDock extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     colors: [AppTheme.primaryCyan, AppTheme.secondaryViolet],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,

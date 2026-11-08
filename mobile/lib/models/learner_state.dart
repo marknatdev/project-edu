@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 enum AppThemeMode { dark, system, light }
 
@@ -182,8 +183,8 @@ class LearnerState extends ChangeNotifier {
   Timer? _ticker;
   String currentLabSessionTitle = 'ทดสอบการเหนี่ยวนำเซนเซอร์วัดค่าฝุ่น PM2.5';
 
-  // Theme
-  AppThemeMode themeMode = AppThemeMode.dark;
+  // Theme (Defaults to White / Light theme)
+  AppThemeMode themeMode = AppThemeMode.light;
 
   // Project Settings & Discovery Constraints
   String selectedField = 'คอมพิวเตอร์ & ปัญญาประดิษฐ์';
@@ -208,6 +209,7 @@ class LearnerState extends ChangeNotifier {
 
   void setThemeMode(AppThemeMode mode) {
     themeMode = mode;
+    AppTheme.isDark = mode == AppThemeMode.dark;
     notifyListeners();
   }
 

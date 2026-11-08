@@ -87,7 +87,7 @@ class _PreLoginViewState extends State<PreLoginView> {
                         ),
                       ],
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'P',
                         style: TextStyle(
@@ -99,7 +99,7 @@ class _PreLoginViewState extends State<PreLoginView> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
+                  Text(
                     'Project Edu',
                     style: TextStyle(
                       color: AppTheme.textPrimary,
@@ -111,7 +111,7 @@ class _PreLoginViewState extends State<PreLoginView> {
                 ],
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 'Youth Science & AI Research Incubator',
                 style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 12, fontWeight: FontWeight.w500),
               ),
@@ -137,7 +137,7 @@ class _PreLoginViewState extends State<PreLoginView> {
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.biotech_rounded, size: 56, color: AppTheme.primaryCyan),
                       SizedBox(height: 8),
                       Text(
@@ -154,7 +154,7 @@ class _PreLoginViewState extends State<PreLoginView> {
               // Google OAuth Button
               _SocialButton(
                 icon: _isLoading
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 18,
                         height: 18,
                         child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primaryCyan),
@@ -168,14 +168,14 @@ class _PreLoginViewState extends State<PreLoginView> {
               // Zero-PII Guest Mode
               OutlinedButton.icon(
                 onPressed: widget.onLoginSuccess,
-                icon: const Icon(Icons.lock_clock_outlined, color: AppTheme.primaryCyan, size: 18),
-                label: const Text(
+                icon: Icon(Icons.lock_clock_outlined, color: AppTheme.primaryCyan, size: 18),
+                label: Text(
                   'ทดลองใช้งานทันที (Guest Zero-PII Mode)',
                   style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48),
-                  side: const BorderSide(color: AppTheme.primaryCyan),
+                  side: BorderSide(color: AppTheme.primaryCyan),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9999)),
                 ),
               ),
@@ -183,7 +183,7 @@ class _PreLoginViewState extends State<PreLoginView> {
               const SizedBox(height: 24),
 
               // Legal / Terms Notice
-              const Text(
+              Text(
                 'ข้อมูลการวิจัยและการสนทนากับ AI Coach เป็นไปตามนโยบาย Zero-PII และ PDPA สำหรับเยาวชน เพื่อส่งเสริมการเรียนรู้วิทยาศาสตร์อย่างปลอดภัย',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -221,7 +221,7 @@ class _SocialButton extends StatelessWidget {
         foregroundColor: AppTheme.textPrimary,
         minimumSize: const Size.fromHeight(48),
         elevation: 0,
-        side: const BorderSide(color: AppTheme.borderStroke),
+        side: BorderSide(color: AppTheme.borderStroke),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9999)),
       ),
       child: Row(

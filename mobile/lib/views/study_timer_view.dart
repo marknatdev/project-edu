@@ -27,7 +27,7 @@ class StudyTimerView extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: AppTheme.primaryCyan, width: 1.5),
                 ),
-                child: const Center(
+                child: Center(
                   child: Icon(Icons.science_rounded, color: AppTheme.primaryCyan, size: 26),
                 ),
               ),
@@ -38,7 +38,7 @@ class StudyTimerView extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           'Lab Session • การทดลอง',
                           style: TextStyle(
@@ -58,7 +58,7 @@ class StudyTimerView extends StatelessWidget {
                       learner.currentLabSessionTitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppTheme.textPrimary,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -97,11 +97,11 @@ class StudyTimerView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.timer_rounded, color: AppTheme.secondaryViolet, size: 28),
+                Icon(Icons.timer_rounded, color: AppTheme.secondaryViolet, size: 28),
                 const SizedBox(height: 8),
                 Text(
                   learner.formattedStudyTime,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppTheme.textPrimary,
                     fontSize: 40,
                     fontWeight: FontWeight.w900,
@@ -151,11 +151,11 @@ class StudyTimerView extends StatelessWidget {
             OutlinedButton(
               onPressed: () => learner.resetTimer(),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppTheme.borderStroke),
+                side: BorderSide(color: AppTheme.borderStroke),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
               ),
-              child: const Icon(Icons.refresh_rounded, color: AppTheme.textSecondary),
+              child: Icon(Icons.refresh_rounded, color: AppTheme.textSecondary),
             ),
           ],
         ),
@@ -168,7 +168,7 @@ class StudyTimerView extends StatelessWidget {
           decoration: AppTheme.cardDecoration(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
                 'บันทึกผลสังเกตการณ์ล่าสุด (Lab Observation)',
                 style: TextStyle(
@@ -226,13 +226,13 @@ class _ObservationRow extends StatelessWidget {
               color: AppTheme.secondaryViolet.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(4),
             ),
-            child: Text(time, style: const TextStyle(color: AppTheme.secondaryViolet, fontSize: 11, fontWeight: FontWeight.bold)),
+            child: Text(time, style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 11, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               note,
-              style: const TextStyle(color: AppTheme.textPrimary, fontSize: 12.5),
+              style: TextStyle(color: AppTheme.textPrimary, fontSize: 12.5),
             ),
           ),
         ],

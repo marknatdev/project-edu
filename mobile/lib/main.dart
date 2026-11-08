@@ -32,10 +32,16 @@ class ProjectEduApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final learner = context.watch<LearnerState>();
+    final isDark = learner.themeMode == AppThemeMode.dark;
+    AppTheme.isDark = isDark;
+
     return MaterialApp(
       title: 'Project Edu Mobile',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       home: const MainShell(),
     );
   }
@@ -108,7 +114,7 @@ class _MainShellState extends State<MainShell> {
         onOpenDrawer: () => _scaffoldKey.currentState?.openDrawer(),
         onSearch: () {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+            SnackBar(
               content: Text('กำลังค้นหาบทเรียนและโจทย์...'),
               backgroundColor: AppTheme.surface2,
             ),
@@ -140,20 +146,20 @@ class _MainShellState extends State<MainShell> {
                 shape: BoxShape.circle,
                 border: Border.all(color: AppTheme.borderStroke),
               ),
-              child: const Icon(Icons.hub_outlined, color: AppTheme.primaryCyan, size: 36),
+              child: Icon(Icons.hub_outlined, color: AppTheme.primaryCyan, size: 36),
             ),
             const SizedBox(height: 16),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppTheme.textPrimary,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'กำลังเชื่อมต่อข้อมูลกับเซิร์ฟเวอร์ Project Edu Cloud...',
               textAlign: TextAlign.center,
               style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),

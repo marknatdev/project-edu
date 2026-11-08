@@ -29,14 +29,14 @@ class ProfileView extends StatelessWidget {
                 CircleAvatar(
                   radius: 36,
                   backgroundColor: AppTheme.surface3,
-                  child: const Icon(Icons.school_rounded, color: AppTheme.primaryCyan, size: 38),
+                  child: Icon(Icons.school_rounded, color: AppTheme.primaryCyan, size: 38),
                 ),
                 Positioned(
                   bottom: 0,
                   right: 0,
                   child: Container(
                     padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppTheme.primaryCyan,
                       shape: BoxShape.circle,
                     ),
@@ -60,7 +60,7 @@ class ProfileView extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     learner.displayName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppTheme.textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -68,7 +68,7 @@ class ProfileView extends StatelessWidget {
                   ),
                   Text(
                     '${learner.handle} • ${learner.schoolTier}',
-                    style: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
+                    style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
                   ),
                 ],
               ),
@@ -84,10 +84,10 @@ class ProfileView extends StatelessWidget {
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.badge_outlined, size: 16, color: AppTheme.primaryCyan),
-                label: const Text('บัตรนักวิจัย', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                icon: Icon(Icons.badge_outlined, size: 16, color: AppTheme.primaryCyan),
+                label: Text('บัตรนักวิจัย', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppTheme.borderStroke),
+                  side: BorderSide(color: AppTheme.borderStroke),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
                 ),
@@ -97,10 +97,10 @@ class ProfileView extends StatelessWidget {
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.share_outlined, size: 16, color: AppTheme.secondaryViolet),
-                label: const Text('แชร์โครงงาน', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                icon: Icon(Icons.share_outlined, size: 16, color: AppTheme.secondaryViolet),
+                label: Text('แชร์โครงงาน', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppTheme.borderStroke),
+                  side: BorderSide(color: AppTheme.borderStroke),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
                 ),
@@ -115,7 +115,7 @@ class ProfileView extends StatelessWidget {
               tooltip: 'ออกจากระบบ',
               icon: const Icon(Icons.logout_rounded, size: 18, color: AppTheme.accentRed),
               style: IconButton.styleFrom(
-                side: const BorderSide(color: AppTheme.borderStroke),
+                side: BorderSide(color: AppTheme.borderStroke),
                 backgroundColor: AppTheme.surface1,
               ),
             ),
@@ -136,13 +136,13 @@ class ProfileView extends StatelessWidget {
                   color: AppTheme.primaryCyan.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.biotech_rounded, color: AppTheme.primaryCyan, size: 20),
+                child: Icon(Icons.biotech_rounded, color: AppTheme.primaryCyan, size: 20),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'เป้าหมายการแข่งขัน: YSC 2027',
                       style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5),
@@ -154,7 +154,7 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted),
+              Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted),
             ],
           ),
         ),
@@ -171,13 +171,13 @@ class ProfileView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'โครงงานของฉัน (Active Projects)',
                     style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   TextButton(
                     onPressed: onGoPractice,
-                    child: const Text('+ สร้างใหม่', style: TextStyle(color: AppTheme.primaryCyan, fontSize: 12, fontWeight: FontWeight.bold)),
+                    child: Text('+ สร้างใหม่', style: TextStyle(color: AppTheme.primaryCyan, fontSize: 12, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
@@ -215,7 +215,7 @@ class ProfileView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                children: const [
+                children: [
                   Icon(Icons.assignment_ind_outlined, color: AppTheme.secondaryViolet, size: 20),
                   SizedBox(width: 8),
                   Text(
@@ -238,7 +238,7 @@ class ProfileView extends StatelessWidget {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text('รอตรวจเค้าโครง 1 โครงงาน', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 13.5)),
                           Text('สร้างลิงก์สำหรับส่งให้อาจารย์ที่ปรึกษาตรวจผ่านเว็บ', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
                         ],
@@ -266,9 +266,9 @@ class ProfileView extends StatelessWidget {
   static Widget _buildStatBadge(String count, String label) {
     return Row(
       children: [
-        Text(count, style: const TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.bold, fontSize: 15)),
+        Text(count, style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.bold, fontSize: 15)),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+        Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
       ],
     );
   }
@@ -301,7 +301,7 @@ class ProfileView extends StatelessWidget {
                 ),
                 child: Text(status, style: TextStyle(color: statusColor, fontSize: 11, fontWeight: FontWeight.bold)),
               ),
-              Text(field, style: const TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+              Text(field, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
             ],
           ),
           const SizedBox(height: 8),
@@ -309,7 +309,7 @@ class ProfileView extends StatelessWidget {
             title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5),
+            style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5),
           ),
           const SizedBox(height: 8),
           ClipRRect(

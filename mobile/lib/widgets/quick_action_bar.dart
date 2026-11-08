@@ -162,7 +162,7 @@ class _QuickItem extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppTheme.textSecondary,
                 fontSize: 11,
                 fontWeight: FontWeight.w500,

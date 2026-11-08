@@ -30,7 +30,7 @@ class CountdownBanner extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(AppTheme.radiusCard),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
                 color: AppTheme.orangeGlow,
                 blurRadius: 16,

@@ -33,7 +33,7 @@ class LeaderboardCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'โครงงานเด่นที่ผ่านการตรวจ SRC ล่าสุด',
                     style: TextStyle(
                       color: AppTheme.textPrimary,
@@ -47,7 +47,7 @@ class LeaderboardCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                       child: Row(
-                        children: const [
+                        children: [
                           Text(
                             'ดูทั้งหมด',
                             style: TextStyle(
@@ -69,22 +69,22 @@ class LeaderboardCard extends StatelessWidget {
               // Ranks 1 to 4 Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  _LearnerAvatar(
+                children: [
+                  const _LearnerAvatar(
                     rank: 1,
                     medalColor: Color(0xFFFFD700),
                     streak: 42,
                     name: 'Tawan Pho...',
                     time: '19:01:35',
                   ),
-                  _LearnerAvatar(
+                  const _LearnerAvatar(
                     rank: 2,
                     medalColor: Color(0xFFC0C0C0),
                     streak: 24,
                     name: 'Messi',
                     time: '15:30:38',
                   ),
-                  _LearnerAvatar(
+                  const _LearnerAvatar(
                     rank: 3,
                     medalColor: Color(0xFFCD7F32),
                     streak: 14,
@@ -242,7 +242,7 @@ class _LearnerAvatar extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppTheme.textPrimary,
               fontSize: 11,
               fontWeight: FontWeight.w500,

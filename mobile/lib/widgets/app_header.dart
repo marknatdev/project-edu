@@ -73,7 +73,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                         child: Container(
                           width: 7,
                           height: 7,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: AppTheme.primaryCyan,
                             shape: BoxShape.circle,
                           ),
@@ -95,7 +95,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                       color: AppTheme.primaryCyan.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'P',
                         style: TextStyle(
@@ -107,7 +107,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
+                  Text(
                     'Project Edu',
                     style: TextStyle(
                       color: AppTheme.primaryCyan,
@@ -124,7 +124,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               // Quick Search Icon
               IconButton(
                 onPressed: onSearch,
-                icon: const Icon(Icons.search, color: AppTheme.textSecondary, size: 22),
+                icon: Icon(Icons.search, color: AppTheme.textSecondary, size: 22),
               ),
 
               // Notification Bell with Badge
@@ -133,7 +133,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   IconButton(
                     onPressed: onNotifications,
-                    icon: const Icon(Icons.notifications_none_rounded, color: AppTheme.textSecondary, size: 24),
+                    icon: Icon(Icons.notifications_none_rounded, color: AppTheme.textSecondary, size: 24),
                   ),
                   Positioned(
                     top: 8,

@@ -157,7 +157,7 @@ class _FeatureCard extends StatelessWidget {
               // Title
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.w800,
                   fontSize: 15,
@@ -170,7 +170,7 @@ class _FeatureCard extends StatelessWidget {
                 subtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppTheme.textSecondary,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,

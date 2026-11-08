@@ -179,7 +179,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
     return Container(
       height: height,
       margin: EdgeInsets.only(bottom: bottomInset),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppTheme.background,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         border: Border(top: BorderSide(color: AppTheme.borderStroke, width: 1.5)),
@@ -208,13 +208,13 @@ class _AiCoachModalState extends State<AiCoachModal> {
                     color: AppTheme.secondaryViolet.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(Icons.psychology_rounded, color: AppTheme.secondaryViolet, size: 22),
+                  child: Icon(Icons.psychology_rounded, color: AppTheme.secondaryViolet, size: 22),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Socratic Research Coach',
                         style: TextStyle(
@@ -232,12 +232,12 @@ class _AiCoachModalState extends State<AiCoachModal> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close_rounded, color: AppTheme.textSecondary),
+                  icon: Icon(Icons.close_rounded, color: AppTheme.textSecondary),
                 ),
               ],
             ),
           ),
-          const Divider(color: AppTheme.borderStroke, height: 1),
+          Divider(color: AppTheme.borderStroke, height: 1),
 
           // Quick Prompt Chips
           SizedBox(
@@ -261,7 +261,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
                     child: Center(
                       child: Text(
                         _quickPrompts[idx],
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11.5),
+                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 11.5),
                       ),
                     ),
                   ),
@@ -327,7 +327,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              children: const [
+                              children: [
                                 Icon(Icons.help_outline_rounded, color: AppTheme.secondaryViolet, size: 16),
                                 SizedBox(width: 6),
                                 Text(
@@ -343,7 +343,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
                             const SizedBox(height: 6),
                             Text(
                               msg.userAskQuestion!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppTheme.textPrimary,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 13,
@@ -367,12 +367,12 @@ class _AiCoachModalState extends State<AiCoachModal> {
                                       ),
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.touch_app_rounded, color: AppTheme.primaryCyan, size: 14),
+                                          Icon(Icons.touch_app_rounded, color: AppTheme.primaryCyan, size: 14),
                                           const SizedBox(width: 8),
                                           Expanded(
                                             child: Text(
                                               choice,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 color: AppTheme.primaryCyan,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w500,
@@ -399,7 +399,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
-                children: const [
+                children: [
                   SizedBox(
                     width: 16,
                     height: 16,
@@ -414,7 +414,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
           // Input Bar
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppTheme.surface1,
               border: Border(top: BorderSide(color: AppTheme.borderStroke)),
             ),
@@ -423,10 +423,10 @@ class _AiCoachModalState extends State<AiCoachModal> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    style: const TextStyle(color: AppTheme.textPrimary, fontSize: 14),
+                    style: TextStyle(color: AppTheme.textPrimary, fontSize: 14),
                     decoration: InputDecoration(
                       hintText: 'พิมพ์ถามไอเดีย สมมติฐาน หรือปัญหา...',
-                      hintStyle: const TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                      hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 13),
                       filled: true,
                       fillColor: AppTheme.surface2,
                       isDense: true,
@@ -446,7 +446,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
                   child: Container(
                     width: 40,
                     height: 40,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppTheme.primaryCyan,
                       shape: BoxShape.circle,
                     ),

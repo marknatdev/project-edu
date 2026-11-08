@@ -91,7 +91,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.textPrimary, size: 20),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.textPrimary, size: 20),
           onPressed: () {
             if (_currentStep == 1) {
               setState(() => _currentStep = 0);
@@ -109,7 +109,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
               isActive: _currentStep == 0,
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted, size: 18),
+            Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted, size: 18),
             const SizedBox(width: 8),
             _StepBadge(
               stepNumber: '2',
@@ -119,7 +119,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
             ),
           ],
         ),
-        actions: const [
+        actions: [
           Padding(
             padding: EdgeInsets.only(right: 16.0),
             child: Icon(Icons.tune_rounded, color: AppTheme.primaryCyan, size: 20),
@@ -139,7 +139,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        const Text(
+        Text(
           'เลือกสาขาวิทยาศาสตร์ที่สนใจ',
           style: TextStyle(
             color: AppTheme.textPrimary,
@@ -148,7 +148,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
           ),
         ),
         const SizedBox(height: 4),
-        const Text(
+        Text(
           'รองรับหมวดการแข่งขัน YSC, สพฐ. และมาตรฐานโครงงานระดับชาติ',
           style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
         ),
@@ -175,7 +175,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
               ),
               title: Text(
                 s['name'] as String,
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppTheme.textPrimary,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -183,9 +183,9 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
               ),
               subtitle: Text(
                 '${s['title']} • ${s['types']}',
-                style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
+                style: TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
               ),
-              trailing: const Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted),
+              trailing: Icon(Icons.chevron_right_rounded, color: AppTheme.textMuted),
               onTap: () {
                 learner.selectField(s['name'] as String);
                 setState(() => _currentStep = 1);
@@ -212,7 +212,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'ขอบเขตและข้อจำกัดโครงงาน',
                         style: TextStyle(
                           color: AppTheme.textPrimary,
@@ -222,16 +222,16 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                       ),
                       Text(
                         'สาขา: ${learner.selectedField}',
-                        style: const TextStyle(color: AppTheme.primaryCyan, fontSize: 13, fontWeight: FontWeight.w600),
+                        style: TextStyle(color: AppTheme.primaryCyan, fontSize: 13, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                   OutlinedButton.icon(
                     onPressed: () => setState(() => _currentStep = 0),
-                    icon: const Icon(Icons.edit_rounded, size: 14, color: AppTheme.secondaryViolet),
-                    label: const Text('เปลี่ยนสาขา', style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 12)),
+                    icon: Icon(Icons.edit_rounded, size: 14, color: AppTheme.secondaryViolet),
+                    label: Text('เปลี่ยนสาขา', style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 12)),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppTheme.secondaryViolet),
+                      side: BorderSide(color: AppTheme.secondaryViolet),
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     ),
                   ),
@@ -405,7 +405,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                             children: [
                               Text(
                                 name,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppTheme.textPrimary,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 13.5,
@@ -413,7 +413,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                               ),
                               Text(
                                 res['desc'] as String,
-                                style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                                style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
                               ),
                             ],
                           ),
@@ -438,17 +438,17 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
                 contentPadding: EdgeInsets.zero,
                 activeThumbColor: AppTheme.primaryCyan,
                 secondary: const Icon(Icons.shield_outlined, color: AppTheme.accentGreen),
-                title: const Text('ความปลอดภัยระดับสูง (เลี่ยงอันตราย SRC/ISEF)', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5)),
-                subtitle: const Text('ไม่แนะนำหัวข้อทดลองในสัตว์มีกระดูกสันหลังหรือสารพิษรุนแรง', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+                title: Text('ความปลอดภัยระดับสูง (เลี่ยงอันตราย SRC/ISEF)', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5)),
+                subtitle: Text('ไม่แนะนำหัวข้อทดลองในสัตว์มีกระดูกสันหลังหรือสารพิษรุนแรง', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
                 value: learner.strictSafetyOnly,
                 onChanged: (val) => learner.setStrictSafetyOnly(val),
               ),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 activeThumbColor: AppTheme.primaryCyan,
-                secondary: const Icon(Icons.menu_book_rounded, color: AppTheme.secondaryViolet),
-                title: const Text('เน้นหัวข้อที่มีงานวิจัยอ้างอิงชัดเจน (Prior Work)', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5)),
-                subtitle: const Text('มีเอกสารและ Paper ตรวจสอบได้สำหรับเขียนบทนำ', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+                secondary: Icon(Icons.menu_book_rounded, color: AppTheme.secondaryViolet),
+                title: Text('เน้นหัวข้อที่มีงานวิจัยอ้างอิงชัดเจน (Prior Work)', style: TextStyle(color: AppTheme.textPrimary, fontSize: 13.5)),
+                subtitle: Text('มีเอกสารและ Paper ตรวจสอบได้สำหรับเขียนบทนำ', style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
                 value: learner.citePriorWorkOnly,
                 onChanged: (val) => learner.setCitePriorWorkOnly(val),
               ),
@@ -461,7 +461,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             color: AppTheme.surface1,
-            border: const Border(top: BorderSide(color: AppTheme.borderStroke)),
+            border: Border(top: BorderSide(color: AppTheme.borderStroke)),
           ),
           child: SizedBox(
             width: double.infinity,
@@ -500,7 +500,7 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           color: AppTheme.textPrimary,
           fontWeight: FontWeight.bold,
           fontSize: 14.5,
@@ -563,7 +563,7 @@ class _StepBadge extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(3),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppTheme.primaryCyan,
               shape: BoxShape.circle,
             ),
@@ -572,7 +572,7 @@ class _StepBadge extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppTheme.primaryCyan,
               fontWeight: FontWeight.bold,
               fontSize: 13,
