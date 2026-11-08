@@ -106,7 +106,7 @@ jobs:
             echo "📦 Creating Shorebird Base Release for iOS..."
             shorebird release ios --no-codesign
             mkdir -p build/ios/ipa/Payload
-            cp -r build/ios/iphoneos/Runner.app build/ios/ipa/Payload/
+            cp -r build/ios/archive/Runner.xcarchive/Products/Applications/Runner.app build/ios/ipa/Payload/
             cd build/ios/ipa
             zip -r -q project-edu-mobile.ipa Payload
             ls -lh project-edu-mobile.ipa
