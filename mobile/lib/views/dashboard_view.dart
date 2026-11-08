@@ -6,6 +6,7 @@ import '../widgets/countdown_banner.dart';
 import '../widgets/feature_grid.dart';
 import '../widgets/quick_action_bar.dart';
 import 'ai_coach_dialog.dart';
+import 'topic_discovery_view.dart';
 
 class DashboardView extends StatelessWidget {
   final VoidCallback onOpenPractice;
@@ -68,7 +69,10 @@ class DashboardView extends StatelessWidget {
 
         // 3. Feature Grid 2x2 (Research Modules)
         FeatureGrid(
-          onPracticeTap: onOpenPractice,
+          onPracticeTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const TopicDiscoveryView()),
+          ),
           onVocabTap: () => _showEvaluationDialog(context),
           onExamTap: () => _showExportDialog(context),
           onNotesTap: () {

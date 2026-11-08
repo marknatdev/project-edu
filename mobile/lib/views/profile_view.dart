@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../services/supabase_service.dart';
 import '../theme/app_theme.dart';
+import 'topic_discovery_view.dart';
 
 class ProfileView extends StatelessWidget {
   final VoidCallback onGoPractice;
@@ -53,8 +54,16 @@ class ProfileView extends StatelessWidget {
                   Row(
                     children: [
                       _buildStatBadge('${learner.activeProjectsCount}', 'โครงงานวิจัย'),
-                      const SizedBox(width: 12),
-                      _buildStatBadge('${learner.evaluatedIdeasCount}', 'ไอเดียตรวจแล้ว'),
+                      const SizedBox(width: 10),
+                      _buildStatBadge('${learner.evaluatedIdeasCount}', 'ตรวจแล้ว'),
+                      const SizedBox(width: 10),
+                      InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const TopicDiscoveryView()),
+                        ),
+                        child: _buildStatBadge('${learner.shortlistedCards.length}', 'Shortlist ❤️'),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),

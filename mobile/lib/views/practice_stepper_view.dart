@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
+import 'topic_discovery_view.dart';
 
 class PracticeStepperView extends StatefulWidget {
   final VoidCallback onBack;
@@ -467,19 +468,20 @@ class _PracticeStepperViewState extends State<PracticeStepperView> {
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'กำลังสร้าง Topic Cards สำหรับสาขา ${learner.selectedField} (${learner.gradeLevel}, ทีม ${learner.teamSize} คน)...',
-                    ),
-                    backgroundColor: AppTheme.surface2,
-                  ),
+                widget.onBack();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const TopicDiscoveryView()),
                 );
               },
-              icon: const Icon(Icons.auto_awesome_rounded, color: Colors.black, size: 20),
-              label: const Text(
-                'เริ่มค้นพบหัวข้อโครงงาน (สร้างการ์ดไอเดีย) ▶',
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.5),
+              icon: Icon(Icons.auto_awesome_rounded, color: AppTheme.isDark ? Colors.black : Colors.white, size: 20),
+              label: Text(
+                'เริ่มค้นพบหัวข้อโครงงาน (สำรวจการ์ดไอเดีย) ▶',
+                style: TextStyle(
+                  color: AppTheme.isDark ? Colors.black : Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.5,
+                ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryCyan,

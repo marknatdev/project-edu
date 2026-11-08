@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import 'topic_card.dart';
 
 enum AppThemeMode { dark, system, light }
 
@@ -314,6 +315,22 @@ class LearnerState extends ChangeNotifier {
   void selectField(String field) {
     selectedField = field;
     notifyListeners();
+  }
+
+  // Topic Cards Shortlist
+  final List<TopicCard> shortlistedCards = [];
+
+  void toggleShortlist(TopicCard card) {
+    if (shortlistedCards.any((c) => c.id == card.id)) {
+      shortlistedCards.removeWhere((c) => c.id == card.id);
+    } else {
+      shortlistedCards.add(card);
+    }
+    notifyListeners();
+  }
+
+  bool isShortlisted(String cardId) {
+    return shortlistedCards.any((c) => c.id == cardId);
   }
 
   void setGradeLevel(String level) {
