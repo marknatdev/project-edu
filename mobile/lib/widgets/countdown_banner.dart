@@ -4,21 +4,22 @@ import '../theme/app_theme.dart';
 class CountdownBanner extends StatelessWidget {
   final String title;
   final String examDate;
-  final int days;
-  final int hours;
-  final int minutes;
+  final DateTime deadline;
+  final DateTime? now; // test seam
 
   const CountdownBanner({
     super.key,
-    this.title = 'TGAT/TPAT2-5',
-    this.examDate = 'สอบ 30 ม.ค. 70',
-    this.days = 82,
-    this.hours = 1,
-    this.minutes = 15,
+    required this.title,
+    required this.examDate,
+    required this.deadline,
+    this.now,
   });
 
   @override
   Widget build(BuildContext context) {
+    // shortcut: recomputed on rebuild only (minute precision), not ticking live.
+    final left = deadline.difference(now ?? DateTime.now());
+    final closed = left.isNegative;
     return Column(
       children: [
         Container(
@@ -80,52 +81,21 @@ class CountdownBanner extends StatelessWidget {
               ),
 
               // Countdown Digits
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _CountdownBox(val: days.toString().padLeft(2, '0'), label: 'วัน'),
-                  const SizedBox(width: 6),
-                  _CountdownBox(val: hours.toString().padLeft(2, '0'), label: 'ชั่วโมง'),
-                  const SizedBox(width: 6),
-                  _CountdownBox(val: minutes.toString().padLeft(2, '0'), label: 'นาที'),
-                ],
-              ),
+              if (closed)
+                const _CountdownBox(val: 'ปิดรับ', label: 'แล้ว')
+              else
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _CountdownBox(val: left.inDays.toString().padLeft(2, '0'), label: 'วัน'),
+                    const SizedBox(width: 6),
+                    _CountdownBox(val: (left.inHours % 24).toString().padLeft(2, '0'), label: 'ชั่วโมง'),
+                    const SizedBox(width: 6),
+                    _CountdownBox(val: (left.inMinutes % 60).toString().padLeft(2, '0'), label: 'นาที'),
+                  ],
+                ),
             ],
           ),
-        ),
-        const SizedBox(height: 8),
-
-        // Carousel Indicator Dots
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 16,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryOrange,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 4),
-            Container(
-              width: 5,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppTheme.borderStroke,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 4),
-            Container(
-              width: 5,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppTheme.borderStroke,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ],
         ),
       ],
     );

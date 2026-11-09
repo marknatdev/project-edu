@@ -38,7 +38,7 @@ class FeatureGrid extends StatelessWidget {
               child: _FeatureCard(
                 title: 'ตรวจไอเดีย 5 ด้าน',
                 subtitle: 'ความใหม่ สมมติฐาน ผลกระทบ',
-                badgeText: 'AI EVAL',
+                badgeText: 'เกณฑ์',
                 badgeColor: AppTheme.secondaryViolet,
                 icon: Icons.analytics_rounded,
                 iconColor: AppTheme.secondaryViolet,
@@ -55,7 +55,7 @@ class FeatureGrid extends StatelessWidget {
               child: _FeatureCard(
                 title: 'เอกสาร & แผนงาน',
                 subtitle: 'โครงร่างวิจัย รายสัปดาห์',
-                badgeText: '.DOCX',
+                badgeText: 'MD',
                 badgeColor: AppTheme.accentGreen,
                 icon: Icons.description_rounded,
                 iconColor: AppTheme.accentGreen,
@@ -68,7 +68,7 @@ class FeatureGrid extends StatelessWidget {
               child: _FeatureCard(
                 title: 'ซ้อมตอบกรรมการ',
                 subtitle: 'ฝึกความมั่นใจก่อนขึ้นเวที',
-                badgeText: 'MOCK',
+                badgeText: 'ซ้อม',
                 badgeColor: AppTheme.accentAmber,
                 icon: Icons.gavel_rounded,
                 iconColor: AppTheme.accentAmber,

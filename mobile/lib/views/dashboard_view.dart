@@ -13,25 +13,18 @@ import 'topic_discovery_view.dart';
 class DashboardView extends StatelessWidget {
   final VoidCallback onOpenPractice;
 
-  const DashboardView({
-    super.key,
-    required this.onOpenPractice,
-  });
+  const DashboardView({super.key, required this.onOpenPractice});
 
   @override
   Widget build(BuildContext context) {
-    final learner = context.watch<LearnerState>();
-
     return ListView(
       padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 100.0),
       children: [
         // 1. Hero Competition Countdown Banner (Top of Dashboard)
-        const CountdownBanner(
+        CountdownBanner(
           title: 'YSC 2027 รอบแรก',
-          examDate: 'ส่งข้อเสนอโครงงาน 15 ธ.ค.',
-          days: 36,
-          hours: 14,
-          minutes: 20,
+          examDate: 'ส่งข้อเสนอโครงงาน 10 ก.ย. 2569',
+          deadline: DateTime(2026, 9, 10, 23, 59),
         ),
         const SizedBox(height: 14),
 
@@ -43,7 +36,8 @@ class DashboardView extends StatelessWidget {
               category: 'Socratic Research',
               initialMessages: [
                 ChatMessage(
-                  text: 'สวัสดีครับโค้ช ผมอยากเริ่มทำโครงงานวิทย์แต่ยังไม่มีไอเดีย ช่วยสัมภาษณ์เจาะลึกความสนใจและปัญหาที่ผมอยากแก้หน่อยครับ',
+                  text:
+                      'สวัสดีครับโค้ช ผมอยากเริ่มทำโครงงานวิทย์แต่ยังไม่มีไอเดีย ช่วยสัมภาษณ์เจาะลึกความสนใจและปัญหาที่ผมอยากแก้หน่อยครับ',
                   isUser: true,
                   timestamp: DateTime.now(),
                 ),
@@ -57,7 +51,8 @@ class DashboardView extends StatelessWidget {
               category: 'Pivot Workshop',
               initialMessages: [
                 ChatMessage(
-                  text: 'สวัสดีครับโค้ช ไอเดียโครงงานของผมต้องการปรับมุมมอง (Pivot) ให้มี Novelty และความเป็นไปได้สูงขึ้นตามเกณฑ์ YSC/ISEF ครับ',
+                  text:
+                      'สวัสดีครับโค้ช ไอเดียโครงงานของผมต้องการปรับมุมมอง (Pivot) ให้มี Novelty และความเป็นไปได้สูงขึ้นตามเกณฑ์ YSC/ISEF ครับ',
                   isUser: true,
                   timestamp: DateTime.now(),
                 ),
@@ -66,8 +61,8 @@ class DashboardView extends StatelessWidget {
             AiCoachModal.show(context, initialSession: sess);
           },
           onAllExam: onOpenPractice,
-          onSaved: () => _showCalendarDialog(context),
-          onAddEdit: () => _showExportDialog(context),
+          onSaved: () => showCompetitionCalendar(context),
+          onAddEdit: () => showExportSheet(context),
         ),
         const SizedBox(height: 14),
 
@@ -77,8 +72,8 @@ class DashboardView extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const TopicDiscoveryView()),
           ),
-          onVocabTap: () => _showEvaluationDialog(context),
-          onExamTap: () => _showExportDialog(context),
+          onVocabTap: () => showEvaluationRubric(context),
+          onExamTap: () => showExportSheet(context),
           onNotesTap: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const JudgeDefenseView()),
@@ -98,7 +93,11 @@ class DashboardView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.analytics_rounded, color: AppTheme.secondaryViolet, size: 16),
+                      Icon(
+                        Icons.analytics_rounded,
+                        color: AppTheme.secondaryViolet,
+                        size: 16,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         'ผลตรวจไอเดีย 5 ด้าน (Evaluation)',
@@ -110,40 +109,20 @@ class DashboardView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (learner.evaluatedIdeasCount > 0)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppTheme.accentGreen.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        '${learner.evaluatedIdeasCount} โครงงาน',
-                        style: const TextStyle(
-                          color: AppTheme.accentGreen,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ),
                 ],
               ),
               const SizedBox(height: 12),
-              if (learner.evaluatedIdeasCount == 0)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'ยังไม่มีการตรวจไอเดียในบัญชีนี้ • เริ่มสำรวจหัวข้อวิจัยหรือสร้างโครงงานใหม่เพื่อประเมินความใหม่ (Novelty) และระเบียบวิธีวิจัย',
-                    style: TextStyle(color: AppTheme.textMuted, fontSize: 12, height: 1.4),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'ยังไม่มีการตรวจไอเดียในบัญชีนี้ • เริ่มสำรวจหัวข้อวิจัยหรือสร้างโครงงานใหม่เพื่อประเมินความใหม่ (Novelty) และระเบียบวิธีวิจัย',
+                  style: TextStyle(
+                    color: AppTheme.textMuted,
+                    fontSize: 12,
+                    height: 1.4,
                   ),
-                )
-              else ...[
-                const _EvalBar(label: 'ความใหม่ (Novelty)', score: 0.85, color: AppTheme.accentGreen),
-                const _EvalBar(label: 'ความเป็นไปได้ (Feasibility)', score: 0.90, color: AppTheme.accentGreen),
-                const _EvalBar(label: 'ผลกระทบ (Impact)', score: 0.75, color: AppTheme.accentGreen),
-                const _EvalBar(label: 'สมมติฐาน/วิธีวัดผล', score: 0.60, color: AppTheme.accentAmber),
-                const _EvalBar(label: 'ความเหมาะกับเป้าหมาย', score: 0.80, color: AppTheme.accentGreen),
-              ],
+                ),
+              ),
             ],
           ),
         ),
@@ -171,14 +150,21 @@ class DashboardView extends StatelessWidget {
                     children: [
                       Row(
                         children: const [
-                          Icon(Icons.shield_outlined, color: AppTheme.accentGreen, size: 16),
+                          Icon(
+                            Icons.shield_outlined,
+                            color: AppTheme.accentGreen,
+                            size: 16,
+                          ),
                           SizedBox(width: 5),
-                          Text(
-                            'ธงความปลอดภัย (Safety Flag SRC/ISEF)',
-                            style: TextStyle(
-                              color: AppTheme.accentGreen,
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w700,
+                          Flexible(
+                            child: Text(
+                              'ธงความปลอดภัย (Safety Flag SRC/ISEF)',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppTheme.accentGreen,
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ],
@@ -195,12 +181,19 @@ class DashboardView extends StatelessWidget {
                       const SizedBox(height: 6),
                       Row(
                         children: [
-                          Icon(Icons.check_circle_rounded, color: AppTheme.accentGreen, size: 14),
+                          Icon(
+                            Icons.info_outline_rounded,
+                            color: AppTheme.textMuted,
+                            size: 14,
+                          ),
                           SizedBox(width: 4),
                           Expanded(
                             child: Text(
-                              'ผ่านเกณฑ์ระดับไม่เป็นอันตราย (Non-hazardous)',
-                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                              'ยังไม่ได้ประเมิน • เป็นคำแนะนำ ต้องให้ครูหรือคณะกรรมการ SRC ยืนยัน',
+                              style: TextStyle(
+                                color: AppTheme.textSecondary,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
                         ],
@@ -208,12 +201,20 @@ class DashboardView extends StatelessWidget {
                       const SizedBox(height: 2),
                       Row(
                         children: [
-                          Icon(Icons.chat_outlined, color: AppTheme.primaryCyan, size: 14),
+                          Icon(
+                            Icons.chat_outlined,
+                            color: AppTheme.primaryCyan,
+                            size: 14,
+                          ),
                           SizedBox(width: 4),
                           Expanded(
                             child: Text(
                               'แตะเพื่อเปิดเซสชันปรึกษากรรมการ SRC ทันที >',
-                              style: TextStyle(color: AppTheme.primaryCyan, fontSize: 11, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: AppTheme.primaryCyan,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -235,7 +236,11 @@ class DashboardView extends StatelessWidget {
                       child: Text(
                         '🛡️\nSRC Chat',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.accentGreen),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.accentGreen,
+                        ),
                       ),
                     ),
                   ),
@@ -249,48 +254,7 @@ class DashboardView extends StatelessWidget {
   }
 }
 
-class _EvalBar extends StatelessWidget {
-  final String label;
-  final double score;
-  final Color color;
-
-  const _EvalBar({
-    required this.label,
-    required this.score,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
-              Text('${(score * 100).toInt()}%', style: TextStyle(color: color, fontSize: 11.5, fontWeight: FontWeight.bold)),
-            ],
-          ),
-          const SizedBox(height: 3),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(3),
-            child: LinearProgressIndicator(
-              value: score,
-              backgroundColor: AppTheme.surface2,
-              valueColor: AlwaysStoppedAnimation<Color>(color),
-              minHeight: 5,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-void _showCalendarDialog(BuildContext context) {
+void showCompetitionCalendar(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: AppTheme.surface1,
@@ -306,7 +270,11 @@ void _showCalendarDialog(BuildContext context) {
           children: [
             Row(
               children: [
-                Icon(Icons.calendar_month_rounded, color: AppTheme.primaryCyan, size: 24),
+                Icon(
+                  Icons.calendar_month_rounded,
+                  color: AppTheme.primaryCyan,
+                  size: 24,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'ปฏิทินการแข่งขันวิจัย YSC & ISEF',
@@ -319,38 +287,22 @@ void _showCalendarDialog(BuildContext context) {
               ],
             ),
             const SizedBox(height: 16),
-            _TimelineItem(
-              title: 'ส่งข้อเสนอโครงงาน (Proposal Submission)',
-              date: '1 ก.ค. - 31 ส.ค. 2026',
-              status: 'กำลังเปิดรับสมัคร',
-              statusColor: AppTheme.accentGreen,
-              isCurrent: true,
+            Text(
+              'ช่วงเวลาโดยประมาณจากประกาศล่าสุดที่ตรวจสอบแล้ว (5 พ.ย. 2569) ปีถัดไปต้องตรวจประกาศจริงอีกครั้ง',
+              style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5, height: 1.4),
             ),
-            _TimelineItem(
-              title: 'ประกาศผลรอบคัดเลือก & อนุมัติทุนวิจัย 3,000 บ.',
-              date: '15 ก.ย. 2026',
-              status: 'รอดำเนินการ',
-              statusColor: AppTheme.textMuted,
-            ),
-            _TimelineItem(
-              title: 'ส่งรายงานฉบับสมบูรณ์ (Full Paper)',
-              date: '15 ธ.ค. 2026',
-              status: 'รอดำเนินการ',
-              statusColor: AppTheme.textMuted,
-            ),
-            _TimelineItem(
-              title: 'นำเสนอผลงานรอบชิงชนะเลิศ (National Finals)',
-              date: 'มกราคม 2027',
-              status: 'รอดำเนินการ',
-              statusColor: AppTheme.textMuted,
-            ),
-            _TimelineItem(
-              title: 'ผู้แทนประเทศไทยสู่ Regeneron ISEF (สหรัฐอเมริกา)',
-              date: 'พฤษภาคม 2027',
-              status: 'เป้าหมายสูงสุด',
-              statusColor: AppTheme.secondaryViolet,
-              isLast: true,
-            ),
+            const SizedBox(height: 12),
+            for (final (i, season) in const [
+              ('YSC: ส่งข้อเสนอโครงงาน', 'ส.ค. – ก.ย. (YSC 2027 ปิดรับข้อเสนอ 10 ก.ย. 2569)'),
+              ('NSC: ส่งข้อเสนอโครงการซอฟต์แวร์', 'พ.ค. (NSC 2026 เปิด 1–29 พ.ค. 2569)'),
+              ('ศิลปหัตถกรรมนักเรียน', 'ก.ย. – ธ.ค. แต่ละเขตไม่เท่ากัน ถามครูหรือเขตพื้นที่'),
+              ('Regeneron ISEF 2027', '8–14 พ.ค. 2570 ต้องผ่านเวทีในเครือก่อน'),
+            ].indexed)
+              _TimelineItem(
+                title: season.$1,
+                date: season.$2,
+                isLast: i == 3,
+              ),
           ],
         ),
       );
@@ -361,19 +313,9 @@ void _showCalendarDialog(BuildContext context) {
 class _TimelineItem extends StatelessWidget {
   final String title;
   final String date;
-  final String status;
-  final Color statusColor;
-  final bool isCurrent;
   final bool isLast;
 
-  const _TimelineItem({
-    required this.title,
-    required this.date,
-    required this.status,
-    required this.statusColor,
-    this.isCurrent = false,
-    this.isLast = false,
-  });
+  const _TimelineItem({required this.title, required this.date, this.isLast = false});
 
   @override
   Widget build(BuildContext context) {
@@ -387,19 +329,11 @@ class _TimelineItem extends StatelessWidget {
               height: 14,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isCurrent ? AppTheme.primaryCyan : AppTheme.surface3,
-                border: Border.all(
-                  color: isCurrent ? AppTheme.primaryCyan : AppTheme.borderStroke,
-                  width: 2,
-                ),
+                color: AppTheme.surface3,
+                border: Border.all(color: AppTheme.borderStroke, width: 2),
               ),
             ),
-            if (!isLast)
-              Container(
-                width: 2,
-                height: 38,
-                color: AppTheme.borderStroke,
-              ),
+            if (!isLast) Container(width: 2, height: 38, color: AppTheme.borderStroke),
           ],
         ),
         const SizedBox(width: 12),
@@ -407,31 +341,9 @@ class _TimelineItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: isCurrent ? AppTheme.primaryCyan : AppTheme.textPrimary,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: statusColor.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      status,
-                      style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
+              Text(
+                title,
+                style: TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
               ),
               Text(date, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
               const SizedBox(height: 8),
@@ -443,7 +355,7 @@ class _TimelineItem extends StatelessWidget {
   }
 }
 
-void _showExportDialog(BuildContext context) {
+void showExportSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: AppTheme.surface1,
@@ -459,7 +371,11 @@ void _showExportDialog(BuildContext context) {
           children: [
             Row(
               children: [
-                Icon(Icons.file_download_outlined, color: AppTheme.accentGreen, size: 24),
+                Icon(
+                  Icons.file_download_outlined,
+                  color: AppTheme.accentGreen,
+                  size: 24,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'ส่งออกเอกสารวิจัย (Research Export)',
@@ -475,65 +391,29 @@ void _showExportDialog(BuildContext context) {
             ListTile(
               leading: Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: Colors.blue.withValues(alpha: 0.15), shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: Colors.blue.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
                 child: const Icon(Icons.description, color: Colors.blue),
               ),
-              title: Text('โครงร่างวิจัย (Research Proposal .docx)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
-              subtitle: Text('ฟอร์แมตมาตรฐานพร้อมบทนำ สมมติฐาน และวิธีทดลอง', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+              title: Text(
+                'โครงร่างวิจัย (Markdown)',
+                style: TextStyle(
+                  color: AppTheme.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+              subtitle: Text(
+                'ฟอร์แมตมาตรฐานพร้อมบทนำ สมมติฐาน และวิธีทดลอง',
+                style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5),
+              ),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.pop(ctx);
                 final learner = context.read<LearnerState>();
                 showProposalPreviewDialog(context, learner);
-              },
-            ),
-            ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: Colors.red.withValues(alpha: 0.15), shape: BoxShape.circle),
-                child: const Icon(Icons.picture_as_pdf, color: Colors.red),
-              ),
-              title: Text('เอกสารรับรองความปลอดภัย SRC Form 1A/1B (.pdf)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
-              subtitle: Text('แบบฟอร์มตรวจสอบความเสี่ยงสำหรับอาจารย์ที่ปรึกษาลงนาม', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('สร้างไฟล์ PDF SRC Form สำเร็จ')),
-                );
-              },
-            ),
-            ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: Colors.green.withValues(alpha: 0.15), shape: BoxShape.circle),
-                child: const Icon(Icons.table_chart, color: Colors.green),
-              ),
-              title: Text('รายการวัสดุและอุปกรณ์ BOM (.xlsx)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
-              subtitle: Text('แจกแจงงบประมาณและแหล่งจัดซื้ออุปกรณ์', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('สร้างไฟล์ Excel BOM สำเร็จ')),
-                );
-              },
-            ),
-            ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: AppTheme.primaryCyan.withValues(alpha: 0.15), shape: BoxShape.circle),
-                child: Icon(Icons.share, color: AppTheme.primaryCyan),
-              ),
-              title: Text('คัดลอกลิงก์ให้อาจารย์ที่ปรึกษาตรวจ (Share Link)', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
-              subtitle: Text('อาจารย์สามารถเปิดดูความคืบหน้าและประเมินผ่านเว็บได้', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
-              trailing: const Icon(Icons.copy),
-              onTap: () {
-                Navigator.pop(ctx);
-                Clipboard.setData(const ClipboardData(text: 'https://project-edu.vercel.app/advisor-review?code=EDU-TH-2027'));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('คัดลอกลิงก์สำหรับอาจารย์ที่ปรึกษาลงคลิปบอร์ดแล้ว! (https://project-edu.vercel.app/advisor-review)')),
-                );
               },
             ),
           ],
@@ -543,7 +423,7 @@ void _showExportDialog(BuildContext context) {
   );
 }
 
-void _showEvaluationDialog(BuildContext context) {
+void showEvaluationRubric(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: AppTheme.surface1,
@@ -559,7 +439,11 @@ void _showEvaluationDialog(BuildContext context) {
           children: [
             Row(
               children: [
-                Icon(Icons.analytics_rounded, color: AppTheme.secondaryViolet, size: 24),
+                Icon(
+                  Icons.analytics_rounded,
+                  color: AppTheme.secondaryViolet,
+                  size: 24,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'เกณฑ์ประเมินโครงงาน 5 ด้าน (Rubric)',
@@ -573,36 +457,51 @@ void _showEvaluationDialog(BuildContext context) {
             ),
             const SizedBox(height: 12),
             Text(
-              'เกรดรวมปัจจุบัน: B+ (78/100) • ตามเกณฑ์มาตรฐาน YSC/ISEF',
-              style: TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
-            ),
-            const SizedBox(height: 16),
-            const _EvalBar(label: '1. ความใหม่ (Novelty) - 85%', score: 0.85, color: AppTheme.accentGreen),
-            const _EvalBar(label: '2. ความเป็นไปได้ (Feasibility) - 90%', score: 0.90, color: AppTheme.accentGreen),
-            const _EvalBar(label: '3. ผลกระทบเชิงสังคม (Impact) - 75%', score: 0.75, color: AppTheme.accentGreen),
-            const _EvalBar(label: '4. สมมติฐานและการวัดผล (Testability) - 60%', score: 0.60, color: AppTheme.accentAmber),
-            const _EvalBar(label: '5. ความเหมาะสมตามระดับชั้น (Fit) - 80%', score: 0.80, color: AppTheme.accentGreen),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppTheme.surface2,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppTheme.borderStroke),
+              'ยังไม่มีคะแนนประเมินจริงในแอปมือถือ ใช้เกณฑ์นี้ทบทวนไอเดียด้วยตัวเอง หรือคุยกับ AI Coach ให้ช่วยตั้งคำถามทีละด้าน',
+              style: TextStyle(
+                color: AppTheme.textSecondary,
+                fontSize: 12.5,
+                height: 1.4,
               ),
-              child: Row(
-                children: [
-                  Icon(Icons.lightbulb_outline_rounded, color: AppTheme.accentAmber, size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'คำแนะนำจาก AI Coach: ควรเพิ่มความแม่นยำในการวัดผลตัวแปรตาม โดยระบุหน่วยวัดเชิงตัวเลขและเครื่องมือสอบเทียบให้ชัดเจน',
-                      style: TextStyle(color: AppTheme.textPrimary, fontSize: 11.5),
-                    ),
+            ),
+            const SizedBox(height: 14),
+            for (final axis in const [
+              ['1. ความใหม่ (Novelty)', 'ต่างจากงานที่มีอยู่แล้วอย่างไร'],
+              [
+                '2. ความเป็นไปได้ (Feasibility)',
+                'ทำได้จริงด้วยเวลา งบ และอุปกรณ์ที่มีไหม',
+              ],
+              ['3. ผลกระทบ (Impact)', 'ช่วยแก้ปัญหาของใครหรืออะไร'],
+              [
+                '4. สมมติฐานและการวัดผล (Testability)',
+                'วัดตัวแปรตามเป็นตัวเลขได้ และมีกลุ่มควบคุม',
+              ],
+              ['5. ความเหมาะสม (Fit)', 'เหมาะกับระดับชั้นและเวทีที่ตั้งเป้า'],
+            ])
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${axis[0]}\n',
+                        style: TextStyle(
+                          color: AppTheme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.5,
+                        ),
+                      ),
+                      TextSpan(
+                        text: axis[1],
+                        style: TextStyle(
+                          color: AppTheme.textMuted,
+                          fontSize: 11.5,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
           ],
         ),
       );
@@ -615,24 +514,36 @@ void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
   buffer.writeln('# ข้อเสนอโครงงานวิจัยทางวิทยาศาสตร์ (Research Proposal)');
   buffer.writeln('เป้าหมายโครงงาน: ${learner.projectGoal}');
   buffer.writeln('สาขาวิชา: ${learner.selectedField}');
-  buffer.writeln('ระดับชั้น: ${learner.gradeLevel} (ขนาดทีม: ${learner.teamSize} คน)');
+  buffer.writeln(
+    'ระดับชั้น: ${learner.gradeLevel} (ขนาดทีม: ${learner.teamSize} คน)',
+  );
   buffer.writeln('--------------------------------------------------');
   buffer.writeln('## 1. ชื่อโครงงาน (Project Title)');
-  buffer.writeln(learner.currentLabSessionTitle.isNotEmpty ? learner.currentLabSessionTitle : 'โครงงานวิทยาศาสตร์ที่อยู่ระหว่างการพัฒนา');
+  buffer.writeln(
+    learner.currentLabSessionTitle.isNotEmpty
+        ? learner.currentLabSessionTitle
+        : 'โครงงานวิทยาศาสตร์ที่อยู่ระหว่างการพัฒนา',
+  );
   buffer.writeln('');
   buffer.writeln('## 2. ที่มาและความสำคัญ');
-  buffer.writeln('โครงงานนี้มุ่งศึกษาและพัฒนาองค์ความรู้ในสาขา ${learner.selectedField} โดยเน้นการตั้งสมมติฐานที่วัดผลได้จริง และการควบคุมตัวแปรทางวิทยาศาสตร์ตามมาตรฐาน SRC/ISEF');
+  buffer.writeln(
+    'โครงงานนี้มุ่งศึกษาและพัฒนาองค์ความรู้ในสาขา ${learner.selectedField} โดยเน้นการตั้งสมมติฐานที่วัดผลได้จริง และการควบคุมตัวแปรทางวิทยาศาสตร์ตามมาตรฐาน SRC/ISEF',
+  );
   buffer.writeln('');
   buffer.writeln('## 3. วัตถุประสงค์และสมมติฐาน');
   buffer.writeln('- วัตถุประสงค์: เพื่อเปรียบเทียบผลของตัวแปรต้นต่อตัวแปรตาม');
-  buffer.writeln('- สมมติฐาน: หากตัวแปรต้นได้รับการควบคุมและปรับเปลี่ยน จะส่งผลให้ตัวแปรตามเปลี่ยนแปลงอย่างมีนัยสำคัญทางสถิติ');
+  buffer.writeln(
+    '- สมมติฐาน: หากตัวแปรต้นได้รับการควบคุมและปรับเปลี่ยน จะส่งผลให้ตัวแปรตามเปลี่ยนแปลงอย่างมีนัยสำคัญทางสถิติ',
+  );
   buffer.writeln('');
   buffer.writeln('## 4. แผนการดำเนินงานและงบประมาณ');
   buffer.writeln('- ระยะเวลาการทดลอง: ${learner.timelineWeeks} สัปดาห์');
   buffer.writeln('- กรอบงบประมาณ: ${learner.budgetConstraint}');
   buffer.writeln('- ทรัพยากรที่มี: ${learner.availableResources.join(", ")}');
   buffer.writeln('');
-  buffer.writeln('## 5. บันทึกผลแล็บและการสังเกตการณ์เบื้องต้น (${learner.labObservations.length} รายการ)');
+  buffer.writeln(
+    '## 5. บันทึกผลแล็บและการสังเกตการณ์เบื้องต้น (${learner.labObservations.length} รายการ)',
+  );
   if (learner.labObservations.isEmpty) {
     buffer.writeln('(อยู่ระหว่างเตรียมการทดลอง)');
   } else {
@@ -642,9 +553,11 @@ void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
   }
   buffer.writeln('');
   buffer.writeln('## 6. มาตรการความปลอดภัย (SRC Safety)');
-  buffer.writeln(learner.strictSafetyOnly
-      ? '✓ ผ่านเกณฑ์ SRC Form 1A/1B (ไม่ใช้สารพิษอันตรายและไม่ทดลองในสัตว์มีกระดูกสันหลัง)'
-      : '• อยู่ระหว่างการตรวจสอบของคณะกรรมการความปลอดภัยโรงเรียน');
+  buffer.writeln(
+    learner.strictSafetyOnly
+        ? '• ตั้งใจเลือกเฉพาะวิธีที่ไม่ใช้สารอันตรายและไม่ทดลองในสัตว์มีกระดูกสันหลัง (ยังต้องให้ครูหรือคณะกรรมการ SRC ตรวจยืนยัน)'
+        : '• อยู่ระหว่างการตรวจสอบของคณะกรรมการความปลอดภัยโรงเรียน',
+  );
 
   final proposalText = buffer.toString();
 
@@ -655,12 +568,20 @@ void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       title: Row(
         children: [
-          Icon(Icons.description_rounded, color: AppTheme.primaryCyan, size: 22),
+          Icon(
+            Icons.description_rounded,
+            color: AppTheme.primaryCyan,
+            size: 22,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               'เค้าโครงงานวิจัย (.DOCX / Markdown)',
-              style: TextStyle(color: AppTheme.textPrimary, fontSize: 15.5, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: AppTheme.textPrimary,
+                fontSize: 15.5,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -699,12 +620,18 @@ void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
             Navigator.pop(ctx);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('คัดลอกเค้าโครงงานทั้งหมดลงคลิปบอร์ดแล้ว พร้อมนำไปวางใน Word หรือ Docs 📋'),
+                content: Text(
+                  'คัดลอกเค้าโครงงานทั้งหมดลงคลิปบอร์ดแล้ว พร้อมนำไปวางใน Word หรือ Docs 📋',
+                ),
                 duration: Duration(seconds: 2),
               ),
             );
           },
-          icon: Icon(Icons.copy_rounded, size: 16, color: AppTheme.isDark ? Colors.black : Colors.white),
+          icon: Icon(
+            Icons.copy_rounded,
+            size: 16,
+            color: AppTheme.isDark ? Colors.black : Colors.white,
+          ),
           label: Text(
             'คัดลอกทั้งหมด',
             style: TextStyle(
@@ -715,7 +642,9 @@ void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.primaryCyan,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
       ],

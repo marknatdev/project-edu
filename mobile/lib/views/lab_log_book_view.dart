@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -58,30 +59,6 @@ class _LabLogBookViewState extends State<LabLogBookView> {
                     'Electronic Lab Notebook • YSC/ISEF',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppTheme.accentGreen.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(AppTheme.radiusPill),
-                border: Border.all(color: AppTheme.accentGreen.withValues(alpha: 0.3)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.verified_rounded, size: 14, color: AppTheme.accentGreen),
-                  SizedBox(width: 4),
-                  Text(
-                    'SRC Ready',
-                    style: TextStyle(
-                      color: AppTheme.accentGreen,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
                 ],
               ),
@@ -236,15 +213,7 @@ class _LabLogBookViewState extends State<LabLogBookView> {
                     'เวลาทำการทดลอง',
                     style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
                   ),
-                  Text(
-                    learner.formattedStudyTime,
-                    style: TextStyle(
-                      color: AppTheme.textPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      fontFamily: 'monospace',
-                    ),
-                  ),
+                  _StopwatchText(learner: learner),
                 ],
               ),
               const Spacer(),
@@ -268,7 +237,7 @@ class _LabLogBookViewState extends State<LabLogBookView> {
               const SizedBox(width: 6),
               // Reset Button
               IconButton(
-                onPressed: learner.labTimerSeconds == 0
+                onPressed: !learner.isTimerRunning && learner.labTimerSeconds == 0
                     ? null
                     : () {
                         HapticFeedback.mediumImpact();
@@ -296,19 +265,18 @@ class _LabLogBookViewState extends State<LabLogBookView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Icon(Icons.schema_outlined, size: 16, color: AppTheme.secondaryViolet),
-                      const SizedBox(width: 6),
-                      Text(
-                        'กรอบตัวแปรการทดลอง (Variables)',
-                        style: TextStyle(
-                          color: AppTheme.textPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                        ),
+                  Icon(Icons.schema_outlined, size: 16, color: AppTheme.secondaryViolet),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      'กรอบตัวแปรการทดลอง (Variables)',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppTheme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
                       ),
-                    ],
+                    ),
                   ),
                   InkWell(
                     onTap: () {
@@ -684,6 +652,46 @@ class _LabLogBookViewState extends State<LabLogBookView> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Ticks only itself once a second while running, instead of rebuilding the whole app.
+class _StopwatchText extends StatefulWidget {
+  final LearnerState learner;
+  const _StopwatchText({required this.learner});
+
+  @override
+  State<_StopwatchText> createState() => _StopwatchTextState();
+}
+
+class _StopwatchTextState extends State<_StopwatchText> {
+  Timer? _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (widget.learner.isTimerRunning) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      widget.learner.formattedStudyTime,
+      style: TextStyle(
+        color: AppTheme.textPrimary,
+        fontWeight: FontWeight.bold,
+        fontSize: 22,
+        fontFamily: 'monospace',
       ),
     );
   }

@@ -135,28 +135,6 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: onNotifications,
                     icon: Icon(Icons.notifications_none_rounded, color: AppTheme.textSecondary, size: 24),
                   ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: AppTheme.accentRed,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-                      child: const Center(
-                        child: Text(
-                          '1',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],

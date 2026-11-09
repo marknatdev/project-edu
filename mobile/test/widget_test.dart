@@ -83,4 +83,20 @@ void main() {
     expect(find.text('โครงงานของฉัน (Active Projects)'), findsOneWidget);
     expect(find.text('ยังไม่มีโครงงานที่บันทึกไว้ในบัญชีนี้\nแตะ "+ สร้างใหม่" เพื่อเลือกหัวข้อวิจัย หรือเริ่มบันทึกแล็บ'), findsOneWidget);
   });
+
+  testWidgets('drawer logout leaves guest mode and returns to the login screen', (tester) async {
+    final learner = LearnerState()..isGuestSession = true;
+    await tester.pumpWidget(
+      ChangeNotifierProvider<LearnerState>.value(value: learner, child: const ProjectEduApp()),
+    );
+    await tester.pumpAndSettle();
+
+    tester.state<ScaffoldState>(find.byType(Scaffold).first).openDrawer();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('ออกจากระบบ'));
+    await tester.pumpAndSettle();
+
+    expect(learner.isGuestSession, isFalse);
+    expect(find.text('ทดลองใช้งานทันที (Guest Zero-PII Mode)'), findsOneWidget);
+  });
 }

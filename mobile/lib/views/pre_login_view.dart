@@ -160,7 +160,7 @@ class _PreLoginViewState extends State<PreLoginView> {
                         child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primaryCyan),
                       )
                     : const Text('G', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Colors.blueAccent)),
-                label: _isLoading ? 'กำลังเปิดหน้าเข้าสู่ระบบ...' : 'เข้าสู่ระบบด้วย Google (Supabase Auth)',
+                label: _isLoading ? 'กำลังเปิดหน้าเข้าสู่ระบบ...' : 'เข้าสู่ระบบด้วย Google',
                 onTap: _handleGoogleSignIn,
               ),
               const SizedBox(height: 12),
@@ -229,9 +229,12 @@ class _SocialButton extends StatelessWidget {
         children: [
           icon,
           const SizedBox(width: 10),
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14.5),
+          Flexible(
+            child: Text(
+              label,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14.5),
+            ),
           ),
         ],
       ),

@@ -20,7 +20,6 @@ void main() {
       expect(state.shortlistedCards, isEmpty);
       expect(state.currentLabSessionTitle, isEmpty);
       expect(state.activeProjectsCount, equals(0));
-      expect(state.evaluatedIdeasCount, equals(0));
       expect(state.displayName, equals('นักเรียนนักวิจัย'));
     });
 
@@ -123,6 +122,102 @@ void main() {
       expect(state.bomItems, isEmpty);
       expect(state.labObservations, isEmpty);
       expect(state.sessions, isEmpty);
+    });
+
+    test('clearAllAccountData also resets project settings, in memory and after restart', () async {
+      state.setBudgetConstraint('ไม่เกิน 100 บาท');
+      state.setTeamSize(3);
+      state.setTimelineWeeks(20);
+      state.setStrictSafetyOnly(false);
+      await Future<void>.delayed(Duration.zero);
+
+      await state.clearAllAccountData();
+      expect(state.budgetConstraint, '500 - 1,500 บาท');
+      expect(state.teamSize, 2);
+
+      final restarted = LearnerState();
+      await restarted.loadPersistedState();
+      expect(restarted.budgetConstraint, '500 - 1,500 บาท');
+      expect(restarted.teamSize, 2);
+      expect(restarted.timelineWeeks, 8);
+      expect(restarted.strictSafetyOnly, isTrue);
+    });
+
+    test('guest mode survives a restart until sign-out', () async {
+      state.setGuestSession(true);
+      await Future<void>.delayed(Duration.zero);
+      final restarted = LearnerState();
+      await restarted.loadPersistedState();
+      expect(restarted.isGuestSession, isTrue);
+
+      restarted.setGuestSession(false);
+      await Future<void>.delayed(Duration.zero);
+      final again = LearnerState();
+      await again.loadPersistedState();
+      expect(again.isGuestSession, isFalse);
+    });
+
+    test('lab stopwatch counts wall-clock time, pauses, and survives a restart', () async {
+      var now = DateTime(2026, 11, 9, 10);
+      state.clock = () => now;
+
+      state.toggleTimer();
+      now = now.add(const Duration(minutes: 5)); // phone locked, no ticks
+      expect(state.labTimerSeconds, 300);
+      expect(state.formattedStudyTime, '00:05:00');
+
+      state.toggleTimer(); // pause
+      now = now.add(const Duration(minutes: 10));
+      expect(state.labTimerSeconds, 300);
+      expect(state.isTimerRunning, isFalse);
+
+      state.toggleTimer(); // resume, then app is killed
+      await Future<void>.delayed(Duration.zero);
+      now = now.add(const Duration(seconds: 30));
+
+      final restarted = LearnerState()..clock = () => now;
+      await restarted.loadPersistedState();
+      expect(restarted.isTimerRunning, isTrue);
+      expect(restarted.labTimerSeconds, 330);
+
+      restarted.resetTimer();
+      expect(restarted.labTimerSeconds, 0);
+      expect(restarted.isTimerRunning, isFalse);
+    });
+
+    test('chat sessions survive an app restart, including AI replies and renames', () async {
+      final session = state.createNewSession(title: 'แชทแรก', category: 'SRC Safety');
+      session.messages.add(ChatMessage(text: 'สวัสดี', isUser: true, timestamp: DateTime(2026, 11, 9, 10)));
+      state.saveOrInsertSession(session);
+      // AI reply arrives after the session was committed
+      session.messages.add(ChatMessage(
+        text: 'คำตอบ',
+        isUser: false,
+        timestamp: DateTime(2026, 11, 9, 10, 1),
+        userAskQuestion: 'เลือกข้อไหน?',
+        userAskChoices: ['ก', 'ข'],
+      ));
+      state.touchSession(session);
+      state.renameSession(session.id, 'ชื่อใหม่');
+      await Future<void>.delayed(Duration.zero);
+
+      final restarted = LearnerState();
+      await restarted.loadPersistedState();
+
+      expect(restarted.sessions, hasLength(1));
+      final restored = restarted.sessions.single;
+      expect(restored.id, session.id);
+      expect(restored.title, 'ชื่อใหม่');
+      expect(restored.category, 'SRC Safety');
+      expect(restored.messages.map((m) => m.text), ['สวัสดี', 'คำตอบ']);
+      expect(restored.messages.last.isUser, isFalse);
+      expect(restored.messages.last.userAskChoices, ['ก', 'ข']);
+
+      restarted.deleteSession(session.id);
+      await Future<void>.delayed(Duration.zero);
+      final again = LearnerState();
+      await again.loadPersistedState();
+      expect(again.sessions, isEmpty);
     });
   });
 }

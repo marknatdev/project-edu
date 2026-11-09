@@ -29,5 +29,5 @@
     ".next/types/**/*.ts",
     "tests/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "supabase/functions/**/index.ts"]
 }

@@ -32,7 +32,8 @@ class _SessionsViewState extends State<SessionsView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                Expanded(
+                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -44,10 +45,11 @@ class _SessionsViewState extends State<SessionsView> {
                       ),
                     ),
                     Text(
-                      '${learner.sessions.length} บทสนทนาที่บันทึกไว้ • ซิงค์ Supabase',
+                      '${learner.sessions.length} บทสนทนาที่บันทึกไว้ในเครื่อง',
                       style: TextStyle(color: AppTheme.textSecondary, fontSize: 12.5),
                     ),
                   ],
+                ),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {

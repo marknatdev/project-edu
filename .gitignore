@@ -16,3 +16,6 @@ coverage/
 skills-lock.json
 mobile-builds/
 
+
+# Supabase CLI local state (linked project, CLI cache)
+supabase/.temp/

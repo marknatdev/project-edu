@@ -62,20 +62,17 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isInPracticeMode = false;
-  bool _isGuestSession = false;
 
   @override
   Widget build(BuildContext context) {
-    final user = SupabaseService.currentUser;
-    final isLoggedIn = user != null || _isGuestSession;
+    final learner = context.watch<LearnerState>();
+    final isLoggedIn = SupabaseService.currentUser != null || learner.isGuestSession;
 
     if (!isLoggedIn) {
       return PreLoginView(
-        onLoginSuccess: () => setState(() => _isGuestSession = true),
+        onLoginSuccess: () => learner.setGuestSession(true),
       );
     }
-
-    final learner = context.watch<LearnerState>();
 
     // If currently inside the Practice Stepper Flow
     if (_isInPracticeMode) {
@@ -100,7 +97,7 @@ class _MainShellState extends State<MainShell> {
       case 3:
         currentBody = ProfileView(
           onGoPractice: () => setState(() => _isInPracticeMode = true),
-          onSignOut: () => setState(() => _isGuestSession = false),
+          onSignOut: () => learner.setGuestSession(false),
         );
         break;
       default:
@@ -160,32 +157,9 @@ void _showNotificationsSheet(BuildContext context) {
               ],
             ),
             const SizedBox(height: 16),
-            ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: AppTheme.accentAmber.withValues(alpha: 0.15), shape: BoxShape.circle),
-                child: Icon(Icons.timer_outlined, color: AppTheme.accentAmber),
-              ),
-              title: Text('ส่งข้อเสนอโครงงาน YSC 2027', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5)),
-              subtitle: Text('เหลือเวลาอีก 42 วัน ก่อนปิดระบบรับสมัครรอบแรก', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
-            ),
-            ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: AppTheme.accentGreen.withValues(alpha: 0.15), shape: BoxShape.circle),
-                child: Icon(Icons.shield_outlined, color: AppTheme.accentGreen),
-              ),
-              title: Text('ผ่านการตรวจความปลอดภัย SRC', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5)),
-              subtitle: Text('โครงงานของคุณจัดอยู่ในระดับ Non-hazardous ไม่มีความเสี่ยงอันตราย', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
-            ),
-            ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: AppTheme.secondaryViolet.withValues(alpha: 0.15), shape: BoxShape.circle),
-                child: Icon(Icons.cloud_done_outlined, color: AppTheme.secondaryViolet),
-              ),
-              title: Text('Shorebird OTA ซิงค์แล้ว', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5)),
-              subtitle: Text('แอปเวอร์ชันของคุณได้รับการอัปเดตโค้ดล่าสุดเรียบร้อย', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+            Text(
+              'ยังไม่มีการแจ้งเตือน',
+              style: TextStyle(color: AppTheme.textMuted, fontSize: 13),
             ),
           ],
         ),

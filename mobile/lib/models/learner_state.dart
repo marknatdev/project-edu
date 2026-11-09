@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +20,22 @@ class ChatMessage {
     this.userAskQuestion,
     this.userAskChoices,
   });
+
+  Map<String, dynamic> toJson() => {
+    'text': text,
+    'isUser': isUser,
+    'timestamp': timestamp.toIso8601String(),
+    if (userAskQuestion != null) 'userAskQuestion': userAskQuestion,
+    if (userAskChoices != null) 'userAskChoices': userAskChoices,
+  };
+
+  factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
+    text: json['text'] as String? ?? '',
+    isUser: json['isUser'] as bool? ?? false,
+    timestamp: DateTime.tryParse(json['timestamp'] as String? ?? '') ?? DateTime.now(),
+    userAskQuestion: json['userAskQuestion'] as String?,
+    userAskChoices: (json['userAskChoices'] as List?)?.cast<String>(),
+  );
 }
 
 class LabObservation {
@@ -105,6 +120,27 @@ class ChatSession {
     final last = messages.last;
     return last.text.replaceAll('\n', ' ');
   }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'category': category,
+    'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
+    'messages': messages.map((m) => m.toJson()).toList(),
+  };
+
+  factory ChatSession.fromJson(Map<String, dynamic> json) => ChatSession(
+    id: json['id'] as String,
+    title: json['title'] as String? ?? '',
+    category: json['category'] as String? ?? 'Socratic Research',
+    createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+    updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? '') ?? DateTime.now(),
+    messages: [
+      for (final m in (json['messages'] as List? ?? const []))
+        ChatMessage.fromJson(m as Map<String, dynamic>),
+    ],
+  );
 }
 
 class LearnerState extends ChangeNotifier {
@@ -113,8 +149,20 @@ class LearnerState extends ChangeNotifier {
   String handle = '@researcher';
   String schoolTier = 'มัธยมศึกษาตอนปลาย (ม.ปลาย)';
   int get activeProjectsCount => (currentLabSessionTitle.isNotEmpty ? 1 : 0) + shortlistedCards.length;
-  int get evaluatedIdeasCount => shortlistedCards.length;
-  int get approvedPivotsCount => 0;
+
+  // Guest mode survives restarts so the user is not sent back to the login screen every launch.
+  bool isGuestSession = false;
+
+  void setGuestSession(bool value) {
+    isGuestSession = value;
+    notifyListeners();
+    SharedPreferences.getInstance()
+        .then((p) => p.setBool('guest_session', value))
+        .catchError((Object e) {
+      debugPrint('Error saving guest flag: $e');
+      return false;
+    });
+  }
 
   // Navigation: 0: Dashboard, 1: AI Sessions, 2: Lab Log Book, 3: Profile
   int activeTab = 0;
@@ -172,18 +220,20 @@ class LearnerState extends ChangeNotifier {
     );
   }
 
-  void addMessageToActiveSession(ChatMessage message) {
-    currentSession.messages.add(message);
-    currentSession.updatedAt = DateTime.now();
-    notifyListeners();
-  }
-
   void deleteSession(String id) {
     sessions.removeWhere((s) => s.id == id);
     if (activeSession?.id == id) {
       activeSession = sessions.isNotEmpty ? sessions.first : null;
     }
     notifyListeners();
+    _savePersistedState();
+  }
+
+  /// Call after mutating a committed session's messages (e.g. an AI reply) so it is saved.
+  void touchSession(ChatSession session) {
+    session.updatedAt = DateTime.now();
+    notifyListeners();
+    if (sessions.any((s) => s.id == session.id)) _savePersistedState();
   }
 
   void saveOrInsertSession(ChatSession session) {
@@ -211,13 +261,19 @@ class LearnerState extends ChangeNotifier {
       sessions[idx].title = newTitle;
       sessions[idx].updatedAt = DateTime.now();
       notifyListeners();
+      _savePersistedState();
     }
   }
 
-  // Lab Experiment Timer
-  int labTimerSeconds = 0;
-  bool isTimerRunning = false;
-  Timer? _ticker;
+  // Lab Experiment Timer: wall-clock based so it keeps counting while the phone is locked
+  // or the app is killed. The UI ticks itself; state only notifies on start/pause/reset.
+  @visibleForTesting
+  DateTime Function() clock = DateTime.now;
+  int _accumulatedSeconds = 0;
+  DateTime? _runningSince;
+  bool get isTimerRunning => _runningSince != null;
+  int get labTimerSeconds =>
+      _accumulatedSeconds + (_runningSince == null ? 0 : clock().difference(_runningSince!).inSeconds);
   String currentLabSessionTitle = '';
 
   // Theme (Defaults to White / Light theme)
@@ -253,23 +309,21 @@ class LearnerState extends ChangeNotifier {
 
   // Lab Timer Methods
   void toggleTimer() {
-    isTimerRunning = !isTimerRunning;
-    if (isTimerRunning) {
-      _ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
-        labTimerSeconds++;
-        notifyListeners();
-      });
+    if (_runningSince == null) {
+      _runningSince = clock();
     } else {
-      _ticker?.cancel();
+      _accumulatedSeconds = labTimerSeconds;
+      _runningSince = null;
     }
     notifyListeners();
+    _savePersistedState();
   }
 
   void resetTimer() {
-    _ticker?.cancel();
-    isTimerRunning = false;
-    labTimerSeconds = 0;
+    _runningSince = null;
+    _accumulatedSeconds = 0;
     notifyListeners();
+    _savePersistedState();
   }
 
   void setLabSessionTitle(String title) {
@@ -413,6 +467,8 @@ class LearnerState extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
 
+      isGuestSession = prefs.getBool('guest_session') ?? false;
+
       // 1. Theme
       final themeStr = prefs.getString('theme_mode');
       if (themeStr != null) {
@@ -449,6 +505,17 @@ class LearnerState extends ChangeNotifier {
         }
       }
 
+      // 3b. Chat sessions
+      final sessionsJson = prefs.getStringList('chat_sessions');
+      if (sessionsJson != null) {
+        sessions.clear();
+        for (final s in sessionsJson) {
+          try {
+            sessions.add(ChatSession.fromJson(jsonDecode(s) as Map<String, dynamic>));
+          } catch (_) {}
+        }
+      }
+
       // 4. Constraints
       selectedField = prefs.getString('selected_field') ?? selectedField;
       gradeLevel = prefs.getString('grade_level') ?? gradeLevel;
@@ -464,6 +531,8 @@ class LearnerState extends ChangeNotifier {
       strictSafetyOnly = prefs.getBool('strict_safety_only') ?? strictSafetyOnly;
       citePriorWorkOnly = prefs.getBool('cite_prior_work_only') ?? citePriorWorkOnly;
       currentLabSessionTitle = prefs.getString('lab_session_title') ?? currentLabSessionTitle;
+      _accumulatedSeconds = prefs.getInt('lab_timer_accumulated') ?? 0;
+      _runningSince = DateTime.tryParse(prefs.getString('lab_timer_started_at') ?? '');
 
       // 5. BOM Items
       final bomJson = prefs.getStringList('bom_items');
@@ -498,21 +567,32 @@ class LearnerState extends ChangeNotifier {
     bomItems.clear();
     shortlistedCards.clear();
     currentLabSessionTitle = '';
-    labTimerSeconds = 0;
-    isTimerRunning = false;
-    _ticker?.cancel();
+    _accumulatedSeconds = 0;
+    _runningSince = null;
+    final defaults = LearnerState();
+    selectedField = defaults.selectedField;
+    gradeLevel = defaults.gradeLevel;
+    projectGoal = defaults.projectGoal;
+    budgetConstraint = defaults.budgetConstraint;
+    timelineWeeks = defaults.timelineWeeks;
+    teamSize = defaults.teamSize;
+    availableResources
+      ..clear()
+      ..addAll(defaults.availableResources);
+    strictSafetyOnly = defaults.strictSafetyOnly;
+    citePriorWorkOnly = defaults.citePriorWorkOnly;
     notifyListeners();
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('shortlisted_ids');
-      await prefs.remove('lab_observations');
-      await prefs.remove('lab_session_title');
-      await prefs.remove('bom_items');
-      await prefs.remove('available_resources');
-      await prefs.remove('selected_field');
-      await prefs.remove('project_goal');
-      await prefs.remove('grade_level');
+      for (final key in const [
+        'chat_sessions', 'shortlisted_ids', 'lab_observations', 'lab_session_title',
+        'lab_timer_accumulated', 'lab_timer_started_at', 'bom_items', 'available_resources',
+        'selected_field', 'project_goal', 'grade_level', 'budget_constraint', 'timeline_weeks',
+        'team_size', 'strict_safety_only', 'cite_prior_work_only',
+      ]) {
+        await prefs.remove(key);
+      }
     } catch (e) {
       debugPrint('Error clearing persisted state: $e');
     }
@@ -523,6 +603,7 @@ class LearnerState extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('theme_mode', themeMode.name);
       await prefs.setStringList('shortlisted_ids', shortlistedCards.map((c) => c.id).toList());
+      await prefs.setStringList('chat_sessions', sessions.map((s) => jsonEncode(s.toJson())).toList());
       await prefs.setStringList('lab_observations', labObservations.map((o) => jsonEncode(o.toJson())).toList());
       await prefs.setString('selected_field', selectedField);
       await prefs.setString('grade_level', gradeLevel);
@@ -534,15 +615,16 @@ class LearnerState extends ChangeNotifier {
       await prefs.setBool('strict_safety_only', strictSafetyOnly);
       await prefs.setBool('cite_prior_work_only', citePriorWorkOnly);
       await prefs.setString('lab_session_title', currentLabSessionTitle);
+      await prefs.setInt('lab_timer_accumulated', _accumulatedSeconds);
+      if (_runningSince == null) {
+        await prefs.remove('lab_timer_started_at');
+      } else {
+        await prefs.setString('lab_timer_started_at', _runningSince!.toIso8601String());
+      }
       await prefs.setStringList('bom_items', bomItems.map((b) => jsonEncode(b.toJson())).toList());
     } catch (e) {
       debugPrint('Error saving learner state: $e');
     }
   }
 
-  @override
-  void dispose() {
-    _ticker?.cancel();
-    super.dispose();
-  }
 }

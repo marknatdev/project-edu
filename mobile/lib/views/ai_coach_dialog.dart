@@ -95,7 +95,17 @@ class _AiCoachModalState extends State<AiCoachModal> {
     if (trimmed.isEmpty || _isLoading) return;
 
     final learner = context.read<LearnerState>();
+    final messenger = ScaffoldMessenger.of(context);
     HapticFeedback.lightImpact();
+
+    // AI Coach requires a signed-in Google account; guests keep their typed text.
+    if (!await AiCoachService.isSignedIn) {
+      messenger.showSnackBar(
+        const SnackBar(content: Text('ต้องเข้าสู่ระบบด้วย Google ก่อนใช้ AI Coach (ออกจากระบบแล้วเลือกเข้าสู่ระบบด้วย Google)')),
+      );
+      return;
+    }
+    if (!mounted) return;
 
     // Commit session on user's first message
     if (!_isCommitted) {
@@ -110,23 +120,25 @@ class _AiCoachModalState extends State<AiCoachModal> {
       timestamp: DateTime.now(),
     );
 
+    // History is everything before this message; askCoach appends the new user turn itself.
+    final history = _session.messages.map((m) {
+      return {
+        'role': m.isUser ? 'user' : 'assistant',
+        'content': m.text,
+      };
+    }).toList();
+
     setState(() {
       _session.messages.add(userMsg);
-      _session.updatedAt = DateTime.now();
       _isLoading = true;
     });
+    learner.touchSession(_session);
 
     _scrollToBottom();
 
     final isSrc = _session.category == 'SRC Safety';
 
     try {
-      final history = _session.messages.map((m) {
-        return {
-          'role': m.isUser ? 'user' : 'assistant',
-          'content': m.text,
-        };
-      }).toList();
 
       final rawReply = await AiCoachService.askCoach(
         userMessage: trimmed,
@@ -144,12 +156,11 @@ class _AiCoachModalState extends State<AiCoachModal> {
         userAskChoices: parsed['choices'] as List<String>?,
       );
 
+      // Keep the reply even if the sheet was closed while waiting.
+      _session.messages.add(assistantMsg);
+      learner.touchSession(_session);
       if (mounted) {
-        setState(() {
-          _session.messages.add(assistantMsg);
-          _session.updatedAt = DateTime.now();
-          _isLoading = false;
-        });
+        setState(() => _isLoading = false);
         _scrollToBottom();
 
         // Sync to Supabase in background
@@ -166,6 +177,15 @@ class _AiCoachModalState extends State<AiCoachModal> {
           },
         );
       }
+    } on AiCoachAuthRequired {
+      // Session expired between the check and the reply.
+      _session.messages.add(ChatMessage(
+        text: 'เซสชันหมดอายุ กรุณาเข้าสู่ระบบด้วย Google อีกครั้งเพื่อใช้ AI Coach',
+        isUser: false,
+        timestamp: DateTime.now(),
+      ));
+      learner.touchSession(_session);
+      if (mounted) setState(() => _isLoading = false);
     } catch (e) {
       if (mounted) {
         final String fallbackText;
@@ -202,6 +222,7 @@ class _AiCoachModalState extends State<AiCoachModal> {
           );
           _isLoading = false;
         });
+        learner.touchSession(_session);
         _scrollToBottom();
       }
     }
