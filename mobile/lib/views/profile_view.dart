@@ -121,6 +121,16 @@ class ProfileView extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             IconButton(
+              onPressed: () => _showResetDataConfirmDialog(context, learner),
+              tooltip: 'ล้างข้อมูล Mock Data ออกจากบัญชีทั้งหมด',
+              icon: Icon(Icons.delete_sweep_outlined, size: 18, color: AppTheme.textMuted),
+              style: IconButton.styleFrom(
+                side: BorderSide(color: AppTheme.borderStroke),
+                backgroundColor: AppTheme.surface1,
+              ),
+            ),
+            const SizedBox(width: 6),
+            IconButton(
               onPressed: () async {
                 await SupabaseService.signOut();
                 onSignOut?.call();
@@ -196,19 +206,21 @@ class ProfileView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Main Active Lab Project
-              _buildProjectItem(
-                title: learner.currentLabSessionTitle,
-                field: learner.selectedField,
-                status: 'กำลังทดลองแล็บ (${learner.labObservations.length} บันทึก)',
-                statusColor: AppTheme.primaryCyan,
-                progress: 0.70,
-              ),
-              const SizedBox(height: 10),
+              // Main Active Lab Project (if exists)
+              if (learner.currentLabSessionTitle.isNotEmpty) ...[
+                _buildProjectItem(
+                  title: learner.currentLabSessionTitle,
+                  field: learner.selectedField,
+                  status: 'กำลังทดลองแล็บ (${learner.labObservations.length} บันทึก)',
+                  statusColor: AppTheme.primaryCyan,
+                  progress: learner.labObservations.isNotEmpty ? 0.70 : 0.30,
+                ),
+                const SizedBox(height: 10),
+              ],
 
-              // Shortlisted Topics or Secondary Project
+              // Shortlisted Topics
               if (learner.shortlistedCards.isNotEmpty)
-                ...learner.shortlistedCards.take(2).map((card) => Padding(
+                ...learner.shortlistedCards.take(3).map((card) => Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: _buildProjectItem(
                     title: card.title,
@@ -218,13 +230,21 @@ class ProfileView extends StatelessWidget {
                     progress: 0.35,
                   ),
                 ))
-              else
-                _buildProjectItem(
-                  title: 'แผ่นกรองฝุ่นไฟฟ้าสถิตจากวัสดุชีวภาพเหลือใช้',
-                  field: 'วัสดุศาสตร์ & สิ่งแวดล้อม',
-                  status: 'ผ่านตรวจความปลอดภัย SRC',
-                  statusColor: AppTheme.accentGreen,
-                  progress: 0.40,
+              else if (learner.currentLabSessionTitle.isEmpty)
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Icon(Icons.biotech_outlined, size: 36, color: AppTheme.textMuted),
+                      const SizedBox(height: 8),
+                      Text(
+                        'ยังไม่มีโครงงานที่บันทึกไว้ในบัญชีนี้\nแตะ "+ สร้างใหม่" เพื่อเลือกหัวข้อวิจัย หรือเริ่มบันทึกแล็บ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: AppTheme.textMuted, fontSize: 12.5, height: 1.4),
+                      ),
+                    ],
+                  ),
                 ),
             ],
           ),
@@ -612,6 +632,52 @@ void _showAdvisorSignOffDialog(BuildContext context, LearnerState learner) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+void _showResetDataConfirmDialog(BuildContext context, LearnerState learner) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: AppTheme.surface1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      title: Row(
+        children: const [
+          Icon(Icons.warning_amber_rounded, color: AppTheme.accentRed, size: 22),
+          SizedBox(width: 8),
+          Text(
+            'ล้างข้อมูลบัญชีทั้งหมด',
+            style: TextStyle(color: AppTheme.accentRed, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+        ],
+      ),
+      content: Text(
+        'ต้องการล้างข้อมูล Mock Data, บันทึกการทดลองแล็บ, รายการอุปกรณ์ BOM, และประวัติการสนทนาทั้งหมดในบัญชีนี้ใช่หรือไม่?\n\n(การดำเนินการนี้จะรีเซ็ตข้อมูลในเครื่องให้สะอาด 100%)',
+        style: TextStyle(color: AppTheme.textPrimary, fontSize: 13, height: 1.4),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: Text('ยกเลิก', style: TextStyle(color: AppTheme.textMuted)),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            Navigator.pop(ctx);
+            await learner.clearAllAccountData();
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('ล้างข้อมูลในบัญชีเรียบร้อยแล้ว บัญชีสะอาด 100% ✨'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.accentRed),
+          child: const Text('ยืนยันล้างข้อมูล', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        ),
+      ],
     ),
   );
 }

@@ -19,6 +19,8 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final learner = context.watch<LearnerState>();
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 100.0),
       children: [
@@ -93,7 +95,7 @@ class DashboardView extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.analytics_rounded, color: AppTheme.secondaryViolet, size: 16),
-                      SizedBox(width: 6),
+                      const SizedBox(width: 6),
                       Text(
                         'ผลตรวจไอเดีย 5 ด้าน (Evaluation)',
                         style: TextStyle(
@@ -104,29 +106,40 @@ class DashboardView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: AppTheme.accentGreen.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: const Text(
-                      'เกรด B+ (78%)',
-                      style: TextStyle(
-                        color: AppTheme.accentGreen,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11,
+                  if (learner.evaluatedIdeasCount > 0)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.accentGreen.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        '${learner.evaluatedIdeasCount} โครงงาน',
+                        style: const TextStyle(
+                          color: AppTheme.accentGreen,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 12),
-              const _EvalBar(label: 'ความใหม่ (Novelty)', score: 0.85, color: AppTheme.accentGreen),
-              const _EvalBar(label: 'ความเป็นไปได้ (Feasibility)', score: 0.90, color: AppTheme.accentGreen),
-              const _EvalBar(label: 'ผลกระทบ (Impact)', score: 0.75, color: AppTheme.accentGreen),
-              const _EvalBar(label: 'สมมติฐาน/วิธีวัดผล', score: 0.60, color: AppTheme.accentAmber),
-              const _EvalBar(label: 'ความเหมาะกับเป้าหมาย', score: 0.80, color: AppTheme.accentGreen),
+              if (learner.evaluatedIdeasCount == 0)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    'ยังไม่มีการตรวจไอเดียในบัญชีนี้ • เริ่มสำรวจหัวข้อวิจัยหรือสร้างโครงงานใหม่เพื่อประเมินความใหม่ (Novelty) และระเบียบวิธีวิจัย',
+                    style: TextStyle(color: AppTheme.textMuted, fontSize: 12, height: 1.4),
+                  ),
+                )
+              else ...[
+                const _EvalBar(label: 'ความใหม่ (Novelty)', score: 0.85, color: AppTheme.accentGreen),
+                const _EvalBar(label: 'ความเป็นไปได้ (Feasibility)', score: 0.90, color: AppTheme.accentGreen),
+                const _EvalBar(label: 'ผลกระทบ (Impact)', score: 0.75, color: AppTheme.accentGreen),
+                const _EvalBar(label: 'สมมติฐาน/วิธีวัดผล', score: 0.60, color: AppTheme.accentAmber),
+                const _EvalBar(label: 'ความเหมาะกับเป้าหมาย', score: 0.80, color: AppTheme.accentGreen),
+              ],
             ],
           ),
         ),
@@ -601,7 +614,7 @@ void showProposalPreviewDialog(BuildContext context, LearnerState learner) {
   buffer.writeln('ระดับชั้น: ${learner.gradeLevel} (ขนาดทีม: ${learner.teamSize} คน)');
   buffer.writeln('--------------------------------------------------');
   buffer.writeln('## 1. ชื่อโครงงาน (Project Title)');
-  buffer.writeln(learner.currentLabSessionTitle);
+  buffer.writeln(learner.currentLabSessionTitle.isNotEmpty ? learner.currentLabSessionTitle : 'โครงงานวิทยาศาสตร์ที่อยู่ระหว่างการพัฒนา');
   buffer.writeln('');
   buffer.writeln('## 2. ที่มาและความสำคัญ');
   buffer.writeln('โครงงานนี้มุ่งศึกษาและพัฒนาองค์ความรู้ในสาขา ${learner.selectedField} โดยเน้นการตั้งสมมติฐานที่วัดผลได้จริง และการควบคุมตัวแปรทางวิทยาศาสตร์ตามมาตรฐาน SRC/ISEF');

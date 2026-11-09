@@ -109,76 +109,25 @@ class ChatSession {
 
 class LearnerState extends ChangeNotifier {
   // Identity (Zero-PII compliant)
-  String displayName = 'Nattapan Seksansukatikul (Mark)';
-  String handle = '@mooslide';
+  String displayName = 'นักเรียนนักวิจัย';
+  String handle = '@researcher';
   String schoolTier = 'มัธยมศึกษาตอนปลาย (ม.ปลาย)';
-  int activeProjectsCount = 2;
-  int evaluatedIdeasCount = 6;
-  int approvedPivotsCount = 3;
+  int get activeProjectsCount => (currentLabSessionTitle.isNotEmpty ? 1 : 0) + shortlistedCards.length;
+  int get evaluatedIdeasCount => shortlistedCards.length;
+  int get approvedPivotsCount => 0;
 
   // Navigation: 0: Dashboard/Discovery, 1: AI Sessions, 2: Lab Timer, 3: Discussions, 4: Profile
   int activeTab = 0;
 
-  // AI Chat Sessions
-  final List<ChatSession> sessions = [
-    ChatSession(
-      id: 'session_socratic_1',
-      title: '🔬 ออกแบบตัวแปรโครงงาน AI ตรวจจับไมโครพลาสติก',
-      category: 'Socratic Research',
-      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-      updatedAt: DateTime.now().subtract(const Duration(minutes: 15)),
-      messages: [
-        ChatMessage(
-          text: 'สวัสดีครับอาจารย์โค้ช ผมสนใจทำโครงงานคัดแยกไมโครพลาสติกด้วยกล้องจุลทรรศน์และ AI ครับ',
-          isUser: true,
-          timestamp: DateTime.now().subtract(const Duration(minutes: 20)),
-        ),
-        ChatMessage(
-          text: 'ยินดีต้อนรับสู่วงการวิจัยครับ! หัวข้อนี้มีศักยภาพสูงมากในการแก้ปัญหาสิ่งแวดล้อมทางน้ำ\n\nจากการวิเคราะห์เชิงวิทยาศาสตร์:\n1. ทฤษฎีที่เกี่ยวข้อง: การใช้ Darkfield Illumination หรือ Fluorescence ร่วมกับ Convolutional Neural Networks (CNN) เพื่อจำแนกอนุภาคขนาด 1-5 mm\n2. ตัวแปรต้น (Independent Variable): ชนิดของอนุภาคพลาสติก (PE, PP, PS) และแหล่งกำเนิดน้ำตัวอย่าง\n3. ตัวแปรตาม (Dependent Variable): ค่าความแม่นยำในการคัดแยก (Precision, Recall, F1-Score) และเวลาที่ใช้ในการประมวลผลต่อเฟรม\n4. ตัวแปรควบคุม (Controlled Variables): กำลังขยายของเลนส์ (10x/40x), ความสว่างของแหล่งกำเนิดแสง, และอัตราการไหลของน้ำใน Flow Cell\n\nเพื่อให้โครงงานมีระเบียบวิธีวิจัยที่รัดกุมระดับ YSC คุณต้องตัดสินใจเรื่องการเตรียมชุดข้อมูลทดสอบก่อนครับ',
-          isUser: false,
-          timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
-          userAskQuestion: 'คุณวางแผนจะเตรียมภาพไมโครพลาสติกสำหรับฝึกสอนโมเดล AI อย่างไร?',
-          userAskChoices: [
-            'เตรียมตัวอย่างมาตรฐานจากเม็ดพลาสติกบริสุทธิ์ในแล็บโรงเรียน',
-            'เก็บตัวอย่างน้ำจริงจากแหล่งน้ำธรรมชาติแล้วกรองผ่าน Membrane',
-            'ใช้ชุดข้อมูล Open Dataset ทางวิชาการร่วมกับภาพถ่ายจริง',
-          ],
-        ),
-      ],
-    ),
-    ChatSession(
-      id: 'session_src_1',
-      title: '🛡️ ตรวจความปลอดภัยสารเคมีและอันตรายชีวภาพ (SRC Protocol)',
-      category: 'SRC Safety',
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      updatedAt: DateTime.now().subtract(const Duration(hours: 5)),
-      messages: [
-        ChatMessage(
-          text: 'ขอปรึกษาเรื่องการใช้สารละลายโซเดียมไอโอไดด์ (NaI) สำหรับแยกความหนาแน่นพลาสติกครับ ปลอดภัยสำหรับแล็บโรงเรียนไหม?',
-          isUser: true,
-          timestamp: DateTime.now().subtract(const Duration(hours: 6)),
-        ),
-        ChatMessage(
-          text: 'ตามเกณฑ์ความปลอดภัยของ SRC/ISEF สำหรับนักเรียนมัธยม:\n\n1. การประเมินสารเคมี (Hazard Assessment):\n- Sodium Iodide (NaI) จัดเป็นสารที่มีความเป็นพิษต่ำกว่า Zinc Chloride (ZnCl2) มาก และเป็นทางเลือกที่ปลอดภัย (Safer Alternative) สำหรับการแยกความหนาแน่น (Density Separation)\n- ข้อควรระวัง: ระวังการสัมผัสผิวหนังและการสูดดมไอระเหย ต้องสวมถุงมือไนไตรล์ แว่นตานิรภัย และทำในพื้นที่ที่มีการระบายอากาศดี\n\n2. การกำจัดของเสีย (Waste Management Protocol):\n- ห้ามเทสารละลายเข้มข้นลงท่อระบายน้ำโดยตรง ต้องมีภาชนะบรรจุของเสียเคมีเฉพาะเพื่อนำไปบำบัด',
-          isUser: false,
-          timestamp: DateTime.now().subtract(const Duration(hours: 5)),
-          userAskQuestion: 'ในห้องปฏิบัติการโรงเรียนของคุณ มีอุปกรณ์ความปลอดภัยพื้นฐานต่อไปนี้พร้อมหรือไม่?',
-          userAskChoices: [
-            'มีตู้ดูดควัน (Fume Hood) และชุด PPE ครบถ้วน',
-            'มีแว่นตานิรภัยและถุงมือ แต่ไม่มีตู้ดูดควัน (ต้องทำนอกอาคาร)',
-            'ต้องการเปลี่ยนไปใช้น้ำเกลืออิ่มตัว (NaCl) ซึ่งปลอดภัย 100%',
-          ],
-        ),
-      ],
-    ),
-  ];
+  // AI Chat Sessions (Initial clean state: no mockup sessions)
+  final List<ChatSession> sessions = [];
 
   ChatSession? activeSession;
 
   ChatSession get currentSession {
     if (activeSession != null) return activeSession!;
     if (sessions.isNotEmpty) return sessions.first;
-    final newSess = ChatSession(
+    return ChatSession(
       id: 'session_${DateTime.now().millisecondsSinceEpoch}',
       title: '🔬 การปรึกษาโครงงานวิทยาศาสตร์',
       category: 'Socratic Research',
@@ -186,9 +135,6 @@ class LearnerState extends ChangeNotifier {
       updatedAt: DateTime.now(),
       messages: [],
     );
-    sessions.insert(0, newSess);
-    activeSession = newSess;
-    return newSess;
   }
 
   void selectSession(String id) {
@@ -280,7 +226,7 @@ class LearnerState extends ChangeNotifier {
   int labTimerSeconds = 0;
   bool isTimerRunning = false;
   Timer? _ticker;
-  String currentLabSessionTitle = 'ทดสอบการเหนี่ยวนำเซนเซอร์วัดค่าฝุ่น PM2.5';
+  String currentLabSessionTitle = '';
 
   // Theme (Defaults to White / Light theme)
   AppThemeMode themeMode = AppThemeMode.light;
@@ -347,23 +293,8 @@ class LearnerState extends ChangeNotifier {
     return '$hours:$minutes:$seconds';
   }
 
-  // Lab Observations Log
-  final List<LabObservation> labObservations = [
-    LabObservation(
-      id: 'obs_1',
-      time: '14:30',
-      note: 'เริ่มรอบการวัดครั้งที่ 1: อุณหภูมิควบคุม 25.4°C ค่าความต่างศักย์เซนเซอร์คงที่ 3.28V',
-      tag: 'Trial 1',
-      createdAt: DateTime.now().subtract(const Duration(minutes: 30)),
-    ),
-    LabObservation(
-      id: 'obs_2',
-      time: '14:45',
-      note: 'พ่นละอองควันทดสอบ: กราฟ PM2.5 ตอบสนองเพิ่มขึ้น 142 ug/m3 ในเวลา 3.2 วินาที',
-      tag: 'Peak Event',
-      createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
-    ),
-  ];
+  // Lab Observations Log (Clean state: no mock observations)
+  final List<LabObservation> labObservations = [];
 
   void addObservation({required String note, required String tag, String? customTime}) {
     final now = DateTime.now();
@@ -388,13 +319,8 @@ class LearnerState extends ChangeNotifier {
     _savePersistedState();
   }
 
-  // BOM Management
-  final List<BomItem> bomItems = [
-    BomItem(id: 'bom_1', title: 'เซนเซอร์วัดฝุ่น PMS7003 Optical Scattering', costBaht: 420, status: 'จัดซื้อแล้ว'),
-    BomItem(id: 'bom_2', title: 'บอร์ดไมโครคอนโทรลเลอร์ ESP32 NodeMCU', costBaht: 160, status: 'ยืมแล็บโรงเรียน'),
-    BomItem(id: 'bom_3', title: 'เซนเซอร์อุณหภูมิและความชื้น BME280', costBaht: 110, status: 'จัดซื้อแล้ว'),
-    BomItem(id: 'bom_4', title: 'แบตเตอรี่ลิเธียม 18650 พร้อมโมดูลชาร์จ TP4056', costBaht: 120, status: 'มีแล้วในสต็อก'),
-  ];
+  // BOM Management (Clean state: no mock items)
+  final List<BomItem> bomItems = [];
 
   int get totalBomCost => bomItems.fold(0, (sum, item) => sum + item.costBaht);
 
@@ -559,9 +485,44 @@ class LearnerState extends ChangeNotifier {
         }
       }
 
+      // Automatically prune any legacy mock entries on device
+      sessions.removeWhere((s) => s.id == 'session_socratic_1' || s.id == 'session_src_1');
+      labObservations.removeWhere((o) => o.id == 'obs_1' || o.id == 'obs_2');
+      bomItems.removeWhere((b) => b.id.startsWith('bom_') && int.tryParse(b.id.replaceAll('bom_', '')) != null && int.parse(b.id.replaceAll('bom_', '')) <= 4);
+      if (currentLabSessionTitle == 'ทดสอบการเหนี่ยวนำเซนเซอร์วัดค่าฝุ่น PM2.5') {
+        currentLabSessionTitle = '';
+      }
+
       notifyListeners();
     } catch (e) {
       debugPrint('Error loading persisted learner state: $e');
+    }
+  }
+
+  Future<void> clearAllAccountData() async {
+    sessions.clear();
+    activeSession = null;
+    labObservations.clear();
+    bomItems.clear();
+    shortlistedCards.clear();
+    currentLabSessionTitle = '';
+    labTimerSeconds = 0;
+    isTimerRunning = false;
+    _ticker?.cancel();
+    notifyListeners();
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('shortlisted_ids');
+      await prefs.remove('lab_observations');
+      await prefs.remove('lab_session_title');
+      await prefs.remove('bom_items');
+      await prefs.remove('available_resources');
+      await prefs.remove('selected_field');
+      await prefs.remove('project_goal');
+      await prefs.remove('grade_level');
+    } catch (e) {
+      debugPrint('Error clearing persisted state: $e');
     }
   }
 
