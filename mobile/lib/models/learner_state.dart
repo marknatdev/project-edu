@@ -248,6 +248,25 @@ class LearnerState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void saveOrInsertSession(ChatSession session) {
+    if (!sessions.any((s) => s.id == session.id)) {
+      sessions.insert(0, session);
+    }
+    activeSession = session;
+    notifyListeners();
+    _savePersistedState();
+  }
+
+  void pruneEmptySessions() {
+    // Only retain sessions where user actively typed or interacted (at least one user message)
+    sessions.removeWhere((s) => s.messages.isEmpty || !s.messages.any((m) => m.isUser));
+    if (activeSession != null && !activeSession!.messages.any((m) => m.isUser)) {
+      activeSession = sessions.isNotEmpty ? sessions.first : null;
+    }
+    notifyListeners();
+    _savePersistedState();
+  }
+
   void renameSession(String id, String newTitle) {
     final idx = sessions.indexWhere((s) => s.id == id);
     if (idx != -1) {
