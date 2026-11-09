@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'discovery/discovery_store.dart';
+import 'discovery/supabase_sync_remote.dart';
 import 'models/learner_state.dart';
+import 'services/account_scope.dart';
 import 'services/code_push_service.dart';
 import 'services/supabase_service.dart';
 import 'theme/app_theme.dart';
@@ -23,10 +26,15 @@ Future<void> main() async {
 
   final learner = LearnerState();
   await learner.loadPersistedState();
+  final discovery = DiscoveryStore();
+  await discovery.load();
 
   runApp(
-    ChangeNotifierProvider.value(
-      value: learner,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: learner),
+        ChangeNotifierProvider.value(value: discovery),
+      ],
       child: const ProjectEduApp(),
     ),
   );
@@ -62,16 +70,46 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isInPracticeMode = false;
+  String? _scopedUid;
+
+  @override
+  void initState() {
+    super.initState();
+    SupabaseService.authVersion.addListener(_onAuthChanged);
+    _onAuthChanged();
+  }
+
+  @override
+  void dispose() {
+    SupabaseService.authVersion.removeListener(_onAuthChanged);
+    super.dispose();
+  }
+
+  /// Scopes local data to the signed-in account and starts discovery sync (ADR 0007/0008).
+  Future<void> _onAuthChanged() async {
+    final uid = SupabaseService.currentUserId;
+    final discovery = context.read<DiscoveryStore>();
+    if (uid == null) {
+      discovery.remote = null;
+      if (mounted) setState(() => _scopedUid = null);
+      return;
+    }
+    if (uid == _scopedUid) return;
+    await AccountScope.enter(uid, context.read<LearnerState>(), discovery);
+    if (SupabaseService.isInitialized) {
+      discovery.remote = SupabaseDiscoverySyncRemote(SupabaseService.client);
+      discovery.syncNow();
+    }
+    if (mounted) setState(() => _scopedUid = uid);
+  }
 
   @override
   Widget build(BuildContext context) {
     final learner = context.watch<LearnerState>();
-    final isLoggedIn = SupabaseService.currentUser != null || learner.isGuestSession;
 
-    if (!isLoggedIn) {
-      return PreLoginView(
-        onLoginSuccess: () => learner.setGuestSession(true),
-      );
+    // Sign-in is required (ADR 0007); wait until local data is scoped to this account.
+    if (SupabaseService.currentUserId == null || _scopedUid != SupabaseService.currentUserId) {
+      return const PreLoginView();
     }
 
     // If currently inside the Practice Stepper Flow
@@ -95,10 +133,7 @@ class _MainShellState extends State<MainShell> {
         currentBody = const LabLogBookView();
         break;
       case 3:
-        currentBody = ProfileView(
-          onGoPractice: () => setState(() => _isInPracticeMode = true),
-          onSignOut: () => learner.setGuestSession(false),
-        );
+        currentBody = const ProfileView();
         break;
       default:
         currentBody = DashboardView(

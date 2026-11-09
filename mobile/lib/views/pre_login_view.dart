@@ -1,13 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/supabase_service.dart';
 import '../theme/app_theme.dart';
 
+/// Sign-in screen. There is no Guest mode (ADR 0007); MainShell moves on when auth state changes.
 class PreLoginView extends StatefulWidget {
-  final VoidCallback onLoginSuccess;
-
-  const PreLoginView({super.key, required this.onLoginSuccess});
+  const PreLoginView({super.key});
 
   @override
   State<PreLoginView> createState() => _PreLoginViewState();
@@ -15,25 +12,6 @@ class PreLoginView extends StatefulWidget {
 
 class _PreLoginViewState extends State<PreLoginView> {
   bool _isLoading = false;
-  StreamSubscription<AuthState>? _authSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    if (SupabaseService.isInitialized) {
-      _authSubscription = SupabaseService.client.auth.onAuthStateChange.listen((data) {
-        if (data.session != null && mounted) {
-          widget.onLoginSuccess();
-        }
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _authSubscription?.cancel();
-    super.dispose();
-  }
 
   Future<void> _handleGoogleSignIn() async {
     if (_isLoading) return;
@@ -164,21 +142,6 @@ class _PreLoginViewState extends State<PreLoginView> {
                 onTap: _handleGoogleSignIn,
               ),
               const SizedBox(height: 12),
-
-              // Zero-PII Guest Mode
-              OutlinedButton.icon(
-                onPressed: widget.onLoginSuccess,
-                icon: Icon(Icons.lock_clock_outlined, color: AppTheme.primaryCyan, size: 18),
-                label: Text(
-                  'ทดลองใช้งานทันที (Guest Zero-PII Mode)',
-                  style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.w600, fontSize: 14),
-                ),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(48),
-                  side: BorderSide(color: AppTheme.primaryCyan),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9999)),
-                ),
-              ),
 
               const SizedBox(height: 24),
 

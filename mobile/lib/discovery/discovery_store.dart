@@ -1,6 +1,7 @@
 // Discovery Track state: swipes, Shortlist, Ideas, the Active Idea and AI cards.
 // Everything is a SyncItem keyed by kind + itemId so it can sync with the account (ADR 0008):
 // additions from every device are kept, removals are synced as tombstones, newest action wins.
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -94,6 +95,15 @@ enum SwipeResult { recorded, shortlistFull }
 class DiscoveryStore extends ChangeNotifier {
   static const _prefsKey = 'discovery_items_v1';
   static const _pulledKey = 'discovery_last_pull_v1';
+  static const _subfieldKey = 'discovery_subfield_v1';
+
+  /// Set while signed in; local changes then sync in the background (offline errors are retried later).
+  DiscoverySyncRemote? remote;
+  Timer? _syncTimer;
+  bool _syncing = false;
+
+  /// The subfield the learner is browsing. Device-local, not synced.
+  String? currentSubfieldId;
 
   @visibleForTesting
   DateTime Function() clock = () => DateTime.now().toUtc();
@@ -241,6 +251,36 @@ class DiscoveryStore extends ChangeNotifier {
   void _changed() {
     notifyListeners();
     save();
+    if (remote != null) {
+      _syncTimer?.cancel();
+      _syncTimer = Timer(const Duration(seconds: 2), syncNow);
+    }
+  }
+
+  /// Background sync; never throws (offline changes stay dirty for the next try).
+  Future<void> syncNow() async {
+    final r = remote;
+    if (r == null || _syncing) return;
+    _syncing = true;
+    try {
+      await sync(r);
+    } catch (e) {
+      debugPrint('discovery sync deferred: $e');
+    } finally {
+      _syncing = false;
+    }
+  }
+
+  void setSubfield(String? subfieldId) {
+    currentSubfieldId = subfieldId;
+    notifyListeners();
+    SharedPreferences.getInstance().then((p) => subfieldId == null ? p.remove(_subfieldKey) : p.setString(_subfieldKey, subfieldId));
+  }
+
+  @override
+  void dispose() {
+    _syncTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> save() async {
@@ -263,6 +303,7 @@ class DiscoveryStore extends ChangeNotifier {
       } catch (_) {}
     }
     _cursor = prefs.getString(_pulledKey);
+    currentSubfieldId = prefs.getString(_subfieldKey);
     _clearUndo();
     notifyListeners();
   }
@@ -271,11 +312,13 @@ class DiscoveryStore extends ChangeNotifier {
   Future<void> clearLocal() async {
     _items.clear();
     _cursor = null;
+    currentSubfieldId = null;
     _clearUndo();
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_prefsKey);
     await prefs.remove(_pulledKey);
+    await prefs.remove(_subfieldKey);
   }
 
   /// Pushes local changes, then pulls and merges remote ones. Safe to call offline: it throws and

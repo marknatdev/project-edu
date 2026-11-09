@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../discovery/discovery_store.dart';
 import '../models/learner_state.dart';
 import '../services/code_push_service.dart';
 import '../services/supabase_service.dart';
@@ -7,18 +8,15 @@ import '../theme/app_theme.dart';
 import 'topic_discovery_view.dart';
 
 class ProfileView extends StatelessWidget {
-  final VoidCallback onGoPractice;
-  final VoidCallback? onSignOut;
 
   const ProfileView({
     super.key,
-    required this.onGoPractice,
-    this.onSignOut,
   });
 
   @override
   Widget build(BuildContext context) {
     final learner = context.watch<LearnerState>();
+    final discovery = context.watch<DiscoveryStore>();
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 100.0),
@@ -42,14 +40,14 @@ class ProfileView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      _buildStatBadge('${learner.activeProjectsCount}', 'โครงงานวิจัย'),
+                      _buildStatBadge('${discovery.ideas.length}', 'ไอเดีย'),
                       const SizedBox(width: 10),
                       InkWell(
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (_) => const TopicDiscoveryView()),
                         ),
-                        child: _buildStatBadge('${learner.shortlistedCards.length}', 'Shortlist ❤️'),
+                        child: _buildStatBadge('${discovery.shortlist.length}', 'Shortlist'),
                       ),
                     ],
                   ),
@@ -91,7 +89,6 @@ class ProfileView extends StatelessWidget {
             IconButton(
               onPressed: () async {
                 await SupabaseService.signOut();
-                onSignOut?.call();
               },
               tooltip: 'ออกจากระบบ',
               icon: const Icon(Icons.logout_rounded, size: 18, color: AppTheme.accentRed),
@@ -154,41 +151,33 @@ class ProfileView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'โครงงานของฉัน (Active Projects)',
+                      'ไอเดียของฉัน',
                       style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
                   TextButton(
-                    onPressed: onGoPractice,
-                    child: Text('+ สร้างใหม่', style: TextStyle(color: AppTheme.primaryCyan, fontSize: 12, fontWeight: FontWeight.bold)),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TopicDiscoveryView())),
+                    child: Text('+ หาหัวข้อ', style: TextStyle(color: AppTheme.primaryCyan, fontSize: 12, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
 
-              // Main Active Lab Project (if exists)
-              if (learner.currentLabSessionTitle.isNotEmpty) ...[
-                _buildProjectItem(
-                  title: learner.currentLabSessionTitle,
-                  field: learner.selectedField,
-                  status: 'กำลังทดลองแล็บ (${learner.labObservations.length} บันทึก)',
-                  statusColor: AppTheme.primaryCyan,
-                ),
-                const SizedBox(height: 10),
-              ],
-
-              // Shortlisted Topics
-              if (learner.shortlistedCards.isNotEmpty)
-                ...learner.shortlistedCards.take(3).map((card) => Padding(
+              for (final idea in discovery.ideas)
+                Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
-                  child: _buildProjectItem(
-                    title: card.title,
-                    field: card.subject,
-                    status: 'Shortlisted (สนใจทำ)',
-                    statusColor: AppTheme.secondaryViolet,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: discovery.activeIdea?.id == idea.id ? null : () => _confirmActivate(context, discovery, learner, idea),
+                    child: _buildProjectItem(
+                      title: idea.text,
+                      field: discovery.cardById(idea.cardId)?.title ?? '',
+                      status: discovery.activeIdea?.id == idea.id ? 'ไอเดียหลัก' : 'แตะเพื่อตั้งเป็นไอเดียหลัก',
+                      statusColor: discovery.activeIdea?.id == idea.id ? AppTheme.primaryCyan : AppTheme.secondaryViolet,
+                    ),
                   ),
-                ))
-              else if (learner.currentLabSessionTitle.isEmpty)
+                ),
+              if (discovery.ideas.isEmpty)
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
                   alignment: Alignment.center,
@@ -197,7 +186,7 @@ class ProfileView extends StatelessWidget {
                       Icon(Icons.biotech_outlined, size: 36, color: AppTheme.textMuted),
                       const SizedBox(height: 8),
                       Text(
-                        'ยังไม่มีโครงงานที่บันทึกไว้ในบัญชีนี้\nแตะ "+ สร้างใหม่" เพื่อเลือกหัวข้อวิจัย หรือเริ่มบันทึกแล็บ',
+                        'ยังไม่มีไอเดีย\nแตะ "+ หาหัวข้อ" เพื่อปัดการ์ดหัวข้อแล้วเขียนไอเดียของคุณเอง',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: AppTheme.textMuted, fontSize: 12.5, height: 1.4),
                       ),
@@ -221,6 +210,23 @@ class ProfileView extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  static Future<void> _confirmActivate(BuildContext context, DiscoveryStore discovery, LearnerState learner, Idea idea) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('สลับไอเดียหลัก?'),
+        content: Text('ตั้ง "${idea.text}" เป็นไอเดียหลักแทน ไอเดียเดิมยังอยู่ในรายการ'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('ยกเลิก')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('สลับ')),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    discovery.setActiveIdea(idea.id);
+    learner.setLabSessionTitle(idea.text.length > 80 ? '${idea.text.substring(0, 80)}…' : idea.text);
   }
 
   static Widget _buildStatBadge(String count, String label) {

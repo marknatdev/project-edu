@@ -345,12 +345,15 @@ class _AiCoachModalState extends State<AiCoachModal> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'Claude Socratic Coach',
-                            style: TextStyle(
-                              color: AppTheme.textPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                          Flexible(
+                            child: Text(
+                              'Claude Socratic Coach',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppTheme.textPrimary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 6),

@@ -1,611 +1,491 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../discovery/ai_card_service.dart';
+import '../discovery/catalog.dart';
+import '../discovery/catalog.g.dart';
+import '../discovery/discovery_store.dart';
 import '../models/learner_state.dart';
-import '../models/topic_card.dart';
 import '../theme/app_theme.dart';
-import 'ai_coach_dialog.dart';
+import 'shortlist_compare_view.dart';
+import 'idea_composer.dart';
 
-class TopicDiscoveryView extends StatefulWidget {
+/// Discovery Track: Subject → Subfield → swipe flash cards → Shortlist (max 5) → compare → Idea.
+class TopicDiscoveryView extends StatelessWidget {
   const TopicDiscoveryView({super.key});
 
   @override
-  State<TopicDiscoveryView> createState() => _TopicDiscoveryViewState();
-}
-
-class _TopicDiscoveryViewState extends State<TopicDiscoveryView> {
-  String _selectedSubject = 'ทั้งหมด';
-  int _currentIndex = 0;
-
-  List<TopicCard> get _filteredCards {
-    if (_selectedSubject == 'ทั้งหมด') {
-      return seedTopicCards;
-    }
-    return seedTopicCards.where((c) => c.subject == _selectedSubject).toList();
-  }
-
-  void _nextCard() {
-    setState(() {
-      if (_currentIndex < _filteredCards.length - 1) {
-        _currentIndex++;
-      } else {
-        _currentIndex = 0; // Loop back
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final learner = context.watch<LearnerState>();
-    final cards = _filteredCards;
-    final currentCard = cards.isNotEmpty && _currentIndex < cards.length
-        ? cards[_currentIndex]
-        : null;
-
-    final isFav = currentCard != null && learner.isShortlisted(currentCard.id);
-
+    final store = context.watch<DiscoveryStore>();
+    final subfield = discoverySubfields.where((f) => f.id == store.currentSubfieldId).firstOrNull;
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        backgroundColor: AppTheme.surface1,
+        backgroundColor: AppTheme.background,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.textPrimary, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'สำรวจการ์ดหัวข้อวิจัย',
-          style: TextStyle(
-            color: AppTheme.textPrimary,
-            fontWeight: FontWeight.bold,
-            fontSize: 17,
-          ),
-        ),
+        title: Text(subfield?.nameTh ?? 'ค้นหาหัวข้อโครงงาน',
+            style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 17)),
+        iconTheme: IconThemeData(color: AppTheme.textPrimary),
         actions: [
-          TextButton.icon(
-            onPressed: () => _showShortlistSheet(context, learner),
-            icon: Icon(Icons.favorite_rounded, color: AppTheme.accentRed, size: 18),
-            label: Text(
-              '${learner.shortlistedCards.length}',
-              style: TextStyle(
-                color: AppTheme.textPrimary,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+          if (subfield != null)
+            IconButton(
+              tooltip: 'เปลี่ยนสาขาย่อย',
+              icon: const Icon(Icons.swap_horiz_rounded),
+              onPressed: () => store.setSubfield(null),
+            ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: ActionChip(
+              avatar: Icon(Icons.favorite_rounded, size: 16, color: AppTheme.accentRed),
+              label: Text('Shortlist ${store.shortlist.length}/$shortlistLimit'),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShortlistCompareView())),
             ),
           ),
-          const SizedBox(width: 8),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // 1. Subject Filter Chips
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    'ทั้งหมด',
-                    'คอมพิวเตอร์ & AI',
-                    'ชีววิทยา & สุขภาพ',
-                    'ฟิสิกส์ & พลังงาน',
-                    'วิศวกรรม & หุ่นยนต์',
-                    'สิ่งแวดล้อม',
-                  ].map((sub) {
-                    final isSel = sub == _selectedSubject;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ChoiceChip(
-                        label: Text(
-                          sub,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: isSel ? FontWeight.bold : FontWeight.normal,
-                            color: isSel
-                                ? (AppTheme.isDark ? Colors.black : Colors.white)
-                                : AppTheme.textPrimary,
-                          ),
-                        ),
-                        selected: isSel,
-                        selectedColor: AppTheme.primaryCyan,
-                        backgroundColor: AppTheme.surface2,
-                        side: BorderSide(
-                          color: isSel ? AppTheme.primaryCyan : AppTheme.borderStroke,
-                        ),
-                        onSelected: (val) {
-                          if (val) {
-                            setState(() {
-                              _selectedSubject = sub;
-                              _currentIndex = 0;
-                            });
-                          }
-                        },
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-
-            // 2. Main Topic Card Display
-            Expanded(
-              child: currentCard == null
-                  ? Center(
-                      child: Text('ไม่พบหัวข้อในหมวดนี้', style: TextStyle(color: AppTheme.textMuted)),
-                    )
-                  : Dismissible(
-                      key: ValueKey('${currentCard.id}_$_currentIndex'),
-                      direction: DismissDirection.horizontal,
-                      background: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          color: AppTheme.accentGreen.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(AppTheme.radiusCard),
-                          border: Border.all(color: AppTheme.accentGreen.withValues(alpha: 0.5), width: 2),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.favorite_rounded, color: AppTheme.accentGreen, size: 36),
-                            const SizedBox(width: 8),
-                            Text('สนใจ (Shortlist)', style: TextStyle(color: AppTheme.accentGreen, fontWeight: FontWeight.bold, fontSize: 16)),
-                          ],
-                        ),
-                      ),
-                      secondaryBackground: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        alignment: Alignment.centerRight,
-                        decoration: BoxDecoration(
-                          color: AppTheme.textMuted.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(AppTheme.radiusCard),
-                          border: Border.all(color: AppTheme.textMuted.withValues(alpha: 0.5), width: 2),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text('ข้ามไปก่อน', style: TextStyle(color: AppTheme.textMuted, fontWeight: FontWeight.bold, fontSize: 16)),
-                            const SizedBox(width: 8),
-                            Icon(Icons.close_rounded, color: AppTheme.textMuted, size: 36),
-                          ],
-                        ),
-                      ),
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.startToEnd) {
-                          HapticFeedback.mediumImpact();
-                          learner.toggleShortlist(currentCard);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('เก็บเข้า Shortlist เรียบร้อย ❤️'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        } else {
-                          HapticFeedback.lightImpact();
-                        }
-                        _nextCard();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(20.0),
-                          decoration: AppTheme.cardDecoration(
-                            border: isFav ? AppTheme.accentRed.withValues(alpha: 0.5) : null,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Header: Subject & Counter
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.primaryCyan.withValues(alpha: 0.15),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      currentCard.subject,
-                                      style: TextStyle(
-                                        color: AppTheme.primaryCyan,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 11.5,
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.accentGreen.withValues(alpha: 0.15),
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.shield_rounded, size: 12, color: AppTheme.accentGreen),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              'SRC Safe',
-                                              style: TextStyle(color: AppTheme.accentGreen, fontSize: 10, fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '${_currentIndex + 1}/${cards.length}',
-                                        style: TextStyle(color: AppTheme.textMuted, fontSize: 12, fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-
-                              // Title
-                              Text(
-                                currentCard.title,
-                                style: TextStyle(
-                                  color: AppTheme.textPrimary,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.3,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-
-                              // Scrollable Body Details
-                              Expanded(
-                                child: ListView(
-                                  children: [
-                                    // Phenomenon
-                                    _InfoBox(
-                                      icon: Icons.lightbulb_outline_rounded,
-                                      iconColor: AppTheme.accentAmber,
-                                      title: 'ปัญหา / ปรากฏการณ์รอบตัว',
-                                      content: currentCard.phenomenon,
-                                    ),
-                                    const SizedBox(height: 10),
-
-                                    // Curiosity Hook
-                                    _InfoBox(
-                                      icon: Icons.science_outlined,
-                                      iconColor: AppTheme.secondaryViolet,
-                                      title: 'คำถามท้าทายเชิงวิทยาศาสตร์',
-                                      content: currentCard.curiosityHook,
-                                    ),
-                                    const SizedBox(height: 10),
-
-                                    // Variables Container
-                                    Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.surface2,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(color: AppTheme.borderStroke),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('การออกแบบตัวแปร (Variables):', style: TextStyle(color: AppTheme.textSecondary, fontSize: 11.5, fontWeight: FontWeight.bold)),
-                                          const SizedBox(height: 6),
-                                          Text('• ตัวแปรต้น: ${currentCard.independentVar}', style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
-                                          const SizedBox(height: 4),
-                                          Text('• ตัวแปรตาม: ${currentCard.dependentVar}', style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-
-                                    // Resource / Timeline summary
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: _StatPill(
-                                            icon: Icons.schedule_rounded,
-                                            label: '${currentCard.estimatedWeeks} สัปดาห์',
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: _StatPill(
-                                            icon: Icons.payments_outlined,
-                                            label: currentCard.estimatedBudgetBaht == 0
-                                                ? 'งบ 0 บาท'
-                                                : 'งบ ~${currentCard.estimatedBudgetBaht} ฿',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-            ),
-
-            // 3. Action Buttons Row (Tinder-Style Controls)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Pass / Skip Button
-                  IconButton(
-                    onPressed: _nextCard,
-                    icon: Icon(Icons.close_rounded, size: 26, color: AppTheme.textMuted),
-                    style: IconButton.styleFrom(
-                      padding: const EdgeInsets.all(14),
-                      backgroundColor: AppTheme.surface2,
-                      side: BorderSide(color: AppTheme.borderStroke),
-                    ),
-                  ),
-
-                  // Start AI Coaching Button
-                  ElevatedButton.icon(
-                    onPressed: currentCard == null
-                        ? null
-                        : () {
-                            final sess = learner.createNewSession(
-                              title: '🔬 วิจัย: ${currentCard.title}',
-                              category: 'Socratic Research',
-                              initialMessages: [
-                                ChatMessage(
-                                  text: 'สวัสดีครับโค้ช ผมสนใจทำโครงงานเรื่อง "${currentCard.title}" ในสาขา ${currentCard.subject} ช่วยแนะนำการตั้งสมมติฐานและวิธีวัดตัวแปรตามอย่างละเอียดหน่อยครับ',
-                                  isUser: true,
-                                  timestamp: DateTime.now(),
-                                ),
-                              ],
-                            );
-                            AiCoachModal.show(context, initialSession: sess);
-                          },
-                    icon: Icon(Icons.psychology_rounded, size: 20, color: AppTheme.isDark ? Colors.black : Colors.white),
-                    label: Text(
-                      'คุยกับ AI โค้ช',
-                      style: TextStyle(
-                        color: AppTheme.isDark ? Colors.black : Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.5,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryCyan,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusPill)),
-                    ),
-                  ),
-
-                  // Shortlist (Favorite) Button
-                  IconButton(
-                    onPressed: currentCard == null
-                        ? null
-                        : () {
-                            learner.toggleShortlist(currentCard);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  learner.isShortlisted(currentCard.id)
-                                      ? 'เก็บเข้า Shortlist เรียบร้อย ❤️'
-                                      : 'นำออกจาก Shortlist แล้ว',
-                                ),
-                                duration: const Duration(milliseconds: 1200),
-                              ),
-                            );
-                            _nextCard();
-                          },
-                    icon: Icon(
-                      isFav ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                      size: 26,
-                      color: AppTheme.accentRed,
-                    ),
-                    style: IconButton.styleFrom(
-                      padding: const EdgeInsets.all(14),
-                      backgroundColor: AppTheme.surface2,
-                      side: BorderSide(color: isFav ? AppTheme.accentRed : AppTheme.borderStroke),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: subfield == null ? const _SubjectSubfieldPicker() : _Deck(subfield: subfield),
     );
   }
+}
 
-  void _showShortlistSheet(BuildContext context, LearnerState learner) {
-    showModalBottomSheet(
+class _SubjectSubfieldPicker extends StatefulWidget {
+  const _SubjectSubfieldPicker();
+  @override
+  State<_SubjectSubfieldPicker> createState() => _SubjectSubfieldPickerState();
+}
+
+class _SubjectSubfieldPickerState extends State<_SubjectSubfieldPicker> {
+  String? _subjectId;
+
+  @override
+  Widget build(BuildContext context) {
+    final subject = discoverySubjects.where((s) => s.id == _subjectId).firstOrNull;
+    final items = subject == null
+        ? [for (final s in discoverySubjects) (s.nameTh, s.description, () => setState(() => _subjectId = s.id))]
+        : [
+            for (final f in discoverySubfields.where((f) => f.subjectId == subject.id))
+              (f.nameTh, f.description, () => context.read<DiscoveryStore>().setSubfield(f.id)),
+          ];
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+      children: [
+        if (subject != null)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: () => setState(() => _subjectId = null),
+              icon: const Icon(Icons.arrow_back_rounded, size: 18),
+              label: Text('วิชา: ${subject.nameTh}'),
+            ),
+          ),
+        Text(subject == null ? '1. เลือกวิชาที่สนใจ' : '2. เลือกสาขาย่อย',
+            style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 12),
+        for (final (title, desc, onTap) in items)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Material(
+              color: AppTheme.surface1,
+              borderRadius: BorderRadius.circular(16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(color: AppTheme.borderStroke),
+                ),
+                title: Text(title, style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold)),
+                subtitle: Text(desc, style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: onTap,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _Deck extends StatefulWidget {
+  final DiscoverySubfield subfield;
+  const _Deck({required this.subfield});
+  @override
+  State<_Deck> createState() => _DeckState();
+}
+
+class _DeckState extends State<_Deck> {
+  bool _generating = false;
+
+  void _openCompare() => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShortlistCompareView()));
+
+  void _swipe(DiscoveryCard card, {required bool like}) {
+    HapticFeedback.selectionClick();
+    final result = context.read<DiscoveryStore>().swipe(card, like: like);
+    if (result == SwipeResult.shortlistFull) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Shortlist ครบ 5 ใบแล้ว เทียบแล้วเอาออกก่อนจึงจะเก็บใบใหม่ได้')),
+      );
+      _openCompare();
+    }
+  }
+
+  Future<void> _askAi() async {
+    final interest = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppTheme.surface1,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (ctx, setSheetState) {
-            final items = learner.shortlistedCards;
-            return Container(
-              padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(ctx).size.height * 0.75,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.favorite_rounded, color: AppTheme.accentRed, size: 22),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Shortlist หัวข้อวิจัยที่คุณสนใจ (${items.length})',
-                            style: TextStyle(
-                              color: AppTheme.textPrimary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(ctx),
-                        icon: const Icon(Icons.close_rounded),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  if (items.isEmpty)
-                    Expanded(
-                      child: Center(
-                        child: Text('ยังไม่มีหัวข้อใน Shortlist แตะปุ่มหัวใจ ❤️ เพื่อเก็บหัวข้อที่คุณสนใจ', style: TextStyle(color: AppTheme.textMuted)),
-                      ),
-                    )
-                  else
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (ctx, idx) {
-                          final c = items[idx];
-                          return Card(
-                            color: AppTheme.surface2,
-                            margin: const EdgeInsets.only(bottom: 10),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: AppTheme.borderStroke),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                c.title,
-                                style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13.5),
-                              ),
-                              subtitle: Text(
-                                '${c.subject} • ${c.estimatedWeeks} สัปดาห์',
-                                style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5),
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline_rounded, color: AppTheme.accentRed, size: 20),
-                                onPressed: () {
-                                  learner.toggleShortlist(c);
-                                  setSheetState(() {});
-                                },
-                              ),
-                              onTap: () {
-                                Navigator.pop(ctx);
-                                final sess = learner.createNewSession(
-                                  title: '🔬 วิจัย: ${c.title}',
-                                  category: 'Socratic Research',
-                                  initialMessages: [
-                                    ChatMessage(
-                                      text: 'สวัสดีครับโค้ช ผมเลือกหัวข้อ "${c.title}" จาก Shortlist ช่วยแนะนำขั้นตอนเริ่มต้นหน่อยครับ',
-                                      isUser: true,
-                                      timestamp: DateTime.now(),
-                                    ),
-                                  ],
-                                );
-                                AiCoachModal.show(context, initialSession: sess);
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                ],
+      builder: (ctx) => _AiInterestSheet(subfield: widget.subfield),
+    );
+    if (interest == null || !mounted) return;
+    setState(() => _generating = true);
+    final messenger = ScaffoldMessenger.of(context);
+    final store = context.read<DiscoveryStore>();
+    try {
+      final cards = await AiCardService.generate(
+        subfield: widget.subfield,
+        gradeLevel: context.read<LearnerState>().gradeCode,
+        interest: interest,
+      );
+      store.addAiCards(cards);
+      messenger.showSnackBar(SnackBar(content: Text('AI คิดการ์ดใหม่ให้ ${cards.length} ใบ')));
+    } on AiCardError catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text(e.messageTh)));
+    } catch (_) {
+      messenger.showSnackBar(const SnackBar(content: Text('เชื่อมต่อไม่ได้ ลองใหม่เมื่อมีอินเทอร์เน็ต')));
+    } finally {
+      if (mounted) setState(() => _generating = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final store = context.watch<DiscoveryStore>();
+    final learner = context.watch<LearnerState>();
+    final deck = store.deck(widget.subfield.id, learner.gradeCode);
+    final aiButton = OutlinedButton.icon(
+      onPressed: _generating ? null : _askAi,
+      icon: _generating
+          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+          : const Icon(Icons.auto_awesome_rounded, size: 18),
+      label: Text(_generating ? 'AI กำลังคิด...' : 'ให้ AI คิดการ์ดจากความสนใจ'),
+    );
+
+    if (deck.isEmpty) {
+      final skipped = store.skippedCount(widget.subfield.id);
+      return ListView(
+        padding: const EdgeInsets.all(24),
+        children: [
+          Icon(Icons.style_rounded, size: 48, color: AppTheme.textMuted),
+          const SizedBox(height: 12),
+          Text('ปัดการ์ดในสาขานี้ครบแล้ว',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 17)),
+          const SizedBox(height: 20),
+          aiButton,
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: skipped == 0 ? null : () => store.reviewSkipped(widget.subfield.id),
+            icon: const Icon(Icons.replay_rounded, size: 18),
+            label: Text('ดูใบที่ข้ามอีกรอบ ($skipped ใบ)'),
+          ),
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: () => store.setSubfield(null),
+            icon: const Icon(Icons.swap_horiz_rounded, size: 18),
+            label: const Text('เปลี่ยนสาขาย่อย'),
+          ),
+          if (store.shortlist.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            FilledButton(onPressed: _openCompare, child: Text('เทียบ Shortlist (${store.shortlist.length} ใบ)')),
+          ],
+        ],
+      );
+    }
+
+    final card = deck.first;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+          child: Text('เหลือ ${deck.length} ใบ • แตะการ์ดเพื่อพลิกดูรายละเอียด • ปัดซ้ายข้าม ปัดขวาสนใจ',
+              textAlign: TextAlign.center, style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Dismissible(
+              key: ValueKey('deck_${card.id}'),
+              confirmDismiss: (dir) async {
+                final like = dir == DismissDirection.startToEnd;
+                if (like && store.shortlistFull) {
+                  _swipe(card, like: true); // shows the message and opens compare
+                  return false;
+                }
+                return true;
+              },
+              onDismissed: (dir) => _swipe(card, like: dir == DismissDirection.startToEnd),
+              child: FlashCard(card: card),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _RoundButton(icon: Icons.close_rounded, label: 'ข้าม', onTap: () => _swipe(card, like: false)),
+              _RoundButton(icon: Icons.undo_rounded, label: 'ย้อน', onTap: store.canUndo ? store.undo : null),
+              _RoundButton(
+                icon: Icons.favorite_rounded,
+                label: 'สนใจ',
+                color: AppTheme.accentRed,
+                onTap: () => _swipe(card, like: true),
               ),
-            );
-          },
-        );
-      },
+            ],
+          ),
+        ),
+        Padding(padding: const EdgeInsets.fromLTRB(16, 0, 16, 16), child: SizedBox(width: double.infinity, child: aiButton)),
+      ],
     );
   }
 }
 
-class _InfoBox extends StatelessWidget {
+class _RoundButton extends StatelessWidget {
   final IconData icon;
-  final Color iconColor;
-  final String title;
-  final String content;
-
-  const _InfoBox({
-    required this.icon,
-    required this.iconColor,
-    required this.title,
-    required this.content,
-  });
+  final String label;
+  final VoidCallback? onTap;
+  final Color? color;
+  const _RoundButton({required this.icon, required this.label, required this.onTap, this.color});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppTheme.surface2,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.borderStroke),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton.outlined(
+          onPressed: onTap,
+          iconSize: 28,
+          tooltip: label,
+          icon: Icon(icon, color: onTap == null ? AppTheme.textMuted : (color ?? AppTheme.textPrimary)),
+        ),
+        Text(label, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+      ],
+    );
+  }
+}
+
+/// Topic Card as a two-sided flash card: tap to flip.
+class FlashCard extends StatefulWidget {
+  final DiscoveryCard card;
+  const FlashCard({super.key, required this.card});
+  @override
+  State<FlashCard> createState() => _FlashCardState();
+}
+
+class _FlashCardState extends State<FlashCard> {
+  bool _back = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => setState(() => _back = !_back),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(end: _back ? math.pi : 0),
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeInOut,
+        builder: (context, angle, _) {
+          final showBack = angle > math.pi / 2;
+          // At rest, draw the face without the 3D transform: a perspective matrix breaks hit testing
+          // for the buttons on the back.
+          if ((angle - (_back ? math.pi : 0)).abs() < 0.001) {
+            return _CardFace(child: _back ? _Back(card: widget.card) : _Front(card: widget.card));
+          }
+          return Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001)
+              ..rotateY(angle),
+            child: showBack
+                ? Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()..rotateY(math.pi),
+                    child: _CardFace(child: _back ? _Back(card: widget.card) : const SizedBox()),
+                  )
+                : _CardFace(child: _Front(card: widget.card)),
+          );
+        },
       ),
+    );
+  }
+}
+
+class _CardFace extends StatelessWidget {
+  final Widget child;
+  const _CardFace({required this.child});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: AppTheme.cardDecoration(),
+      child: child,
+    );
+  }
+}
+
+class _Front extends StatelessWidget {
+  final DiscoveryCard card;
+  const _Front({required this.card});
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(icon, size: 16, color: iconColor),
-              const SizedBox(width: 6),
-              Text(
-                title,
-                style: TextStyle(
-                  color: iconColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
+          if (card.aiGenerated)
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppTheme.secondaryViolet.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(8),
               ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            content,
-            style: TextStyle(
-              color: AppTheme.textPrimary,
-              fontSize: 12.5,
-              height: 1.35,
+              child: Text('AI คิดให้ • ยังไม่ได้ตรวจว่ามีคนทำแล้วหรือยัง',
+                  style: TextStyle(color: AppTheme.secondaryViolet, fontSize: 11, fontWeight: FontWeight.bold)),
             ),
-          ),
+          Text(card.title, style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w800, fontSize: 20, height: 1.3)),
+          const SizedBox(height: 16),
+          _Section(icon: Icons.visibility_outlined, title: 'ปรากฏการณ์ที่สังเกตได้', text: card.phenomenon),
+          const SizedBox(height: 12),
+          _Section(icon: Icons.help_outline_rounded, title: 'คำถามชวนสงสัย', text: card.curiosityHook),
+          const SizedBox(height: 12),
+          Text('แตะเพื่อพลิกดูสิ่งที่ต้องใช้', style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5)),
         ],
       ),
     );
   }
 }
 
-class _StatPill extends StatelessWidget {
+class _Back extends StatelessWidget {
+  final DiscoveryCard card;
+  const _Back({required this.card});
+  @override
+  Widget build(BuildContext context) {
+    final fit = context.read<LearnerState>().fitConstraints;
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(card.title, style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 15)),
+          const SizedBox(height: 12),
+          Wrap(spacing: 8, runSpacing: 8, children: [
+            _Pill('${card.estimatedWeeks} สัปดาห์'),
+            _Pill(card.estimatedBudgetBaht == 0 ? 'ไม่ใช้งบ' : 'งบ ~${card.estimatedBudgetBaht} บาท'),
+            _Pill('ความยาก: ${card.difficultyTh}'),
+            _Pill('ทีม ${card.minTeamSize}-${card.maxTeamSize} คน'),
+          ]),
+          const SizedBox(height: 14),
+          _Section(icon: Icons.handyman_outlined, title: 'อุปกรณ์', text: card.requiredEquipment.map((e) => '• $e').join('\n')),
+          const SizedBox(height: 12),
+          _Section(icon: Icons.school_outlined, title: 'ทักษะที่ต้องใช้', text: card.requiredSkills.map((e) => '• $e').join('\n')),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () => IdeaComposer.show(context, card),
+              icon: const Icon(Icons.bolt_rounded),
+              label: const Text('อยากทำเลย เลือกใบนี้'),
+            ),
+          ),
+          if (fit.teamSize < card.minTeamSize || fit.teamSize > card.maxTeamSize)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text('ทีมของคุณมี ${fit.teamSize} คน การ์ดนี้แนะนำ ${card.minTeamSize}-${card.maxTeamSize} คน',
+                  style: TextStyle(color: AppTheme.accentAmber, fontSize: 11.5)),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
   final IconData icon;
-  final String label;
+  final String title;
+  final String text;
+  const _Section({required this.icon, required this.title, required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: [
+          Icon(icon, size: 16, color: AppTheme.primaryCyan),
+          const SizedBox(width: 6),
+          Expanded(child: Text(title, style: TextStyle(color: AppTheme.primaryCyan, fontWeight: FontWeight.bold, fontSize: 12.5))),
+        ]),
+        const SizedBox(height: 4),
+        Text(text, style: TextStyle(color: AppTheme.textSecondary, fontSize: 13.5, height: 1.45)),
+      ],
+    );
+  }
+}
 
-  const _StatPill({required this.icon, required this.label});
-
+class _Pill extends StatelessWidget {
+  final String text;
+  const _Pill(this.text);
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppTheme.surface2,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppTheme.borderStroke),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(color: AppTheme.surface2, borderRadius: BorderRadius.circular(20)),
+      child: Text(text, style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
+    );
+  }
+}
+
+class _AiInterestSheet extends StatefulWidget {
+  final DiscoverySubfield subfield;
+  const _AiInterestSheet({required this.subfield});
+  @override
+  State<_AiInterestSheet> createState() => _AiInterestSheetState();
+}
+
+class _AiInterestSheetState extends State<_AiInterestSheet> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 20, 20, MediaQuery.of(context).viewInsets.bottom + 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 14, color: AppTheme.textSecondary),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: TextStyle(color: AppTheme.textPrimary, fontSize: 11.5, fontWeight: FontWeight.bold),
+          Text('ให้ AI คิดการ์ดใน "${widget.subfield.nameTh}"',
+              style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 16)),
+          const SizedBox(height: 6),
+          Text('การ์ดที่ AI คิดเป็นแค่จุดตั้งต้น ยังไม่ได้ตรวจว่ามีคนทำแล้วหรือยัง และใช้โควตารายวันร่วมกับเว็บ',
+              style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _controller,
+            maxLength: 200,
+            decoration: const InputDecoration(
+              labelText: 'เล่าสิ่งที่สนใจ (ไม่บังคับ)',
+              hintText: 'เช่น บ้านปลูกทุเรียน อยากรู้เรื่องดินกับปุ๋ย',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(onPressed: () => Navigator.pop(context, _controller.text), child: const Text('ให้ AI คิดการ์ด')),
           ),
         ],
       ),

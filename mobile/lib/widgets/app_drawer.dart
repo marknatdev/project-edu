@@ -89,11 +89,9 @@ class AppDrawer extends StatelessWidget {
                   ),
                   _DrawerItem(
                     icon: Icons.folder_special_outlined,
-                    title: 'โครงงานวิจัยของฉัน',
-                    badgeText: '${learner.activeProjectsCount}',
-                    badgeColor: AppTheme.primaryCyan,
+                    title: 'ไอเดียของฉัน',
                     onTap: () {
-                      learner.setTab(0);
+                      learner.setTab(3);
                       Navigator.pop(context);
                     },
                   ),
@@ -224,7 +222,6 @@ class AppDrawer extends StatelessWidget {
                 onTap: () async {
                   Navigator.pop(context);
                   await SupabaseService.signOut();
-                  learner.setGuestSession(false);
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(

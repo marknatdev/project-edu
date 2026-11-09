@@ -17,9 +17,7 @@ void main() {
       expect(state.sessions, isEmpty);
       expect(state.labObservations, isEmpty);
       expect(state.bomItems, isEmpty);
-      expect(state.shortlistedCards, isEmpty);
       expect(state.currentLabSessionTitle, isEmpty);
-      expect(state.activeProjectsCount, equals(0));
       expect(state.displayName, equals('นักเรียนนักวิจัย'));
     });
 
@@ -141,20 +139,6 @@ void main() {
       expect(restarted.teamSize, 2);
       expect(restarted.timelineWeeks, 8);
       expect(restarted.strictSafetyOnly, isTrue);
-    });
-
-    test('guest mode survives a restart until sign-out', () async {
-      state.setGuestSession(true);
-      await Future<void>.delayed(Duration.zero);
-      final restarted = LearnerState();
-      await restarted.loadPersistedState();
-      expect(restarted.isGuestSession, isTrue);
-
-      restarted.setGuestSession(false);
-      await Future<void>.delayed(Duration.zero);
-      final again = LearnerState();
-      await again.loadPersistedState();
-      expect(again.isGuestSession, isFalse);
     });
 
     test('lab stopwatch counts wall-clock time, pauses, and survives a restart', () async {

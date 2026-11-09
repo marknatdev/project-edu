@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'supabase_service.dart';
 
@@ -9,12 +8,10 @@ class AiCoachAuthRequired implements Exception {}
 /// Calls the `ai-coach` Supabase Edge Function. The AI gateway key, URL, model and
 /// system prompts live only on the server (supabase/functions/ai-coach).
 class AiCoachService {
-  /// HTTP seam; tests swap in `MockClient` from `package:http/testing.dart`.
-  @visibleForTesting
+  /// HTTP seam shared by the AI services; tests swap in `MockClient` from `package:http/testing.dart`.
   static http.Client client = http.Client();
 
-  /// Access-token seam; returns null when nobody is signed in.
-  @visibleForTesting
+  /// Access-token seam shared by the AI services; returns null when nobody is signed in.
   static Future<String?> Function() accessToken = () async => SupabaseService.currentSession?.accessToken;
 
   static Uri get _endpoint => Uri.parse('${SupabaseService.supabaseUrl}/functions/v1/ai-coach');

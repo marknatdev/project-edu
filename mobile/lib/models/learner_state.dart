@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../theme/app_theme.dart';
-import 'topic_card.dart';
+import '../discovery/fit_score.dart';
 
 enum AppThemeMode { dark, system, light }
 
@@ -148,21 +148,6 @@ class LearnerState extends ChangeNotifier {
   String displayName = 'นักเรียนนักวิจัย';
   String handle = '@researcher';
   String schoolTier = 'มัธยมศึกษาตอนปลาย (ม.ปลาย)';
-  int get activeProjectsCount => (currentLabSessionTitle.isNotEmpty ? 1 : 0) + shortlistedCards.length;
-
-  // Guest mode survives restarts so the user is not sent back to the login screen every launch.
-  bool isGuestSession = false;
-
-  void setGuestSession(bool value) {
-    isGuestSession = value;
-    notifyListeners();
-    SharedPreferences.getInstance()
-        .then((p) => p.setBool('guest_session', value))
-        .catchError((Object e) {
-      debugPrint('Error saving guest flag: $e');
-      return false;
-    });
-  }
 
   // Navigation: 0: Dashboard, 1: AI Sessions, 2: Lab Log Book, 3: Profile
   int activeTab = 0;
@@ -394,22 +379,23 @@ class LearnerState extends ChangeNotifier {
     _savePersistedState();
   }
 
-  // Topic Cards Shortlist
-  final List<TopicCard> shortlistedCards = [];
+  /// Grade code used by the Topic Card catalog.
+  String get gradeCode => gradeLevel == 'ม.ต้น' ? 'm_ton' : 'm_plai';
 
-  void toggleShortlist(TopicCard card) {
-    if (shortlistedCards.any((c) => c.id == card.id)) {
-      shortlistedCards.removeWhere((c) => c.id == card.id);
-    } else {
-      shortlistedCards.add(card);
-    }
-    notifyListeners();
-    _savePersistedState();
-  }
-
-  bool isShortlisted(String cardId) {
-    return shortlistedCards.any((c) => c.id == cardId);
-  }
+  /// The learner's constraints in the shape the Fit Score expects.
+  FitConstraints get fitConstraints => FitConstraints(
+        timeWeeks: timelineWeeks,
+        budgetBaht: switch (budgetConstraint) {
+          '< 500 บาท' => 500,
+          '500 - 1,500 บาท' => 1500,
+          '1,500 - 3,000 บาท' => 3000,
+          _ => 1000000, // ไม่จำกัดงบ
+        },
+        equipment: availableResources.toList(),
+        teamSize: teamSize,
+        skills: const [],
+        gradeLevel: gradeCode,
+      );
 
   void setGradeLevel(String level) {
     gradeLevel = level;
@@ -467,7 +453,6 @@ class LearnerState extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      isGuestSession = prefs.getBool('guest_session') ?? false;
 
       // 1. Theme
       final themeStr = prefs.getString('theme_mode');
@@ -478,18 +463,6 @@ class LearnerState extends ChangeNotifier {
         } else if (themeStr == 'light') {
           themeMode = AppThemeMode.light;
           AppTheme.isDark = false;
-        }
-      }
-
-      // 2. Shortlisted Topic Cards
-      final shortIds = prefs.getStringList('shortlisted_ids');
-      if (shortIds != null && shortIds.isNotEmpty) {
-        shortlistedCards.clear();
-        for (final id in shortIds) {
-          final found = seedTopicCards.where((c) => c.id == id);
-          if (found.isNotEmpty) {
-            shortlistedCards.add(found.first);
-          }
         }
       }
 
@@ -565,7 +538,6 @@ class LearnerState extends ChangeNotifier {
     activeSession = null;
     labObservations.clear();
     bomItems.clear();
-    shortlistedCards.clear();
     currentLabSessionTitle = '';
     _accumulatedSeconds = 0;
     _runningSince = null;
@@ -602,7 +574,6 @@ class LearnerState extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('theme_mode', themeMode.name);
-      await prefs.setStringList('shortlisted_ids', shortlistedCards.map((c) => c.id).toList());
       await prefs.setStringList('chat_sessions', sessions.map((s) => jsonEncode(s.toJson())).toList());
       await prefs.setStringList('lab_observations', labObservations.map((o) => jsonEncode(o.toJson())).toList());
       await prefs.setString('selected_field', selectedField);
