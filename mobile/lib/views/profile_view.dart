@@ -214,7 +214,7 @@ class ProfileView extends StatelessWidget {
         FutureBuilder<int?>(
           future: CodePushService.getCurrentPatchNumber(),
           builder: (context, snap) => Text(
-            snap.data == null ? 'แอปเวอร์ชัน 1.0.3+4 (ยังไม่มี patch)' : 'แอปเวอร์ชัน 1.0.3+4 • Patch #${snap.data}',
+            snap.data == null ? 'แอปเวอร์ชัน 1.0.4+5 (ยังไม่มี patch)' : 'แอปเวอร์ชัน 1.0.4+5 • Patch #${snap.data}',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
           ),
