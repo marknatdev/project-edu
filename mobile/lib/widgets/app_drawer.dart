@@ -131,8 +131,8 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   _DrawerItem(
-                    icon: Icons.event_note_rounded,
-                    title: 'ปฏิทินส่งผลงาน YSC 2027',
+                    icon: Icons.calendar_month_rounded,
+                    title: 'ปฏิทินวิจัย & กำหนดการ',
                     onTap: () {
                       Navigator.pop(context);
                       showCompetitionCalendar(context);

@@ -116,6 +116,7 @@ class AppTheme {
         color: bdr,
         thickness: 1,
       ),
+      splashFactory: InkRipple.splashFactory,
     );
   }
 
@@ -163,6 +164,7 @@ class AppTheme {
         color: borderStroke,
         thickness: 1,
       ),
+      splashFactory: InkRipple.splashFactory,
     );
   }
 }

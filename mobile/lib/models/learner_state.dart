@@ -98,6 +98,75 @@ class BomItem {
   );
 }
 
+class ResearchCalendarEvent {
+  final String id;
+  final String title;
+  final DateTime date; // Local date normalized (year, month, day)
+  final String? time;   // e.g. "14:00" or empty
+  final String category; // 'แล็บวิจัย', 'กำหนดส่ง', 'ประชุมทีม', 'กิจกรรมวิจัย', 'ทั่วไป'
+  final String? note;
+  final DateTime createdAt;
+
+  static String? normalizeTime(String? raw) {
+    if (raw == null) return null;
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty) return null;
+    final regex = RegExp(r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$');
+    if (regex.hasMatch(trimmed)) {
+      final parts = trimmed.split(':');
+      final h = parts[0].padLeft(2, '0');
+      final m = parts[1].padLeft(2, '0');
+      return '$h:$m';
+    }
+    return null;
+  }
+
+  ResearchCalendarEvent({
+    required this.id,
+    required this.title,
+    required this.date,
+    String? time,
+    required this.category,
+    this.note,
+    required this.createdAt,
+  }) : time = normalizeTime(time);
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'date': '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}',
+    if (time != null && time!.isNotEmpty) 'time': time,
+    'category': category,
+    if (note != null && note!.isNotEmpty) 'note': note,
+    'createdAt': createdAt.toIso8601String(),
+  };
+
+  factory ResearchCalendarEvent.fromJson(Map<String, dynamic> json) {
+    DateTime parsedDate;
+    final dateStr = json['date'] as String? ?? '';
+    final parts = dateStr.split('-');
+    if (parts.length == 3) {
+      final y = int.tryParse(parts[0]) ?? 2026;
+      final m = int.tryParse(parts[1]) ?? 1;
+      final d = int.tryParse(parts[2]) ?? 1;
+      parsedDate = DateTime(y, m, d);
+    } else {
+      final dt = DateTime.tryParse(dateStr) ?? DateTime.now();
+      parsedDate = DateTime(dt.year, dt.month, dt.day);
+    }
+
+    return ResearchCalendarEvent(
+      id: json['id'] as String? ?? 'evt_${DateTime.now().microsecondsSinceEpoch}',
+      title: json['title'] as String? ?? '',
+      date: parsedDate,
+      time: normalizeTime(json['time'] as String?),
+      category: json['category'] as String? ?? 'กิจกรรมวิจัย',
+      note: json['note'] as String?,
+      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+    );
+  }
+}
+
 class ChatSession {
   final String id;
   String title;
@@ -449,6 +518,52 @@ class LearnerState extends ChangeNotifier {
     _savePersistedState();
   }
 
+  // Research Calendar Events (Device-local, account-scoped)
+  final List<ResearchCalendarEvent> calendarEvents = [];
+
+  List<ResearchCalendarEvent> getEventsForDate(DateTime date) {
+    return calendarEvents.where((e) =>
+      e.date.year == date.year &&
+      e.date.month == date.month &&
+      e.date.day == date.day
+    ).toList()
+      ..sort((a, b) {
+        if (a.time != null && b.time != null) return a.time!.compareTo(b.time!);
+        if (a.time != null) return -1;
+        if (b.time != null) return 1;
+        return a.title.compareTo(b.title);
+      });
+  }
+
+  bool hasEventsOnDate(DateTime date) {
+    return calendarEvents.any((e) =>
+      e.date.year == date.year &&
+      e.date.month == date.month &&
+      e.date.day == date.day
+    );
+  }
+
+  void addCalendarEvent(ResearchCalendarEvent event) {
+    calendarEvents.add(event);
+    notifyListeners();
+    _savePersistedState();
+  }
+
+  void updateCalendarEvent(ResearchCalendarEvent event) {
+    final idx = calendarEvents.indexWhere((e) => e.id == event.id);
+    if (idx != -1) {
+      calendarEvents[idx] = event;
+      notifyListeners();
+      _savePersistedState();
+    }
+  }
+
+  void deleteCalendarEvent(String id) {
+    calendarEvents.removeWhere((e) => e.id == id);
+    notifyListeners();
+    _savePersistedState();
+  }
+
   Future<void> loadPersistedState() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -519,6 +634,18 @@ class LearnerState extends ChangeNotifier {
         }
       }
 
+      // 6. Research Calendar Events
+      final calJson = prefs.getStringList('calendar_events');
+      if (calJson != null && calJson.isNotEmpty) {
+        calendarEvents.clear();
+        for (final s in calJson) {
+          try {
+            final map = jsonDecode(s) as Map<String, dynamic>;
+            calendarEvents.add(ResearchCalendarEvent.fromJson(map));
+          } catch (_) {}
+        }
+      }
+
       // Automatically prune any legacy mock entries on device
       sessions.removeWhere((s) => s.id == 'session_socratic_1' || s.id == 'session_src_1');
       labObservations.removeWhere((o) => o.id == 'obs_1' || o.id == 'obs_2');
@@ -538,6 +665,7 @@ class LearnerState extends ChangeNotifier {
     activeSession = null;
     labObservations.clear();
     bomItems.clear();
+    calendarEvents.clear();
     currentLabSessionTitle = '';
     _accumulatedSeconds = 0;
     _runningSince = null;
@@ -561,7 +689,7 @@ class LearnerState extends ChangeNotifier {
         'chat_sessions', 'shortlisted_ids', 'lab_observations', 'lab_session_title',
         'lab_timer_accumulated', 'lab_timer_started_at', 'bom_items', 'available_resources',
         'selected_field', 'project_goal', 'grade_level', 'budget_constraint', 'timeline_weeks',
-        'team_size', 'strict_safety_only', 'cite_prior_work_only',
+        'team_size', 'strict_safety_only', 'cite_prior_work_only', 'calendar_events',
       ]) {
         await prefs.remove(key);
       }
@@ -593,6 +721,7 @@ class LearnerState extends ChangeNotifier {
         await prefs.setString('lab_timer_started_at', _runningSince!.toIso8601String());
       }
       await prefs.setStringList('bom_items', bomItems.map((b) => jsonEncode(b.toJson())).toList());
+      await prefs.setStringList('calendar_events', calendarEvents.map((e) => jsonEncode(e.toJson())).toList());
     } catch (e) {
       debugPrint('Error saving learner state: $e');
     }

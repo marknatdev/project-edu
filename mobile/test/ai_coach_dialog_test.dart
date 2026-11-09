@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_edu_mobile/models/learner_state.dart';
 import 'package:project_edu_mobile/services/ai_coach_service.dart';
+import 'package:project_edu_mobile/theme/app_theme.dart';
 import 'package:project_edu_mobile/views/ai_coach_dialog.dart';
 
 void main() {
@@ -41,6 +42,7 @@ void main() {
       ChangeNotifierProvider.value(
         value: learner,
         child: MaterialApp(
+          theme: AppTheme.lightTheme,
           home: Builder(
             builder: (context) => Scaffold(
               body: TextButton(onPressed: () => AiCoachModal.show(context), child: const Text('open')),

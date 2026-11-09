@@ -7,6 +7,7 @@ import '../widgets/countdown_banner.dart';
 import '../widgets/feature_grid.dart';
 import '../widgets/quick_action_bar.dart';
 import 'ai_coach_dialog.dart';
+import 'calendar_view.dart';
 import 'judge_defense_view.dart';
 import 'topic_discovery_view.dart';
 
@@ -255,104 +256,10 @@ class DashboardView extends StatelessWidget {
 }
 
 void showCompetitionCalendar(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    backgroundColor: AppTheme.surface1,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-    ),
-    builder: (ctx) {
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.calendar_month_rounded,
-                  color: AppTheme.primaryCyan,
-                  size: 24,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'ปฏิทินการแข่งขันวิจัย YSC & ISEF',
-                  style: TextStyle(
-                    color: AppTheme.textPrimary,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'ช่วงเวลาโดยประมาณจากประกาศล่าสุดที่ตรวจสอบแล้ว (5 พ.ย. 2569) ปีถัดไปต้องตรวจประกาศจริงอีกครั้ง',
-              style: TextStyle(color: AppTheme.textMuted, fontSize: 11.5, height: 1.4),
-            ),
-            const SizedBox(height: 12),
-            for (final (i, season) in const [
-              ('YSC: ส่งข้อเสนอโครงงาน', 'ส.ค. – ก.ย. (YSC 2027 ปิดรับข้อเสนอ 10 ก.ย. 2569)'),
-              ('NSC: ส่งข้อเสนอโครงการซอฟต์แวร์', 'พ.ค. (NSC 2026 เปิด 1–29 พ.ค. 2569)'),
-              ('ศิลปหัตถกรรมนักเรียน', 'ก.ย. – ธ.ค. แต่ละเขตไม่เท่ากัน ถามครูหรือเขตพื้นที่'),
-              ('Regeneron ISEF 2027', '8–14 พ.ค. 2570 ต้องผ่านเวทีในเครือก่อน'),
-            ].indexed)
-              _TimelineItem(
-                title: season.$1,
-                date: season.$2,
-                isLast: i == 3,
-              ),
-          ],
-        ),
-      );
-    },
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => const CalendarView()),
   );
-}
-
-class _TimelineItem extends StatelessWidget {
-  final String title;
-  final String date;
-  final bool isLast;
-
-  const _TimelineItem({required this.title, required this.date, this.isLast = false});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          children: [
-            Container(
-              width: 14,
-              height: 14,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppTheme.surface3,
-                border: Border.all(color: AppTheme.borderStroke, width: 2),
-              ),
-            ),
-            if (!isLast) Container(width: 2, height: 38, color: AppTheme.borderStroke),
-          ],
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
-              ),
-              Text(date, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
-              const SizedBox(height: 8),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }
 
 void showExportSheet(BuildContext context) {

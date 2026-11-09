@@ -43,8 +43,8 @@ class QuickActionBar extends StatelessWidget {
             onTap: onAllExam,
           ),
           _QuickItem(
-            icon: Icons.calendar_month_outlined,
-            label: 'ปฏิทินแข่ง',
+            icon: Icons.calendar_month_rounded,
+            label: 'ปฏิทิน',
             badgeColor: AppTheme.accentAmber,
             onTap: onSaved,
           ),

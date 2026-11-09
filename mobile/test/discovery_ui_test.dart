@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_edu_mobile/discovery/catalog.g.dart';
 import 'package:project_edu_mobile/discovery/discovery_store.dart';
 import 'package:project_edu_mobile/models/learner_state.dart';
+import 'package:project_edu_mobile/theme/app_theme.dart';
 import 'package:project_edu_mobile/views/topic_discovery_view.dart';
 
 Future<(LearnerState, DiscoveryStore)> pumpDiscovery(WidgetTester tester, {DiscoveryStore? store}) async {
@@ -15,7 +16,7 @@ Future<(LearnerState, DiscoveryStore)> pumpDiscovery(WidgetTester tester, {Disco
   final discovery = store ?? DiscoveryStore();
   await tester.pumpWidget(MultiProvider(
     providers: [ChangeNotifierProvider.value(value: learner), ChangeNotifierProvider.value(value: discovery)],
-    child: const MaterialApp(home: TopicDiscoveryView()),
+    child: MaterialApp(theme: AppTheme.lightTheme, home: const TopicDiscoveryView()),
   ));
   await tester.pumpAndSettle();
   return (learner, discovery);

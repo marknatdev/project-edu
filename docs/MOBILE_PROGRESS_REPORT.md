@@ -1,111 +1,109 @@
-# รายงานความคืบหน้าการพัฒนา Project Edu Mobile (Flutter & Shorebird)
+# รายงานสถานะและความคืบหน้า Project Edu Mobile (อิงตาม HANDOFF.md)
 
-**วันที่รายงาน:** 9 พฤศจิกายน 2026  
-**สถานะ:** เสร็จสมบูรณ์พร้อมใช้งาน (Production Ready)  
-**เวอร์ชันหลัก:** `1.0.3+4`  
-**Git Commit ล่าสุด:** `01ce806` (พุชขึ้น `origin/main` เรียบร้อยแล้ว)  
-**แพตช์ Shorebird OTA ล่าสุด:** `Patch #23` (แทร็ก `stable`)  
-
----
-
-## 1. ภาพรวมการดำเนินงาน (Executive Summary)
-
-ตามข้อกำหนดการพัฒนาล่าสุด ได้ดำเนินการปรับปรุงและยกระดับแอปพลิเคชันเสร็จสิ้นครบถ้วนทุกมิติ:
-1. **เปลี่ยนหน้า Lab Timer เดิม ให้กลายเป็น "สมุดบันทึกแล็บ (Lab Log Book / Electronic Lab Notebook)" ฉบับเต็ม:** รองรับการบันทึกผลการทดลองวิทยาศาสตร์จริง กำหนดตัวแปรวิจัย 3 ด้าน จับเวลาแล็บสัมพัทธ์ และคัดลอกตารางผลแล็บ
-2. **ปรับแถบนำทางด้านล่าง (Floating Dock) ให้มีพอดี 5 รายการ:** จัดสัดส่วนให้สะอาดตา ไม่อัดแน่น โดยคงปุ่ม AI Coach เป็นปุ่มทรงกลมลอยเด่นขนาดใหญ่ตรงกลางอย่างสง่างาม
-3. **กวาดล้าง Mockup Data ออกจากระบบ 100%:** บัญชีผู้ใช้เริ่มต้นเป็น Clean State ทั้งหมด พร้อมกลไก Draft-only session ไม่บันทึกแชทเปล่า และปุ่ม Reset Data (🧹) ในหน้าโปรไฟล์
-4. **แก้ไขบั๊กและทดสอบระบบเชิงลึกทุกส่วน:** กู้คืน Cloudflare Tunnel ของ OmniRoute, แก้ไข ID collision บน Windows, กำจัด double escaping และผ่านการทดสอบอัตโนมัติ 100% ทั้ง Web (393/393) และ Mobile (9/9)
-5. **เผยแพร่แพตช์ Shorebird OTA และส่งมอบไฟล์ติดตั้งล่าสุด:** เผยแพร่ Patch 23 ขึ้นแทร็ก stable และคอมไพล์ไฟล์ `.apk` (57 MB) และจัดเตรียม `.ipa` (8.3 MB) พร้อมติดตั้ง
+**วันที่ปรับปรุงข้อมูล:** 9 พฤศจิกายน 2026  
+**แหล่งข้อมูลอ้างอิงหลัก (Single Source of Truth):** `docs/HANDOFF.md` (มีผลบังคับใช้เหนือรายงานฉบับเดิม)  
+**Worktree:** `D:/millmaker/EdTech/.claude/worktrees/mobile-progress-report-23df6a` (Branch: `claude/mobile-progress-report-23df6a`)  
+**Base Release ปัจจุบัน:** **`1.0.4+5`** (Flutter 3.47.9, `--no-tree-shake-icons`)  
+**สถานะการเผยแพร่:** Staging Patch #1 (Android) และ #2 (iOS) อยู่บนแทร็ก `staging` (รอการทดสอบบนเครื่องจริงก่อนโปรโมตเป็น `stable`)  
 
 ---
 
-## 2. รายละเอียดฟีเจอร์ใหม่: สมุดบันทึกแล็บ (Lab Log Book)
+## 1. การแก้ไขข้อมูลสำคัญจากรายงานฉบับก่อนหน้า (Key Corrections)
 
-ไฟล์ที่พัฒนา: `mobile/lib/views/lab_log_book_view.dart`
-
-| ฟังก์ชันการทำงาน | รายละเอียดทางเทคนิค |
-| :--- | :--- |
-| **Experiment Banner** | แสดงชื่อการทดลองปัจจุบัน พร้อมปุ่มไอคอนดินสอแตะเพื่อแก้ไขชื่อแล็บ และบันทึกลง `SharedPreferences` ถาวร |
-| **Research Variables & Rigor** | การ์ดสรุปตัวแปรวิจัย 3 หมวด: ตัวแปรต้น (ปัจจัยทดสอบ), ตัวแปรตาม (Metric), ตัวแปรควบคุม (Control) พร้อมปุ่มลัดแตะส่งปรึกษา AI Coach ได้ทันที |
-| **Compact Lab Stopwatch** | นาฬิกาจับเวลาแล็บกะทัดรัด แสดงเวลาในรูปแบบ `HH:MM:SS` พร้อมไฟสถานะ Pulse (เขียว = กำลังนับเวลา), ปุ่ม Start/Pause และปุ่ม Reset |
-| **Observation Tag Filter** | แท็บชิปกรองหมวดหมู่การสังเกตการณ์: `ทั้งหมด`, `Trial`, `Control`, `Peak`, `Anomaly`, `Milestone` เพื่อให้เรียกดูข้อมูลง่าย |
-| **Interactive Logger Sheet** | โมดอลกรอกบันทึกผลแล็บใหม่ รองรับการเลือกแท็กผลการทดลอง ชิปคำช่วยพิมพ์ด่วน (Presets) และบันทึกเวลาที่จับได้อัตโนมัติ |
-| **Observation Timeline Cards** | การ์ดแสดงผลบันทึกผลแล็บแต่ละจุด แสดงเวลาสัมพัทธ์ แท็กกำกับสี และปุ่มลบรายการ |
-| **Markdown Table Export** | ปุ่ม `📋 คัดลอกตาราง` สำหรับแปลงข้อมูลการทดลองทั้งหมดให้อยู่ในรูปตาราง Markdown นำไปวางในเล่มโครงงานหรือ Google Docs ได้ทันที |
+| รายการ | ข้อมูลเดิมที่คลาดเคลื่อน | ข้อมูลจริงที่ถูกต้องตาม HANDOFF.md & ADR |
+| :--- | :--- | :--- |
+| **Base Release** | ระบุว่าเป็น `1.0.3+4` | ปัจจุบัน Base Release ล่าสุดคือ **`1.0.4+5`** บน Shorebird และ GitHub Release |
+| **สถานะ Shorebird Patch** | อ้างว่า Patch #23 อัปเดตทั้ง Android/iOS สู่ Stable แล้ว | Patch #23 เป็นการแพตช์ Android บน Release `1.0.3+4` เดิม และมีปัญหาไอคอนหายจากการตัด Asset diffs; ปัจจุบันย้ายมาเป็น Base `1.0.4+5` และมี **Patch #1 (Android) / Patch #2 (iOS) อยู่บนแทร็ก `staging`** (ยังไม่เข้า `stable`) |
+| **การเข้าถึงของผู้ใช้ (Auth)** | มีโหมด Guest Zero-PII | **ยกเลิกโหมด Guest บนมือถือทั้งหมด** ตาม **ADR 0007** (ต้องเข้าสู่ระบบผ่าน Google Sign-in เท่านั้น เพื่อผูกกับระบบ Sync และ AI Quota) |
+| **การเชื่อมต่อ AI** | เรียกตรงเข้า Cloudflare Tunnel ชั่วคราว / ฝัง Key | เรียกผ่าน **Supabase Edge Functions (`ai-coach`, `ai-topic-cards`)** ตาม **ADR 0005** ฝั่งหลังบ้านต่อผ่าน **Tailscale Funnel ถาวร** (`https://win-mc1lo20oj0g.tailc8aaa6.ts.net:8443/v1`) ไม่มี Key ค้างในตัวแอป |
+| **ไฟล์แพ็กเกจ iOS (.ipa)** | อ้างว่าพร้อมติดตั้งได้ทั่วไป | ไฟล์ `.ipa` บน GitHub Release เป็น **Unsigned IPA** ต้องผ่านกระบวนการลงนามดิจิทัล (Signing) ก่อนจึงจะติดตั้งบนเครื่องจริงได้ |
+| **สถานะความพร้อม** | ระบุว่า "Production Ready" และ "ทดสอบ 100%" | อยู่ในสถานะ **Staging Verification** ยังมีประเด็นค้างที่ต้องทดสอบบนเครื่องจริง และยังมีงานเปิดอีกหลายรายการ |
 
 ---
 
-## 3. สถาปัตยกรรมแถบนำทางใหม่ (5-Item Floating Dock)
+## 2. สถานะสถาปัตยกรรมและฟังก์ชันที่พัฒนาแล้ว (Implemented Features)
 
-ไฟล์ที่พัฒนา: `mobile/lib/widgets/floating_dock.dart`, `mobile/lib/main.dart`
+### 2.1 แถบนำทาง 5 รายการ และสมุดบันทึกแล็บ (5-Item Dock & Lab Log Book)
+- **แถบนำทางด้านล่าง (`FloatingDock`):** มี 5 รายการชัดเจน ได้แก่:
+  1. `Tab 0` แดชบอร์ด (`DashboardView`)
+  2. `Tab 1` ประวัติห้องสนทนา AI (`SessionsView`)
+  3. `Center Hero` ปุ่มกลมลอยเด่นขนาดใหญ่เปิด AI Coach
+  4. `Tab 2` สมุดบันทึกแล็บ (`LabLogBookView` / Electronic Lab Notebook)
+  5. `Tab 3` โปรไฟล์นักวิจัย (`ProfileView`) แสดงเวอร์ชันและหมายเลข Patch ท้ายหน้า
+- **สมุดบันทึกแล็บ (`LabLogBookView`):**
+  - รองรับการตั้งชื่อการทดลองแล็บจริง
+  - นาฬิกาจับเวลาแล็บกะทัดรัด พร้อมตัวบ่งชี้สถานะการจับเวลา
+  - การ์ดจำแนกตัวแปรวิจัย 3 ด้าน (ตัวแปรต้น, ตัวแปรตาม, ตัวแปรควบคุม)
+  - ระบบตัวกรองและบันทึกสังเกตการณ์ (`ObservationLog`) พร้อมส่งออกตาราง Markdown
 
-ปรับโครงสร้างแถบนำทางด้านล่างให้มีองค์ประกอบรวมกัน **5 ข้อพอดี** ตามสเปก:
+### 2.2 ระบบค้นหาหัวข้อและคลังการ์ดแบบไดนามิก (Discovery Track)
+- **Generated Catalog (ADR 0006):** คลังการ์ด 90 ใบถูกแปลงจาก `src/data/cards` ของเว็บมาเป็น Dart (`mobile/lib/discovery/catalog.g.dart`) เพื่อให้ Shorebird สามารถแพตช์อัปเดตผ่าน OTA ได้โดยไม่ติดข้อจำกัดด้าน Asset
+- **Discovery Store & UI:** รองรับการเลือกวิชา (Subject) → สาขาย่อย (Subfield) → ปัดการ์ด (Flash Card Tinder-style: แตะเพื่อพลิก, ปัดซ้ายข้าม, ปัดขวาชอบ, ย้อนกลับได้)
+- **Shortlist Comparison & Fit Score:** หน้ารวมการ์ดที่สนใจได้สูงสุด 5 ใบ จัดอันดับตามคะแนนความเหมาะสม (Fit Score Engine)
+- **Idea Composer & Active Idea:** บังคับให้ผู้เรียนเขียนสรุปไอเดียด้วยภาษาของตนเอง (Rewrite Gate) ก่อนตั้งเป็น "Active Idea" สำหรับเริ่มการทดลอง
 
-```
-[ Tab 0 ]      [ Tab 1 ]       [ CENTER HERO ]       [ Tab 2 ]       [ Tab 3 ]
-แดชบอร์ด        ห้องสนทนา       AI Coach (ปุ่มใหญ่)    สมุดบันทึกแล็บ     โปรไฟล์
-Dashboard      Sessions         Hero Floating Btn    Lab Log Book     Profile
-```
+### 2.3 การจัดการข้อมูลและการซิงค์ (Sync & Persistence)
+- **Discovery Sync (ADR 0008):** ข้อมูลการปัด, Shortlist, และไอเดีย เชื่อมต่อกับ Supabase ตาราง `edu_discovery_items` ผ่าน RPC `edu_discovery_push` และ `edu_discovery_pull` รองรับการรวมข้อมูลข้ามอุปกรณ์และบันทึก Tombstone เมื่อมีการลบ
+- **Account-Scoped Local Data (ADR 0007):** ข้อมูลที่ยังอยู่ในเครื่อง (แชท AI, บันทึกแล็บ, BOM, การตั้งค่าโครงการ, กิจกรรมปฏิทิน) จะถูกล้างเมื่อ Login บัญชีใหม่ครั้งแรก หรือเมื่อมีการสลับบัญชี เพื่อความปลอดภัยของข้อมูล
 
-1. **Tab 0: แดชบอร์ด (Dashboard):** หน้าจอศูนย์รวมสถานะโครงงานวิทยาศาสตร์, การ์ดเป้าหมาย YSC, และสถิติ
-2. **Tab 1: ห้องสนทนา AI (Sessions):** ประวัติการปรึกษากับ Socratic AI ย้อนหลัง พร้อมเมนูเปลี่ยนชื่อและลบห้อง
-3. **Center Hero Button: ปุ่มคุยกับ AI ขนาดใหญ่:** ปุ่มทรงกลม Elevated Button โทนสี Gradient Cyan-Violet มีเงาแสงเรืองรอง (Glow Effect) ลอยเด่นตรงกลาง
-4. **Tab 2: สมุดบันทึกแล็บ (Lab Log Book):** เข้าสู่หน้าสมุดบันทึกการทดลองแล็บวิทยาศาสตร์ฉบับเต็ม
-5. **Tab 3: โปรไฟล์นักวิจัย (Profile):** ข้อมูลนักวิจัย, บัตรดิจิทัล, ผลงาน Shortlist, การลงนามรับรอง SRC, และปุ่มล้างข้อมูลบัญชี
-
-> **หมายเหตุ:** สำหรับหน้าจอ **ซ้อมตอบคำถามกรรมการ (Judge Defense View)** ได้รับการจัดวางให้เข้าถึงแบบ Full-screen Push จากการ์ดบนแดชบอร์ด และเมนูในแถบ App Drawer ด้านข้าง เพื่อลดความแออัดของ Dock ด้านล่าง
-
----
-
-## 4. ผลการตรวจสอบคุณภาพและการทดสอบ (Quality Assurance)
-
-### ฝั่ง Web Application (`D:/millmaker/EdTech`):
-- **TypeScript Typecheck:** ผ่านสมบูรณ์ (`0 errors`)
-- **ESLint Validation:** ผ่านสมบูรณ์ (`0 warnings/errors`)
-- **Vitest Unit & Integration Tests:** ผ่านครบทั้ง **48 ไฟล์ รวม 393/393 passed (100%)**
-
-### ฝั่ง Mobile Flutter Application (`mobile/`):
-- **Flutter Analyze:** `No issues found!` (0 errors, 0 warnings, 0 lints)
-- **Unit Tests (`mobile/test/learner_state_test.dart`):**
-  - `clean state initializes with zero mock data`: ผ่าน
-  - `createNewSession does NOT immediately append session`: ผ่าน
-  - `saveOrInsertSession persists non-empty session`: ผ่าน
-  - `addLabObservation and BOM calculation work accurately`: ผ่าน
-  - `resetAllAccountData purges state back to clean`: ผ่าน
-- **Widget Integration Tests (`mobile/test/widget_test.dart`):**
-  - PreLogin -> Guest Login -> Dashboard: ผ่าน
-  - AI Coach Dialog Open & Dismiss without leaking draft: ผ่าน
-  - Tab 2 Navigation to Lab Log Book (Header, Stopwatch, Empty state): ผ่าน
-  - Tab 3 Navigation to Profile View (Researcher info, Reset dialog): ผ่าน
-  - **สรุปผลการทดสอบ Mobile:** **9/9 tests passed (100%)**
+### 2.4 หน้าปฏิทินวิจัยสไตล์ Google Calendar (`CalendarView`)
+- **หน้าจอเต็มรูปแบบ (Full-screen Pushed Page):** แทนที่ BottomSheet เดิมด้วยหน้าจอ `CalendarView` มี AppBar และปุ่มย้อนกลับ โดย Dock ด้านล่างยังคง 5 ข้อเหมือนเดิม
+- **Month/Year Toolbar & วันนี้:** หัวตารางเดือนภาษาไทยและปี พ.ศ. (เช่น "พฤศจิกายน 2569"), ปุ่มลัด "วันนี้" (Today), ปุ่มลูกศร `<` `>` เลื่อนข้ามเดือนและปี
+- **ตารางปฏิทิน 7 คอลัมน์ (อา - ส):** แสดงวันที่เดือนก่อนหน้า/ถัดไปด้วยสีจาง, วงแหวนสถานะวันปัจจุบัน, ไฮไลต์วันที่เลือก และจุดสีระบุหมวดหมู่กิจกรรมใต้ตัวเลขวันที่
+- **กำหนดการประจำวัน (Selected Date Agenda):** แสดงรายการกิจกรรมของวันที่เลือก พร้อมเวลา ("ทั้งวัน" หรือ "14:00 น."), ป้ายหมวดหมู่สี, บันทึกข้อความ, และเมนูแก้ไข/ลบ
+- **การเพิ่มกิจกรรมใหม่:** ปุ่ม FAB `+ เพิ่มกิจกรรม` พร้อมฟอร์มระบุชื่อ, วันที่ (DatePicker), เวลา, ชิปหมวดหมู่ (แล็บวิจัย, กำหนดส่ง, ประชุมทีม, กิจกรรมวิจัย, ทั่วไป) และบันทึกเพิ่มเติม
+- **จุดเชื่อมต่อครบถ้วน:** เชื่อมต่อจากปุ่ม "ปฏิทิน" บนแดชบอร์ด, เมนูปฏิทินใน App Drawer, และฟังก์ชัน `showCompetitionCalendar`
 
 ---
 
-## 5. การส่งมอบและการเผยแพร่ (Release & Distribution)
+## 3. ผลการตรวจสอบโค้ดและการทดสอบจริง (Verified Verification)
 
-### 1) Shorebird CodePush (OTA Update)
-- **App ID:** `fb59b69d-72a4-4d2d-926e-8cc82ae756f2`
-- **Release Version:** `1.0.3+4`
-- **Shorebird Patch:** **Patch #23** (`789806`)
-- **Channel:** `stable`
-- **การมีผล:** อุปกรณ์ที่ติดตั้งแอปเวอร์ชัน `1.0.3+4` อยู่แล้ว จะได้รับอัปเดตหน้า Lab Log Book และ Dock 5 ข้อ อัตโนมัติทันทีที่เปิดแอป
+ทดสอบจริงในสภาพแวดล้อม Worktree ล่าสุด (`D:/millmaker/EdTech/.claude/worktrees/mobile-progress-report-23df6a`):
 
-### 2) แพ็กเกจไฟล์สำหรับติดตั้งโดยตรง (Standalone Artifacts)
-
-| แพลตฟอร์ม | ไฟล์ | ขนาด | ตำแหน่งไฟล์บนเครื่อง |
-| :--- | :--- | :--- | :--- |
-| **Android** | `project-edu-release.apk` | 57 MB | `D:/millmaker/project-edu-release.apk` |
-| **iOS / iPadOS** | `project-edu-release.ipa` | 8.3 MB | `D:/millmaker/project-edu-release.ipa` |
-| **iOS (Latest Link)** | `project-edu-latest.ipa` | 8.3 MB | `D:/millmaker/project-edu-latest.ipa` |
+| การทดสอบ | คำสั่ง | ผลลัพธ์ที่ยืนยัน |
+| :--- | :--- | :--- |
+| **Mobile Static Analysis** | `flutter analyze` | **No issues found!** (0 errors, 0 warnings, 0 lints) |
+| **Mobile Automated Tests** | `flutter test` | **37/37 passed** ครอบคลุม 5 ชุดทดสอบ:<br>• `calendar_view_test.dart` (6/6 passed)<br>• `ai_coach_dialog_test.dart`<br>• `discovery_core_test.dart`<br>• `discovery_ui_test.dart`<br>• `widget_test.dart` |
+| **Web TypeScript Check** | `npm run typecheck` | **0 errors** (`tsc --noEmit` ผ่านสมบูรณ์) |
+| **Mobile Card Catalog Sync** | `vitest mobile-dart-catalog.test.ts` | **3/3 passed** (ยืนยันว่า `catalog.g.dart` สอดคล้องกับ `src/data` 100%) |
 
 ---
 
-## 6. สรุปรายการไฟล์ที่เกี่ยวข้อง (Key Source Files)
+## 4. สถานะ Release และ Artifacts ปัจจุบัน
 
-- `mobile/lib/views/lab_log_book_view.dart`: หน้าต่างสมุดบันทึกแล็บ (Lab Log Book) เต็มรูปแบบ
-- `mobile/lib/widgets/floating_dock.dart`: วิดเจ็ตแถบนำทาง 5 องค์ประกอบ พร้อมปุ่ม AI Coach ทรงกลมลอยเด่น
-- `mobile/lib/main.dart`: โครงสร้างหน้าหลัก ควบคุมการสลับแท็บและการเปิด AI Coach
-- `mobile/lib/models/learner_state.dart`: จัดการสถานะผู้เรียน, ข้อสังเกตแล็บ, อุปกรณ์ BOM, และ Draft-only session
-- `mobile/lib/services/ai_coach_service.dart`: การเชื่อมต่อ AI Gateway พร้อม Fallback endpoints
-- `mobile/test/learner_state_test.dart`: ชุดทดสอบ State, Draft persistence และ Reset data
-- `mobile/test/widget_test.dart`: ชุดทดสอบ UI Flow, Navigation และการทำงานร่วมกัน
+- **Shorebird App ID:** `fb59b69d-72a4-4d2d-926e-8cc82ae756f2`
+- **Active Base Release:** `1.0.4+5` (Android & iOS)
+- **Staging Patches:** 
+  - Patch #1 (Android) และ Patch #2 (iOS) เผยแพร่ผ่าน GitHub Actions Run `42636947445` เข้าแทร็ก `staging`
+  - การทดสอบ Staging ต้องใช้คำสั่ง:
+    ```bash
+    shorebird preview --release-version 1.0.4+5 --track staging
+    ```
+- **GitHub Release `mobile-v1.0.4+5` Artifacts:**
+  - `project-edu-1.0.4+5.apk`: ลงนามใหม่ด้วย Debug Keystore ของเครื่องเจ้าของโปรเจกต์ (ติดตั้งทับ 1.0.3 ได้โดยข้อมูลไม่หาย)
+  - `project-edu-1.0.4+5-unsigned.ipa`: ไฟล์ IPA ที่ยังไม่ได้ลงนาม (Unsigned) ต้อง Sign ก่อนติดตั้งลงอุปกรณ์ iOS จริง
+
+---
+
+## 5. ปัญหาที่ยังค้างอยู่และความเสี่ยง (Open Issues & Known Risks)
+
+1. **การยืนยัน Google Sign-in บนอุปกรณ์จริง:** เนื่องจากยกเลิกโหมด Guest แล้ว หาก URL Redirect (`com.marknatdev.projectedumobile://login-callback`) มีปัญหาบนอุปกรณ์จริง ผู้ใช้จะไม่สามารถเข้าสู่ระบบได้ จำเป็นต้องทดสอบผ่านเครื่องจริงก่อนโปรโมต Patch สู่ `stable`
+2. **ข้อผิดพลาดของ `project_repository.dart`:** พบว่ายังมีการเรียกเขียนตาราง `edu_records` โดยตรงจากฝั่ง Client ซึ่งติดสิทธิ์ของ Supabase RLS (แสดงใน Test Log) ต้องทำการ Refactor ให้เรียกผ่าน RPC หรือถอดออก
+3. **การซิงค์ฝั่ง Web App:** ฝั่งมือถือมี RPC Sync สำหรับ Discovery แล้ว แต่หน้าเว็บยังไม่ได้เชื่อมต่อกับ `edu_discovery_items`
+4. **ตัวนับเวลาถอยหลังการแข่งขัน (Countdown Banner):** ยังตั้งเป้าหมายไปที่ YSC 2027 ซึ่งปิดรับผลงานไปตั้งแต่วันที่ 10 ก.ย. 2026 อยู่ระหว่างรอข้อสรุปเป้าหมายการแข่งขันรอบถัดไป
+5. **การตั้งค่า Release Keystore บน CI:** ปัจจุบัน CI ใช้ Random Keystore ทำให้ APK ที่บิลด์จาก CI ติดตั้งทับตัวเดิมไม่ได้ ต้องตั้งค่า Keystore กลางใน GitHub Secrets
+6. **การกระจายแอปบน iOS:** ยังไม่มี Apple Developer Account สำหรับการขึ้น TestFlight หรือ Sign in with Apple
+
+---
+
+## 6. ลำดับความสำคัญในการทำงานขั้นถัดไป (Prioritized Next Steps)
+
+1. **[ความสำคัญสูงสุด] ทดสอบ 1.0.4+5 ร่วมกับ Staging Patch บนเครื่องจริง:**
+   - ทดสอบโฟลว์ Google Sign-in, การดึง AI Coach ผ่าน Edge Function, และการซิงค์ Discovery บนอุปกรณ์จริง
+   - เมื่อผ่านการตรวจสอบแล้ว จึงขออนุมัติโปรโมต Patch ขึ้นสู่แทร็ก `stable`
+2. **[สำคัญ] แก้ไข `project_repository.dart`:**
+   - ลบการเรียกเขียนตาราง `edu_records` โดยตรงเพื่อขจัด Assertion Error
+3. **[สำคัญ] พัฒนา Discovery Sync ฝั่ง Web Application:**
+   - เชื่อมต่อ `src/lib/storage/store.ts` เข้ากับ RPC `edu_discovery_push` / `edu_discovery_pull`
+4. **[ปรับปรุงระบบบิลด์] ตั้งค่า Release Keystore ใน GitHub Actions:**
+   - นำ Release Keystore ใส่ใน Secret เพื่อให้ APK บิลด์อัตโนมัติสามารถอัปเกรดได้ทันที
