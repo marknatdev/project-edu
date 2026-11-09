@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
+> **Start with `docs/HANDOFF.md`.** The Flutter app in `mobile/` (Shorebird OTA, Supabase Edge Functions for AI, discovery sync RPCs) is now the main product; this file mostly describes the Next.js web app, which is no longer auto-deployed to Vercel. The handoff covers mobile architecture, releases, CI, local build gotchas and open work.
+
 Project Edu: a mobile-first Thai-language PWA that helps lower/upper secondary students (ม.ต้น/ม.ปลาย) start a science/computing/math project. Flow: Interview → Idea Track (evaluate own idea) or Discovery Track (AI-generated topic cards, Tinder-style swipe, shortlist) → Socratic coaching → Evaluation (5 axes, prior work, safety flags, pivot) → Proposal + weekly Plan → export (PDF/DOCX/share link), plus BOM, competition calendar, mock judge, advisor sign-off.
 
 Stack: Next.js 15 App Router, React 19, TypeScript strict, Tailwind 3, Framer Motion, Zod 4, Supabase (Postgres + Auth/Google OAuth via `@supabase/ssr`), Vitest 4. Deployed on Vercel (Node 24.x); Node 24 is used locally (`node:sqlite` is required by the local persistence adapter), though `package.json` has no `engines` field.
