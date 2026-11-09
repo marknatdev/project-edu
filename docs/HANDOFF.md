@@ -76,25 +76,14 @@ Sign-in with Google is required on both clients (ADR 0003 web, ADR 0007 mobile).
   - **Build rules:** always builds with `--no-tree-shake-icons`; never uses `--allow-asset-diffs` or `--allow-native-diffs` (a patch that cannot carry its changes must fail). Releases pin Flutter `3.47.9` and Android releases build an APK.
 - **`.github/workflows/deploy.yml`**: on push to `main` it runs lint, typecheck, `npm test` (including Postgres integration tests) and the Next build, then pushes Supabase migrations. Vercel deploys only on manual dispatch.
 - The repo is **public**, so GitHub Actions minutes are free; billing earlier blocked CI while the repo was private.
-- **Staging patch for 1.0.4+5:** run `42636947445` (Android + iOS) was in progress when this file was written. Check it with:
+- **Staging patch for 1.0.4+5:** published on 2026-11-09 by run `42636947445` (Android and iOS jobs both succeeded). Patch **#1** and **#2** are on track `staging` (one per platform job), so the profile footer shows `Patch #1` or `Patch #2` depending on the platform.
+  - A staging patch reaches only devices running the following command over USB; installed apps check `stable`:
 
-  ```bash
-  gh run view 42636947445
-  ```
+    ```bash
+    shorebird preview --release-version 1.0.4+5 --track staging
+    ```
 
-  Confirm the patch with:
-
-  ```bash
-  shorebird patches list --release-version 1.0.4+5
-  ```
-
-  A staging patch reaches only devices running the following command over USB; installed apps check `stable`:
-
-  ```bash
-  shorebird preview --release-version 1.0.4+5 --track staging
-  ```
-
-  Promote to `stable` only after a device test passes.
+  - Promote to `stable` only after a device test passes.
 
 ### Local build gotchas (Windows dev machine)
 - **Java:** the system `java` is 26, which Gradle 8.14 rejects. Use JDK 21 (`JAVA_HOME=C:/Program Files/Java/jdk-21.0.11`) and `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:/Temp/jdkuds` (fixes "Unable to establish loopback connection").
