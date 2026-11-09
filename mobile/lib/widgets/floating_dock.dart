@@ -84,28 +84,20 @@ class FloatingDock extends StatelessWidget {
               ),
             ),
 
-            // Tab 2: Lab Observation Timer & Log
+            // Tab 2: Lab Log Book (สมุดบันทึกแล็บ)
             _DockTab(
-              icon: Icons.science_outlined,
-              activeIcon: Icons.science_rounded,
+              icon: Icons.menu_book_outlined,
+              activeIcon: Icons.menu_book_rounded,
               isActive: learner.activeTab == 2,
               onTap: () => learner.setTab(2),
             ),
 
-            // Tab 3: Mock Judge Defense
-            _DockTab(
-              icon: Icons.record_voice_over_outlined,
-              activeIcon: Icons.record_voice_over_rounded,
-              isActive: learner.activeTab == 3,
-              onTap: () => learner.setTab(3),
-            ),
-
-            // Tab 4: Researcher Profile
+            // Tab 3: Researcher Profile (โปรไฟล์นักวิจัย)
             _DockTab(
               icon: Icons.account_circle_outlined,
               activeIcon: Icons.account_circle_rounded,
-              isActive: learner.activeTab == 4,
-              onTap: () => learner.setTab(4),
+              isActive: learner.activeTab == 3,
+              onTap: () => learner.setTab(3),
             ),
           ],
         ),

@@ -7,6 +7,7 @@ import '../widgets/countdown_banner.dart';
 import '../widgets/feature_grid.dart';
 import '../widgets/quick_action_bar.dart';
 import 'ai_coach_dialog.dart';
+import 'judge_defense_view.dart';
 import 'topic_discovery_view.dart';
 
 class DashboardView extends StatelessWidget {
@@ -78,7 +79,10 @@ class DashboardView extends StatelessWidget {
           ),
           onVocabTap: () => _showEvaluationDialog(context),
           onExamTap: () => _showExportDialog(context),
-          onNotesTap: () => context.read<LearnerState>().setTab(3),
+          onNotesTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const JudgeDefenseView()),
+          ),
         ),
         const SizedBox(height: 16),
 

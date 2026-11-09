@@ -63,15 +63,15 @@ void main() {
     // Verify draft session was NOT saved to sessions list
     expect(learner.sessions, isEmpty);
 
-    // 4. Test Tab Navigation to Lab Timer
-    final timerNavIcon = find.byIcon(Icons.science_outlined);
-    expect(timerNavIcon, findsOneWidget);
-    await tester.tap(timerNavIcon);
+    // 4. Test Tab Navigation to Lab Log Book (สมุดบันทึกแล็บ)
+    final logBookNavIcon = find.byIcon(Icons.menu_book_outlined);
+    expect(logBookNavIcon, findsOneWidget);
+    await tester.tap(logBookNavIcon);
     await tester.pumpAndSettle();
 
-    expect(find.text('Lab Session • การทดลอง'), findsOneWidget);
+    expect(find.text('สมุดบันทึกแล็บ (Lab Log Book)'), findsOneWidget);
     expect(find.text('00:00:00'), findsOneWidget);
-    expect(find.text('ยังไม่มีบันทึกผลการทดลอง แตะ + เพิ่มบันทึก เพื่อเริ่มจดบันทึก'), findsOneWidget);
+    expect(find.text('ยังไม่มีบันทึกผลการทดลองในสมุดแล็บ'), findsOneWidget);
 
     // 5. Test Tab Navigation to Profile View
     final profileNavIcon = find.byIcon(Icons.account_circle_outlined);

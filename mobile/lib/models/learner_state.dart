@@ -116,7 +116,7 @@ class LearnerState extends ChangeNotifier {
   int get evaluatedIdeasCount => shortlistedCards.length;
   int get approvedPivotsCount => 0;
 
-  // Navigation: 0: Dashboard/Discovery, 1: AI Sessions, 2: Lab Timer, 3: Discussions, 4: Profile
+  // Navigation: 0: Dashboard, 1: AI Sessions, 2: Lab Log Book, 3: Profile
   int activeTab = 0;
   static int _idCounter = 0;
 

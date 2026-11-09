@@ -5,12 +5,11 @@ import 'services/code_push_service.dart';
 import 'services/supabase_service.dart';
 import 'theme/app_theme.dart';
 import 'views/dashboard_view.dart';
-import 'views/judge_defense_view.dart';
+import 'views/lab_log_book_view.dart';
 import 'views/practice_stepper_view.dart';
 import 'views/pre_login_view.dart';
 import 'views/profile_view.dart';
 import 'views/sessions_view.dart';
-import 'views/study_timer_view.dart';
 import 'views/topic_discovery_view.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/app_header.dart';
@@ -96,12 +95,9 @@ class _MainShellState extends State<MainShell> {
         currentBody = const SessionsView();
         break;
       case 2:
-        currentBody = const StudyTimerView();
+        currentBody = const LabLogBookView();
         break;
       case 3:
-        currentBody = const JudgeDefenseView();
-        break;
-      case 4:
         currentBody = ProfileView(
           onGoPractice: () => setState(() => _isInPracticeMode = true),
           onSignOut: () => setState(() => _isGuestSession = false),

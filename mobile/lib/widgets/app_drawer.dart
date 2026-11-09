@@ -4,6 +4,7 @@ import '../models/learner_state.dart';
 import '../theme/app_theme.dart';
 import '../views/ai_coach_dialog.dart';
 import '../views/dashboard_view.dart';
+import '../views/judge_defense_view.dart';
 import '../views/topic_discovery_view.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -25,7 +26,7 @@ class AppDrawer extends StatelessWidget {
                   // User Profile Header
                   InkWell(
                     onTap: () {
-                      learner.setTab(4);
+                      learner.setTab(3);
                       Navigator.pop(context);
                     },
                     borderRadius: BorderRadius.circular(12),
@@ -141,11 +142,11 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   _DrawerItem(
-                    icon: Icons.supervisor_account_outlined,
+                    icon: Icons.assignment_turned_in_outlined,
                     title: 'การตรวจรับรองโดยอาจารย์ที่ปรึกษา',
                     hasDot: true,
                     onTap: () {
-                      learner.setTab(4);
+                      learner.setTab(3);
                       Navigator.pop(context);
                     },
                   ),
@@ -153,8 +154,8 @@ class AppDrawer extends StatelessWidget {
                     icon: Icons.record_voice_over_outlined,
                     title: 'ซ้อมตอบคำถามกรรมการ (Mock Judge)',
                     onTap: () {
-                      learner.setTab(3);
                       Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const JudgeDefenseView()));
                     },
                   ),
                   _DrawerItem(
@@ -169,7 +170,7 @@ class AppDrawer extends StatelessWidget {
                     icon: Icons.manage_accounts_outlined,
                     title: 'ข้อมูลนักวิจัยเยาวชน',
                     onTap: () {
-                      learner.setTab(4);
+                      learner.setTab(3);
                       Navigator.pop(context);
                     },
                   ),
