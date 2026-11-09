@@ -1,26 +1,48 @@
 name: Build Mobile Apps (Android & iOS with Shorebird)
 
+# Manual only: a release or patch reaches real devices, so nothing runs on push.
 on:
   workflow_dispatch:
     inputs:
       action:
-        description: 'Shorebird Action (release = create new Base IPA/APK, patch = OTA CodePush without reinstalling)'
+        description: 'release = new base APK/IPA (bump pubspec version first); patch = OTA update for an existing release'
         required: true
-        default: 'release'
+        default: 'patch'
         type: choice
         options:
-          - 'release'
           - 'patch'
-  push:
-    paths:
-      - 'mobile/**'
-      - '.github/workflows/build-mobile.yml'
-    branches:
-      - main
+          - 'release'
+      release_version:
+        description: 'Patch only: release to patch, e.g. 1.0.4+5 (or "latest")'
+        required: false
+        default: 'latest'
+        type: string
+      track:
+        description: 'Patch only: staging (testers via shorebird preview) or stable (every installed device)'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - 'staging'
+          - 'stable'
+      platforms:
+        description: 'Which platforms to build'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - 'both'
+          - 'android'
+          - 'ios'
+
+env:
+  # Shorebird's Flutter build used by the existing releases. Patches must match their release.
+  FLUTTER_VERSION: '3.47.9'
 
 jobs:
   build-android:
-    name: Android with Shorebird (${{ inputs.action || 'release' }})
+    if: ${{ inputs.platforms != 'ios' }}
+    name: Android with Shorebird (${{ inputs.action }})
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,79 +54,55 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
           cache: true
 
-      - name: Install dependencies
-        run: |
-          cd mobile
-          flutter pub get
-
       - name: Run Shorebird Action (Android)
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        working-directory: mobile
+        # --no-tree-shake-icons ships the full icon font, so later patches can use any Material icon.
+        # No --allow-asset-diffs / --allow-native-diffs: a patch that cannot carry its changes must fail.
         run: |
-          cd mobile
-          ACTION="${{ inputs.action || 'release' }}"
-          if [ "$ACTION" = "patch" ]; then
-            echo "🚀 Publishing Shorebird OTA Patch for Android..."
-            shorebird patch android --allow-native-diffs --allow-asset-diffs
+          if [ "${{ inputs.action }}" = "patch" ]; then
+            shorebird patch android --release-version="${{ inputs.release_version }}" --track="${{ inputs.track }}" -- --no-tree-shake-icons
           else
-            echo "📦 Creating Shorebird Base Release for Android..."
-            shorebird release android
+            shorebird release android --flutter-version="$FLUTTER_VERSION" --artifact=apk -- --no-tree-shake-icons
           fi
 
       - name: Upload Android APK Artifact
-        if: ${{ inputs.action != 'patch' }}
+        if: ${{ inputs.action == 'release' }}
         uses: actions/upload-artifact@v4
         with:
           name: project-edu-android-apk
-          path: mobile/build/app/outputs/apk/release/app-release.apk
-          retention-days: 14
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 30
 
   build-ios:
-    name: iOS with Shorebird (${{ inputs.action || 'release' }})
+    if: ${{ inputs.platforms != 'android' }}
+    name: iOS with Shorebird (${{ inputs.action }})
     runs-on: macos-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-
       - name: Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
           cache: true
 
-      - name: Install dependencies
-        run: |
-          cd mobile
-          flutter pub get
-
       - name: Run Shorebird Action (iOS)
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        working-directory: mobile
         run: |
-          cd mobile
-          ACTION="${{ inputs.action || 'release' }}"
-          if [ "$ACTION" = "patch" ]; then
-            echo "🚀 Publishing Shorebird OTA Patch for iOS..."
-            shorebird patch ios --no-codesign --allow-native-diffs --allow-asset-diffs
+          if [ "${{ inputs.action }}" = "patch" ]; then
+            shorebird patch ios --no-codesign --release-version="${{ inputs.release_version }}" --track="${{ inputs.track }}" -- --no-tree-shake-icons
           else
-            echo "📦 Creating Shorebird Base Release for iOS..."
-            shorebird release ios --no-codesign
+            shorebird release ios --no-codesign --flutter-version="$FLUTTER_VERSION" -- --no-tree-shake-icons
             mkdir -p build/ios/ipa/Payload
             cp -r build/ios/archive/Runner.xcarchive/Products/Applications/Runner.app build/ios/ipa/Payload/
             cd build/ios/ipa
@@ -112,10 +110,11 @@ jobs:
             ls -lh project-edu-mobile.ipa
           fi
 
-      - name: Upload iOS IPA Artifact
-        if: ${{ inputs.action != 'patch' }}
+      - name: Upload iOS IPA Artifact (unsigned)
+        if: ${{ inputs.action == 'release' }}
         uses: actions/upload-artifact@v4
         with:
-          name: project-edu-ios-ipa
+          name: project-edu-ios-ipa-unsigned
           path: mobile/build/ios/ipa/project-edu-mobile.ipa
-          retention-days: 14
+          if-no-files-found: error
+          retention-days: 30
