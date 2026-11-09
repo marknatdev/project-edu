@@ -95,7 +95,8 @@ jobs:
   deploy-vercel:
     name: Deploy to Vercel (Production)
     needs: [verify, deploy-supabase]
-    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.target == 'production')
+    # The product is now the Flutter app; deploy the web app to Vercel only when asked.
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'production'
     runs-on: ubuntu-latest
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
