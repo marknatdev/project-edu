@@ -118,6 +118,7 @@ class LearnerState extends ChangeNotifier {
 
   // Navigation: 0: Dashboard/Discovery, 1: AI Sessions, 2: Lab Timer, 3: Discussions, 4: Profile
   int activeTab = 0;
+  static int _idCounter = 0;
 
   // AI Chat Sessions (Initial clean state: no mockup sessions)
   final List<ChatSession> sessions = [];
@@ -128,7 +129,7 @@ class LearnerState extends ChangeNotifier {
     if (activeSession != null) return activeSession!;
     if (sessions.isNotEmpty) return sessions.first;
     return ChatSession(
-      id: 'session_${DateTime.now().millisecondsSinceEpoch}',
+      id: 'session_${DateTime.now().microsecondsSinceEpoch}_${++_idCounter}',
       title: '🔬 การปรึกษาโครงงานวิทยาศาสตร์',
       category: 'Socratic Research',
       createdAt: DateTime.now(),
@@ -143,24 +144,20 @@ class LearnerState extends ChangeNotifier {
   }
 
   ChatSession createNewSession({required String title, required String category, List<ChatMessage>? initialMessages}) {
-    final session = ChatSession(
-      id: 'session_${DateTime.now().millisecondsSinceEpoch}',
+    return ChatSession(
+      id: 'session_${DateTime.now().microsecondsSinceEpoch}_${++_idCounter}',
       title: title,
       category: category,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       messages: initialMessages ?? [],
     );
-    sessions.insert(0, session);
-    activeSession = session;
-    notifyListeners();
-    return session;
   }
 
   ChatSession startSrcSafetySession({String? projectTopic}) {
-    final topic = projectTopic ?? selectedField;
-    final session = ChatSession(
-      id: 'src_${DateTime.now().millisecondsSinceEpoch}',
+    final topic = projectTopic ?? (selectedField.isNotEmpty ? selectedField : 'วิทยาศาสตร์ประยุกต์');
+    return ChatSession(
+      id: 'src_${DateTime.now().microsecondsSinceEpoch}_${++_idCounter}',
       title: '🛡️ ตรวจความปลอดภัยแล็บ SRC ($topic)',
       category: 'SRC Safety',
       createdAt: DateTime.now(),
@@ -173,11 +170,6 @@ class LearnerState extends ChangeNotifier {
         ),
       ],
     );
-    sessions.insert(0, session);
-    activeSession = session;
-    activeTab = 1; // Switch to sessions tab
-    notifyListeners();
-    return session;
   }
 
   void addMessageToActiveSession(ChatMessage message) {
@@ -303,7 +295,7 @@ class LearnerState extends ChangeNotifier {
             ? '$formattedStudyTime (${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')})'
             : '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}');
     labObservations.insert(0, LabObservation(
-      id: 'obs_${now.millisecondsSinceEpoch}',
+      id: 'obs_${now.microsecondsSinceEpoch}_${++_idCounter}',
       time: timeStr,
       note: note,
       tag: tag,
@@ -326,7 +318,7 @@ class LearnerState extends ChangeNotifier {
 
   void addBomItem({required String title, required int costBaht, required String status}) {
     bomItems.add(BomItem(
-      id: 'bom_${DateTime.now().millisecondsSinceEpoch}',
+      id: 'bom_${DateTime.now().microsecondsSinceEpoch}_${++_idCounter}',
       title: title,
       costBaht: costBaht,
       status: status,

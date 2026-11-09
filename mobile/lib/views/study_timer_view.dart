@@ -59,11 +59,15 @@ class StudyTimerView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            learner.currentLabSessionTitle,
+                            learner.currentLabSessionTitle.isNotEmpty
+                                ? learner.currentLabSessionTitle
+                                : 'ยังไม่ได้ตั้งชื่อการทดลอง (แตะดินสอเพื่อตั้งชื่อ)',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: learner.currentLabSessionTitle.isNotEmpty
+                                  ? AppTheme.textPrimary
+                                  : AppTheme.textMuted,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),

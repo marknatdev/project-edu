@@ -365,7 +365,7 @@ class _JudgeDefenseViewState extends State<JudgeDefenseView> {
                         category: 'Socratic Research',
                         initialMessages: [
                           ChatMessage(
-                            text: 'คำถามจากกรรมการ: "${q.prompt}"\\n\\nช่วยแนะนำแนวทางและหลักฐานทางวิทยาศาสตร์ที่ผมควรเตรียมเพื่อตอบคำถามนี้ให้ได้คะแนนเต็มหน่อยครับ',
+                            text: 'คำถามจากกรรมการ: "${q.prompt}"\n\nช่วยแนะนำแนวทางและหลักฐานทางวิทยาศาสตร์ที่ผมควรเตรียมเพื่อตอบคำถามนี้ให้ได้คะแนนเต็มหน่อยครับ',
                             isUser: true,
                             timestamp: DateTime.now(),
                           ),

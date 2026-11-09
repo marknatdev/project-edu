@@ -60,9 +60,11 @@ class _AiCoachModalState extends State<AiCoachModal> {
   @override
   void initState() {
     super.initState();
+    final learner = context.read<LearnerState>();
     if (widget.initialSession != null) {
       _session = widget.initialSession!;
-      _isCommitted = _session.messages.any((m) => m.isUser);
+      // A session is only already committed if it exists in learner.sessions
+      _isCommitted = learner.sessions.any((s) => s.id == _session.id);
     } else {
       // Draft session: in-memory only, will NOT be saved unless user sends a message
       _session = ChatSession(
